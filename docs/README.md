@@ -1,5 +1,7 @@
 # Contents
+[Chapter 1 - Introduction](Chapters/Chapter_1_Introduction/Introduction_to_the_Course.md)
 
+_More to come_
 
 # Key References
 [Xamarin.Forms Documentation](https://docs.microsoft.com/en-gb/xamarin/xamarin-forms/)
