@@ -34,5 +34,6 @@ A few points to note:
    
    Google Flutter is relatively new, and takes a slightly different approach. Like Xamarin.Forms, UI is specificed declaritively and not with a UI designer. However, the controls are drawn to look like native controls on each respective platform.
    
-   Both Xamarin.Forms and Google Flutter have their merits, so to choose a "best" approach is somewhat artificial. As this course builds on previous courses in C# and design patterns (at the University of Plymouth) and leverages [Microsoft Azure](https://azure.microsoft.com/en-gb/), it made sense to opt for Xamarin.Forms. From an educational perspective, Xamarin.Forms is also a good platform to expose learners to abstraction techniques using Object Orientated patterns and the mature C# language.
+   Both Xamarin.Forms, Google Flutter and React Native all have their merits, so to choose a "best" approach is somewhat artificial and risks being opinionated. As this course builds on previous courses in C# and design patterns (at the University of Plymouth) and leverages [Microsoft Azure](https://azure.microsoft.com/en-gb/), it made sense to opt for Xamarin.Forms. From an educational perspective, Xamarin.Forms is also a good platform to expose learners to abstraction techniques using Object Orientated patterns and the mature C# language and .NET frameworks.
    
+
