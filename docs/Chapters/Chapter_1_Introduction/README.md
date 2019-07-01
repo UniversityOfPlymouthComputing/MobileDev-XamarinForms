@@ -29,29 +29,33 @@ By the end of this chapter you should be able to:
 # Contents
 
 1. Introduction to the Course
-2. Pre-requisite software
-3. A first exploration into Xamarin.Forms
-3.1 Hello World
-3.2 Unpicking what just happened
-4. Some essential concepts
-  4.1 Create and Instantiating a Class
-  4.2 Properties
-  4.3 Static Properties
-  4.5 Partial Classes
-  4.6 Inheritance
-  4.7 Interfaces - first look
-  4.8 Static Classes
-  4.9 Class Namespaces
- 5. XAML
- 5.1 XML Elements
- 5.2 XML Attributes
- 5.3 XML Namespaces
- 5.4 Basic Layout with Stack View
- 5.5 Complete classes Class + XAML
- 5.6 References to view objects
- 5.7 Hooking up the event in XAML
- 6.0 Summary and reflection
- 7.0 Tasks
+1. Pre-requisite software
+1. A first exploration into Xamarin.Forms
+   1. Hello World
+   1. Unpicking what just happened
+1. Some essential concepts
+   1. Create and Instantiating a Class
+   1. Properties
+   1. Static Properties
+   1. Partial Classes
+   1. Inheritance
+   1. Interfaces - first look
+   1. Static Classes
+   1. Class Namespaces
+1. XAML
+   1. XML Elements
+   1. XML Attributes
+   1. XML Namespaces
+   1. Basic Layout with Stack View
+   1. Complete classes Class + XAML
+   1. References to view objects
+   1. Hooking up the event in XAML
+1. Summary and reflection
+1. Tasks
+1. References
+
+[BEGIN](Introduction_to_the_Course.md)
+
  
  
 
