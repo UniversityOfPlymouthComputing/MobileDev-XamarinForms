@@ -1,5 +1,5 @@
 # Contents
-[Chapter 1 - Introduction](Chapters/Chapter_1_Introduction/Introduction_to_the_Course.md)
+[Chapter 1 - Introduction](Chapters/Chapter_1_Introduction/README.md)
 
 _More to come_
 
