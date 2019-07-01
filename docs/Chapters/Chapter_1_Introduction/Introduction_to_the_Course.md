@@ -36,4 +36,19 @@ A few points to note:
    
    Both Xamarin.Forms, Google Flutter and React Native all have their merits, so to choose a "best" approach is somewhat artificial and risks being opinionated. As this course builds on previous courses in C# and design patterns (at the University of Plymouth) and leverages [Microsoft Azure](https://azure.microsoft.com/en-gb/), it made sense to opt for Xamarin.Forms. From an educational perspective, Xamarin.Forms is also a good platform to expose learners to abstraction techniques using Object Orientated patterns and the mature C# language and .NET frameworks.
    
+## Approach
+There are some guiding principles in this course:
+
+- Teach the minimum API, Terminology and Concepts so the learner can teach themselves from the official documentation
+- Assume only minimal C# and .NET experience (Java would probably be ok) and don't be afraid to repeat topics.
+- There is no such thing as an explaination that is too simple. Equally there are no silly questions (only silly answers ;)
+
+> Anticipate the difficult by managing the easy. (Lao Tzu)
+
+It is sometimes good to see examples of what it possible, but only to set aspiration. In the context of this course, special effort is made to provide examples that focus right in or a particular concept (or related concepts). Throwing many new concepts into the ring at once can be overwhelming and demotivating. Better to study one simple concept well so learners can  apply it to more complex examples (often their own). This is not the time and place for fancy and showy examples.
+
+Loading the short term memory can also result in _cognitive overload_ . Where possible, effort is made to keep all relevent information in the near field of view. Where not possible, use a diagram to show the bigger picture (e.g. relationship between objects).
+
+
+
 
