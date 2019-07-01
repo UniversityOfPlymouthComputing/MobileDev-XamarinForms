@@ -28,7 +28,7 @@ By the end of this chapter you should be able to:
 
 # Contents
 
-1. Introduction to the Course
+1. [Introduction to the Course](Introduction_to_the_Course.md)
 1. Pre-requisite software
 1. A first exploration into Xamarin.Forms
    1. Hello World
