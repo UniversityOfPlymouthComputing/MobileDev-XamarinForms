@@ -44,13 +44,21 @@ If you are using a Mac, then running on the iOS simulator is a straightforward p
 - Set your start up project to the iOS native App
 - (Optional) Build the project (CMD-B) and check for errors
 - Run
+
+![Steps to run the iOS App](img/run-first-app-iOS.png)
+
 - Once the simulator appears, you should see an image similar to that below
 
+<img src="img/WelcomeScreenP-iOS.png" width="300px">
 
 - Try rotating the simulator (CMD-left cursor)
 
+<img src="img/WelcomeScreenL-iOS.png" height="300px">
 
-![Steps to run the iOS App](img/run-first-app-iOS.png)
+You might want to explore the Simulator menu. There are more things you can do of course.
+
+- Press the stop button to end the simulation.
+![Stop Button](img/Stop-iOS.png)
 
 
 ## Test on Android
