@@ -80,9 +80,13 @@ Running on the Android Simulator is slightly more involved the first time you do
 
 Visual Studio will now download and create the Android Emulator as specified. This can take a while as the images can be quite large.
 
-Once the device has been created, you can choose an emulator then click the Play button to test. Again, this can take a while especially the first time you do it.
+Once the device has been created, you can choose an emulator.
 
 <img src="img/ChooseingEmulator-Mac.png">
+
+Now click the Play button to test. Again, this can take a while especially the first time you do it.
+
+<img src="img/WelcomeScreenP-Droid.png" width="300px">
 
 ## Resetting the Android Emulator
 If you have problems with the Emulator, maybe after an upgrade, try resetting it back to factory settings.
