@@ -1,4 +1,4 @@
-[Previous](README.md)
+[Table of Contents](README.md)
 
 # Introduction to the Course
 
