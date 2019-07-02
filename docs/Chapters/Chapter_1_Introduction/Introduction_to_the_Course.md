@@ -49,7 +49,7 @@ There are some guiding principles in this course:
 > Anticipate the difficult by managing the easy. 
 > Lao Tzu    
 
-It is sometimes good to see examples of what it possible, but only to set aspiration. In the context of this course, special effort is made to provide examples that focus right in on a particular concept (or related concepts). Throwing many new concepts into the ring at once can be overwhelming and demotivating. Better to study one simple concept well so learners can  apply it to more complex examples (often their own). This is not the time and place for fancy and showy examples.
+It is sometimes good to see examples of what it possible, but only to set aspiration. In the context of this course, special effort is made to provide examples that focus right in on a particular concept (or related concepts). Throwing many new concepts into the ring at once can be overwhelming and demotivating. Better to study one simple concept well so learners can  apply it to more complex examples (often their own) when the time comes. This is not the time and place for fancy and showy examples. This can even mean forgoing elegance for simplicity.
 
 Loading the short term memory can also result in _cognitive overload_ . Where possible, effort is made to keep all relevent information in the near field of view. Where not possible, use a diagram to show the bigger picture (e.g. relationship between objects).
 
