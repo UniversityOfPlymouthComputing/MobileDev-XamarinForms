@@ -14,6 +14,8 @@ Before you try and run anything, take some time to explore these projects. There
 - The entry point of each is a Native App - each instantiates Forms code to create the UI etc.
 - Each constituent project within the solution has it's own settings, so the Android project has distinct settings to iOS.
 
+![Relationship between a Xamarin Native Project and the Xamarin.Forms Library](img/Xamarin-solution-relationships.png)
+
 From this point, where the similarities are obvious, Visual Studio (VS)) for Mac screenshots will be the default. VS Screenshots for Windows will be included if needed.
 
 
