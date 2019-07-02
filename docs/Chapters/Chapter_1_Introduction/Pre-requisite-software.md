@@ -9,6 +9,7 @@ For this course, you can work on a PC or Mac. There are some essetial software a
 Reccomended are:
  *[GitHub desktop client](https://desktop.github.com/)
  
-## MacOS
+# Installation Instructions
+If you are installing VisualStudio on your own machine, [Please follow the guide on this page](https://docs.microsoft.com/en-us/xamarin/get-started/installation/index?pivots=windows)
 
-## Windows
+
