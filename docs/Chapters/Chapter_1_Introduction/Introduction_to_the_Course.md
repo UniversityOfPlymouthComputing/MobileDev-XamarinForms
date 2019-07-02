@@ -13,15 +13,15 @@ Developer Tool | Language(s) | Targets
 ---------------|-------------|--------
 Android Studio | Java / Kotlin | Android Only
 Apple Xcode | ObjectiveC / Swift | iOS Only
-Xamarin.iOS | C#.NET | iOS Only
-Xamarin.Android | C#.NET | Android Only
+Xamarin.iOS | C#.NET | iOS Only (see below)
+Xamarin.Android | C#.NET | Android Only (see below)
 Xamarin.Forms | C#.NET | Android and iOS
 Google Flutter | Dart | Android and iOS
 React Native | JavaScript | Android and iOS
 
 A few points to note:
 
-- It is possible to write Xamarin.iOS and Xamarin.Android and share code. With the right architectural decisions, this can be mostly limited to UI code but in the same language (typically C#). Each variant provides C# wrappers around the native platform (iOS or Android) APIs, therefore you still need knowledge of both platforms. An excellent treatment of this can be found in the book [Xamarin In Action](https://www.manning.com/books/xamarin-in-action) by Jim Bennett.
+- It is possible to write Xamarin.iOS and Xamarin.Android and share code. With the right architectural decisions, this can be mostly limited to UI code but in the same language (typically C#). Each variant provides C# wrappers around the native platform (iOS or Android) APIs, therefore you still need knowledge of the APIs for both platforms. An excellent treatment of this can be found in the book [Xamarin In Action](https://www.manning.com/books/xamarin-in-action) by Jim Bennett.
 
 - Xamarin.Forms is actually three projects rolled into one:
    - A Xamarin.iOS Project
