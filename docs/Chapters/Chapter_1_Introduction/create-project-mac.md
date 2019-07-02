@@ -49,11 +49,11 @@ If you are using a Mac, then running on the iOS simulator is a straightforward p
 
 - Once the simulator appears, you should see an image similar to that below
 
-<img src="img/WelcomeScreenP-iOS.png" width="200px">
+<img src="img/WelcomeScreenP-iOS.png" width="300px">
 
 - Try rotating the simulator (CMD-left cursor)
 
-<img src="img/WelcomeScreenL-iOS.png" height="200px">
+<img src="img/WelcomeScreenL-iOS.png" height="300px">
 
 You might want to explore the Simulator menu. There are more things you can do of course.
 
