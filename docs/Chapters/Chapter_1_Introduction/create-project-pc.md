@@ -15,7 +15,11 @@ When you run Visual Studio 2019 (VS2019) for PC , you should see the following:
 - Select Create a New Project
 
 ## Choose a Blank Xamarin.Forms App
-First choose a blank forms app. Note also there are options for Native iOS and Android apps. For this course, you should ignore these.
+On the resulting screen (see below)
+
+- Under under Project Type choose Mobile. 
+- Select "Mobile App (Xamarin.Forms)
+- Click Next
 
 ![Choose the Blank Forms App](img/SelectProjectType-pc.png)
 
