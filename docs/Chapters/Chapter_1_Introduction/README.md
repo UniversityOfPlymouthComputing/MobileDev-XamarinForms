@@ -30,7 +30,7 @@ By the end of this chapter you should be able to:
 
 1. [Introduction to the Course](Introduction_to_the_Course.md)
 1. [Pre-requisite software](Pre-requisite-software.md)
-1. A first exploration into Xamarin.Forms
+1. [A first exploration into Xamarin.Forms](first-exploration.md)
    1. Hello World
    1. Unpicking what just happened
 1. Some essential concepts
