@@ -17,3 +17,7 @@ _More to come_
 [Optional - Microsoft .NET](https://dotnet.microsoft.com/)
 
 [Microsoft Learner Paths for Xamarin](https://docs.microsoft.com/en-us/learn/browse/?roles=developer&resource_type=learning%20path&products=xamarin)
+
+# Useful Links
+
+[Twitch Workshop Build your first iOS & Android app with C#, Xamarin, and the Cloud](https://www.youtube.com/watch?v=3pfHv8osbCw). 2019
