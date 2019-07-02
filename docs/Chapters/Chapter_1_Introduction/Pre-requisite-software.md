@@ -1,13 +1,14 @@
 # Pre-requisite Software
 
-There are some essetial software applictions needed for this course.
+For this course, you can work on a PC or Mac. There are some essetial software applictions needed for this course. I am not aware of techniques to develop Xamarin.Forms on Linux.
 
 * [Visual Studio 2019](https://visualstudio.microsoft.com/vs/)
 * [git version control](https://git-scm.com/downloads)
-* On a Mac, you need to install and run [Xcode]()
+* On a Mac, you need to install and run [Xcode](https://apps.apple.com/gb/app/xcode/id497799835?mt=12)
 
 Reccomended are:
  *[GitHub desktop client](https://desktop.github.com/)
  
+## MacOS
 
-For this course, you can work on a PC or Mac.
+## Windows
