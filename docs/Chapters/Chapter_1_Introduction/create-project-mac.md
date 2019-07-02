@@ -1,5 +1,7 @@
 [Table of Contents](README.md)
 
+[BACK](first-exploration.md)
+
 # Create your First Project (Mac OS)
 
 ## Start Visual Studio
@@ -141,10 +143,11 @@ There are two main settings to consider updating.
 - *Target Android Version* In general, _this should be set to the latest stable version of Android_ so that all the new APIs are available and known bugs have been squashed. Updating this might also be a requirement of the PlayStore as policy changes.
 
 ### Updates to Xcode
-This is realtively simple to manage. Run the Apple Mac App Store application, and click "Updates". If there is an update to Xcode, click the button to download and install it. You should then run Xcode once before using the simulator in Visual Studio.
+This is realtively simple to manage. 
 
-
-- 
+- Run the Apple Mac App Store application
+- Click "Updates". If there is an update to Xcode, click the button to download and install it. 
+- You should then run Xcode once before using the simulator in Visual Studio.
 
 ----
 
