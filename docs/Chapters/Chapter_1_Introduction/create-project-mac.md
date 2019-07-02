@@ -48,10 +48,12 @@ If you are using a Mac, then running on the iOS simulator is a straightforward p
 ![Steps to run the iOS App](img/run-first-app-iOS.png)
 
 - Once the simulator appears, you should see an image similar to that below
-![iOS Simulator Portrait](img/WelcomeScreenP-iOS.png){:height="25%" width="25%"}
+
+<img src="img/WelcomeScreenP-iOS.png" width="200px">
 
 - Try rotating the simulator (CMD-left cursor)
-![iOS Simulator Landscape](img/WelcomeScreenL-iOS.png){:height="25%" width="25%"}
+
+<img src="img/WelcomeScreenL-iOS.png" height="200px">
 
 You might want to explore the Simulator menu. There are more things you can do of course.
 
