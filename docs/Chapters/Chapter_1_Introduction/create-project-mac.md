@@ -35,6 +35,27 @@ One you click create, give VS time to setup. You should now see something simila
 
 ![Blank Xamarin.Forms Solution](img/Solution-mac.png)
 
+We will now run this app on the simulators for iOS and Android.
+
+## Test on the iOS Simulator
+If you are using a Mac, then running on the iOS simulator is a straightforward process. 
+
+- A pre-requisite for this step is that you have installed and run Xcode at least once.
+- Set your start up project to the iOS native App
+- (Optional) Build the project (CMD-B) and check for errors
+- Run
+- Once the simulator appears, you should see an image similar to that below
+
+
+- Try rotating the simulator (CMD-left cursor)
+
+
+![Steps to run the iOS App](img/run-first-app-iOS.png)
+
+
+## Test on Android
+
+
 ----
 
 [BACK](first-exploration.md)
