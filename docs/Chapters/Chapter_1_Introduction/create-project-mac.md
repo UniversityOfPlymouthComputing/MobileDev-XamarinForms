@@ -58,7 +58,8 @@ If you are using a Mac, then running on the iOS simulator is a straightforward p
 You might want to explore the Simulator menu. There are more things you can do of course.
 
 - Press the stop button to end the simulation.
-![Stop Button](img/Stop-iOS.png)
+
+<img src="img/Stop-iOS.png">
 
 ## Resetting the iOS Simulator
 If you experience any problems with the iOS simulator, or if you simply want to clean out any old applications, you can reset it. With the simulator as the active application:
