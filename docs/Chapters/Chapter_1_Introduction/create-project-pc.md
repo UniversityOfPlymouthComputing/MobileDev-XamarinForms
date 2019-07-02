@@ -12,6 +12,8 @@ When you run Visual Studio 2019 (VS2019) for PC , you should see the following:
 
 ![Start Screen](img/vs2019-launch-pc.png)
 
+- Select Create a New Project
+
 ## Choose a Blank Xamarin.Forms App
 First choose a blank forms app. Note also there are options for Native iOS and Android apps. For this course, you should ignore these.
 
