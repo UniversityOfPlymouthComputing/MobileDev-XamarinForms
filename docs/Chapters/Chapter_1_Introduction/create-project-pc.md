@@ -1,6 +1,3 @@
-# *PAGE UNDER CONSTRUCTION - CHECK BACK LATER*
-
-
 [Table of Contents](README.md)
 
 [BACK](first-exploration.md)
