@@ -64,7 +64,7 @@ Running on the Android Simulator can be performed directly on a PC.
 - On the VS menu, choose Tools->Android->Android Device Manager
 <img src="img/tools-device-manager-pc.png" height="300px">
 - In the window that appears, click "+New"
-<img src="img/DeviceManager-pc.png">
+<img src="img/DeviceManager-Mac.png">
 - Configure the device to use the latest operating system and Create
 <img src="img/CreateDevice-Mac.png">
 
