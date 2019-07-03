@@ -14,23 +14,21 @@ When you run Visual Studio 2019 (VS2019) for PC , you should see the following:
 
 - Select Create a New Project
 
-## Choose a Blank Xamarin.Forms App
+## Choose a Mobile App (Xamarin.Forms)
 On the resulting screen (see below)
 
 - Under under Project Type choose Mobile. 
-- Select "Mobile App (Xamarin.Forms)
+- Select "Mobile App (Xamarin.Forms)"
 - Click Next
 
 ![Choose the Blank Forms App](img/SelectProjectType-pc.png)
 
 ## Choose a Project Name
-On the next page, give your app a name. Also, provide an "Organisational ID". This can be anything for now, but is typically the reverse DNS name of a company website. When you come to submit on the App Stores, this will be important.
+On the next page, give your app a name and click "Create".
 
 ![Enter a project name and organisation identifier](img/projectname-pc.png)
 
-
-## Configure the App
-For now, leave this page as it is. You might want to change the location of where your apps are stored. As a tip, if you are using OneDrive any other Cloud Drive, you might not want to use a folder in their heirarchy. Solution files tend to have a lot of small files (often with long paths) which change rapidly as you build your application. This may have an impact on network traffic and battery life if using a portable computer. My preference is to have a folder in my home directory called `git`
+For the location, you might want to change the location of where your apps are stored. As a tip, if you are using OneDrive any other Cloud Drive, you might not want to use a folder in their heirarchy. Solution files tend to have a lot of small files (often with long paths) which change rapidly as you build your application. This may have an impact on network traffic and battery life if using a portable computer. My preference is to have a folder in my home directory called `git`
 I also keep all subfolders in git synchronised with GitHub.
 
 In my own case:
@@ -38,6 +36,8 @@ I work on a policy that if my Mac was driven over by a truck, I would loose not 
 
 - I use GitHub and GitHub Desktop for code 
 - I use OneDrive (Business) for everything else.
+
+## Configure the App
 
 ![Project Configuration Settings](img/ConfigApp-pc.png)
 
