@@ -119,6 +119,8 @@ Sometimes the Software Development Kit (SDK) for Android has updates. This might
 
 - Click through Platforms and Tools. Check for an UPDATE button appearing.
 
+For more details, [see the Microsoft documentation](https://docs.microsoft.com/en-us/xamarin/android/get-started/installation/android-sdk?tabs=windows)
+
 ### Update the Android Settings
 The version of Android you are using is specified in the native Android project. 
 
