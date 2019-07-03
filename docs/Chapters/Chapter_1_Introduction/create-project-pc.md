@@ -32,14 +32,15 @@ For the location, you might want to change the location of where your apps are s
 I also keep all subfolders in git synchronised with GitHub.
 
 In my own case:
-I work on a policy that if my Mac was driven over by a truck, I would loose not data. Everything is securely held in the cloud.
+I work on a policy that if my Mac was driven over by a truck, I would lose no data that cannot be regenerated. Everything is securely held in the cloud.
 
 - I use GitHub and GitHub Desktop for code 
 - I use OneDrive (Business) for everything else.
 
 ## Configure the App
+In the "new Cross Platform App" dialog, select Blank and then click the OK button.
 
-![Project Configuration Settings](img/ConfigApp-pc.png)
+![Project Configuration Settings](img/NewCrossPlatApp-pc.png)
 
 ## Xamarin Forms Solution
 One you click create, give VS time to setup. You should now see something similar to the image below:
@@ -49,38 +50,18 @@ One you click create, give VS time to setup. You should now see something simila
 We will now run this app on the simulators for iOS and Android. 
 
 ## Test on the remote iOS Simulator
-If you are using a PC, then running on the iOS simulator requires remote access to a Mac. 
+If you are using a PC, then you will need remote access to a Mac to build and running on the iOS simulator.
 
 - A pre-requisite for this step is that you have installed and run Xcode on a Mac at least once. This Mac should be accessible on your network
-- Configure the remote Mac.
-- Set your start up project to the iOS native App
-- (Optional) Build the project (CMD-B) and check for errors
-- Run
 
-![Steps to run the iOS App](img/run-first-app-iOS-remote.png)
+If you wish to develop for iOS using a PC, [please see the Microsoft support site](https://docs.microsoft.com/en-us/xamarin/ios/get-started/installation/windows/connecting-to-mac/)
 
-- Once the simulator appears, you should see an image similar to that below
+To build and test on iOS, right click the iOS project and select 
 
-<img src="img/WelcomeScreenP-iOS-remote.png" width="300px">
-
-- Try rotating the simulator
-
-<img src="img/WelcomeScreenL-iOS-remote.png" height="300px">
-
-You might want to explore the Simulator menu. There are more things you can do of course.
-
-- Press the stop button to end the simulation.
-
-<img src="img/Stop-iOS-remote.png">
-
-## Resetting the iOS Simulator
-If you experience any problems with the iOS simulator, or if you simply want to clean out any old applications, you can reset it. With the simulator as the active application:
-
-- *TO BE DONE*
-- The simulator will be reset and will reboot
+<img src="img/run-first-app-iOS-pc.png">
 
 ## Testing on Android
-Running on the Android Simulator is slightly more involved the first time you do it.
+Running on the Android Simulator can be performed directly on a PC.
 
 - Make the Android project the Start-Up Project
 - On the VS menu, choose Tools->Device Manager
