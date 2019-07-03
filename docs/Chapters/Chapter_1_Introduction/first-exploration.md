@@ -7,6 +7,10 @@ The first task is to create a blank forms app.
 - For the Mac, [follow this link](create-project-mac.md)
 - For Windows, [follow this link](create-project-pc.md)
 
+For more detailed information on setting up the Android Emulator, [see the  Microsoft page](https://docs.microsoft.com/en-us/xamarin/android/get-started/installation/android-emulator/)
+
+To setup a real device for development, [see the guide from Microsoft](https://docs.microsoft.com/en-us/xamarin/android/get-started/installation/set-up-device-for-development)
+
 Before you try and run anything, take some time to explore these projects. There are some important points to note:
 
 - A Solution is a collection of projects
