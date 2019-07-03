@@ -1,6 +1,3 @@
-# *PAGE UNDER CONSTRUCTION - CHECK BACK LATER*
-
-
 [Table of Contents](README.md)
 
 [BACK](first-exploration.md)
@@ -49,7 +46,7 @@ One you click create, give VS time to setup. You should now see something simila
 
 We will now run this app on the simulators for iOS and Android. 
 
-## Test on the remote iOS Simulator
+## Test on the remote iOS Simulator (Optional)
 If you are using a PC, then you will need remote access to a Mac to build and running on the iOS simulator.
 
 - A pre-requisite for this step is that you have installed and run Xcode on a Mac at least once. This Mac should be accessible on your network
@@ -63,13 +60,12 @@ To build and test on iOS, right click the iOS project and select
 ## Testing on Android
 Running on the Android Simulator can be performed directly on a PC.
 
-- Make the Android project the Start-Up Project
-- On the VS menu, choose Tools->Device Manager
+- Make the Android project the Start-Up Project (right click the Android project and choose "Set as StartUp Project)
+- On the VS menu, choose Tools->Android->Android Device Manager
 <img src="img/tools-device-manager-pc.png" height="300px">
-- In the window that appears, add a new device
-<img src="img/DeviceManager-pc.png">
+- In the window that appears, click "+New"
 - Configure the device to use the latest operating system and Create
-<img src="img/CreateDevice-pc.png">
+<img src="img/CreateDevice-Mac.png">
 
 Visual Studio will now download and create the Android Emulator as specified. This can take a while as the images can be quite large.
 
@@ -77,7 +73,7 @@ Once the device has been created, you can choose an emulator.
 
 <img src="img/ChooseingEmulator-pc.png">
 
-Now click the Play button to test. Again, this can take a while especially the first time you do it.
+Now click the Start button to test. Again, this can take a while especially the first time you do it.
 
 <img src="img/WelcomeScreenP-Droid.png" width="300px">
 
@@ -85,16 +81,20 @@ Now click the Play button to test. Again, this can take a while especially the f
 If you have problems with the Emulator, maybe after an upgrade, try resetting it back to factory settings.
 
 - First close all emulators down
-- Back in Visual Studio, choose *TO BE DONE*
-- For the emulator you wish to reset, click the Settings Cog and choose 'Factory Reset'
-
-<img src="img/Android-Emu-Reset.png">
+- Back in Visual Studio, choose Tools->Android->Android Device Manager
+- Right-click the emulator you wish to reset and choose 'Factory Reset'
 
 # Keeping it all up to date
 As a general rule, for this course you can mostly leave things as they are. However, as a working developer you sometimes need to update various components in a Xamarin.Forms solution. These are discussed in turn.
 
 ## Updates for Xamarin Forms or other libraries
-Updates to Xamarin Forms can occur fairly frequently. These can be feature additions and/or bug fixes. For any given project, 
+Updates to Xamarin Forms can occur fairly frequently. These can be feature additions and/or bug fixes. For any given project:
+
+- Right-click the solution 
+- Select "manage NuGet packages for Solution"
+- In the window that appears, click the Updates tab
+- Select all packages you wish to update (probably all of them)
+- Click update and agree to each dialogue box that appears
 
 <img src="img/Update-NuGet-pc.png">
 
@@ -108,26 +108,29 @@ For Android, this typically means a newer simulator can be added. Sometimes, you
 A simple update is to create an Android Emulator using the latest version of Android. Note that as we are using the Microsoft Emulator, this might not be available on day 1. 
 
 ### Updates to Visual Studio
-One of the simplest things to check is for updates to Visual Studio. Under the first menu item of Visual Studio, click "Check for Updates". I suggest you use the Stable Channel (although I break my own guideline often as I can't resist peeking at new stuff coming along).
+One of the simplest things to check is for updates to Visual Studio. Under the Help menu item of Visual Studio, click "Check for Updates". 
 
 ### Updates to the Android SDK
 Sometimes the Software Development Kit (SDK) for Android has updates. This might be bug fixes to the compiler or a new SDK version for example.
 
-- In Visual Studio, click *TO BE DONE*
+- In Visual Studio, click Tools->Android->Android SDK Manager
 
 <img src="img/Android-SDK-Settings-pc.png">
 
-- Click through Platforms, Tools and Locations. Check for an UPDATE button appearing.
+- Click through Platforms and Tools. Check for an UPDATE button appearing.
 
 ### Update the Android Settings
-The version of Android you are using is specified in the native Android project.
+The version of Android you are using is specified in the native Android project. 
 
-- *TO BE DONE*
-- *TO BE DONE*
+- Right-Click the Android project and choose Properties
+- On the left-hand menu, choose Android Manifest
+
+Scrolling down, you will find the following two settings:
+
+- Minimum Android Version
+- target Android Version
 
 <img src="img/Android-Versions-pc.png">
-
-There are two main settings to consider updating.
 
 - *Minimum Android Version* A quick look at the [Google Distribution Dashboard](https://developer.android.com/about/dashboards) and you will see an estimate of the versions on Android being used in any given month. What is sometimes striking is how few devices are running the latest operating system. It is therefore common to write an app that supports older operating system versions. In this example, we are supporting Android API 21 (Android 5)
 
