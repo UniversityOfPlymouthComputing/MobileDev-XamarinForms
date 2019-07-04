@@ -20,7 +20,12 @@ Before you try and run anything, take some time to explore these projects. There
 
 ![Relationship between a Xamarin Native Project and the Xamarin.Forms Library](img/Xamarin-solution-relationships.png)
 
-From this point, where the similarities are obvious, Visual Studio (VS)) for Mac screenshots will be the default. VS Screenshots for Windows will be included if needed.
+Let's now take an initial look at a single page Xamarin.Forms application.
+
+##  (i) Hello World
+It is customary to start every course with a Hello World. So much can be captured with such a simple example. Sometimes it is easier to show rather than explain, so we begin with a short video walkthrough.
 
 
+   
+## (ii) Unpicking what just happened
 
