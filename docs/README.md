@@ -6,6 +6,8 @@ _More to come_
 # Key References
 [Xamarin.Forms Documentation](https://docs.microsoft.com/en-gb/xamarin/xamarin-forms/)
 
+[Xamarin.Forms APIs](https://docs.microsoft.com/en-gb/dotnet/api/xamarin.forms?view=xamarin-forms)
+
 [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
 
 [XCode (Mac Only)](https://apps.apple.com/gb/app/xcode/id497799835?mt=12)
