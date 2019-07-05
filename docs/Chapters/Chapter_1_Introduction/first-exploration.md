@@ -25,7 +25,23 @@ Let's now take an initial look at a single page Xamarin.Forms application.
 ##  (i) Hello World
 It is customary to start every course with a Hello World. So much can be captured with such a simple example. Sometimes it is easier to show rather than explain, so we begin with a short video walkthrough.
 
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=jlwr3PLytAw" target="_blank"><img src="http://img.youtube.com/vi/jlwr3PLytAw/0.jpg" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+</p>
 
+*TASK*
+Recreate what you saw in the video. This is an exercise in familiarisation more than anything, so don't worry if it all seems a bit strange.
    
 ## (ii) Unpicking what just happened
+Ok, let's step back and look at what is happening here. It is suggested that having a high-level view helps to visualise the relationships between all the components, without which, it can all feel strange and out of control.
+
+![](img/startup objects.png)
+
+There is quite a lot of 'detail stuff' in a simple hello world application. 
+
+- partial classes
+- XML and XAML
+- name spaces
+- event handlers
+- references to UI elements
 
