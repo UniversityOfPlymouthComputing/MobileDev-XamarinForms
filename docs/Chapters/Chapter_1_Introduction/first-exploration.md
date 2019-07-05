@@ -254,7 +254,7 @@ This object fulfills the second of these requirements. In fact, for content to d
 
 `StackLayout` can be used to layout components in both vertical and horizontal orientations, and they can be nested. The default orientation is vertical.
 
-The `StackLayout` class has a property called `Children`. This is a collection (List) of `View` objects. 
+The `StackLayout` class has a property called `Children`. This is a collection (List) of `View` objects.
 If we were to write the equivalent in code, it might look something like this:
 
 ```C#
@@ -297,6 +297,9 @@ If we were to write the equivalent in code, it might look something like this:
 ```
 Note the explicit reference to the `Children` property (list of views to be arranged on screen). No such property is made in the XAML because again, it is declared as the `ContentProperty`.
 
+To take stock, an attempt at an Object Diagram is shown below to summarise the various objects and their relationships in memory (I'm no UML expert but I hope this captures it).
+
+![Object Diagram](img/HelloWorld-Objects.png)
 
 `StackLayout` is a subclass of the generic class `Layout`. Again, here is a sneak peak of the generic Layout class declaration in Xamarin.Forms
 ```C#
