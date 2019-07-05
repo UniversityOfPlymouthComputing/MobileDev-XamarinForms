@@ -31,7 +31,9 @@ It is customary to start every course with a Hello World. So much can be capture
 </p>
 
 ### Microsoft Windows
-*TBD*
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=LhwsQIxr-6g" target="_blank"><img src="http://img.youtube.com/vi/LhwsQIxr-6g/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
 
 *TASK*
 Recreate what you saw in the video. This is an exercise in familiarisation more than anything, so don't worry if it all seems a bit strange.
