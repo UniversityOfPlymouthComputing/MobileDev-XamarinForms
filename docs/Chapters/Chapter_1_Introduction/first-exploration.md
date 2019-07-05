@@ -27,7 +27,7 @@ It is customary to start every course with a Hello World. So much can be capture
 
 ### Mac OS
 <p align="center">
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=zwc2u7w6d3Y" target="_blank"><img src="http://img.youtube.com/vi/zwc2u7w6d3Y/0.jpg" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=zwc2u7w6d3Y" target="_blank"><img src="http://img.youtube.com/vi/zwc2u7w6d3Y/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
 ### Microsoft Windows
@@ -444,7 +444,7 @@ Remember that XAML (XML) is going to be parsed _somewhere_, and that it will res
 We've had a look at the two classes, `App` and `MainPage`. Both are constructed from a C# and a XAML file. Rather than try and explain, a short video is provided to reveal how the `MainPage` is completed.
 
 <p align="center">
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=jlwr3PLytAw" target="_blank"><img src="http://img.youtube.com/vi/jlwr3PLytAw/0.jpg" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=jlwr3PLytAw" target="_blank"><img src="http://img.youtube.com/vi/jlwr3PLytAw/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
 So under the hood, as soon as the XAML file is saved, the file `MainPage.xaml.g.cs` is generated in the background (almost immediately).
@@ -516,7 +516,7 @@ Magic? No.
 Try the following:
 
 - Put a breakpoint in the App class as shown below:
-<img src="img/driling-into-the-app-class.png">
+<img src="img/driling-into-the-app-class.png" width="300">
 - Run the code and when it breaks, step in to the function.
 - Look at the name of the source file you enter
 - What is the classname?
