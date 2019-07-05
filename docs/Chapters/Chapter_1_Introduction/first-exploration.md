@@ -246,14 +246,14 @@ public class ContentPage : TemplatedPage
 ...
 ```
 
-The part in square parenthesis is known as a [Class Attribute](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/). This is setting an attribute `ContentProperty` to the string "Content". At _run time_, when the XAML is parsed, the code can look up the `ContentProperty` attribute of the `ContentPage` class (a string), and treat tihs it as the default property (where none is given otherwise).
+The part in square parenthesis is known as a [Class Attribute](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/). This is setting an attribute `ContentProperty` to the string "Content". At _run time_, when the XAML is parsed, the code can look up the `ContentProperty` attribute of the `ContentPage` class (a string), and treat this it as the default property (where none is given otherwise).
 
 
 ##### StackLayout
 
 Next we see the XML element `<StackLayout>`. 
 
-As explained above, this will instantiate an instance of the class `StackLayout` and set it to the `Content` property of `ContentPage`.
+As explained above, this will (indirectly) instantiatiate of an instance of the class `StackLayout` and set it to the `Content` property of `ContentPage`.
 
 Why `StackLayout`? Well, all content pages need two things:
 
@@ -270,7 +270,7 @@ The `StackLayout` class has a property called `Children`. This is a collection (
 If we were to write the equivalent in code, it might look something like this:
 
 ```C#
-...
+    ...
     public partial class MainPage : ContentPage
     {
         Label MyLabel;
@@ -307,7 +307,7 @@ If we were to write the equivalent in code, it might look something like this:
         }
         ...
 ```
-Note the explicit reference to the `Children` property (list of views to be arranged on screen). No such property is made in the XAML because again, it is declared as the `ContentProperty`.
+Note the explicit reference to the `Children` property (list of views to be arranged on screen). No such property is made in the XAML because again, it is declared as the `ContentProperty`. You can include it of course.
 
 To take stock, an attempt at an Object Diagram is shown below to summarise the various objects and their relationships in memory (I'm no UML expert but I hope this captures it).
 
@@ -448,11 +448,11 @@ Yep, it's one of those XML attributes again! Then there is that `x:` prefix. In 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              ...
 ```
-Again, some quite scary looking [XML namespaces](https://www.w3schools.com/xml/xml_namespaces.asp) are used as a prefix to avoid name collisions. The default for most tags is `http://xamarin.com/schemas/2014/forms`. So, when we say <Button/> we mean <http://xamarin.com/schemas/2014/forms:Button/>. No chance of a name collision there!
+Again, some quite scary looking [XML namespaces](https://www.w3schools.com/xml/xml_namespaces.asp) are used as a prefix to avoid name collisions. The default for most tags is `http://xamarin.com/schemas/2014/forms`. So, when we write Button, we mean <http://xamarin.com/schemas/2014/forms:Button/>. No chance of a name collision there!
 
 That's ok for the Xamarin classes. When the parser works through the tree, it knows about such things, but not all attributes are from Xamarin.Forms
 
-As you might imagine, the attribute `Name` is an excellent candidate for a collision, so probably wise to choose something else that (i) is meaningful but also (ii) unlikely to collide with others. Here the namespace for XAML is used `http://schemas.microsoft.com/winfx/2009/xaml:Name` which is again very safe, but very verbose. x:Name is the same thing, but concise and still clear. `http://schemas.microsoft.com/winfx/2009/xaml:Name` has a meaning for XAML ans is also used in other XAML based frameworks. 
+As you might imagine, the attribute `Name` is an excellent candidate for a collision, so probably wise to choose something else that (i) is meaningful but also (ii) unlikely to collide with others. Here the namespace for XAML is used `http://schemas.microsoft.com/winfx/2009/xaml:Name` which is again very safe, but very verbose. x:Name is the same thing, but concise and still clear. `http://schemas.microsoft.com/winfx/2009/xaml:Name` has a meaning for XAML and is also used in other XAML based frameworks. 
 
 Remember that XAML (XML) is going to be parsed _somewhere_, and that it will result in objects being instantiated in memory so they can be displayed etc. But how do you obtain a reference to these objects so you can change or interrogate them? That's what the next section tries to reveal.
 
@@ -464,7 +464,7 @@ We've had a look at the two classes, `App` and `MainPage`. Both are constructed 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=jlwr3PLytAw" target="_blank"><img src="http://img.youtube.com/vi/jlwr3PLytAw/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
-So under the hood, as soon as the XAML file is saved, the file `MainPage.xaml.g.cs` is generated in the background (almost immediately).
+So under the hood, as soon as the XAML file is saved, the file `MainPage.xaml.g.cs` is generated in the background (almost immediately). Note the `g` stands for _generated_.
 
 Here is a sample:
 
@@ -503,9 +503,7 @@ Note the line
 ```C#
 public partial class MainPage : global::Xamarin.Forms.ContentPage
 ```
-So we have found the other fragment of the `MainPage` class! 
-
-Look inside and we see the following property:
+So we have found the other fragment of the `MainPage` class! Look inside and we see the following property:
 ```C#
 private global::Xamarin.Forms.Label MessageLabel;
 ```
@@ -517,7 +515,7 @@ So now we know that the property `MessageLabel` is nothing particularly special 
       MessageLabel = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "MessageLabel");
   }
 ```
-The following parses the XML:
+The following parses the XML and instantiates the objects in memory:
 ```C#
 global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(MainPage));
 ```
@@ -527,6 +525,7 @@ MessageLabel = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xama
 ```
 
 Complicated? Yes.
+
 Magic? No.
 
 #### Task
@@ -548,10 +547,24 @@ There is quite a lot of 'detail stuff' in a simple hello world application. We a
 - XAML UI declatation, objects and properties
 - Application, ContentPage, Label, Button and StackLayout classes
 - namespaces in C# and XAML
+- Content Properties and class attributes
 - event handlers
 - references to UI elements
 
-If you're head is spinning a little, that's only human. Remember that if you don't yet understand this fully, that makes you human. With useage, time and many nights of good sleep, things will begin to clarify. 
+If you're head is spinning a little, that's only human. Remember that if you don't yet understand this fully, that makes you human, so try to ignore the inner critic (by all means blame me, the author, for drilling into far too much too soon). However, being the low-level type, I struggle to simply accept code-magic and not understand what's going on. I hope this has been of some value. With useage, time and many nights of good sleep, things will begin to clarify. 
 
-Also, learning is rarely a linear process. I reccomend you return to this section in a few weeks time. 
+Also, learning is rarely a linear process. I reccomend you return to this section in a few weeks time once you're more practiced and experienced.
+
+# Further reading
+To aid your understanding of XAML, take a look at the excellent tutorials from w3schools.com
+
+- [XML Elements](https://www.w3schools.com/xml/xml_elements.asp)
+- [XML Attributes](https://www.w3schools.com/xml/xml_attributes.asp)
+- [XML Namespaces](https://www.w3schools.com/xml/xml_namespaces.asp)
+
+Also useful from Microsoft.com
+
+- [C# Partial Classes and Methods](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)
+- [C# Attributes](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/)
+
 
