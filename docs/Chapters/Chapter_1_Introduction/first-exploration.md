@@ -518,7 +518,9 @@ Magic? No.
 Try the following:
 
 - Put a breakpoint in the App class as shown below:
-<img src="img/driling-into-the-app-class.png" width="300">
+
+<img src="img/driling-into-the-app-class.png" width="600">
+
 - Run the code and when it breaks, step in to the function.
 - Look at the name of the source file you enter
 - What is the classname?
