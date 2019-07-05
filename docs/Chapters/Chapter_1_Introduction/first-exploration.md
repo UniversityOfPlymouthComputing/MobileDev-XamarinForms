@@ -190,7 +190,8 @@ Ok, let's take an initial look at the UI for `MainPage`.
 </ContentPage>
 ```
 
-*ContentPage*
+##### ContentPage
+
 Firstly, there is the opening element `<ContentPage ...` along with another list of [XML namespaces](https://www.w3schools.com/xml/xml_namespaces.asp), [ContentPage](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.contentpage?view=xamarin-forms) is a Xamarin.Forms class for managing (no surprise) a page of content.
 
 > `MainPage` is a subclass of `ContentPage`.
@@ -234,7 +235,8 @@ public class ContentPage : TemplatedPage
 The part in square parenthesis is known as a [Class Attribute](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/). This is setting an attribute `ContentProperty` to the string "Content". At _run time_, when the XAML is parsed, the code can look up the `ContentProperty` attribute of the `ContentPage` class (a string), and treat tihs it as the default property (where none is given otherwise).
 
 
-*StackLayout*
+##### StackLayout
+
 Next we see the XML element `<StackLayout>`. 
 
 As explained above, this will instantiate an instance of the class `StackLayout` and set it to the `Content` property of `ContentPage`.
@@ -294,14 +296,16 @@ If we were to write the equivalent in code, it might look something like this:
 Note the explicit reference to the `Children` property (list of views to be arranged on screen). No such property is made in the XAML because again, it is declared as the `ContentProperty`.
 
 
-Again, here is a sneak peak of the generic Layout class declaration in Xamarin.Forms
+`StackLayout` is a subclass of the generic class `Layout`. Again, here is a sneak peak of the generic Layout class declaration in Xamarin.Forms
 ```C#
 [ContentProperty ("Children")]
 public abstract class Layout<T> : Layout, IViewContainer<T> where T : View
 ```
 
-*Label and Button*
-Finally we see the declaration of a `Label` and `Button`. These become added to the `Children` collection of the `StackLayout`.
+So from this, we can probably expect other layout classes to have a `Children` property.
+
+##### The Label and Button
+Finally we see the declaration (and implicit instantiation) of `Label` and `Button` objects. These become added to the `Children` collection of the `StackLayout`.
 
 ```XAML
 <Label Text="Welcome to Xamarin.Forms!"
@@ -311,7 +315,12 @@ Finally we see the declaration of a `Label` and `Button`. These become added to 
       VerticalOptions="CenterAndExpand"/>
 <Button Text="Click Me" VerticalOptions="CenterAndExpand" Clicked="Handle_Clicked"/>
 ```
-Note how XML attributes are used to set properties on these objects. For the Label, the equivalent code might be:
+Note how the following is used:
+
+- XML elements declare instances of classes
+- XML attributes (of elements) are used to set properties on these objects. 
+
+For the Label, the equivalent code might be:
 
 ```C#
    Label MessageLabel = new Label
@@ -322,9 +331,25 @@ Note how XML attributes are used to set properties on these objects. For the Lab
        VerticalOptions = LayoutOptions.CenterAndExpand
    };
 ```
-Note that I am guessing that 18.0 is something equivalent to Large. In reality, the "Large" string is converted to a number using a converter class, again something we will meet later.
 
+Another way to write the XAML would be as follows:
 
+```XAML
+      <Label x:Name="MessageLabel"> 
+             <Label.Text>"Welcome to Xamarin.Forms!"</Label.Text>
+             <Label.FontSize>18.0</Label.FontSize>
+             <Label.HorizontalOptions>LayoutOptions.Center</Label.HorizontalOptions>
+             <Label.VerticalOptions>LayoutOptions.CenterAndExpand</Label.VerticalOptions>
+      </Label>
+```
+
+The attribute `x:Name` was left as an attribute. 
+> `x:Name` is not a property of the class `Label`. 
+It turns out that "MessageLabel" becomes the name of a property in `MainPage` that references the instance of Label being created here. Keep a mental note of this for now as all will be revealed below.
+
+> Note also that I am guessing that Font Size 18.0 is something equivalent to "Large". In reality, the "Large" string is converted to a number using a converter class, again something we will meet later.
+
+That was a lot of stuff! Don't expect to take all the above in immediately. It is likely that you will need to encounter all of this multiple times for it to begin to sink in.
 
 #### MainScreen.xaml.cs
 Examine the source code
@@ -388,16 +413,104 @@ Next, we see the event handler for the button
    }
 ```
 
-This is where things might seem surprising. 
+This is where things might seem surprising. There is nothing in this part of the class declaration that says anything about `MessageLabel`. You may recall that it _is_ referenced in the XAML.
+
+```XAML
+  <Label Text="Welcome to Xamarin.Forms!"
+         FontSize="Large"
+         HorizontalOptions="Center" 
+         x:Name="MessageLabel"
+         VerticalOptions="CenterAndExpand"/>
+```
+
+Yep, it's one of those XML attributes again! Then there is that `x:` prefix. In the same XAML file we see the following:
+
+```XAML
+...
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             ...
+```
+Again, some quite scary looking [XML namespaces](https://www.w3schools.com/xml/xml_namespaces.asp) are used as a prefix to avoid name collisions. The default for most tags is `http://xamarin.com/schemas/2014/forms`. So, when we say <Button/> we mean <http://xamarin.com/schemas/2014/forms:Button/>. No chance of a name collision there!
+
+That's ok for the Xamarin classes. When the parser works through the tree, it knows about such things, but not all attributes are from Xamarin.Forms
+
+As you might imagine, the attribute `Name` is an excellent candidate for a collision, so probably wise to choose something else that (i) is meaningful but also (ii) unlikely to collide with others. Here the namespace for XAML is used `http://schemas.microsoft.com/winfx/2009/xaml:Name` which is again very safe, but very verbose. x:Name is the same thing, but concise and still clear. `http://schemas.microsoft.com/winfx/2009/xaml:Name` has a meaning for XAML ans is also used in other XAML based frameworks. 
+
+Remember that XAML (XML) is going to be parsed _somewhere_, and that it will result in objects being instantiated in memory so they can be displayed etc. But how do you obtain a reference to these objects so you can change or interrogate them? That's what the next section tries to reveal.
 
 ### Diving Down Deeper and the Mystery of the Label!
 
-We've had a look at the two classes, `App` and `MainPage`. Both are constructed from a C# and a XAML file.
+We've had a look at the two classes, `App` and `MainPage`. Both are constructed from a C# and a XAML file. Rather than try and explain, a short video is provided to reveal how the `MainPage` is completed.
 
 <p align="center">
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=jlwr3PLytAw" target="_blank"><img src="http://img.youtube.com/vi/jlwr3PLytAw/0.jpg" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 </p>
 
+So under the hood, as soon as the XAML file is saved, the file `MainPage.xaml.g.cs` is generated in the background (almost immediately).
+
+Here is a sample:
+
+```C#
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//     Runtime Version:4.0.30319.42000
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::Xamarin.Forms.Xaml.XamlResourceIdAttribute("HelloXamarinForms.MainPage.xaml", "MainPage.xaml", typeof(global::HelloXamarinForms.MainPage))]
+
+namespace HelloXamarinForms {
+    
+    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("MainPage.xaml")]
+    public partial class MainPage : global::Xamarin.Forms.ContentPage {
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
+        private global::Xamarin.Forms.Label MessageLabel;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
+        private void InitializeComponent() {
+            global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(MainPage));
+            MessageLabel = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "MessageLabel");
+        }
+    }
+}
+```
+
+#### So that's where it went!
+Note the line 
+```C#
+public partial class MainPage : global::Xamarin.Forms.ContentPage
+```
+So we have found the other fragment of the `MainPage` class! 
+
+Look inside and we see the following property:
+```C#
+private global::Xamarin.Forms.Label MessageLabel;
+```
+So now we know that the property `MessageLabel` is nothing particularly special afterall. How does it get hooked up to the actual `Label` instance? Remember calling `InitializeComponent()` in both the `App` and `MainPage` constructors? For `MainPage`, we have this code generated:
+
+```C#
+  private void InitializeComponent() {
+      global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(MainPage));
+      MessageLabel = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "MessageLabel");
+  }
+```
+The following parses the XML:
+```C#
+global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(MainPage));
+```
+The following hooks up the `MessageLabel` to the correct object in memory:
+```C#
+MessageLabel = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "MessageLabel");
+```
+
+Complicated? Yes.
+Magic? No.
 
 #### Task
 Try the following:
@@ -412,10 +525,14 @@ Try the following:
 There is quite a lot of 'detail stuff' in a simple hello world application. We already met the following:
 
 - partial classes
-- XML and XAML
-- name spaces
+- XML elements and attributes
+- XAML UI declatation, objects and properties
+- Application, ContentPage, Label, Button and StackLayout classes
+- namespaces in C# and XAML
 - event handlers
 - references to UI elements
 
+If you're head is spinning a little, that's only human. Remember that if you don't yet understand this fully, that makes you human. With useage, time and many nights of good sleep, things will begin to clarify. 
 
+Also, learning is rarely a linear process. I reccomend you return to this section in a few weeks time. 
 
