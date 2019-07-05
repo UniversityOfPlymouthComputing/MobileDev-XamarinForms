@@ -35,7 +35,107 @@ Recreate what you saw in the video. This is an exercise in familiarisation more 
 ## (ii) Unpicking what just happened
 Ok, let's step back and look at what is happening here. It is suggested that having a high-level view helps to visualise the relationships between all the components, without which, it can all feel strange and out of control.
 
-![](img/startup objects.png)
+<img src="img/startup objects.png">
+
+The `MainPage` class is what we are most interested in here. This is related to the single page with a label and button, as well as all the code to manage the UI. It is what is referred to as a _ContentPage_. As you build up your application, and add in nagivation, you will probably have multi Content Pages (typically one per screen of infomration).
+
+Before the first content page, we see classes that are responsible for managing the application life cycle. Let's take a quick look.
+
+### The App Class
+This is the first Xamarin.Forms class that is instantiated. Before that are classes that are platform specific. We wish to focus on cross-platform for now.
+
+The `App` class is built from two documents:
+
+- App.xaml.cs
+- App.xaml
+
+Let's take a brief look at each in turn.
+
+#### App.xaml.cs
+````C#
+using System;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace HelloXamarinForms
+{
+    public partial class App : Application
+    {
+        public App()
+        {
+            InitializeComponent();
+
+            MainPage = new MainPage();
+        }
+
+        protected override void OnStart()
+        {
+            // Handle when your app starts
+        }
+
+        protected override void OnSleep()
+        {
+            // Handle when your app sleeps
+        }
+
+        protected override void OnResume()
+        {
+            // Handle when your app resumes
+        }
+    }
+}
+````
+First, consider the class declaration
+
+```C#
+public partial class App : Application
+```
+
+The parent class is `Application`, a Xamarin.Forms class that provides important hooks into the application lifecycle. iOS and Android have their own equivalent (e.g. the AppDelegate on iOS), but you can avoid writing platform specific code by using the App class and overriding methods such as OnStart().
+
+> If you are interested, details can be found in the [Microsoft Documentation](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.application?view=xamarin-forms)
+
+- This is a `partial` class declatation. This must mean that _somewhere_, there is another C# partial class declaration. More on that in the next section.
+
+This class is also declared within a _namespace_
+```C#
+namespace HelloXamarinForms
+```
+Namespaces are a way to avoid name collisions. You can think of them as prefixes - so really we are declaring `HelloXamarinForms.App`. 
+
+> Namespaces are helpful as there may be other classes called `App` maybe in your own code or a thirdparty library. Whenever we wish to refer to this particular class, we could type `HelloXamarinForms.App`. This can produce verbose code, so often you see the `using` keyword at the top of a source file. This helps us keep our code concise. Of course, for all the namespaces you use, if there are names which conflict among them, then you would still need to give the explicit name. Again, more on this later.
+
+- Note also that the constructor calls `InitializeComponent()` - again, we will look at this more closely in the next section, but as we will see, it is related to the previous point.
+
+- Finally, the `MainPage` property of `Application` is set to an insance of `MainPage`. This is something we may change once we start adding navigation features.
+
+So quite a bit to think about here. Why is this a partial class? Where is the rest of the class? How come we have a XAML file alongside?
+
+#### App.xaml
+Alongside the C# file is a XAML file.
+```XAML
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             mc:Ignorable="d" 
+             x:Class="HelloXamarinForms.App">
+    <Application.Resources>
+    </Application.Resources>
+</Application>
+```
+There are some clues in here:
+
+```XAML
+<Application ...
+```
+It is something to do with the Application class. There are also quite a few [XML namespaces](https://www.w3schools.com/xml/xml_namespaces.asp) being defined. We will talk more about these later.
+
+```XAML
+x:Class="HelloXamarinForms.App"
+```
+This suggests this is something to do with the App class
 
 There is quite a lot of 'detail stuff' in a simple hello world application. 
 
