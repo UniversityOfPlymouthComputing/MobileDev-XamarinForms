@@ -1,8 +1,7 @@
 [Table of Contents](README.md)
 
 # First Exploration in Xamarin Forms
-This section is intended to familiarise you with the tools and to demonstrate some of the key concepts.
-The first task is to create a blank forms app.
+This section is intended to familiarise you with the tools and to demonstrate some of the key concepts in a Xamarin.Forms application. The first task is to create a blank forms app.
 
 - For the Mac, [follow this link](create-project-mac.md)
 - For Windows, [follow this link](create-project-pc.md)
@@ -20,10 +19,12 @@ Before you try and run anything, take some time to explore these projects. There
 
 ![Relationship between a Xamarin Native Project and the Xamarin.Forms Library](img/Xamarin-solution-relationships.png)
 
+Xamarin.Forms is a great example of _abstraction_. The same APIs and UI design can be used for both Android and iOS. This does not mean they will appear the same as they won't. Instead the code will be rendered using native controls and APIs with the platform specific details mostly hidden from the developer.
+
 Let's now take an initial look at a single page Xamarin.Forms application.
 
 ##  (i) Hello World
-It is customary to start every course with a Hello World. So much can be captured with such a simple example that is is worth doing. Sometimes it is easier to show rather than explain, so we begin with a short video walkthrough.
+It is customary to start every course with a Hello World. So much can be captured with such a simple example that is is worth doing. Sometimes it is easier to show rather than explain, so we begin with a short video walkthrough. Watch the video for the host platform you are using (MS WIndows or Apple Mac OS).
 
 ### Mac OS
 <p align="center">
@@ -36,6 +37,7 @@ It is customary to start every course with a Hello World. So much can be capture
 </p>
 
 *TASK*
+
 Recreate what you saw in the video. This is an exercise in familiarisation more than anything, so don't worry if it all seems a bit strange.
    
 ## (ii) Unpicking what just happened
@@ -58,6 +60,8 @@ A single instance of the `App` class is instantiated by the platform-specific co
 If you've come from other platforms, you might find this surprising. It certainly was to me! Let's take a brief look at each in turn.
 
 #### App.xaml.cs
+This is a C# source file that _partially_ declares the `App` class.
+
 ````C#
 using System;
 using Xamarin.Forms;
@@ -97,13 +101,13 @@ First, consider the class declaration
 public partial class App : Application
 ```
 
-The parent class is `Application`, a Xamarin.Forms class that provides important hooks into the application lifecycle. 
+The parent class is `Application`, a Xamarin.Forms class that (amongst other things) provides important hooks into the application lifecycle. Notice how most of the methods are overridden.
 
 > If you are interested, details can be found in the [Microsoft Documentation](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.application?view=xamarin-forms)
 
 iOS and Android have their own equivalent of course (e.g. the AppDelegate on iOS), but you can avoid writing platform specific code by subclassing the `Application` class and overriding methods such as `OnStart()`, as is shown above.
 
-- This is a `partial` class declatation. This must mean that _somewhere_, there is at least one other [C# partial class](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)  declaration. More on that in the next section.
+- This is a `partial` class declatation. This suggests that _somewhere_, there is at least one other [C# partial class](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)  declaration. More on that in the next section.
 
 This class is also declared within a _namespace_
 ```C#
@@ -111,16 +115,16 @@ namespace HelloXamarinForms
 ```
 [Namespaces](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/namespaces/) are a way to avoid name collisions. You can think of them as _prefixes_ on Class, Structure and Interface names - so really we are declaring `HelloXamarinForms.App`. 
 
-> Namespaces are helpful as there may be other classes called `App` maybe in your own code or a third-party library. Whenever we wish to refer to this particular class, we _could_ type `HelloXamarinForms.App`. This can produce verbose code, so often you see the `using` keyword at the top of a source file. This allows for implicit namespace qualifiers which helps keep code concise and readable. Of course, if there are names which conflict within the set of namespaces you use, then you would still need to give the explicit name. Again, more on this later.
+> Namespaces are helpful as there may be other classes, structures or interfaces called `App` maybe in your own code or a third-party library. Whenever we wish to refer to this particular class, we _could_ type `HelloXamarinForms.App`. This can produce verbose code, so often you see the `using` keyword at the top of a source file. This allows for implicit namespace qualifiers which helps keep code concise and readable. Of course, if there are names which conflict within the set of namespaces you use, then you would still need to give the explicit name. Again, more on this later.
 
-- Note also that the constructor calls `InitializeComponent()` - again, we will look at this more closely in the next section, but as we will see, it is related to this being a partial class.
+- Note also that the constructor calls `InitializeComponent()` - again, we will look at this more closely in the next section, but as we will see, it is related to this being a partial class and with parsing the accompanying XAML file.
 
-- Finally, the `MainPage` property of `Application` is set to an insance of our `MainPage` class. This is something we may change once we start adding navigation features. This very line is often the lowest entry point for an application.
+- Finally, the `MainPage` property of `Application` is set to an instance of our `MainPage` class. This is something we may change once we start adding navigation features for example. This very line is often the lowest entry point for an application.
 
 So quite a bit to think about here. Why is this a partial class? Where is the rest of the class? How come we have a XAML file alongside? If you are confused, don't be put off (yet!), all should become clear.
 
 #### App.xaml
-Alongside the C# file is a XAML file. In fact, the the solution explorer, these two files seem to be implicitly linked in some way.
+Alongside the C# file is a XAML file. In fact, in the solution explorer, these two files seem to be implicitly linked in some way.
 
 ```XAML
 <?xml version="1.0" encoding="utf-8"?>
@@ -144,7 +148,15 @@ Ok, so this is something to do with the `Application` parent class we met in the
 ```XAML
 x:Class="HelloXamarinForms.App"
 ```
-This suggests this is something to do with the `App` class. 
+This suggests this is something specifically to do with the `App` class. 
+
+The main point from this section are the lines in `App` that read:
+
+```C#
+MainPage = new MainPage();
+```
+
+The `MainPage` property of `App` is set to an instance of the class `MainPage`, which as we will see, defines the initial view of the application.
 
 ### The MainPage Class
 Let's recap on where we are in the greater scheme of things:
@@ -153,13 +165,13 @@ Let's recap on where we are in the greater scheme of things:
 
 The constructor for the `App` class obtains an instance of `MainPage` and sets it to a property that happens to have the same name. This way, the instance of `MainPage` becomes the root screen of information that the user sees. 
 
-Let's now look at `MainPage` a little more closely. 
+Let's now look at the `MainPage` class a little more closely. 
 
-Once again, the `MainScreen` class is constructed using two files, `MainScreen.xaml.cs` and `MainScreen.xaml`.
+Once again, the `MainPage` class is constructed using two files, `MainPage.xaml.cs` and `MainPage.xaml`.
 Let's start with the XAML file
 
-#### MainScreen.xaml
-The user interface for `MainScreen` is declared in an XML based language known as [XAML](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/).
+#### MainPage.xaml
+The user interface for `MainPage` is declared in an XML based language known as [XAML](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/).
 
 _If_ you've come from another mobile platform, you might be surprised to find yourself declaring your user inteterface in XML. You might be even more surprised to discover there is no [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) tool to write the XML for you. If you are from the iOS world, there is not graphical StoryBoard - although when we meet Shell, there is something equivalent.
 
