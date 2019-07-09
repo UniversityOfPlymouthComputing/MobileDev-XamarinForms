@@ -35,16 +35,20 @@ By the end of this chapter you should be able to:
    1. Create and Instantiating a class
    1. Properties
    1. Partial Classes
-   1. Inheritance
+   1. Inheritance and constructors
+   1. Polymorphism and the big-bad-mouse
    1. Static Classes
 1. [A first exploration into Xamarin.Forms](first-exploration.md)
    1. Hello World
    1. Unpicking what just happened
    1. Summary and reflection
 1. [More essential concepts in C#](essential-csharp-2.md)
-   1. Interfaces - first look
+   1. Optional Properties
+   1. Computed Properties
    1. Static Properties
    1. Abstract Classes
+   1. Interfaces - first look
+   1. Polymorphism - again
 1. [A second exploration into Xamarin.Forms](second-exploration.md)
    1. The BMI Estimator
    1. Unit Testing - begin as we mean to carry on!
