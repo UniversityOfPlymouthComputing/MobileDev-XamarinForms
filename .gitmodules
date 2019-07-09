@@ -1,3 +1,6 @@
 [submodule "code/Chapter1/xamarin-forms-bmi-estimate"]
 	path = code/Chapter1/xamarin-forms-bmi-estimate
 	url = https://github.com/UniversityOfPlymouthComputing/xamarin-forms-bmi-estimate.git
+[submodule "code/Chapter1/xamarin-forms-hello-world"]
+	path = code/Chapter1/xamarin-forms-hello-world
+	url = https://github.com/UniversityOfPlymouthComputing/xamarin-forms-hello-world.git
