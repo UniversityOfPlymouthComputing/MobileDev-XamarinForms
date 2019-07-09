@@ -623,7 +623,7 @@ btn.Text = "Click Me";
   </tr>
 </table>
 
-As the name **property-element** suggests, the XML element refers to a *propery* as opposed to a type. XML does not care there is a dot in the element name (it's just a valid character), but the XAML parser does care.
+As the name **property-element** suggests, the XML element refers to a *propery* as opposed to a type. XML does not care there is a dot in the element name (it's just another valid character), but _the XAML parser does care_.
 
 In general we write:
 
