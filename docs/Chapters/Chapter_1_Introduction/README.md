@@ -33,6 +33,7 @@ By the end of this chapter you should be able to:
 1. [A first exploration into Xamarin.Forms](first-exploration.md)
    1. Hello World
    1. Unpicking what just happened
+   1. Summary and reflection
 1. Some essential concepts
    1. Create and Instantiating a Class
    1. Properties
