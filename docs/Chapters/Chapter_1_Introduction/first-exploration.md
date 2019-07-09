@@ -180,7 +180,7 @@ Let's start with the XAML file
 #### MainPage.xaml
 The user interface for `MainPage` is declared in an XML based language known as [XAML](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/).
 
-_If_ you've come from another mobile platform, you might be surprised to find yourself declaring your user inteterface in XML. You might be even more surprised to discover there is no [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) tool to write the XML for you. If you are from the iOS world, there is not graphical StoryBoard - although when we meet Shell, there is something equivalent.
+_If_ you've come from another mobile platform, you might be surprised to find yourself declaring your user inteterface in XML. You might be even more surprised to discover there is no [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) tool to write the XML for you. If you are from the iOS world, there is no graphical StoryBoard - although when we meet Shell, there is something equivalent (although it's still text based).
 
 > Before you run away in fear and loathing, I suggest you allow this idea to sink in and try to avoid pre-judging it. It is also worth noting that both Google and Apple have both introduced declarative UI in [Flutter](https://flutter.dev/docs/get-started/flutter-for/declarative) and [SwiftUI](https://developer.apple.com/xcode/swiftui/) respectively. _Declarative UI seems to be the way the wind is blowing_.
 
