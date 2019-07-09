@@ -31,10 +31,12 @@ By the end of this chapter you should be able to:
 1. [Introduction to the Course](Introduction_to_the_Course.md)
 1. [Pre-requisite software](Pre-requisite-software.md)
 1. [Some essential concepts in C#](essential-csharp-1.md)
+   1. Hello World Revisited
    1. Create and Instantiating a class
    1. Properties
    1. Partial Classes
    1. Inheritance
+   1. Static Classes
 1. [A first exploration into Xamarin.Forms](first-exploration.md)
    1. Hello World
    1. Unpicking what just happened
@@ -42,12 +44,12 @@ By the end of this chapter you should be able to:
 1. [More essential concepts in C#](essential-csharp-2.md)
    1. Interfaces - first look
    1. Static Properties
-   1. Static Classes
    1. Abstract Classes
 1. [A second exploration into Xamarin.Forms](second-exploration.md)
-   1. The BPI Estimator
+   1. The BMI Estimator
+   1. Unit Testing - begin as we mean to carry on!
    1. Unpicking what just happened
-   1. Summary and reflection  
+   1. Summary and Reflection  
 1. Self-Study Tasks
 1. References
 
