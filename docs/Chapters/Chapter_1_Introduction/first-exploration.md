@@ -341,7 +341,8 @@ Finally we see the declaration (and implicit instantiation) of `Label` and `Butt
 ```
 Note how the following is used:
 
-- XML elements declare instances of classes
+- XML elements declare instances of classes (note the absense of any dot characters)
+   - Remember that all elements without an explicit namespace will have the default Forms namespace. `Button` is part of Forms.
 - XML attributes (of elements) are used to set properties on these objects. 
 
 For the Label, the equivalent code might be:
@@ -366,6 +367,8 @@ Another way to write the XAML would be as follows:
              <Label.VerticalOptions>LayoutOptions.CenterAndExpand</Label.VerticalOptions>
       </Label>
 ```
+
+This is using the **element property** syntax as opposed to **attribute syntax**. Note the dot in the element name. To XML, this means nothing special. To XAML, it means it's a element property (i.e. an element that represents a property). Remember that XAML is a language built using (legally formed) XML.
 
 The attribute `x:Name` was left as an attribute. 
 > `x:Name` is not a property of the class `Label`. 
