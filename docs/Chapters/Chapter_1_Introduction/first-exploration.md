@@ -542,15 +542,123 @@ Try the following:
 # Summary
 There is quite a lot of 'detail stuff' in a simple hello world application. We already met the following:
 
-- partial classes
-- XML elements and attributes
-- XAML UI declatation, objects and properties
-- Application, ContentPage, Label, Button and StackLayout classes
-- namespaces in C# and XAML
-- Content Properties and class attributes
-- event handlers
-- references to UI elements
+- *XML elements and attributes* whereby in XML you specify `<Element attribute= ... >`. XAML is pure XML
+- *XAML UI declatation* objects and properties are instantiated, and initial properties are set, using a simple XML based language known as XAML. Onjects are instantiated and commonly initialised using the form `<Type property= _value_ ... />`. We saw that UI components are declared and arranged in XAML code as opposed to a visual designer. We also saw that the XML is parsed at run time and corresponding components are instantiated.
+- *Partial classes* The ability in C# to split a class across two or more source files, making it easier to separate concerns. This was used to separate the developers C# (the "code-behind the XMAL") from the generated C# derived in part from the XAML file.
+- *Property-elements* were another way to set properties of objects using a pair of enclosing tags of the form `<TypeName.Property> ..._property value_ ... </TypeName.Property>`
+- *Content Properties* are particular property element is declared as a default. These are typically chosen because they are  commonly used and this helps keep the XAML concise and clear.
+- *`Application`, `ContentPage`, `Label`, `Button` and `StackLayout` classes* were all instantiated and used in this simple demonstration
+- *Namespaces* in C# and XAML are used to avoid name collisions. The XAML parser knows about several of these. The default namespace is that specifially for Xamarin forms. This means we can instantiate objects such as `Button` without having to always write a prefix. Others include the namespace for XAML itself.
+- *Class attributes* are set using [square braces] and are a form of meta-data attached to a class, interface or even method. They can be queried at run time to allow of changes in behaviour.
+- *Event handlers* are methods which run in response to an event. We met the `Clicked` event on the `Button` type. 
+- *References to UI elements* are created at run-time by the generated code. The are prefixed with the namespace label `x:` as this is a behaviour specified in XAML and is not specific to Forms. 
 
+## Key Concepts
+There was a lot to take in back there. It's sometimes useful to reflect a little and remind ourselves about what is most important. Often the key to penetrating a new framework is it's jargon. Here is my shortlist:
+
+- Attribute Syntax
+- Property Element Syntax
+- Default Namespace
+- Content Property
+
+### Instantiating and initialising an object in XAML
+In code, you might write
+
+```C#
+var btn = new Button   //Default constructor is called
+{
+   Text = "Click Me";
+};
+```
+
+or if you prefer to be more explicit, you might write
+
+```C#
+var btn = new Button();  //Default constructor is called
+btn.Text = "Click Me";
+```
+
+Either way, it's the same. You can acheve the same in XAML and again, you also have some choices in style. 
+
+*attribute syntax* is the most concise:
+
+```XAML
+<Button x:Name=btn Text="Click Me"/>
+```
+
+or you might use a *property element* instead if you prefer to be more explicit:
+
+```XAML
+<Button x:Name=btn>
+   <Button.Text>
+      "Click Me"
+   </Button.Text>
+</Button>
+```
+As the name 'property-element' suggests, the XML element refers to a propery. XML does not care there is a dot in the element name (it's just a valid character), but the XAML parser does care.
+
+In general we write:
+
+```XAML
+<Type property=... property=... />
+```
+
+or 
+
+```XAML
+<Type property=... ... >
+   <Type.Property>
+      _value_
+   </Type.Property>
+</Type>
+```
+
+where `Type` without any namespace is a data type (class, interface, struct or enum) from *Forms*. Note that unless you specifically add a namespace prefix to an element, the *default namespace* is always added as a prefix, and this is the name-space for Forms as seen from the top of every Form XAML file:
+
+```XAML
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" ...
+```
+
+It is easy to forget this namespace is added as you don't notice what is not written.
+
+### Referencing an object in memory
+
+Note in the example above, you would reference the button (in code) using the C# property `btn` whether the button was declared in code or XAML. In the case of XAML, a property is created behind the scenes for you. In code, you create it yourself (this is one of the reasons parial classes exist!)
+
+> For XAML, the `x:Name` _attribute_ is used to set to the name of the generated property. 
+
+Note the empashis on the word attribute here. It is a flag for the XAML parser to help it generate code behind the scenes, and *not* a property of `Button`, so you cannot use a property element.
+
+If you forget the `x:` prefix, the compiler will try and find an object `Name` in the default namespace (for Forms). This will fail as there is no _type_ `Name` anywhere in Forms, so it will generate a compiler error.
+
+### Content Property
+Another piece of jargon to confuse you. Sometimes there is a property of a Form object that is commonly used, so much so, that it becomes the default if no other property name it given.
+
+We saw this with the `Children` property (a list) of `StackLayout`. 
+
+We can write this:
+
+```XAML
+<StackLayout>
+   <Label ... />
+   <Button ... />
+</StackLayout>
+```
+
+but we can also be explicit if preferred:
+
+```XAML
+<StackLayout>
+   <Children>
+      <Label ... />
+      <Button ... />
+   </Children>
+</StackLayout>
+```
+
+Of course in code, you have to be explicit. Indecentally, as `Children` is a list and it's content is often long / verbose, it would not make easy reading if set as an attribute!
+
+## Don't Panic!
 If you're head is spinning a little, that's only human. Remember that if you don't yet understand this fully, that makes you human, so try to ignore the inner critic (by all means blame me, the author, for drilling into far too much too soon). However, being the low-level type, I struggle to simply accept code-magic and not understand what's going on. I hope this has been of some value. With useage, time and many nights of good sleep, things will begin to clarify. 
 
 Also, learning is rarely a linear process. I reccomend you return to this section in a few weeks time once you're more practiced and experienced.
