@@ -1,5 +1,12 @@
 [Table of Contents](README.md)
 
+# Pre-requisit knowledge / reading
+It is assumed the reader is familiar with XML elements, attributes and namespaces. If not, don't feel bad - there are some very well written and concise tutorials here. Do yourself a big favour and read these before embarking on Xamarin Forms! It won't take long.
+
+- [XML Elements](https://www.w3schools.com/xml/xml_elements.asp)
+- [XML Attributes](https://www.w3schools.com/xml/xml_attributes.asp)
+- [XML Namespaces](https://www.w3schools.com/xml/xml_namespaces.asp)
+
 # First Exploration in Xamarin Forms
 This section is intended to familiarise you with the tools and to demonstrate some of the key concepts in a Xamarin.Forms application. The first task is to create a blank forms app.
 
@@ -542,60 +549,81 @@ Try the following:
 # Summary
 There is quite a lot of 'detail stuff' in a simple hello world application. We already met the following:
 
-- *XML elements and attributes* whereby in XML you specify `<Element attribute= ... >`. XAML is pure XML
-- *XAML UI declatation* objects and properties are instantiated, and initial properties are set, using a simple XML based language known as XAML. Onjects are instantiated and commonly initialised using the form `<Type property= _value_ ... />`. We saw that UI components are declared and arranged in XAML code as opposed to a visual designer. We also saw that the XML is parsed at run time and corresponding components are instantiated.
-- *Partial classes* The ability in C# to split a class across two or more source files, making it easier to separate concerns. This was used to separate the developers C# (the "code-behind the XMAL") from the generated C# derived in part from the XAML file.
-- *Property-elements* were another way to set properties of objects using a pair of enclosing tags of the form `<TypeName.Property> ..._property value_ ... </TypeName.Property>`
-- *Content Properties* are particular property element is declared as a default. These are typically chosen because they are  commonly used and this helps keep the XAML concise and clear.
-- *`Application`, `ContentPage`, `Label`, `Button` and `StackLayout` classes* were all instantiated and used in this simple demonstration
-- *Namespaces* in C# and XAML are used to avoid name collisions. The XAML parser knows about several of these. The default namespace is that specifially for Xamarin forms. This means we can instantiate objects such as `Button` without having to always write a prefix. Others include the namespace for XAML itself.
-- *Class attributes* are set using [square braces] and are a form of meta-data attached to a class, interface or even method. They can be queried at run time to allow of changes in behaviour.
-- *Event handlers* are methods which run in response to an event. We met the `Clicked` event on the `Button` type. 
-- *References to UI elements* are created at run-time by the generated code. The are prefixed with the namespace label `x:` as this is a behaviour specified in XAML and is not specific to Forms. 
+- **XML elements and attributes** whereby in XML you specify `<Element attribute= ... >`. XAML is pure XML
+- **XAML UI declatation** objects and properties are instantiated, and initial properties are set, using a simple XML based language known as XAML. Onjects are instantiated and commonly initialised using the form `<Type property= _value_ ... />`. We saw that UI components are declared and arranged in XAML code as opposed to a visual designer. We also saw that the XML is parsed at run time and corresponding components are instantiated.
+- **Partial classes** The ability in C# to split a class across two or more source files, making it easier to separate concerns. This was used to separate the developers C# (the "code-behind the XMAL") from the generated C# derived in part from the XAML file.
+- **Property-elements** were another way to set properties of objects using a pair of enclosing tags of the form `<TypeName.Property> ..._property value_ ... </TypeName.Property>`
+- **Content Properties** are particular property element is declared as a default. These are typically chosen because they are  commonly used and this helps keep the XAML concise and clear.
+- **`Application`, `ContentPage`, `Label`, `Button` and `StackLayout` classes** were all instantiated and used in this simple demonstration
+- **Namespaces** in C# and XAML are used to avoid name collisions and to tell the build tools where to find library code. The XAML parser knows about several of these. The default namespace is that specifially for Xamarin forms. This means we can instantiate objects such as `Button` without having to always write a prefix. Others include the namespace for XAML itself.
+- **Class attributes** are set using [square braces] and are a form of meta-data attached to a class, interface or even method. They can be queried at run time to allow of changes in behaviour.
+- **Event handlers** are methods which run in response to an event. We met the `Clicked` event on the `Button` type. 
+- **References to UI elements** are created at run-time by the generated code. The are prefixed with the namespace label `x:` as this is a behaviour specified in XAML and is not specific to Forms. 
 
-## Key Concepts
+## Key Jargon
 There was a lot to take in back there. It's sometimes useful to reflect a little and remind ourselves about what is most important. Often the key to penetrating a new framework is it's jargon. Here is my shortlist:
 
+- XML Elements and Attributes
 - Attribute Syntax
 - Property Element Syntax
 - Default Namespace
 - Content Property
 
-### Instantiating and initialising an object in XAML
-In code, you might write
+### Elements, Attributes and Namespaces
+If you're in anyway unsure about XML elements, attributes and namespaces, then do go to the references section below and read the three excellent (and concise) tutorials on w3schools. I have no better way to explain it.
 
-```C#
-var btn = new Button   //Default constructor is called
+### Instantiating and initialising an object in XAML
+The most concise was to instantiate an object in C# code or XAML is as follows. For XAML, this uses the **attribute syntax** 
+
+<table style="width:100%" bgcolor="#FFFFFF">
+  <tr>
+    <th>CODE</th>
+    <th>XAML</th> 
+  </tr>
+  <tr>
+    <td>
+<pre>
+var btn = new Button
 {
    Text = "Click Me";
 };
-```
+</pre>
+    </td>
+    <td>
+      <pre>
+&lt;Button x:Name=btn Text="Click Me"/&gt;
+      </pre>
+    </td> 
+  </tr>
+</table>
 
-or if you prefer to be more explicit, you might write
+If you prefer to be more explicit, you could use the following C# coding style or  **property element** syntax in XAML
 
-```C#
-var btn = new Button();  //Default constructor is called
-btn.Text = "Click Me";
-```
-
-Either way, it's the same. You can acheve the same in XAML and again, you also have some choices in style. 
-
-*attribute syntax* is the most concise:
-
-```XAML
-<Button x:Name=btn Text="Click Me"/>
-```
-
-or you might use a *property element* instead if you prefer to be more explicit:
-
-```XAML
-<Button x:Name=btn>
-   <Button.Text>
+<table style="width:100%" bgcolor="#FFFFFF">
+  <tr>
+    <th>CODE</th>
+    <th>XAML</th> 
+  </tr>
+  <tr>
+   <td>
+      <pre>
+var btn = new Button(); 
+btn.Text = "Click Me";      
+      </pre>
+   </td>
+   <td>
+      <pre>
+&lt;Button x:Name=btn&gt;
+   &lt;Button.Text&gt;
       "Click Me"
-   </Button.Text>
-</Button>
-```
-As the name 'property-element' suggests, the XML element refers to a propery. XML does not care there is a dot in the element name (it's just a valid character), but the XAML parser does care.
+   &lt;/Button.Text&gt;
+&lt;/Button&gt;      
+      </pre>
+   </td>    
+  </tr>
+</table>
+
+As the name **property-element** suggests, the XML element refers to a *propery* as opposed to a type. XML does not care there is a dot in the element name (it's just a valid character), but the XAML parser does care.
 
 In general we write:
 
@@ -613,13 +641,16 @@ or
 </Type>
 ```
 
-where `Type` without any namespace is a data type (class, interface, struct or enum) from *Forms*. Note that unless you specifically add a namespace prefix to an element, the *default namespace* is always added as a prefix, and this is the name-space for Forms as seen from the top of every Form XAML file:
+where `Type` without any namespace is a data type (class, interface, struct or enum) from *Forms*. Note that unless you specifically add a namespace prefix to an element, the **default namespace** is always added as a prefix, and this is the name-space for Forms. We see this declared at the top of every Form XAML file:
 
 ```XAML
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" ...
 ```
 
-It is easy to forget this namespace is added as you don't notice what is not written.
+> If you were wondering, why do some elements in XAML have a namespace, while others do not, the answer is simple: 
+_They all do!_
+
+In the absence of an explicit namespace, it is easy to forget the default namespace as you don't notice what is not explicitely written. This can cause initial confusion as the learner looks for 'patterns' in the XAML syntax (or was it just me?).
 
 ### Referencing an object in memory
 
