@@ -9,8 +9,9 @@ For this course, you can work on a PC or Mac. There are some essetial software a
 * On a Mac, you need to install and run [Xcode](https://apps.apple.com/gb/app/xcode/id497799835?mt=12)
 
 Reccomended are:
- *[GitHub desktop client](https://desktop.github.com/)
- [GitHub extension for Visual Studio](https://visualstudio.github.com/)
+
+ - [GitHub desktop client](https://desktop.github.com/)
+ - [GitHub extension for Visual Studio](https://visualstudio.github.com/)
  
 # Installation Instructions
 If you are installing VisualStudio on your own machine, [Please follow the guide on this page](https://docs.microsoft.com/en-us/xamarin/get-started/installation/index?pivots=windows)
