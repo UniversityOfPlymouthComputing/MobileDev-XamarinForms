@@ -1,10 +1,9 @@
 # A second exploration into Xamarin.Forms
-In this section, we build another single paged application, only this time we will add a little more complexity. For this, there are some suggested prerequisites include:
+In this section, we build another single paged application, only this time we will add a little more complexity. For this, there are some suggested prerequisites including:
 
-- **C# Classes and Constructors** You need to be able to create a C# class in visual studio
 - **Static methods** There is one instance of a static method in this example. Worth revising if you're unsure.
-- **await and async** If you've not met these two before, you will now! They deserve a much more thorough treatment than is given here.
-- **out parameters** Useful for in-place modification. Of unsure, this is a good time to revise this.
+- **await and async** If you've not met these two before, you will now! They deserve a much more thorough treatment than is given here. If you want the long treatment, [try this article](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/). Alternatively, maybe give it a try here first.
+- **`out` parameters** Useful for in-place modification, but bordering on obscure. If unsure, [this is a good time to revise this](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/out-parameter-modifier).
 
 **A word about MVVM**
 It should be stressed this point that a conscious effort is being made to 'keep it simple'. For sure there are benefits from employing patterns, such as Model-View-ViewModel (MVVM) which incorporares 'binding' between components. However, there is already much to take in, so this will be deferred to a later discussion. Afterall, how is anyone supposed to appreciate the solution to a problem before they've encountered the problem? The intent here is to first become familiar and even comfortable with Xamarin Forms, maybe encounter some spaghetti code mess on route, before recognising the need and desire to employ patterns to bring things back under control. Motivation is key in education, maybe it is _the_ key. Without first establishing a need, clever and elegant solutions risk being passed by as just more 'stuff' to know. 
@@ -46,7 +45,7 @@ Furthermore, there are some addition steps needed to add some images to the proj
 **INSERT VIDEO HERE**
 [ YOU TUBE VIDEO ON ADDING IMAGES ]
 
-To know more about image resolution for different Android screen densities, [Take a read of the section 'Provide alternative bitmaps'](https://developer.android.com/training/multiscreen/screendensities#TaskProvideAltBmp)
+To know more about image resolution for different Android screen densities, [Take a read of the section 'Provide alternative bitmaps'](https://developer.android.com/training/multiscreen/screendensities#TaskProvideAltBmp). 
 
 ## Building the UI
 
