@@ -57,8 +57,8 @@ First, let's see what it does:
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=LzxN8CvPero" target="_blank"><img src="http://img.youtube.com/vi/LzxN8CvPero/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
-## Setting up the project
-This is a similar process to the previous exercise, but as this is new, it does not hard to repeat. 
+### Setting up the project
+This is a similar process to the previous exercise, but as this is (presumably) all new to you, it does not hurt to repeat. 
 
 <p align="center">
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=boWrMFmcwcQ" target="_blank"><img src="http://img.youtube.com/vi/boWrMFmcwcQ/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
@@ -72,11 +72,51 @@ Furthermore, there are some addition steps needed to add some images to the proj
 
 To know more about image resolution for different Android screen densities, [Take a read of the section 'Provide alternative bitmaps'](https://developer.android.com/training/multiscreen/screendensities#TaskProvideAltBmp). 
 
-## Building the UI
-The user interface is built using three StackLayout controls. The top-level is a vertical StackLayout.
+### Building the User Interface (UI)
+The user interface is built using one top-level vertical `StackLayout` and three horizontal child `StackLayout` elements.
+
+A summary of the UI is shown below:
 
 ![User Interface](img/BMI-Est-Layout.png)
 
+Yes, a grid layout might be a better choice. However, we are learning about `StackLayout` so let's go with it. 
+
+### Building the Model Code
+There are only two central data parameters, weight and height. However, both of these each have their own minimum and maximum values. They also have individual units and names which may be needed for display purposes. 
+
+- An early decision was made to encapsulate all this relevent information into the `BodyParameter` class and test.
+
+Looking at the UI, it is observed that the numerical values entered are not numbers, but strings. Somewhere these strings are going to need to be _parsed_ to double values. These values need to be validated.
+
+- Values may be out of range - this needs to be checked and handled
+- String parsing is an operation that may potentially fail - such a failure needs to be handled gracefully
+
+- It was also decided (rightly or wrongly) to include the parsing and validation in the model objects. The only difference is the range of valid values.
+
+Finally, both parameters are encapsulated inside a `BmiModel` class. This will be responsible for calculating the Body Mass Index ( weight / height<sup>2</sup>
+
+One criteria for all the above is that there shall be no reference / dependency on the UI code in the model classes. It should be possible to use them in a stand-alone command line application for example. More relevent to this case, they should be useable inside a _Unit Test_ project.
+
+> If we can get the model right, hopefully the rest of the application will fall into place.
+
+**Note** I don't want to create the illusion that the app was written in such a linear and logical order as is presented here. My brain at least does not work quite like that! The truth is there were a few iterations until a model design was settled upon. Yes there are more formal ways to model data and OO applications - for that, there are no doubt many excellent courses and books (none of which I've taken or read ;). Moving on...
+
+[VIDEO HERE - Building the Model Classes]
+
+### Unit Tests
+
+[VIDEO HERE - Creating a unit test project]
+
+[Video Here - Writing and running the tests]
+
+### UI Logic - hooking it all up
+
+[VIDEO HERE]
+
+## Final Code
+I've included a copy of the final code
+
+### MainPage.xaml
 The complete XAML file is shown below
 
 ```XAML
@@ -181,8 +221,120 @@ The complete XAML file is shown below
 
 ```
 
+#### Some points of interest. 
+Note the properties of the `Entry` types:
 
-## Writing Model Classes
+```XAML
+      <Entry 
+          Placeholder="Height in Meters" 
+          HorizontalOptions="FillAndExpand"
+          HorizontalTextAlignment="End"
+          VerticalOptions="Center"
+          Keyboard="Numeric" 
+          TextChanged="Handle_HeightChanged"
+          />
+```
+
+The keyboard type is set to "Numeric". 
+
+- **Experiment** Try different keyboard types. If you can contrast Android and iOS. Note the software keyboard is native to each platform.
+
+The property `TextChanged` is an event handler. Look in the code below and locate the event handler 
+
+### MainPage.xaml.cs
+The complete "code behind" is shown below. 
+
+```C#
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Forms;
+
+/// <summary>
+// BMI Estimation demo
+/// </summary>
+namespace bmi_estimate
+{
+    // Learn more about making custom code visible in the Xamarin.Forms previewer
+    // by visiting https://aka.ms/xamarinforms-previewer
+    [DesignTimeVisible(false)]
+    public partial class MainPage : ContentPage
+    {
+        enum EntrySource
+        {
+            Weight,
+            Height
+        }
+
+        private BmiModel Model = new BmiModel();
+
+        public MainPage()
+        {
+            InitializeComponent();
+            BmiLabel.IsVisible = false;
+            OutputLabel.IsVisible = false;
+        }
+
+        private async Task SyncViewAndModelAsync(EntrySource src, string newValueAsString)
+        {
+            bool success;
+            string ErrorString;
+
+            //Choose which parameter we are using
+            if (src == EntrySource.Height)
+            {
+                success = Model.SetHeightAsString(newValueAsString, out ErrorString);
+                HeightErrorLabel.IsVisible = !success;
+            }
+            else
+            {
+                success = Model.SetWeightAsString(newValueAsString, out ErrorString);
+                WeightErrorLabel.IsVisible = !success;
+            }
+
+            if (Model.BmiValue != null)
+            {
+                BmiLabel.IsVisible = true;
+                OutputLabel.IsVisible = true;
+                OutputLabel.Text = string.Format("{0:f1}", Model.BmiValue);
+            }
+            else
+            {
+                BmiLabel.IsVisible = false;
+                OutputLabel.IsVisible = false;
+            }
+
+            //Animate message to user
+            if (!success)
+            {
+                await GiveFeedback(ErrorString);
+            }
+
+        }
+
+        private async Task GiveFeedback(string MessageString)
+        {
+            ErrorLabel.Text = MessageString;
+            await ErrorLabel.FadeTo(1.0, 500);
+            await Task.Delay(2000);
+            await ErrorLabel.FadeTo(0.0, 500);
+        }
+
+        private async void Handle_HeightChanged(object sender, TextChangedEventArgs e)
+        {
+            await SyncViewAndModelAsync(EntrySource.Height, e.NewTextValue);
+        }
+        private async void Handle_WeightChanged(object sender, TextChangedEventArgs e)
+        {
+            await SyncViewAndModelAsync(EntrySource.Weight, e.NewTextValue);
+        }
+
+    }
+}
+```
 
 ### BodyParameter Class
 
@@ -259,7 +411,7 @@ namespace bmi_estimate
 }
 ```
 
-### Unit Testing 
+#### Unit Testing BodyParameter 
 
 ```C#
     [TestClass]
@@ -395,7 +547,7 @@ namespace bmi_estimate
 ```
 
 
-### Unit Testing 
+#### Unit Testing BmiModel 
 
 ```C#
    [TestClass]
@@ -453,8 +605,5 @@ namespace bmi_estimate
     }
 
 ```
-
-
-## Hooking it all up
 
 ## Summary and Reflection
