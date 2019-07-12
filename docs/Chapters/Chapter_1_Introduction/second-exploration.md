@@ -37,10 +37,10 @@ Watch the following video / tutorial.
 
 Let's recap.
 
-- `StackLayout` is itself a view, that manages child views. It distributes and allocates the available space between the children.
+- `StackLayout` is itself a view, that manages child views. It is given space by its parent. It distributes and allocates the available space between the children.
 - A StackLayout can be vertical or horizontal
    - For a vertical StackLayout, it will by default only allocate the _required_ vertical space for each component. It will allocate all the horizontal space it has
-   - For a horizontal StackLayout, it will it will by default only allocate the _required_ horizontal space for each component. It will allocate all the horizontal space it has.
+   - For a horizontal StackLayout, it will it will by default only allocate the _required_ horizontal space for each component. It will allocate all the vertical space it has.
 - Where child view requests to expand along an axis, the stack view will try to allocate the maximuim space available. Where more than one component ask to expand, so the space will be distributed evenly
 - Where a child requests to fill along a given dimension, it will attempt to resize to fill the available space.
 
@@ -73,6 +73,7 @@ Furthermore, there are some addition steps needed to add some images to the proj
 To know more about image resolution for different Android screen densities, [Take a read of the section 'Provide alternative bitmaps'](https://developer.android.com/training/multiscreen/screendensities#TaskProvideAltBmp). 
 
 ## Building the UI
+The user interface is built using three StackLayout controls. The top-level is a vertical StackLayout.
 
 ![User Interface](img/BMI-Est-Layout.png)
 
