@@ -31,9 +31,8 @@ As a closing point, some perspective. The problem of testing will not go away. A
 Let's start with a simple example of using stack layout, and explore some of the layout options.
 Watch the following video / tutorial.
 
-
 <p align="center">
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=nLUlfb7Ia0g" target="_blank"><img src="http://img.youtube.com/vi/nLUlfb7Ia0g" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=nLUlfb7Ia0g" target="_blank"><img src="http://img.youtube.com/vi/nLUlfb7Ia0g/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
 Let's recap.
@@ -45,8 +44,6 @@ Let's recap.
 - Where child view requests to expand along an axis, the stack view will try to allocate the maximuim space available. Where more than one component ask to expand, so the space will be distributed evenly
 - Where a child requests to fill,
 
-
-
 ## The BMI Estimator
 The application is called the 'Body mass Index' (BMI) Estimator. The task is fairly easy to decribe:
 
@@ -56,9 +53,9 @@ Sounds simple? Well, in relative terms it is (which is why it's used at this poi
 
 First, let's see what it does:
 
-**INSERT VIDEO HERE**
-[ YOU TUBE VIDEO ]
-
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=LzxN8CvPero" target="_blank"><img src="http://img.youtube.com/vi/LzxN8CvPero/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
 
 ## Setting up the project
 This is a similar process to the previous exercise, but as this is new, it does not hard to repeat. 
