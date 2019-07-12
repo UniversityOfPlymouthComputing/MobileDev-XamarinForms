@@ -42,7 +42,7 @@ Let's recap.
    - For a vertical StackLayout, it will by default only allocate the _required_ vertical space for each component. It will allocate all the horizontal space it has
    - For a horizontal StackLayout, it will it will by default only allocate the _required_ horizontal space for each component. It will allocate all the horizontal space it has.
 - Where child view requests to expand along an axis, the stack view will try to allocate the maximuim space available. Where more than one component ask to expand, so the space will be distributed evenly
-- Where a child requests to fill,
+- Where a child requests to fill along a given dimension, it will attempt to resize to fill the available space.
 
 ## The BMI Estimator
 The application is called the 'Body mass Index' (BMI) Estimator. The task is fairly easy to decribe:
@@ -60,13 +60,15 @@ First, let's see what it does:
 ## Setting up the project
 This is a similar process to the previous exercise, but as this is new, it does not hard to repeat. 
 
-**INSERT VIDEO HERE**
-[ YOU TUBE VIDEO ON SETTING UP]
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=boWrMFmcwcQ" target="_blank"><img src="http://img.youtube.com/vi/boWrMFmcwcQ/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
 
 Furthermore, there are some addition steps needed to add some images to the project (any maybe some IDE bugs to traverse). Watch the following video to learn how to add image assets to your project.
 
-**INSERT VIDEO HERE**
-[ YOU TUBE VIDEO ON ADDING IMAGES ]
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=BJ3V_U9dqGY" target="_blank"><img src="http://img.youtube.com/vi/BJ3V_U9dqGY/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
 
 To know more about image resolution for different Android screen densities, [Take a read of the section 'Provide alternative bitmaps'](https://developer.android.com/training/multiscreen/screendensities#TaskProvideAltBmp). 
 
