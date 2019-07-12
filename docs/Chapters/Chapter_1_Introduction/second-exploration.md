@@ -5,6 +5,12 @@ In this section, we build another single paged application, only this time we wi
 - **await and async** If you've not met these two before, you will now! They deserve a much more thorough treatment than is given here. If you want the long treatment, [try this article](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/). Alternatively, maybe give it a try here first.
 - **`out` parameters** Useful for in-place modification, but bordering on obscure. If unsure, [this is a good time to revise this](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/out-parameter-modifier).
 
+For this section, we will specifically look at the following:
+
+- **StackLayout** - especially the start, centre, end, fill and expand combinations
+- **Nested StackLayouts** - including horizontal layout
+- **Text `Entry` boxes** - including associated events 
+
 **A word about MVVM**
 It should be stressed this point that a conscious effort is being made to 'keep it simple'. For sure there are benefits from employing patterns, such as Model-View-ViewModel (MVVM) which incorporares 'binding' between components. However, there is already much to take in, so this will be deferred to a later discussion. Afterall, how is anyone supposed to appreciate the solution to a problem before they've encountered the problem? The intent here is to first become familiar and even comfortable with Xamarin Forms, maybe encounter some spaghetti code mess on route, before recognising the need and desire to employ patterns to bring things back under control. Motivation is key in education, maybe it is _the_ key. Without first establishing a need, clever and elegant solutions risk being passed by as just more 'stuff' to know. 
 
@@ -20,6 +26,26 @@ Now the bar is higher, and we are (even mentally) trapped inside large IDEs and 
 It is also brought in early as it underpins some of the benefits (that MVVM thing again) that will become apparent later in the course. As a heads-up, with certain architectural decisions, it becomes possible to test the code that manages your UI state. If you've ever written an activity (Android) or view contoller (iOS) you may recognise this problem. If not, do't worry, you're going to meet it in Xamarin Forms as well. Testing UI _logic_ is a pretty big thing - you've met those bugs, the button that was not reenabled, the visual element that was not updated, the switch that was ignored etc. 
 
 As a closing point, some perspective. The problem of testing will not go away. Any stateful system that depends on a sequence of events is always going to be trouble. Testing needs to be performed at all levels - user, UI, unit, and manual code walkthroughs. For sequential logic, full coverage soon becomes impossible to achieve. It's why safety critical systems often use older established technology. Anyway, we want to write code and not waffle on about testing, so with that in mind, let's build another app.
+
+# StackLayout
+Let's start with a simple example of using stack layout, and explore some of the layout options.
+Watch the following video / tutorial.
+
+
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=nLUlfb7Ia0g" target="_blank"><img src="http://img.youtube.com/vi/nLUlfb7Ia0g" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
+
+Let's recap.
+
+- `StackLayout` is itself a view, that manages child views. It distributes and allocates the available space between the children.
+- A StackLayout can be vertical or horizontal
+   - For a vertical StackLayout, it will by default only allocate the _required_ vertical space for each component. It will allocate all the horizontal space it has
+   - For a horizontal StackLayout, it will it will by default only allocate the _required_ horizontal space for each component. It will allocate all the horizontal space it has.
+- Where child view requests to expand along an axis, the stack view will try to allocate the maximuim space available. Where more than one component ask to expand, so the space will be distributed evenly
+- Where a child requests to fill,
+
+
 
 ## The BMI Estimator
 The application is called the 'Body mass Index' (BMI) Estimator. The task is fairly easy to decribe:
