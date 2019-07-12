@@ -4,20 +4,45 @@ In this section, we build another single paged application, only this time we wi
 - **C# Classes and Constructors** You need to be able to create a C# class in visual studio
 - **Static methods** There is one instance of a static method in this example. Worth revising if you're unsure.
 - **await and async** If you've not met these two before, you will now! They deserve a much more thorough treatment than is given here.
+- **out parameters** Useful for in-place modification. Of unsure, this is a good time to revise this.
+
+**A word about MVVM**
+It should be stressed this point that a conscious effort is being made to 'keep it simple'. For sure there are benefits from employing patterns, such as Model-View-ViewModel (MVVM) which incorporares 'binding' between components. However, there is already much to take in, so this will be deferred to a later discussions. Afterall, how is anyone supposed to apprecisate the solution to a problem before they've encountered the problem? The intent here is to first become familiar and even comfortable with Xamarin Forms, maybe encounter some spaghetti code mess on route, before recognising the need and desire to employ patterns to bring things back under control. Motivation is key in education, maybe it is _the_ key. Without first establishing a need, clever and elegant solutions risk being passed by as just more 'stuff' to know. 
+
+**A word about unit testing**
+In the next section we will encounter Unit testing.This is something that is easily grasped and can be liberating (I know this sounds a little hippy with bear with me). It is also a great vehicle to practise our C# and to help us reflect on the code being written. Most of all, it allows us to slow down, test what we have crafted, and _build confidence_. Although considered good practise, I do not consider unit testing an advance concept. I remmeber the first time I encountered unit testing. 30 minutes in and I was wondering, _why had I not known about this before?_ If you've not done unit testing before, maybe you will feel something similar.
+In part, it's become a necessity due to the complexity of modern software. In the early 1980's, life was simple - you wrote basic into an interter, and saw instant results. You would often write short little programmes to try ideas, and back then, a small red cube moving across the screen scored 'cool points' with your friends. Now the bar is higher, and we are mentally trapped inside large IDEs and complex frameworks. The simple hello world gets entangled with user interface components, classes etc. Yes, you can write console applications and that is fine, but unit testing let's you write just functions to test your own code. No mess, no UI, just code. Best of all, as you update your code, you can keep applying those tests. If you find a bug, you return to the tests.
+
+It is also brought in early as it underpins some of the benefits (that MVVM thing again) that will become apparent later in the course. As a heads-up, with certain architectural decisions, it becomes possible to test the code that manages your UI state. That's a pretty big thing - you've met those bugs, the button that was no reenabled, the visual element that was not updated etc. 
 
 ## The BMI Estimator
-The application is called the BMI Estimator. The task is fairly easy to decribe:
+The application is called the 'Body mass Index' (BMI) Estimator. The task is fairly easy to decribe:
 
 > A user enters two numeric values into two text boxes respectively. The first is the person's weight (Kg) and the second is the person's height (in meters). The application validates the input values and if valid, calculates and displays the so-called body mass index (weight / height<sup>2</sup>)
 
-Sounds simple? Well, in relative terms it is, but when learning a new framework it provides plenty to think about.
+Sounds simple? Well, in relative terms it is (which is why it's used at this point), but when learning a new framework it still provides plenty to think about.
 
 First, let's see what it does:
 
-## Setting up the project
+**INSERT VIDEO HERE**
+[ YOU TUBE VIDEO ]
 
+
+## Setting up the project
+This is a similar process to the previous exercise, but as this is new, it does not hard to repeat. 
+
+**INSERT VIDEO HERE**
+[ YOU TUBE VIDEO ON SETTING UP]
+
+Furthermore, there are some addition steps needed to add some images to the project (any maybe some IDE bugs to traverse). Watch the following video to learn how to add image assets to your project.
+
+**INSERT VIDEO HERE**
+[ YOU TUBE VIDEO ON ADDING IMAGES ]
+
+To know more about image resolution for different Android screen densities, [Take a read of the section 'Provide alternative bitmaps'](https://developer.android.com/training/multiscreen/screendensities#TaskProvideAltBmp)
 
 ## Building the UI
+
 The complete XAML file is shown below
 
 ```XAML
