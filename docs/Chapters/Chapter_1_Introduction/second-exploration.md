@@ -74,6 +74,8 @@ To know more about image resolution for different Android screen densities, [Tak
 
 ## Building the UI
 
+![User Interface](img/BMI-Est-Layout.png)
+
 The complete XAML file is shown below
 
 ```XAML
