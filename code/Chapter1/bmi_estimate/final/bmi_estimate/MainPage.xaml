@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="bmi_estimate.MainPage">
+
+    <StackLayout>
+        <!-- Place new controls here -->
+        <Label 
+            Text="BMI Estimate" 
+            HorizontalOptions="Center"
+            VerticalOptions="Start"
+            FontSize="Large"
+            Margin="0, 0, 0, 20"
+            />
+
+        <Image 
+            Source="heart"
+            HeightRequest="100"
+            Aspect="AspectFit"
+            HorizontalOptions="Center"
+            VerticalOptions="Start"
+            />
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Padding="40,0,40,0">
+            <Label
+                Text="Height (m)"
+                HorizontalOptions="Start"
+                VerticalOptions="Center" />
+
+            <Entry 
+                Placeholder="Height in Meters" 
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="End"
+                VerticalOptions="Center"
+                Keyboard="Numeric" 
+                TextChanged="Handle_HeightChanged"
+                />
+
+            <Label 
+                Text="*"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                x:Name="HeightErrorLabel"
+                />
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Padding="40,0,40,0">
+            <Label
+                Text="Weight (Kg)"
+                HorizontalOptions="Start"
+                VerticalOptions="Center" />
+
+            <Entry 
+                Placeholder="Weight in Kg" 
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="End"
+                Keyboard="Numeric"
+                VerticalOptions="Center" 
+                TextChanged="Handle_WeightChanged"
+                />
+
+            <Label 
+                Text="*"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                x:Name="WeightErrorLabel"
+                />
+
+        </StackLayout>
+
+        <Label 
+            Text="Please enter a numerical value"
+            HorizontalOptions="Center"
+            Margin="0,20,0,0"
+            x:Name="ErrorLabel"
+            />
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+            <Label 
+                VerticalOptions="Center"
+                Text="BMI:"
+                FontSize="Large"
+                x:Name="BmiLabel"
+            />
+            <Label 
+                VerticalOptions="Center"
+                Text="..."
+                FontSize="Large"
+                x:Name="OutputLabel"
+            />
+        </StackLayout>
+
+    </StackLayout>
+
+</ContentPage>
