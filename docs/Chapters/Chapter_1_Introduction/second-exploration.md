@@ -101,7 +101,16 @@ One criteria for all the above is that there shall be no reference / dependency 
 
 **Note** I don't want to create the illusion that the app was written in such a linear and logical order as is presented here. My brain at least does not work quite like that! The truth is there were a few iterations until a model design was settled upon. Yes there are more formal ways to model data and OO applications - for that, there are no doubt many excellent courses and books (none of which I've taken or read ;). Moving on...
 
-[VIDEO HERE - Building the Model Classes]
+#### `BodyParameter` class
+The weight and height are encapsulated in the `BodyParameter` class. This class is repsonsible for hold, describing and validating each parameter.
+
+Creation of the `BodyParameter` class is shown in the next video:
+
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=NC4DJVDy7j8" target="_blank"><img src="http://img.youtube.com/vi/NC4DJVDy7j8/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
+
+Visual Studio (Enterprise) has a useful feature that allows you to visualise your objects as a "Code Map". The Code Map for the `BodyParameter` class is shown below:
 
 <table>
    <tr>
@@ -119,26 +128,33 @@ One criteria for all the above is that there shall be no reference / dependency 
    </tr>
 </Table>
 
-Visual Studio (Enterprise) has a useful feature that allows you to visualise your objects as a "Code Map". The Code Map for the `BodyParameter` class is shown above.
 
-The top level data model is shown below:
+#### Unit testing
 
- <img src="./img/DataModel.png" alt="BodyParameter code map">
- 
- Note the type of `Weight` and `Height` are `BodyParameter`.
- 
- 
+Before running away and getting excited, we pause to create a Unit Test project, and to test our new class.
 
-### Unit Tests
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=eZar2Tr9N7A" target="_blank"><img src="http://img.youtube.com/vi/eZar2Tr9N7A/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
 
-[VIDEO HERE - Creating a unit test project]
 
-[Video Here - Writing and running the tests]
+### The `BmiModel` class
+
+The final `BmiModel` class is created
+
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=NC4DJVDy7j8" target="_blank"><img src="http://img.youtube.com/vi/NC4DJVDy7j8/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
+
 
 ### UI Logic - hooking it all up
 
 [VIDEO HERE]
 
+ <img src="./img/DataModel.png" alt="BodyParameter code map">
+ 
+ Note the type of `Weight` and `Height` are `BodyParameter`.
+ 
 ## Final Code
 I've included a copy of the final code
 
