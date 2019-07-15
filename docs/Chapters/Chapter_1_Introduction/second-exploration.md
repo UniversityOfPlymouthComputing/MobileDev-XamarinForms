@@ -106,17 +106,20 @@ One criteria for all the above is that there shall be no reference / dependency 
 <table>
    <tr>
       <td>
-         ![The 'BodyParameter' class](img/BodyParameter.png) 
+         <img src="./img/BodyParameter.png" alt="BodyParameter code map">
+      </td>   
+      <td>
+         <img src="./img/legend.png" alt="Legend">
       </td>
    </tr>
    <tr>
-      <td> ![Legend](img/legend.png) </td>
+      <td colspan = "2">
+         Code Map for the `BodyParameter` class. Left: Write operations, Right: Read operations. Calls are shown with purple arrows. Field write operations are shown as solid blue arrow. The field read operations are shown as dashed blue arrows.*
+      </td>
    </tr>
-   <tr>
-      <td> Code Map for the `BodyParameter` class. Properties are shown with the spanner icon. Calls are shown with purple arrows. Left: Field write operations are shown as solid blue arrow. Right: The field read operations are shown as dashed blue arrows. </td>
-   </tr>
-</table>
-   
+</Table>
+
+Visual Studio (Enterprise) has a useful feature that allows you to visualise your objects as a "Code Map". The Code Map for the `BodyParameter` class is shown above.
 
 
 
