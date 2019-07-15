@@ -107,7 +107,7 @@ The weight and height are encapsulated in the `BodyParameter` class. This class 
 Creation of the `BodyParameter` class is shown in the next video:
 
 <p align="center">
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=NC4DJVDy7j8" target="_blank"><img src="http://img.youtube.com/vi/NC4DJVDy7j8/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=IEMC40W75dA" target="_blank"><img src="http://img.youtube.com/vi/IEMC40W75dA/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
 Visual Studio (Enterprise) has a useful feature that allows you to visualise your objects as a "Code Map". The Code Map for the `BodyParameter` class is shown below:
