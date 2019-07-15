@@ -81,6 +81,12 @@ A summary of the UI is shown below:
 
 Yes, a grid layout might be a better choice. However, we are learning about `StackLayout` so let's go with it. 
 
+### The Architecture
+The Model-View-Controller (MVC) 'pattern' is commonly used in native Android and iOS projects, so I've chosen to stick to something that resembles this simple paradigm. The Xamarin community do tend to prefer another known as MVVM, but let's hold back on that for now.
+
+
+
+
 ### Building the Model Code
 There are only two central data parameters, weight and height. However, both of these each have their own minimum and maximum values. They also have individual units and names which may be needed for display purposes. 
 
@@ -128,32 +134,51 @@ Visual Studio (Enterprise) has a useful feature that allows you to visualise you
    </tr>
 </Table>
 
+[The `BodyParameter` class code is shown here](/code/Chapter1/bmi_estimate/final/bmi_estimate/BodyParameter.cs). Before running ahead and embedded the `BodyParameter` class into the project, we first pause to create a **Unit Test** project, and to test our new class.
 
 #### Unit testing
 
-Before running away and getting excited, we pause to create a Unit Test project, and to test our new class.
+Setting up a unit test project in Visual Studio is mostly straightforward. Watch the following video:
 
 <p align="center">
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=NC4DJVDy7j8" target="_blank"><img src="http://img.youtube.com/vi/NC4DJVDy7j8/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
+Some check points to consider:
+
+- Add a new MSTest (C#) unit test project to your soluton
+- Make sure your class being tested is public
+- In the Unit Testing project, add a reference to the project containing the model code (Right click Dependencies->Add Reference)
+- Note the namespace of the unit testing project is probably different to the code under test. Use the `using <namespace>` where possible.
+
+Building the unit tests builds confidence in the code. All tests passing does not guarantee everything is perfect of course, and it's a fairly common experience that more tests may be added later as more obscure bugs are found, but every effort should be made to cover all eventualities. Don't be surprised if you write more test code than there is code being tested!
+
+> For hardware chip designers, it would be normal to spend more than 2/3 project development writing `testbenches`. Even hardware gets shipped with bugs
+
+[The unit tests used for demonstration are shown here](/code/Chapter1/bmi_estimate/final/ModelTest/UnitTest1.cs)
+
+Rather than encalsulate this in the controller code, I've instead chosen to add one more layer of abstraction.
+
 ### The `BmiModel` class
 
-The final `BmiModel` class is created
+The final `BmiModel` class is created. This encapsulates both a Height and Weight (both of type `BodyParameter`) and performs the calculation for the BMI value itself. It also presents an interface to mirror the UI (it exchanges string values between the model and UI code).
+
+Watch the following video to see the BmiModel class being created
 
 <p align="center">
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=eZar2Tr9N7A" target="_blank"><img src="http://img.youtube.com/vi/eZar2Tr9N7A/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
-https://youtu.be/eZar2Tr9N7A
-
-### UI Logic - hooking it all up
-
-[VIDEO HERE]
+To recap, the `BmiModel` class was created and unit tests were added. The Code Map is shown below.
 
  <img src="./img/DataModel.png" alt="BodyParameter code map">
  
- Note the type of `Weight` and `Height` are `BodyParameter`.
+Note the type of `Weight` and `Height` are `BodyParameter`. If we've written all the tests to cover as many eventualities as possible, and all tests pass, then it's time to write UI logic to synchronise the UI elements to the model. This will be done in a way that tries to be more familiar than ideal.
+
+### UI Logic - hooking it all up
+
+
+
  
 ## Final Code
 I've included a copy of the final code
