@@ -134,18 +134,18 @@ Visual Studio (Enterprise) has a useful feature that allows you to visualise you
 Before running away and getting excited, we pause to create a Unit Test project, and to test our new class.
 
 <p align="center">
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=eZar2Tr9N7A" target="_blank"><img src="http://img.youtube.com/vi/eZar2Tr9N7A/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=NC4DJVDy7j8" target="_blank"><img src="http://img.youtube.com/vi/NC4DJVDy7j8/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
-
 
 ### The `BmiModel` class
 
 The final `BmiModel` class is created
 
 <p align="center">
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=NC4DJVDy7j8" target="_blank"><img src="http://img.youtube.com/vi/NC4DJVDy7j8/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=eZar2Tr9N7A" target="_blank"><img src="http://img.youtube.com/vi/eZar2Tr9N7A/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
+https://youtu.be/eZar2Tr9N7A
 
 ### UI Logic - hooking it all up
 
