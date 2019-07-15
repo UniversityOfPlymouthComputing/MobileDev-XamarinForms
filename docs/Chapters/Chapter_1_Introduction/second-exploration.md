@@ -75,14 +75,47 @@ To know more about image resolution for different Android screen densities, [Tak
 ### Building the User Interface (UI)
 The user interface is built using one top-level vertical `StackLayout` and three horizontal child `StackLayout` elements.
 
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=BJ3V_U9dqGY" target="_blank"><img src="http://img.youtube.com/vi/BJ3V_U9dqGY/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
+
 A summary of the UI is shown below:
 
 ![User Interface](img/BMI-Est-Layout.png)
 
-Yes, a grid layout might be a better choice. However, we are learning about `StackLayout` so let's go with it. 
+For those in the know, yes, a grid layout might have been a better choice. However, we are learning about `StackLayout` so let's go with it. 
+
+Rather than watch we write the XAML, ![the XAML for this view is shown here](/code/Chapter1/bmi_estimate/final/bmi_estimate/MainPage.xaml)
+
+If you add this XAML to your own project then read through it carefully. Maybe try experimenting with Expand and Fill?
+
+- Which elements have a named reference?
+- What events are being used? Try typing them in yourself and getting Visual Studio to generate the code behind for you.
+
+#### Some points of interest. 
+Note the properties of the `Entry` types:
+
+```XAML
+      <Entry 
+          Placeholder="Height in Meters" 
+          HorizontalOptions="FillAndExpand"
+          HorizontalTextAlignment="End"
+          VerticalOptions="Center"
+          Keyboard="Numeric" 
+          TextChanged="Handle_HeightChanged"
+          />
+```
+
+The keyboard type is set to "Numeric". 
+
+- **Experiment** Try different keyboard types. If you can contrast Android and iOS. Note the software keyboard is native to each platform.
+
+The property `TextChanged` is an event handler. Look in the code below and locate the event handler 
+
+Before writing any further code behind this XAML, let's take a step back and consider the software architecture. 
 
 ### The Architecture
-The Model-View-Controller (MVC) 'pattern' is commonly used in native Android and iOS projects, so I've chosen to stick to something that resembles this simple paradigm. The Xamarin community do tend to prefer another known as MVVM, but let's hold back on that for now.
+The Model-View-Controller (MVC) 'pattern' is commonly used in native Android and iOS projects, so I've chosen to stick to something that resembles this simple paradigm. The Xamarin community do tend to prefer another known as MVVM, and for good reasons, but let's hold back on that for now.
 
 Consider the figure below:
 
@@ -172,516 +205,177 @@ Rather than encalsulate this in the controller code, I've instead chosen to add 
 
 ### The `BmiModel` class
 
-The final `BmiModel` class is created. This encapsulates both a Height and Weight (both of type `BodyParameter`) and performs the calculation for the BMI value itself. It also presents an interface to mirror the UI (it exchanges string values between the model and UI code).
+The final `BmiModel` class is created. This encapsulates both a height and weight (both of type `BodyParameter`) and performs the calculation for the BMI value itself. It also presents an interface to mirror the UI (it exchanges string values between the model and UI code).
 
-Watch the following video to see the BmiModel class being created
+Watch the following video to see the `BmiModel` class being created
 
 <p align="center">
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=eZar2Tr9N7A" target="_blank"><img src="http://img.youtube.com/vi/eZar2Tr9N7A/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
-To recap, the `BmiModel` class was created and unit tests were added. The Code Map is shown below.
+To recap, the `BmiModel` class was created and unit tests were added. 
+
+![The source code is here](/code/Chapter1/bmi_estimate/final/bmi_estimate/BmiModel.cs)
+
+![The beginnings of some unit tests are given here](/code/Chapter1/bmi_estimate/final/ModelTest/UnitTest1.cs)
+
+The Code Map is shown below.
 
  <img src="./img/DataModel.png" alt="BodyParameter code map">
  
-Note the type of `Weight` and `Height` are `BodyParameter`. If we've written all the tests to cover as many eventualities as possible, and all tests pass, then it's time to write UI logic to synchronise the UI elements to the model. This will be done in a way that tries to be more familiar than ideal.
+Note the properties `Weight` and `Height` are of type `BodyParameter`. If we've written all the tests to cover as many eventualities as possible, and all tests pass, then it's time to write UI logic to synchronise the UI elements to the model. This will be done in a way that tries to be more familiar than ideal.
 
 ### UI Logic - hooking it all up
+The controller in this case is the code behind the XAML, that is ![MainPage.xaml.cs](/code/Chapter1/bmi_estimate/final/bmi_estimate/MainPage.xaml.cs)
 
+Take a look at this code and you will notice the keyword `async` and `await` in different places. The reason is the following code:
 
+```C#
+     private async Task GiveFeedback(string MessageString)
+     {
+         ErrorLabel.Text = MessageString;
+         await ErrorLabel.FadeTo(1.0, 500);
+         await Task.Delay(2000);
+         await ErrorLabel.FadeTo(0.0, 500);
+     }
+```
 
+This code sets the text of a `Label`(while it is usually invisible), fades it's colour to black, waits for 2s, then fades back to white again. The _asynchronous_ waits (`await`) essentially resume control back to the UI code until the following task (run in the background) has completed.
+
+> any function that performs an `await` must itself be marked as asycnronous using `async`
+
+Let's now follow the sequence of events from a character being entered into a text box (type `Entry`) through to model updates and consequential UI updates:
+
+### Event Handler
+The two event handlers are shown below
+
+```C#
+  private async void Handle_HeightChanged(object sender, TextChangedEventArgs e)
+  {
+      await SyncViewAndModelAsync(EntrySource.Height, e.NewTextValue);
+  }
+  private async void Handle_WeightChanged(object sender, TextChangedEventArgs e)
+  {
+      await SyncViewAndModelAsync(EntrySource.Weight, e.NewTextValue);
+  }
+```
+
+Whenever a character is added or removed, one of these is event handlers are called. What calls it and when? Hidden away there is an event queue. As events are generated (typically by user input), so events are added to this queue. As as this queue is processed (each event in turn), so methods are called (sometimes known as dispatched). All this is done on the _main thread_. 
+
+> If you don't know what threads are, for now consider them functions running in parallel to the code we are writing. All UI code must/should be running on the _main thread_. Code that takes a long time to run (such as a delay, animation or large calculation) is generally not run on the main thread. Doing so would render the UI unresponsive and risk the app being kicked by the host operating system. Much more can be said about threads, just not yet!
+
+Let's trace what happens next. 
+
+- The asynchronous method `SyncViewAndModelAsync` is called. What it is asynchronous, we will soon discover. Two parameters are passed:
+   - The Entry Source (`EntrySource.Height` or `EntrySource.Weight`) to indicate which type of parameter is being updated
+   - The text from the `Entry` box that has changed
+
+Remember the MVC discussion above? Well, there is the controller part where we _synchronise the View and the Model_
+
+```C#
+private async Task SyncViewAndModelAsync(EntrySource src, string newValueAsString)
+{
+   bool success;
+   string ErrorString;
+
+   //Choose which parameter we are using
+   if (src == EntrySource.Height)
+   {
+       success = Model.SetHeightAsString(newValueAsString, out ErrorString);
+       HeightErrorLabel.IsVisible = !success;
+   }
+   else
+   {
+       success = Model.SetWeightAsString(newValueAsString, out ErrorString);
+       WeightErrorLabel.IsVisible = !success;
+   }
+
+   if (Model.BmiValue != null)
+   {
+       BmiLabel.IsVisible = true;
+       OutputLabel.IsVisible = true;
+       OutputLabel.Text = string.Format("{0:f1}", Model.BmiValue);
+   }
+   else
+   {
+       BmiLabel.IsVisible = false;
+       OutputLabel.IsVisible = false;
+   }
+
+   //Animate message to user
+   if (!success)
+   {
+       await GiveFeedback(ErrorString);
+   }
+
+}
+```
+
+Now how the parsing errors or out of range values are handled. For example:
+
+```C#
+   if (src == EntrySource.Height)
+   {
+       success = Model.SetHeightAsString(newValueAsString, out ErrorString);
+       HeightErrorLabel.IsVisible = !success;
+   }
+   else
+   {
+       success = Model.SetWeightAsString(newValueAsString, out ErrorString);
+       WeightErrorLabel.IsVisible = !success;
+   }
+```
+
+The little `*` symbols are displayed next to entry fields that don't valdiate. Remember that the model object contained the validation code (so we could test it).
+
+Now we attempt to display a BMI value, or blank it if not valid
+
+```C#
+   if (Model.BmiValue != null)
+   {
+       BmiLabel.IsVisible = true;
+       OutputLabel.IsVisible = true;
+       OutputLabel.Text = string.Format("{0:f1}", Model.BmiValue);
+   }
+   else
+   {
+       BmiLabel.IsVisible = false;
+       OutputLabel.IsVisible = false;
+   }
+```
+
+Now for the flashy bit! This displays the error message (the reason why the model code validation fails) using a label that appears briefly before fading out. Again, note the `await` used here.
+
+```C#
+   //Animate message to user
+   if (!success)
+   {
+       await GiveFeedback(ErrorString);
+   }
+```
+
+Finally, the `GiveFeedback` method used to perform the animated fades:
  
+```C#
+  private async Task GiveFeedback(string MessageString)
+  {
+      ErrorLabel.Text = MessageString;
+      await ErrorLabel.FadeTo(1.0, 500);
+      await Task.Delay(2000);
+      await ErrorLabel.FadeTo(0.0, 500);
+  }
+```
+
+This is the source of all that `async` / `await` trouble! Here is how it works in simple terms:
+
+- The label text property is set (on the main thread)
+- A background tasks is started to fade in the label. This will take 0.5 seconds (500ms), so execution is yielded to the UI event queue in case anything else is waiting. 
+- After 0.5s (or more), main execution in this method resumes. Another background task is started, this time to simply wait for 2s (2000ms). Again, execution is yielded until this is complete.
+- After 2s (or more), main thread execution once again resumes in this method. This time it is to fade the label out. Once this is done, execution will resume, the function with exit on the main thread as with any other method call.
+
+All the time this is going on, the UI remains responsive. Had these tasks not been asynchronous, the UI would have been locked up for at least 3 seconds, which is not a good user experience.
+
 ## Final Code
-I've included a copy of the final code
-
-### MainPage.xaml
-The complete XAML file is shown below
-
-```XAML
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Class="bmi_estimate.MainPage">
-
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label 
-            Text="BMI Estimate" 
-            HorizontalOptions="Center"
-            VerticalOptions="Start"
-            FontSize="Large"
-            Margin="0, 0, 0, 20"
-            />
-
-        <Image 
-            Source="heart"
-            HeightRequest="100"
-            Aspect="AspectFit"
-            HorizontalOptions="Center"
-            VerticalOptions="Start"
-            />
-
-        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Padding="40,0,40,0">
-            <Label
-                Text="Height (m)"
-                HorizontalOptions="Start"
-                VerticalOptions="Center" />
-
-            <Entry 
-                Placeholder="Height in Meters" 
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="End"
-                VerticalOptions="Center"
-                Keyboard="Numeric" 
-                TextChanged="Handle_HeightChanged"
-                />
-
-            <Label 
-                Text="*"
-                VerticalOptions="Center"
-                HorizontalOptions="End"
-                x:Name="HeightErrorLabel"
-                />
-        </StackLayout>
-
-        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Padding="40,0,40,0">
-            <Label
-                Text="Weight (Kg)"
-                HorizontalOptions="Start"
-                VerticalOptions="Center" />
-
-            <Entry 
-                Placeholder="Weight in Kg" 
-                HorizontalOptions="FillAndExpand"
-                HorizontalTextAlignment="End"
-                Keyboard="Numeric"
-                VerticalOptions="Center" 
-                TextChanged="Handle_WeightChanged"
-                />
-
-            <Label 
-                Text="*"
-                VerticalOptions="Center"
-                HorizontalOptions="End"
-                x:Name="WeightErrorLabel"
-                />
-
-        </StackLayout>
-
-        <Label 
-            Text="Please enter a numerical value"
-            HorizontalOptions="Center"
-            Margin="0,20,0,0"
-            x:Name="ErrorLabel"
-            />
-
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-            <Label 
-                VerticalOptions="Center"
-                Text="BMI:"
-                FontSize="Large"
-                x:Name="BmiLabel"
-            />
-            <Label 
-                VerticalOptions="Center"
-                Text="..."
-                FontSize="Large"
-                x:Name="OutputLabel"
-            />
-        </StackLayout>
-
-    </StackLayout>
-
-</ContentPage>
-
-```
-
-#### Some points of interest. 
-Note the properties of the `Entry` types:
-
-```XAML
-      <Entry 
-          Placeholder="Height in Meters" 
-          HorizontalOptions="FillAndExpand"
-          HorizontalTextAlignment="End"
-          VerticalOptions="Center"
-          Keyboard="Numeric" 
-          TextChanged="Handle_HeightChanged"
-          />
-```
-
-The keyboard type is set to "Numeric". 
-
-- **Experiment** Try different keyboard types. If you can contrast Android and iOS. Note the software keyboard is native to each platform.
-
-The property `TextChanged` is an event handler. Look in the code below and locate the event handler 
-
-### MainPage.xaml.cs
-The complete "code behind" is shown below. 
-
-```C#
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-
-/// <summary>
-// BMI Estimation demo
-/// </summary>
-namespace bmi_estimate
-{
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
-    [DesignTimeVisible(false)]
-    public partial class MainPage : ContentPage
-    {
-        enum EntrySource
-        {
-            Weight,
-            Height
-        }
-
-        private BmiModel Model = new BmiModel();
-
-        public MainPage()
-        {
-            InitializeComponent();
-            BmiLabel.IsVisible = false;
-            OutputLabel.IsVisible = false;
-        }
-
-        private async Task SyncViewAndModelAsync(EntrySource src, string newValueAsString)
-        {
-            bool success;
-            string ErrorString;
-
-            //Choose which parameter we are using
-            if (src == EntrySource.Height)
-            {
-                success = Model.SetHeightAsString(newValueAsString, out ErrorString);
-                HeightErrorLabel.IsVisible = !success;
-            }
-            else
-            {
-                success = Model.SetWeightAsString(newValueAsString, out ErrorString);
-                WeightErrorLabel.IsVisible = !success;
-            }
-
-            if (Model.BmiValue != null)
-            {
-                BmiLabel.IsVisible = true;
-                OutputLabel.IsVisible = true;
-                OutputLabel.Text = string.Format("{0:f1}", Model.BmiValue);
-            }
-            else
-            {
-                BmiLabel.IsVisible = false;
-                OutputLabel.IsVisible = false;
-            }
-
-            //Animate message to user
-            if (!success)
-            {
-                await GiveFeedback(ErrorString);
-            }
-
-        }
-
-        private async Task GiveFeedback(string MessageString)
-        {
-            ErrorLabel.Text = MessageString;
-            await ErrorLabel.FadeTo(1.0, 500);
-            await Task.Delay(2000);
-            await ErrorLabel.FadeTo(0.0, 500);
-        }
-
-        private async void Handle_HeightChanged(object sender, TextChangedEventArgs e)
-        {
-            await SyncViewAndModelAsync(EntrySource.Height, e.NewTextValue);
-        }
-        private async void Handle_WeightChanged(object sender, TextChangedEventArgs e)
-        {
-            await SyncViewAndModelAsync(EntrySource.Weight, e.NewTextValue);
-        }
-
-    }
-}
-```
-
-### BodyParameter Class
-
-```C#
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace bmi_estimate
-{
-    public class BodyParameter
-    {
-        private double? _value;
-        private double _min;
-        private double _max;
-        private string _nameString;
-        private string _unitString;
-        public BodyParameter(double min, double max, string ParameterName, string Units)
-        {
-            _min = min;
-            _max = max;
-            _nameString = ParameterName;
-            _unitString = Units;
-        }
-
-        public double? Value {
-
-            get
-            {
-                return _value;
-            }
-                
-            set
-            {
-                if ((value >= _min) && (value <= _max))
-                {
-                    _value = value;
-                } else
-                {
-                    _value = null;
-                }
-            }
-        }
-
-        public static implicit operator double?(BodyParameter d)
-        {
-            return d.Value;
-        }
-
-        public bool SetValueFromString(string StringValue, out string ErrorString)
-        {
-            if (double.TryParse(StringValue, out double NewValue))
-            {
-                Value = NewValue;
-                if (Value == null)
-                {
-                    ErrorString = string.Format(_nameString + " must be between {0:f1} and {1:f1}", _min, _max) + _unitString;
-                    return false;
-                }
-                else
-                {
-                    ErrorString = "";
-                    return true;
-                }
-            }
-            else
-            {
-                _value = null;
-                ErrorString = "Please enter a numerical value";
-                return false;
-            }
-        }
-    }
-}
-```
-
-#### Unit Testing BodyParameter 
-
-```C#
-    [TestClass]
-    public class BodyParameterTests
-    {
-        [TestMethod]
-        public void TestLowerEdge()
-        {
-            var p1 = new BodyParameter(min: 20.0, max: 200.0, "Weight", "Kg");
-
-            string errStr;
-            bool res1 = p1.SetValueFromString("20.0", out errStr);
-
-            Assert.IsTrue(res1, "SetValueFromString failed lower edge case");
-            Assert.IsTrue(p1 == 20.0, "SetValueFromString had wrong value for lower edge case");
-            Assert.IsTrue(errStr.Equals(""), "Error string incorrect for lower edge");
-        }
-
-        [TestMethod]
-        public void TestUpperEdge()
-        {
-            var p1 = new BodyParameter(min: 20.0, max: 200.0, "Weight", "Kg");
-
-            string errStr;
-            bool res1 = p1.SetValueFromString("200.0", out errStr);
-
-            Assert.IsTrue(res1, "SetValueFromString failed upper edge case");
-            Assert.IsTrue(p1 == 200.0, "SetValueFromString had wrong value for lower edge case");
-            Assert.IsTrue(errStr.Equals(""), "Error string incorrect for upper edge");
-
-        }
-
-        [TestMethod]
-        public void TestBelowLowerEdge()
-        {
-            var p1 = new BodyParameter(min: 20.0, max: 200.0, "Weight", "Kg");
-
-            string errStr;
-            bool res1 = p1.SetValueFromString("19.99", out errStr);
-            double? v = p1;
-            Assert.IsNull(v, "Out of range value did not return null");
-            Assert.IsFalse(res1, "SetValueFromString failed for value below lower edge");
-            Assert.IsTrue(errStr.Equals("Weight must be between 20.0 and 200.0Kg"), "Error string incorrect for below lower edge");
-
-        }
-        [TestMethod]
-        public void TestAboveUpperEdge()
-        {
-            var p1 = new BodyParameter(min: 20.0, max: 200.0, "Weight", "Kg");
-
-            string errStr;
-            bool res1 = p1.SetValueFromString("200.001", out errStr);
-            double? v = p1;
-            Assert.IsNull(v, "Out of range value did not return null");
-            Assert.IsFalse(res1, "SetValueFromString failed for value above upper edge");
-            Assert.IsTrue(errStr.Equals("Weight must be between 20.0 and 200.0Kg"), "Error string incorrect for above upper edge");
-
-        }
-        [TestMethod]
-        public void TestNullString()
-        {
-            var p1 = new BodyParameter(min: 20.0, max: 200.0, "Weight", "Kg");
-            string errStr;
-            bool res1 = p1.SetValueFromString("", out errStr);
-            double? v = p1;
-            Assert.IsNull(v, "Empty string value did not return null");
-            Assert.IsFalse(res1, "Failed to detect empty string");
-            Assert.IsTrue(errStr.Equals("Please enter a numerical value"), "Error string \"" + errStr + "\" is incorrect for null string:");
-        }
-
-        [TestMethod]
-        public void TestInvalidString()
-        {
-            var p1 = new BodyParameter(min: 20.0, max: 200.0, "Weight", "Kg");
-            string errStr;
-            bool res1 = p1.SetValueFromString("12a", out errStr);
-            double? v = p1;
-            Assert.IsNull(v, "Invalid string did not return null");
-            Assert.IsFalse(res1, "Failed to detect invalid string");
-            Assert.IsTrue(errStr.Equals("Please enter a numerical value"), "Error string incorrect for invalid string input");
-        }
-    }
-```
-
-
-### The BmiModel Class
-
-
-```C#
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace bmi_estimate
-{
-    public class BmiModel
-    {
-        private BodyParameter Weight = new BodyParameter(min: 20.0, max: 200.0, "Weight", "Kg");
-        private BodyParameter Height = new BodyParameter(min: 0.5, max: 3.0, "Height", "m");
-
-        public double? BmiValue
-        {
-            get
-            {
-                if ((Weight != null) && (Height != null))
-                {
-                    return Weight / (Height * Height);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        public static implicit operator double?(BmiModel m)
-        {
-            return m.BmiValue;
-        }
-
-        public bool SetWeightAsString(string strWeight, out string ErrorString)
-        {
-            return Weight.SetValueFromString(strWeight, out ErrorString);
-        }
-        public bool SetHeightAsString(string strHeight, out string ErrorString)
-        {
-            return Height.SetValueFromString(strHeight, out ErrorString);
-        }
-
-    }
-}
-
-```
-
-
-#### Unit Testing BmiModel 
-
-```C#
-   [TestClass]
-    public class Modeltests
-    {
-        [TestMethod]
-        public void TestBuildUp()
-        {
-            var m = new BmiModel();
-            string errString;
-
-            bool valid1 = m.SetHeightAsString("2.0", out errString);
-            Assert.IsTrue(valid1);
-            double? v = m;
-            Assert.IsTrue(v == null, "BMIs should be null at this point");
-            Assert.IsTrue(errString.Equals(""));
-
-            bool valid2 = m.SetWeightAsString("100.0", out errString);
-            Assert.IsTrue(valid2);
-            Assert.IsTrue(m == 25.0, "BMI should be 25");
-            Assert.IsTrue(errString.Equals(""));
-
-        }
-
-        [TestMethod]
-        public void TestInvalidate()
-        {
-            var m = new BmiModel();
-            string errString;
-
-            m.SetHeightAsString("2.0", out errString);
-            m.SetWeightAsString("100.0", out errString);
-            bool valid = m.SetHeightAsString("0.1", out errString);
-            Assert.IsFalse(valid);
-            double? v = m;
-            Assert.IsTrue(v == null, "BMIs should be null at this point");
-            Assert.IsTrue(errString.Equals("Height must be between 0.5 and 3.0m"));
-        }
-
-
-        [TestMethod]
-        public void TestInvalidString()
-        {
-            var m = new BmiModel();
-            string errString;
-
-            m.SetHeightAsString("2.0", out errString);
-            m.SetWeightAsString("100.0", out errString);
-            bool valid = m.SetHeightAsString("0.5a", out errString);
-            Assert.IsFalse(valid);
-            double? v = m;
-            Assert.IsTrue(v == null, "BMIs should be null at this point");
-            Assert.IsTrue(errString.Equals("Please enter a numerical value"));
-        }
-    }
-
-```
+[All the code for this project is found in the final folder here](https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/tree/master/code/Chapter1/bmi_estimate/final)
 
 ## Summary and Reflection
