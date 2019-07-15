@@ -88,6 +88,8 @@ Consider the figure below:
 
 ![MVC Architecture](img/mvc_bmi_est.png)
 
+Let's look at each aspect of MVC in turn.
+
 - **Model** The Model is pure C#.NET code. It encalsulates the data and all the operations performed on it. It also exposes an API to update and read back the values.
 - **View** The View is written in XAML, and only contains View objects, including objects of type `Label`, `Image` and `Entry`.
 - **Controller** The controller glues the Model and View together. It handles events generates by the view objects and updates the Model. It also updates view objects with newly calculated values and UI state changes (such as hiding/showing). If the Model class made spontaneous changes (e.g. via a network), then these changes would be observed and updates to the view would be made, although our example here does not do this.
