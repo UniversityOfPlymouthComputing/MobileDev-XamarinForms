@@ -121,9 +121,12 @@ One criteria for all the above is that there shall be no reference / dependency 
 
 Visual Studio (Enterprise) has a useful feature that allows you to visualise your objects as a "Code Map". The Code Map for the `BodyParameter` class is shown above.
 
-The complete data model is shown below:
+The top level data model is shown below:
 
  <img src="./img/DataModel.png" alt="BodyParameter code map">
+ 
+ Note the type of `Weight` and `Height` are `BodyParameter`.
+ 
 
 ### Unit Tests
 
