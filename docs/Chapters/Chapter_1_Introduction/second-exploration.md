@@ -105,7 +105,9 @@ One criteria for all the above is that there shall be no reference / dependency 
 
 <table>
    <tr>
-      <td> ![The 'BodyParameter' class](img/BodyParameter.png) </td>
+      <td>
+         ![The 'BodyParameter' class](img/BodyParameter.png) 
+      </td>
    </tr>
    <tr>
       <td> ![Legend](img/legend.png) </td>
