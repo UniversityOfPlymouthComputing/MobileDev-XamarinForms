@@ -104,7 +104,7 @@ One criteria for all the above is that there shall be no reference / dependency 
 [VIDEO HERE - Building the Model Classes]
 
 ![The 'BodyParameter' class](img/BodyParameter.png)
-Left. The 
+Code Map for the `BodyParameter` class. Properties are shown with the spanner icon. Calls are shown with purple arrows. Left: Field write operations are shown as solid blue arrow. Right: The field read operations are shown as dashed blue arrows. 
 
 ### Unit Tests
 
