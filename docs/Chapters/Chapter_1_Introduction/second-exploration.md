@@ -84,8 +84,17 @@ Yes, a grid layout might be a better choice. However, we are learning about `Sta
 ### The Architecture
 The Model-View-Controller (MVC) 'pattern' is commonly used in native Android and iOS projects, so I've chosen to stick to something that resembles this simple paradigm. The Xamarin community do tend to prefer another known as MVVM, but let's hold back on that for now.
 
+Consider the figure below:
 
+![MVC Architecture](img/mvc_bmi_est.png)
 
+- **Model** The Model is pure C#.NET code. It encalsulates the data and all the operations performed on it. It also exposes an API to update and read back the values.
+- **View** The View is written in XAML, and only contains View objects, including objects of type `Label`, `Image` and `Entry`.
+- **Controller** The controller glues the Model and View together. It handles events generates by the view objects and updates the Model. It also updates view objects with newly calculated values and UI state changes (such as hiding/showing). If the Model class made spontaneous changes (e.g. via a network), then these changes would be observed and updates to the view would be made, although our example here does not do this.
+
+> A key with this version of MVC is that the Model and View are not directly connected. The controller is has strong references to the model object(s) and the view objects. We say they are tightly coupled. In fact, it's often the case that the controller instantiates both model and view objects. A look under the hood as this will be apparent. 
+
+A downside with the MVC architecture is that the controller can quickly bloat and become overly complex. Furthermore, _they are also hard to test_ especially because they are so tightly coupled to the UI (and it's hard to simulate UI based events). 
 
 ### Building the Model Code
 There are only two central data parameters, weight and height. However, both of these each have their own minimum and maximum values. They also have individual units and names which may be needed for display purposes. 
