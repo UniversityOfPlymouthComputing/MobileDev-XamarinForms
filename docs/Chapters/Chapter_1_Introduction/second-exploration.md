@@ -103,6 +103,9 @@ One criteria for all the above is that there shall be no reference / dependency 
 
 [VIDEO HERE - Building the Model Classes]
 
+![The 'BodyParameter' class](img/BodyParameter.png)
+Left. The 
+
 ### Unit Tests
 
 [VIDEO HERE - Creating a unit test project]
