@@ -36,7 +36,7 @@
                 HorizontalTextAlignment="End"
                 VerticalOptions="Center"
                 Keyboard="Numeric" 
-                TextChanged="Handle_HeightChanged"
+                TextChanged="Handle_HeightAsync"
                 />
 
             <Label 
@@ -59,7 +59,7 @@
                 HorizontalTextAlignment="End"
                 Keyboard="Numeric"
                 VerticalOptions="Center" 
-                TextChanged="Handle_WeightChanged"
+                TextChanged="Handle_WeightAsync"
                 />
 
             <Label 

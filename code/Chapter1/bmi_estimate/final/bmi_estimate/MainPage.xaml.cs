@@ -29,22 +29,22 @@ namespace bmi_estimate
             InitializeComponent();
             BmiLabel.IsVisible = false;
             OutputLabel.IsVisible = false;
+            ErrorLabel.Opacity = 0.0;
         }
 
-        private async Task SyncViewAndModelAsync(EntrySource src, string newValueAsString)
+        private async Task SyncViewAndModelAsync(EntrySource src, string NewValueAsString)
         {
             bool success;
             string ErrorString;
 
-            //Choose which parameter we are using
             if (src == EntrySource.Height)
             {
-                success = Model.SetHeightAsString(newValueAsString, out ErrorString);
+                success = Model.SetHeightAsString(NewValueAsString, out ErrorString);
                 HeightErrorLabel.IsVisible = !success;
             }
             else
             {
-                success = Model.SetWeightAsString(newValueAsString, out ErrorString);
+                success = Model.SetWeightAsString(NewValueAsString, out ErrorString);
                 WeightErrorLabel.IsVisible = !success;
             }
 
@@ -60,15 +60,13 @@ namespace bmi_estimate
                 OutputLabel.IsVisible = false;
             }
 
-            //Animate message to user
             if (!success)
             {
-                await GiveFeedback(ErrorString);
+                await GiveFeedbackAsync(ErrorString);
             }
-
         }
 
-        private async Task GiveFeedback(string MessageString)
+        private async Task GiveFeedbackAsync(string MessageString)
         {
             ErrorLabel.Text = MessageString;
             await ErrorLabel.FadeTo(1.0, 500);
@@ -76,14 +74,14 @@ namespace bmi_estimate
             await ErrorLabel.FadeTo(0.0, 500);
         }
 
-        private async void Handle_HeightChanged(object sender, TextChangedEventArgs e)
+        private async void Handle_HeightAsync(object sender, TextChangedEventArgs e)
         {
             await SyncViewAndModelAsync(EntrySource.Height, e.NewTextValue);
         }
-        private async void Handle_WeightChanged(object sender, TextChangedEventArgs e)
+
+        private async void Handle_WeightAsync(object sender, TextChangedEventArgs e)
         {
             await SyncViewAndModelAsync(EntrySource.Weight, e.NewTextValue);
         }
-
     }
 }
