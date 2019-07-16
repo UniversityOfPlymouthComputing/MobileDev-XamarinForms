@@ -400,3 +400,22 @@ All the time this is going on, the UI remains responsive. Had these tasks not be
 [All the code for this project is found in the final folder here](https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/tree/master/code/Chapter1/bmi_estimate/final)
 
 ## Summary and Reflection
+This section was based around a simple single page application, the BMI estimate. The architecture was based on a variant of "Model View Controller" (MVC).
+
+- Model Code contained data, methods to perform calculations on the data and type conversions. It contained no UI code, and had to knowledge of either the controller or view
+- View code was written in XAML. Nested StackView objects were used for layout. A particular emphasis was made on understand the meaning of the terms start, center, end, fill and expand and their combinations.
+- Controller code was the code-behind the XAML. This has the task of synchronising UI and Model objects. The Controller instantiated the model and held references to the view objects. It also has the task of managing the UI State, including the showing and hiding of different labels depending on what data was entered.
+
+Unit tests were introduced early as a best-practise. The Model code proved to be highly testable. The Controller was not unit tested however. The reason is that it would be more challenging.
+
+Central to the controller code was `SyncViewAndModelAsync`. [The source can be seen here](/code/Chapter1/bmi_estimate/final/bmi_estimate/MainPage.xaml.cs).
+
+- Much of the logic in this method is concerned with managing UI State.
+- If unit tests were written for this method, consider the following question: _How would the results would be checked?_
+
+The problem with testing this method is that it depends on the view objects (UI) as well. A unit test application would have to somehow instantiate the view. Despite efforts to factor out code, it is still not obvious how this would be achieved. This is where MVVM comes in and is a topic that will be introduced in subsequent chapters.
+
+
+
+
+Nested `StackView` were used to lay out a simple UI. The meaning of fill and expand are imporant in this context. 
