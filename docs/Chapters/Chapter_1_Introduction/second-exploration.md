@@ -415,9 +415,12 @@ Central to the controller code was `SyncViewAndModelAsync`. [The source can be s
 - Much of the logic in this method is concerned with managing UI State.
 - If unit tests were written for this method, consider the following question: _How would the results would be checked?_
 
-The problem with testing this method is that it depends on the view objects (UI) as well. A unit test application would have to somehow instantiate the view. Despite efforts to factor out code, it is still not obvious how this would be achieved. This is where MVVM comes in and is a topic that will be introduced in subsequent chapters.
+The problem with testing this method is that it depends on the view objects (UI) as well. A unit test application would have to somehow instantiate the view objects as well. Despite efforts to factor out code, it is still not obvious how this would be achieved seamlessly. This is where MVVM comes in and is a topic that will be introduced in subsequent chapters.
 
+We tentatively met `async` and `await`. These C# language features were put to good effect to make sequencing of animations and delays super easy. Asynchronous programming was also contrasted with multithreaded programming. Asynchronous code is not necessarily multithreaded.
 
+Next, we will discuss some more layout options and some basic navigation.
 
-
-Nested `StackView` were used to lay out a simple UI. The meaning of fill and expand are imporant in this context. 
+# Challenge
+- Add a switch to the BMI Estimate UI to choose between male and female.
+- Add code to the BMI Estimate project so that the BMI value is colour coded to indicate which band the calculated value lies in. Note that it is different for males and females. Try to make as much code testable as possible.
