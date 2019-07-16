@@ -230,11 +230,22 @@ Note the properties `Weight` and `Height` are of type `BodyParameter`. If we've 
 ### UI Logic - hooking it all up
 The controller in this case is the code behind the XAML, that is [MainPage.xaml.cs](/code/Chapter1/bmi_estimate/final/bmi_estimate/MainPage.xaml.cs)
 
-[TO DO]
+Watch the following video to see the creation of the controller.
 
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=U10QCMcdkA8" target="_blank"><img src="http://img.youtube.com/vi/U10QCMcdkA8/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
 
 ### Adding some Animation
-As a final step, let's add a little UI eye-candy. Take a look at this code and you will notice the keyword `async` and `await` in different places. The reason is the following code:
+As a final step, let's add a little UI eye-candy. Watch the following video to add an animated effect to the error label.
+
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=o3oHiLsMsHA" target="_blank"><img src="http://img.youtube.com/vi/o3oHiLsMsHA/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
+
+> **Task** In the initialisation code, set the initial opacity of the error label to 0.0.
+
+Take a look at this code and you will notice the keyword `async` and `await` in different places. The reason is the following code:
 
 ```C#
      private async Task GiveFeedback(string MessageString)
@@ -266,13 +277,15 @@ The two event handlers are shown below. Note the addition of the `async` keyword
   }
 ```
 
-Whenever a character is added or removed, one of these is event handlers are called. What calls it and when? Hidden away there is an event queue. As events are generated (typically by user input), so events are added to this queue. As as this queue is processed (each event in turn), so methods are called (sometimes known as dispatched). All this is done on the _main thread_. 
+Whenever a character is added or removed, one of these is event handlers are called. What calls it and when? Hidden away there is an _event queue_. As events are generated (typically by user input, but could be a timer or a network response), so events are added to the queue. As as this queue is processed (each event in turn), so methods are called _in sequence_. All this is done on the _main thread_. The trick is to keep each task short to give the UI a smooth and responsive feel.
 
-> If you don't know what threads are, for now consider them functions running in parallel to the code we are writing. All UI code must/should be running on the _main thread_. Code that takes a long time to run (such as a delay, animation or large calculation) is generally not run on the main thread. Doing so would render the UI unresponsive and risk the app being kicked by the host operating system. Much more can be said about threads, just not yet!
+> If you don't know what threads are, for now consider them functions running in parallel to the code we have been writing so far. All UI code must/should be running on the _main thread_. If you run some code that takes a significant time to complete (such as a delay, animation or write to disk), it is not acceptable to block up the main thread while waiting for it to complete. Doing so would render the UI unresponsive and risk the app being kicked by the host operating system. You need to find another way - this is the beauty of `async`/`await`. It allows you to interrupt / resume a method to break it into short bursts and for other tasks to run while it's waiting. 
 
-Let's trace what happens next. 
+> Do not confuse `await` with running _code_ on another thread. `await` will simply yield execution from whereever it is called (mid-method) and allow the next task in the main thread queue to be performed (or sleep if there is nothing else to do). You typically `await` on some hardware device, such as a file write (disk controller), network transaction (network interface), delay (Hardware Timer) or animation (GPU possibly). Once the device has performs the operation, this will notify the operating system and in turn, this will generate a new event on the main thread queue. When this event is processed, the _awaiting_ method resumes where it left off (mid method, how clever!). Now, notice I mentioned device here. You wait on another (non CPU) device to complete a task. In effect, this is parallel processing through hardware (the only true type!) - what you cannot do is `await` on a CPU intensive calculation unless it spins out another thread. From the caller's perspective, it's all happening on the main thread.
 
-- The asynchronous method `SyncViewAndModelAsync` is called. What it is asynchronous, we will soon discover. Two parameters are passed:
+Ok, let's trace what happens next. 
+
+- The asynchronous method `SyncViewAndModelAsync` is called. Two parameters are passed:
    - The Entry Source (`EntrySource.Height` or `EntrySource.Weight`) to indicate which type of parameter is being updated
    - The text from the `Entry` box that has changed
 
@@ -360,7 +373,7 @@ Now for the flashy bit! This displays the error message (the reason why the mode
    }
 ```
 
-Finally, the `GiveFeedback` method used to perform the animated fades:
+Finally, the asynchronous `GiveFeedback` method used to perform the animated fades:
  
 ```C#
   private async Task GiveFeedback(string MessageString)
@@ -375,11 +388,13 @@ Finally, the `GiveFeedback` method used to perform the animated fades:
 This is the source of all that `async` / `await` trouble! Here is how it works in simple terms:
 
 - The label text property is set (on the main thread)
-- A background tasks is started to fade in the label. This will take 0.5 seconds (500ms), so execution is yielded to the UI event queue in case anything else is waiting. 
-- After 0.5s (or more), main execution in this method resumes. Another background task is started, this time to simply wait for 2s (2000ms). Again, execution is yielded until this is complete.
-- After 2s (or more), main thread execution once again resumes in this method. This time it is to fade the label out. Once this is done, execution will resume, the function with exit on the main thread as with any other method call.
+- A background tasks is started to fade in the label. This will take 0.5 seconds (500ms), so execution is yielded to the UI event queue in case anything else is waiting. An animation is running in the background (we don't need to know the mechanism, it could be the GPU, or a parallel thread etc..). 
+- After 0.5s, the animation will complete and will generate an event, which once processed, resumes the `GiveFeedback` method. Another asynchronous task is started, this time to simply wait for 2s (2000ms). Again, execution is yielded until this is complete. A timer is now running in the background (again, could be hardware based).
+- After 2s, the timer generates an event and once processed,  execution once again resumes. This time it is to fade the label out. Once this is done, execution will resume, the function with exit. All the above is performed on the main thread. How the asynchronous tasks operate in parallel is hidden from us.
 
 All the time this is going on, the UI remains responsive. Had these tasks not been asynchronous, the UI would have been locked up for at least 3 seconds, which is not a good user experience.
+
+> Not having to write multi-threaded code is a good thing as it is infamously difficult to debug and test. One might even go as far as to say it is dangerous.
 
 ## Final Code
 [All the code for this project is found in the final folder here](https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/tree/master/code/Chapter1/bmi_estimate/final)
