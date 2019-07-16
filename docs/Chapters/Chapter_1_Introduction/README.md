@@ -10,7 +10,6 @@ By the end of this chapter you should be able to:
 - Create shared data with static class members
 - Create a static class
 - Explain the meaning and purpose of a namespace
-- Create and invoke an event in C#
 
 ### Xamarin.Forms
 
@@ -18,7 +17,7 @@ By the end of this chapter you should be able to:
 - Know how to install and configure the required development tools
 - Create a simple single-page app for both Android and iOS
 - Create a reference to an element on a page
-- Create an event in Code and XAML
+- Create an event handler in Code for an UI component specified in XAML
 
 ### XAML
 - Compare and contrast an XML elelement and attribute
@@ -33,7 +32,7 @@ By the end of this chapter you should be able to:
 1. [Some essential concepts in C#](essential-csharp-1.md)
    1. Hello World Revisited
    1. Create and Instantiating a class
-   1. Properties
+   1. Properties - instance and static
    1. Partial Classes
    1. Inheritance and constructors
    1. Polymorphism and the big-bad-mouse
@@ -45,14 +44,11 @@ By the end of this chapter you should be able to:
 1. [More essential concepts in C#](essential-csharp-2.md)
    1. Optional Properties
    1. Computed Properties
-   1. Static Properties
-   1. Abstract Classes
-   1. Interfaces - first look
-   1. Polymorphism - again
+   1. Enumerated Types
+   1. async and await
 1. [A second exploration into Xamarin.Forms](second-exploration.md)
    1. The BMI Estimator
    1. Unit Testing - begin as we mean to carry on!
-   1. Unpicking what just happened
    1. Summary and Reflection  
 1. Self-Study Tasks
 1. References
