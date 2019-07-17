@@ -162,6 +162,19 @@ Both `v1` and `v2` _only exist within the Main function_. The variables themselv
 
 > `v1` and `v2` are local variables, so only exist within the context of the `Main` function
 
+So for the following code:
+```C#
+            RoadVehicle v1 = new RoadVehicle();
+            v1.EngineSerialNumber = 12345;
+
+            RoadVehicle v2 = new RoadVehicle();
+            v2.EngineSerialNumber = 2468;
+```
+
+We can visualise this as follows:
+
+![v1 and v2 are locals](img/local_reference_to_heap.png)
+
 Once execution leaves `Main`, all stack-based objects are automatically deleted,  including `v1` and `v2`. So what happens to the two instances of `RoadVehicle` stored in the heap memory?
 
 > Any object dynamically allocated on the heap with `new` will _persist as long as there is at least one reference to it_. If that reference is removed, the heap object will be automatically deallocated, thus freeing up the memory for other purposes. This process is automated by the .NET [_garbage collector_](https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals)
