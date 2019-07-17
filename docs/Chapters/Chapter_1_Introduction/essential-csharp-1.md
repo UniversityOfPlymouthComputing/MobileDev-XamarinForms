@@ -553,25 +553,145 @@ Run the code again and you should see additional information because it is a `Ca
 
 > The final code can be found in [the inheritence folder](/code/Chapter1/essential-c-sharp-part1/inheritance/HelloWorld)
 
-## Polymorphism and virtual
-Polymorphism is a big word which can result in new developers running for the hill, where in fact it's realtively simple. Consider the example so far:
+## Polymorphism and virtual methods
+Polymorphism is a big word which can result in new developers running for the hills in fear, when in fact it's realtively simple. Consider the example so far:
 
-First let's add a new type, that is MotorBike. 
+First let's add a new type, that is `Motorbike`. 
 
-- MotorBikes don't have towbars
-- Some MotorBikes have sidecars
+- Motorbikes don't have towbars (although I'd like to see someone try)
+- Some Motorbikes can have sidecars
 
 With this in mind:
 
-- Add a new class `MotorBike` to `MotorBike.cs`
+- Add a new class `Motorbike` to `Motorbike.cs`
 - Paste in the code below
 
+```C#
+using System;
+using System.Collections.Generic;
+using System.Text;
 
+namespace DepartmentOfTransport
+{
+    class Motorbike : RoadVehicle
+    {
+        public bool HasSideCar { get; set; } = false;
 
-- A RoadVehicle is general, and not of any particular vehicle type. It has the common properties shared among more specific types, such as Cars and Motorbikes.
-- A Car is 
+        public Motorbike(int EngineSerialNumber, int NumberOfWheels = 2, int CarriageCapacity = 2, bool HasSideCarFitted = false) : base(EngineSerialNumber, NumberOfWheels:2, CarriageCapacity)
+        {
+            HasSideCar = HasSideCarFitted;
+            Console.WriteLine("Motorbike Constructor: type " + this.GetType().ToString());
+        }
 
+        public override string Description
+        {
+            get
+            {
+                return base.Description + ": Is of type Motorbike" + (HasSideCar ? " with sidecar attached" : ".");
+            }
+        }
+    }
+}
+```
 
+In `Main`, we can test this out by adding the following code:
 
+```C#
+    Motorbike bike = new Motorbike(EngineSerialNumber: 333444);
+    bike.HasSideCar = true;
+    Console.WriteLine(bike.Description);
+```
 
-## Static Classes
+Let's think about the logic behind the class relationships:
+
+- A `RoadVehicle` is general, and not of any particular vehicle type. It has the common properties shared among more specific types, such as Cars and Motorbikes.
+- A Car is a type of `RoadVehicle`
+- A `Motorbike` is also a type of `RoadVehicle`
+
+Now consider a driver, who commutes to work every day. That driver has a primary mode of transport. For illustrative purposes, we can going to provide two concrete options: `Car` or `Motorbike`. However, each person is different. Let's now create the Driver class:
+
+```C#
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DepartmentOfTransport
+{
+
+    class Driver
+    {
+        public string Name { get; set; }
+        public RoadVehicle PrimaryModeOfTransport { get; set; }
+
+        Driver(string Name, RoadVehicle PrimaryModeOfTransport = null)
+        {
+            this.Name = Name;
+            if (PrimaryModeOfTransport != null)
+            {
+                this.PrimaryModeOfTransport = PrimaryModeOfTransport;
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                if (PrimaryModeOfTransport == null)
+                {
+                    return Name + ", has no primary vehicle";
+                }
+                else
+                {
+                    return Name + ": Primary mode of transport is " + PrimaryModeOfTransport.Description;
+                }
+            }
+        }
+    }
+}
+```
+
+Note that `PrimaryModeOfTransport` is of type `RoadVehicle`. We don't yet know what actual type each driver will use, so the common base class `RoadVehicle` is used as the type. To see this in action, let's clean up Main to keep things easier to read
+
+```C#
+        static void Main(string[] args)
+        {
+            Driver commuter1 = new Driver(Name: "Regular Dave", new Car(EngineSerialNumber:12345,HasTowBarFitted:true));
+            Driver commuter2 = new Driver(Name: "Risky Dave", new Motorbike(EngineSerialNumber:333555));
+            Driver commuter3 = new Driver(Name: "Green Dave", null);
+
+            Console.WriteLine(commuter1.Description);
+            Console.WriteLine(commuter2.Description);
+            Console.WriteLine(commuter3.Description);
+        }
+```        
+
+Note that concrete instances of `Car` and `Motorbike` are passed into the second parameter of commuter1 and commuter2 respectively. 
+Run the code. Look closely at the output
+
+```
+RoadVehicle Constructor
+Car Constructor: type DepartmentOfTransport.Car
+RoadVehicle Constructor
+Motorbike Constructor: type DepartmentOfTransport.Motorbike
+Regular Dave: Primary mode of transport is Road Vehicle. Wheels: 4, Capacity: 5 people: Is of type Car with towbar attached
+Risky Dave: Primary mode of transport is Road Vehicle. Wheels: 2, Capacity: 2 people: Is of type Motorbike.
+Green Dave, has no primary vehicle
+```
+
+Note the console output for the first two, where we observe the _the correct description of the vehicle is displayed_ (for `Car` and `Motorbike` respectively).
+Lookimg back at the source for `Driver`, let's remind ourselves of the following key points:
+
+- `PrimaryModeOfTransport` is of type `RoadVehicle`
+- Despite this, `PrimaryModeOfTransport.Description` somehow knows to use the property from the child type (`Car` and `Motorbike` respectively)
+
+This is Polymorphism and it is a run-time facility. At run time:
+
+- An instance of a class can be assigned to a variable with a _parent type_
+- Introspection is performed on the `PrimaryModeOfTransport` property to establish it's actual type.
+- The concrete property for `Description` in the child type was found and called.
+
+**Experiment**
+In RoadVehicleProperties.cs, try removing the word `virtual` from the line that reads `public virtual string Description`
+
+**virtual** functions are functions that can be overridden and support polymorphic behaviour. This adds an extra run-time cost, but also allows for much more expressive code to be written.
+
