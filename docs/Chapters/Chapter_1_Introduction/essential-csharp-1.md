@@ -338,6 +338,12 @@ The Description function is actually playing the same role as a property, so we 
 public string Description => string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", NumberOfWheels, CarriageCapacity);
 ```
 
+Now we access it from outside (e.g. in `Main`) without method parenthesis
+
+```C#
+Console.WriteLine(v1.Description);
+```
+
 Putting this all together we get:
 
 ```C#
@@ -461,7 +467,12 @@ namespace DepartmentOfTransport
 
 It's fairly self explainatory, but you might not have known this was possible. As we will learn, this is useful in Xamarin.Forms as it helps split developer edited code from computer generated code.
 
-## Inheritance and constructors
+> All the code from this section can be found in the folder properties
+
+## Inheritance
+Class inheritance is something that is used throughout Xamarin.Forms, so it's worth a recap on some important points using the example developer so far.
+
+
 
 ## Polymorphism and the big-bad-mouse
 
