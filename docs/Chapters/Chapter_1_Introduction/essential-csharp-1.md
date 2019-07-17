@@ -551,7 +551,7 @@ In `RoadVehicleProperties.cs`, add the keyword `virtual`
 
 Run the code again and you should see additional information because it is a `Car`.
 
-> The final code can be found in [the inheritence folder](/)
+> The final code can be found in [the inheritence folder](/code/Chapter1/essential-c-sharp-part1/inheritance/HelloWorld)
 
 ## Polymorphism and virtual
 
