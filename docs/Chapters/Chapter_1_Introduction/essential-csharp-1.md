@@ -216,9 +216,250 @@ You can try this if you like.
 - Note the error - to fix, replace `Console` with 'System.Console' 
 
 ## Properties
+Properties are often related to variables, but use a function to provide controlled access, Let's extend the example above to add some properties to the `RoadVehicle` class.
 
+Change the `RoadVehicle` class to the following:
+
+```C#
+    class RoadVehicle
+    {
+        public static string ProjectVersion = "1.0"; // static member variable
+        private int _engineSerialNumber;               // instance member variable
+        private int _numberOfWheels;
+        private int _carriageCapacity;
+
+        public string Description()
+        {
+            return string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", _numberOfWheels, _carriageCapacity);
+        }
+        public RoadVehicle(int EngineSerialNumber, int NumberOfWheels=4, int CarriageCapacity=5)
+        {
+            _engineSerialNumber = EngineSerialNumber;
+            _numberOfWheels = NumberOfWheels;
+            _carriageCapacity = CarriageCapacity;
+            Console.WriteLine("RoadVehicle Constructor");
+        }
+    }
+```    
+Note the following:
+
+- The constructor now has parameters with default values.
+- Member variables are now `private` so inaccessible from outside the class. The only way to set them is via the constructor. This makes sense for most vehicles (not many change the number of wheels!).
+
+Now change Main to the following:
+
+```C#
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello World!");
+            Console.WriteLine("Code running: Project version " + RoadVehicle.ProjectVersion);
+
+            RoadVehicle v1 = new RoadVehicle(EngineSerialNumber:12345);
+            Console.WriteLine(v1.Description());
+
+            RoadVehicle v2 = new RoadVehicle(EngineSerialNumber:2468);
+            Console.WriteLine(v1.Description());
+        }
+```
+
+Run the code and familiarise yourself. Now add the following to the `RoadVehicle` class :
+
+```C#
+        public int EngineSerialNumber
+        {
+            get
+            {
+                return _engineSerialNumber;
+            }
+        }
+```
+
+As all this does is return a single variable, this can be shortened to:
+
+```C#
+        public int EngineSerialNumber => _engineSerialNumber;
+```
+
+In `Main`, you can now write (if you wish):
+
+```C#
+Console.WriteLine("Serial {0:d}", v1.EngineSerialNumber);
+```
+
+This has provided read access via the public property `EngineSerialNumber` which may be a good thing. No setter was written, so you cannot write the following by accident:
+
+```C#
+v1.EngineSerialNumber = 12345;
+```
+
+Providing limited access is only one benefit. If you wanted to read the serial number as a string we could have equally written
+
+```C#
+        public string EngineSerialNumber
+        {
+            get
+            {
+                return _engineSerialNumber.ToString();
+            }
+        }
+```
+which mashalls an integer to a string representation.  
+
+Sticking with the integer version, we can go a stage further and remove the explicit instance variable and use an auto property:
+
+``` C#
+    class RoadVehicle
+    {
+        public static string ProjectVersion = "1.0"; // static member variable
+        private int _numberOfWheels;
+        private int _carriageCapacity;
+
+        public int EngineSerialNumber { get; }
+
+        public string Description()
+        {
+            return string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", _numberOfWheels, _carriageCapacity);
+        }
+        public RoadVehicle(int EngineSerialNumber, int NumerberOfWheels=4, int CarriageCapacity=5)
+        {
+            this.EngineSerialNumber = EngineSerialNumber;
+            _numberOfWheels = NumerberOfWheels;
+            _carriageCapacity= CarriageCapacity;
+            Console.WriteLine("RoadVehicle Constructor");
+        }
+    }
+```
+
+Observe the line `public int EngineSerialNumber { get; }` which creates a read-only **property**. 
+
+The Description function is actually playing the same role as a property, so we can change that also:
+
+```C#
+public string Description => string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", NumberOfWheels, CarriageCapacity);
+```
+
+Putting this all together we get:
+
+```C#
+    class RoadVehicle
+    {
+        public static string ProjectVersion = "1.0"; // static member variable
+
+        public int EngineSerialNumber { get; }
+        public int NumberOfWheels { get; }
+        public int CarriageCapacity { get; }
+        public string Description => string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", NumberOfWheels, CarriageCapacity);
+        public RoadVehicle(int EngineSerialNumber, int NumberOfWheels=4, int CarriageCapacity=5)
+        {
+            this.EngineSerialNumber = EngineSerialNumber;
+            this.NumberOfWheels = NumberOfWheels;
+            this.CarriageCapacity = CarriageCapacity;
+            Console.WriteLine("RoadVehicle Constructor");
+        }
+    }
+```
+
+Note also the following:
+
+- In the constructor how the parameter names were the same as the property names. This is resolved using `this`, which is short hane for _this instance_.
+- Although no setter was created, the constructor can (uniquely) write even through no setter accessor was provided.
+- You can initialise an auto property. For example, `public int NumberOfWheels { get; } = 4;`
+
+Sometimes it makes sense to back a property with an instance variable. Consider the `Description` property:
+
+```C#
+public string Description => string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", NumberOfWheels, CarriageCapacity);
+```
+
+There are times when auto properties are not desirable and we still make good use of backing instance variables. Consider `Description`. Everytime this is access, the `FormatString` method is called. This is despite it never changing (it depends on `NumberOfWheels` and `CarriageCapacity`, both of which are fixed once initialised).
+
+```C#
+        private string _description;
+
+        public string Description
+        {
+            get
+            {
+                if (_description == null)
+                {
+                    _description = string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", NumberOfWheels, CarriageCapacity);
+                }
+                return _description;
+            }
+        }
+```        
+Note how `string.Format` is only called the first time the property is read. For subsequent reads, it simply returns the variable-backed value. Note this is only appropriate if you are certain the value will never change.
 
 ## Partial Classes
+Something we will meet in Xamarin.Forms are _partial classes_. Put simply, it is a way to split a class across separate source files.
+
+Try the following:
+
+- Right click the HelloWorld project (not the solution)
+- Choose Add->New Item
+- Choose Class
+- Set the Name to `RoadVehicleProperties.cs`
+- In the new class file, change the namespace to `DepartmentOfTransport`
+- In **both** `RoadVehicle.cs` and `RoadVehicleProperties.cs`, Change the class declaration to `partial class RoadVehicle` 
+
+Cut all the properties from `Roadvehicle.cs` and paste them into the partial class in `RoadVehicleProperties.cs`
+
+`RoadVehicle.cs` should read as follows:
+
+``` C#
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DepartmentOfTransport
+{
+    partial class RoadVehicle
+    {
+
+        public RoadVehicle(int EngineSerialNumber, int NumberOfWheels=4, int CarriageCapacity=5)
+        {
+            this.EngineSerialNumber = EngineSerialNumber;
+            this.NumberOfWheels = NumberOfWheels;
+            this.CarriageCapacity = CarriageCapacity;
+            Console.WriteLine("RoadVehicle Constructor");
+        }
+    }
+}
+```
+
+and `RoadVehicleProperties.cs` should read as follows:
+
+```C#
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DepartmentOfTransport
+{
+    partial class RoadVehicle
+    {
+        public static string ProjectVersion = "1.0"; // static member variable
+        public int EngineSerialNumber { get; }
+        public int NumberOfWheels { get; }
+        public int CarriageCapacity { get; }
+        private string _description;
+
+        public string Description
+        {
+            get
+            {
+                if (_description == null)
+                {
+                    _description = string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", NumberOfWheels, CarriageCapacity);
+                }
+                return _description;
+            }
+        }
+    }
+}
+```
+
+It's fairly self explainatory, but you might not have known this was possible. As we will learn, this is useful in Xamarin.Forms as it helps split developer edited code from computer generated code.
 
 ## Inheritance and constructors
 
