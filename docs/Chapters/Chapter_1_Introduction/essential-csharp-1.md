@@ -30,8 +30,17 @@ namespace c_sharp
 
 One of the disadvantages to this approach is that you can't get Hello World on the screen without creating a class and a static method. There is another way however. Microsoft recently released access to [Try.net](https://dotnet.microsoft.com/platform/try-dotnet) where you can create a console in the browser.
 
+Let's examine this code more closely however and pick out some key discussion points (maybe to finish later).
+
+- The entry point for a C# application is `Main`. However, it has the word `static` on the front. Static classess will be covered below, but it's important to note.
+- `Console.WriteLine` invokes a method, but what is Console? There is no instance variable called Console created, so how come it exists? Again, the clue is in the word `static`. To understand this, we need to know what me mean by a _class_ and an _instance of a class_.
+- `namespace c_sharp` appears around the code. Why is this here?
+- `using System` again, it's there, so good to question what it means
 
 ## Create and Instantiating a class
+Let's wind back and go over a topic you are likely to have covered already - writing a class and instantiating one (with `new`).
+
+### When names collide - namespace to the rescue!
 
 ## Properties
 
