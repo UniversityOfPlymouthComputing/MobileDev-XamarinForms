@@ -554,5 +554,24 @@ Run the code again and you should see additional information because it is a `Ca
 > The final code can be found in [the inheritence folder](/code/Chapter1/essential-c-sharp-part1/inheritance/HelloWorld)
 
 ## Polymorphism and virtual
+Polymorphism is a big word which can result in new developers running for the hill, where in fact it's realtively simple. Consider the example so far:
+
+First let's add a new type, that is MotorBike. 
+
+- MotorBikes don't have towbars
+- Some MotorBikes have sidecars
+
+With this in mind:
+
+- Add a new class `MotorBike` to `MotorBike.cs`
+- Paste in the code below
+
+
+
+- A RoadVehicle is general, and not of any particular vehicle type. It has the common properties shared among more specific types, such as Cars and Motorbikes.
+- A Car is 
+
+
+
 
 ## Static Classes
