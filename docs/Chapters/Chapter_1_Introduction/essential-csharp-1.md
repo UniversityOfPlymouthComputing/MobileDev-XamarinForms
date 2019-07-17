@@ -467,13 +467,92 @@ namespace DepartmentOfTransport
 
 It's fairly self explainatory, but you might not have known this was possible. As we will learn, this is useful in Xamarin.Forms as it helps split developer edited code from computer generated code.
 
-> All the code from this section can be found in the folder properties
+> All the code from this section [can be found in the folder properties](/code/Chapter1/essential-c-sharp-part1/properties/HelloWorld/)
 
 ## Inheritance
-Class inheritance is something that is used throughout Xamarin.Forms, so it's worth a recap on some important points using the example developer so far.
+Class inheritance is something that is used throughout Xamarin.Forms, so it's worth a recap on some important points using the example developed so far.
 
+- Create a new class called `Car` in `Car.cs`
+- Change the code to match that shown below
 
+```C#
+namespace DepartmentOfTransport
+{
+    class Car : RoadVehicle
+    {
+        public bool HasTowBar { get; set; } = false;
 
-## Polymorphism and the big-bad-mouse
+        public Car(int EngineSerialNumber, int NumberOfWheels = 4, int CarriageCapacity = 5, bool HasTowBarFitted = false) : base(EngineSerialNumber, NumberOfWheels, CarriageCapacity)
+        {
+            HasTowBar = HasTowBarFitted;
+            Console.WriteLine("Car Constructor: type " + this.GetType().ToString());
+        }
+    }
+}
+```
+
+Note how this class inherits from RoadVehicle
+
+```C#
+class Car : RoadVehicle
+```
+
+Note the following:
+
+- All properties and methods will be inherited
+- Only non-private properties of the parent class (`RoadVehicle`) will be accessible in the child class (`Car`)
+- You can only  inherit a single class (but implement many interfaces - covered later)
+- Note how the constructor first calls the constructor of the parent class before executing it's own. The default would be to call the parameterless constructor
+
+in the child class, you typically do one or both of the following:
+
+- add new functionality (additional properties and methods)
+- _override_ functionality
+
+Let's look at examples of both.
+
+### Adding functionality
+We've added an extra parameter, the option to attach a tow bar (for connecting and towing trailors). This is something that can change through the lifetime of a car, so this is a propery that can be both written and read.
+
+This property was made public, so it can be changed from outside. We can do this in Main. For example
+
+```C#
+    Car PrimaryCar = new Car(EngineSerialNumber: 13579);
+    PrimaryCar.HasTowBar = true;
+```
+
+### Overriding functionality
+In `RoadVehicle` there was a property `Description`. It is public, and therefore is also a public property of Car. We can demonstrate this by adding the following code to `Main`
+
+```C#
+    Car PrimaryCar = new Car(EngineSerialNumber: 13579);
+    PrimaryCar.HasTowBar = true;
+    Console.WriteLine(PrimaryCar.Description);
+```            
+
+However, the output seems incomplete. It would be better if there was some indication that this was also a car and it has a towbar attached. We can do this by _overriding_ the property:
+
+In `Car.cs`
+```C#
+    public override string Description
+    {
+        get
+        {
+            return base.Description + ": Is of type Car" + (HasTowBar ? " with towbar attached" : ".");
+        }
+    }
+```
+
+In `RoadVehicleProperties.cs`, add the keyword `virtual`
+
+```C#
+    public virtual string Description
+```
+
+Run the code again and you should see additional information because it is a `Car`.
+
+> The final code can be found in [the inheritence folder](/)
+
+## Polymorphism and virtual
 
 ## Static Classes
