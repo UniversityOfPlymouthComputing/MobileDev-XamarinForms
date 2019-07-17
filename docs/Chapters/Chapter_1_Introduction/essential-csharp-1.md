@@ -140,19 +140,33 @@ Note the `static` keyword. Let's now create multiple instances of `RoadVehicle` 
     }
 ```        
 
-Three objects now exist in memory: `v1`, `v2` and the class object for `RoadVehicle`. 
+We can identify five additional objects now existing in memory: the two instances of `RoadVehicle`, two local variables `v1` and `v2`, and the class object for `RoadVehicle`. These all reside in different areas of memory within the application.
 
-- Note of each instance has it's own _indepdnent_ copy of `EngineSerialNumber`. The keyword `new` requests that a portion of the _heap memory_ is allocted and reserved to hold all the member variables for each _instance_ of the class `Roadvehicle`. In this memory region you will find all the instance variables (currently there is only one, `EngineSerialNumber`). You will not find any `static` member variables.
-- Note that we did not use `new` to access the static member `ProjectVersion`. As soon as there is a reference to the `RoadVehicle` class, a single class object is created in memory. We say this is a _singleton_ object as only one copy can every be created. Within this memory will be static members. Therefore there is only ever one copy of the `ProjectVersion` string in memory. As it is public, it is global to the whole project.
+A simplified representation of an application memory is shown below.
 
-Note also that we have two local variables, `v1` and `v2`. These are declared within the `Main` function, and are set to the result of `new`. We say these are _reference types_ (under the hood, they hold the address in memory of each instance of `RoadVehicle`). This is in contrast to _value types_ (such as `int` or `bool`). 
+![Application Memory](img/ApplicationMemory.png)
 
-Both `v1` and `v2` _only exist within the Main function_. They are stored in another area of memory known as the *function stack*. This transient region of memory hold data such as function parameters and local variables. `v1` and `v2` are local variables.
-Once execution leaves `Main`, then `v1` and `v2`, all objects are on function stack are automatically deleted. So what happens to the two instances of `RoadVehicle` (stored in heap memory)?
+- **Program Code** is where executable instructions for each method are stored. These are held in a distinctly different area to data (variables). It is typically _read-only_ and executable.
+- **Stack Memory** holds data such as function parameters and local variables. This region grows downwards (in terms of memory address) as you enter a method and contracts back upwards when you leave.
+- **Heap Memory** is allocated on request at run-time, typically using the _new_ keyword. When you use _new_, the heap manager attempts to locate a space on the heap that is large enough for the type of object being alocated and stored. In the (hopefully unlikely) event that it cannot find such a block of memory, a _null_ is returned. Heap memory can be enourmous as it can often utilise page files (also known as swap files) on disks if there is in sufficient RAM. The top of the heap typically grows upwards (in terms of memory address) as more objects are allocated and down as objects are deallocated. 
+- There are different regions of the heap. One is the _high frequency heap_, within which static variables are stored and persist.
 
-> Any object allocated on the heap will persist as long as there is at least one reference to it. If that reference is removed, the heap object will be automatically deallocated, thus freeing up the memory for other purposes. This process is automated by the .NET [_garbage collector_](https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals)
+Back to the code, we note the following:
 
+- Each instance of `RoadVehicle` has it's own _independent_ copy of `EngineSerialNumber`. The keyword `new` requests that a portion of the _heap memory_ is allocted and reserved to hold all the member variables for each _instance_ of the class `Roadvehicle`. _new_ returns either a reference to the allocated memory (on sucess) or null (if it fails).
+- We did not use `new` to access the static member `ProjectVersion`. As soon as there is a reference to the `RoadVehicle` class (via accessing a static or new), a single class object is created in memory. We can view this as a _singleton_ object where only one copy can ever be created. Therefore there is only ever one copy of the `ProjectVersion` string in memory. As it is public, it is global to the whole application.
 
+Note also that we have two local variables, `v1` and `v2`. These are declared locally within the `Main` function, and are assigned to the reference value return by `new`. Under the hood, `new` returns a reference to some allocated block of memory on the heap (or null if it fails). We therefore say these are _reference types_ (under the hood, reference types related to an actual address in memory). This is in contrast to _value types_ (such as `int` or `bool`). 
+
+Both `v1` and `v2` _only exist within the Main function_. The variables themselves are stored in another area of memory known as the *function stack*. This transient region of memory holds data such as function parameters and local variables. 
+
+> `v1` and `v2` are local variables, so only exist within the context of the `Main` function
+
+Once execution leaves `Main`, all stack-based objects are automatically deleted,  including `v1` and `v2`. So what happens to the two instances of `RoadVehicle` stored in the heap memory?
+
+> Any object dynamically allocated on the heap with `new` will _persist as long as there is at least one reference to it_. If that reference is removed, the heap object will be automatically deallocated, thus freeing up the memory for other purposes. This process is automated by the .NET [_garbage collector_](https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals)
+
+The great news is we rarely have to worry about deallocating memory as it's done for us.
 
 ### When names collide - namespace to the rescue!
 A class name needs to be unique. However, as projects become large and complex, probably involving code written by others (in libraries or additional source), there chance of a name collision is very real. Therefore, we enclose our class declatations within a namespace. In this case, we use the namespace HelloWorld.
