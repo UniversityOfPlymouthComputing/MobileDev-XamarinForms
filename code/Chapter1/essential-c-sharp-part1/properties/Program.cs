@@ -14,10 +14,7 @@ namespace HelloWorld
             Console.WriteLine(v1.Description);
 
             RoadVehicle v2 = new RoadVehicle(EngineSerialNumber:2468);
-            Console.WriteLine(v1.Description);
-            Console.WriteLine(v1.Description);
-
-            Console.WriteLine("Serial " + v1.EngineSerialNumber);
+            Console.WriteLine(v2.Description);
         }
     }
 }

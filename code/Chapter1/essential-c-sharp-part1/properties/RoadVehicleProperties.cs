@@ -18,7 +18,7 @@ namespace DepartmentOfTransport
             {
                 if (_description == null)
                 {
-                    _description = string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", NumberOfWheels, CarriageCapacity);
+                    _description = string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people, serialNo: {2:d}", NumberOfWheels, CarriageCapacity, EngineSerialNumber);
                 }
                 return _description;
             }
