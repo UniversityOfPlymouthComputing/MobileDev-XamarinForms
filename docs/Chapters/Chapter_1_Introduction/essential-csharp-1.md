@@ -589,7 +589,7 @@ Run the code again and you should see additional information because it is a `Ca
 > The final code can be found in [the inheritence folder](/code/Chapter1/essential-c-sharp-part1/inheritance)
 
 ## Polymorphism and virtual methods
-Polymorphism is a big word which can result in new developers running for the hills in fear, when in fact it's realtively simple. They key is in the keyword `virtual`
+Polymorphism is a big word which can result in new developers running for the hills in fear, when in fact it's realtively simple. They key is in the keywords `virtual` and `override`.
 
 From the Microsoft documentation:
 
