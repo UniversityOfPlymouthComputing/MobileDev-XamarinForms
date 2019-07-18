@@ -838,7 +838,7 @@ Before we finnish this section, let's take a quick clook at static classes. Cons
             Console.WriteLine("Circumference of a circle radius 10mm is " + MathTools.CircumferenceOfCircle(10.0));
         }
     }
-    ```
+```
     
 The class `MathTools` conly contains static members. You cannot have instance members in a static class. You cannot / do not need to ever use `new` in relation to a static class. As soon as you make a reference to it, it will exist. Note how `MathTools.Scale` can be used as a global property.
 
