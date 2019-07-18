@@ -583,7 +583,7 @@ In `RoadVehicleProperties.cs`, to allow a baseclass method to be overridden in a
 
 Run the code again and you should see additional information because it is a `Car`.
 
-> The final code can be found in [the inheritence folder](/code/Chapter1/essential-c-sharp-part1/inheritance/HelloWorld)
+> The final code can be found in [the inheritence folder](/code/Chapter1/essential-c-sharp-part1/inheritance)
 
 ## Polymorphism and virtual methods
 Polymorphism is a big word which can result in new developers running for the hills in fear, when in fact it's realtively simple. They key is in the keyword `virtual`
@@ -592,11 +592,74 @@ From the Microsoft documentation:
 
 > When a virtual method is invoked, the run-time type of the object is checked for an overriding member. The overriding member in the most derived class is called, which might be the original member, if no derived class has overridden the member. (from https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/virtual, accessed 18/07/2019)
 
-[ TO DO - CLEARER EXPLAIATION ]
+Consider the following three classes:
 
-Now we return to our example code:
+```C#
+    public class Entity
+    {
+        public virtual void IdentifyYourself() => Console.WriteLine("I am Base");
+    };
 
-First let's add a new type, that is `Motorbike`. 
+    public class TypeA : Entity
+    {
+        public override void IdentifyYourself() => Console.WriteLine("I am TypeA");
+        public void JumpOverFences() => Console.WriteLine("Fence!");
+    };
+
+    public class TypeB : Entity
+    {
+        public new void IdentifyYourself() => Console.WriteLine("I am TypeB");
+        public void JumpThroughHoops() => Console.WriteLine("Hoop!");
+    };
+```
+Note that the subclass `TypeA` uses `override` whereas `TypeB` uses `new`. Let's now observe 
+
+```C#
+    Entity child;
+
+    bool choice = FlipACoin(); // returns true or false
+    if (choice == true)
+    {
+        child = new TypeA();
+    }
+    else
+    {
+        child = new TypeB();
+    }
+
+    child.IdentifyYourself();
+```
+
+First we notice that the type for child is that of a parent class `Entity`. At _run time_, depending on the outcome of the `FlipACoid()` method, `child` is assigned a reference to _either_ `TypeA` or `TypeB`. This is perfectly legal C# because `TypeA` and `TypeB` have all the atttributes of type `Entity`. What is interesting is when you invoke `IdentifyYourself()`.
+
+- if `TypeA` was chosen, the output is "I am TypeA" which is the implementation in the derived class. 
+   - This is interesting as at _compile time_, `child` is of type `Entity` which has it's own implementation of `IdentifyYourself()`
+   - Note that in the child class, the keyword `override` is used.
+- if `TypeB` was chosen, the output is "I am Base" which is the implementation in the base class.
+   - The difference is that the keyword `new` was used instead of `override`
+
+How does this work? In the case of `TypeA`, something often known as _late binding_ is used. The compiler notes two things: 
+
+(i) `IdentifyYourself` is virtual in the base class
+(ii) `IdentifyYourself` is overridden in `TypeA`
+
+Normally when you invoke a particular (non virtual) method in code, the build tools (at some point in the cycle) uses the object type to resolve a fixed address in memory for that specific method. Code does not move around in memory, so this makes sense and results in efficient code, especially if the method is called multiple times. This process is known sometimes known as _early binding_ and it relies heavily on object types. We sometimes say C# is a strongly typed language.
+
+However, in the case of _overridden virutal methods_ (or properties), as in the case of `IdentifyYourself()`, the address is **not** resolved at build time, and instead, code is added to _look it up at run time_. When it encounters the method call, it will traverse down the object heirarchy to find (and cache) the last (overridden) implementation and call that. _This is polymorphism_, and for a small performance hit, it enables nimble and concise programming techniques.
+
+As a final point, `child` is still considered to be of type `Entity`. You cannot invoke `JumpOverFences()` as this is specific to `TypeA`. If you wanted to do this, you would need to add your own run-time check:
+
+```C#
+    if (child is TypeA)
+    {
+        //First Cast to TypeA, then invoke
+        ((TypeA)child).JumpOverFences();
+    }
+```
+
+And if you get this wrong, expect a run-time exception!
+
+Now we return to our example code and apply this concept. First let's add a new type, that is `Motorbike`. 
 
 - Motorbikes don't have towbars (although I'd like to see someone try)
 - Some Motorbikes can have sidecars
@@ -737,3 +800,8 @@ In RoadVehicleProperties.cs, try removing the word `virtual` from the line that 
 
 Try changing the keyword **override** to **new** (which is the default). Contrast the results.
 
+The code in this section can be found in the [polymorph folder](/code/Chapter1/essential-c-sharp-part1/polymorph)
+
+-----
+
+Back to Table of Contents
