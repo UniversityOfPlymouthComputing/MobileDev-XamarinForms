@@ -8,7 +8,7 @@ You can use either Visual Studio 2019 or [Visual Studio Code](https://code.visua
 - Visual Studio 2019. Create a new project, and search on "Console". From the results pick Console App (.NET Core)
 - Visual Studio Code. [See these instructions](https://docs.microsoft.com/en-us/dotnet/core/tutorials/with-visual-studio-code) to create and debug an console application.
 
-I will use Visual Studio Code as I like the built in terminal.
+I will use Visual Studio for the sake of consistency.
 
 ## Hello World Revisited
 When you create a new Console app, name the project `HelloWorld` and check the source file `Program.cs` is generated as follows:
@@ -89,7 +89,7 @@ Now run the code. The string "RoadVehicle Constructor" should have been written 
 You have probably used the `new` keyword before, but do you know _why_ you use it? It's all about how the computer manages memory.
 We have actually added two objects to memory:
 
-- The `RoadVehicle` class itself (yes, the class can be thought of as an object in its own right). There is only ever **one copy** of the class object in memory, and it is created on first reference.
+- The `RoadVehicle` class itself (yes, the class can be thought of as a singleton object in its own right). There is only ever **one copy** of the class object in memory, and it is created on first reference.
 - An _instance_ of the class. You can have multiple instances of the class, but they are not the same as the class itself. We will see the distinction as we progress.
 
 ### Member Variables vs Static Members
