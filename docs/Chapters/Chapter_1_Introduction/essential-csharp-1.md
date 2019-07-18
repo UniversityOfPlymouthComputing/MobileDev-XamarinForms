@@ -1,3 +1,6 @@
+[Back to Table of Contents](/docs/Chapters/Chapter_1_Introduction/README.md)
+
+
 # Essential C# Part 1
 This section is intended to be a quick refresher of some of the C# we will encounter in subsequent sections. 
 It is not a comprehensive treatment of C#, but more of a smorgasbord of selected topics.
@@ -804,4 +807,4 @@ The code in this section can be found in the [polymorph folder](/code/Chapter1/e
 
 -----
 
-Back to Table of Contents
+[Back to Table of Contents](/docs/Chapters/Chapter_1_Introduction/README.md)
