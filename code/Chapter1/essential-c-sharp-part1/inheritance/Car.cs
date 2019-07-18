@@ -19,7 +19,7 @@ namespace DepartmentOfTransport
             get
             {
                 return base.Description + ": Is of type Car" + (HasTowBar ? " with towbar attached" : ".");
-            }
+            } 
         }
 
         
