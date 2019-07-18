@@ -633,11 +633,11 @@ Note that the subclass `TypeA` uses `override` whereas `TypeB` uses `new`. Let's
     child.IdentifyYourself();
 ```
 
-First we notice that the type for child is that of a parent class `Entity`. At _run time_, depending on the outcome of the `FlipACoid()` method, `child` is assigned a reference to _either_ `TypeA` or `TypeB`. This is perfectly legal C# because `TypeA` and `TypeB` have all the atttributes of type `Entity`. What is interesting is when you invoke `IdentifyYourself()`.
+First we notice that the type for child is that of a parent class `Entity`. At _run time_, depending on the outcome of the `FlipACoin()` method, `child` is assigned a reference to _either_ `TypeA` or `TypeB`. This is perfectly legal C# because `TypeA` and `TypeB` have all the atttributes of type `Entity` and `Entity` has an implementation of `IdentifyYourself()`. What is interesting is when you invoke `IdentifyYourself()` at run-time.
 
-- if `TypeA` was chosen, the output is "I am TypeA" which is the implementation in the derived class. 
+- if `TypeA` was chosen, the output is "I am TypeA" which is the implementation in the _derived_ class. 
    - This is interesting as at _compile time_, `child` is of type `Entity` which has it's own implementation of `IdentifyYourself()`
-   - Note that in the child class, the keyword `override` is used.
+   - Note that in the `TypeA` class, the keyword `override` is used in relation to the method `IdentifyYourself()`.
 - if `TypeB` was chosen, the output is "I am Base" which is the implementation in the base class.
    - The difference is that the keyword `new` was used instead of `override`
 
@@ -646,23 +646,26 @@ How does this work? In the case of `TypeA`, something often known as _late bindi
 (i) `IdentifyYourself` is virtual in the base class
 (ii) `IdentifyYourself` is overridden in `TypeA`
 
-Normally when you invoke a particular (non virtual) method in code, the build tools (at some point in the cycle) uses the object type to resolve a fixed address in memory for that specific method. Code does not move around in memory, so this makes sense and results in efficient code, especially if the method is called multiple times. This process is known sometimes known as _early binding_ and it relies heavily on object types. We sometimes say C# is a strongly typed language.
+Normally when you invoke a particular (non virtual) method in code, the build tools (at some point in the cycle) uses the object type to resolve a fixed address in memory for that specific method. Code does not move around in memory, so this makes sense and results in efficient code, especially if the method is called multiple times. This process is known sometimes known as _early binding_ and it relies heavily on object types to check that methods actually exist otherwise a compiler error is generated. This safety feature is one of the arguments for using a strongly typed language such as C# (and trust me, arguments do occur).
 
-However, in the case of _overridden virutal methods_ (or properties), as in the case of `IdentifyYourself()`, the address is **not** resolved at build time, and instead, code is added to _look it up at run time_. When it encounters the method call, it will traverse down the object heirarchy to find (and cache) the last (overridden) implementation and call that. _This is polymorphism_, and for a small performance hit, it enables nimble and concise programming techniques.
+However, in the case of _overridden virutal methods_ (or properties), as in the case of `IdentifyYourself()`, the address is **not** resolved at build time, and instead, code is added to _look it up at run time_. When it encounters the virtual method call, it will instead traverse down the object heirarchy to find (and cache) the last (overridden) implementation and call it. _This is polymorphism_, and for a small performance hit, it enables nimble and concise programming techniques.
 
-As a final point, `child` is still considered to be of type `Entity`. You cannot invoke `JumpOverFences()` as this is specific to `TypeA`. If you wanted to do this, you would need to add your own run-time check:
+As a final point, `child` is still considered to be of type `Entity` and _type safety is still enforced_. 
+- You can safely invoke `IdentifyYourself()` becuase it is implemented in `Entity`. Even if not overridden, there is still an implementation in `Entity`. 
+- However, you would not be able to invoke `JumpOverFences()` as this is specific to `TypeA` and *not* featured in `Enity`. 
+    - An attempt to do so will produce a compiler error (that safety thing again). 
+    
+If you still wanted to invoke `JumpOverFences()`, you must only do so if you can be sure `child` is instantiated as a `TypeA` object. In such cases, you would need to add your own run-time check and (if safe do so) force a _type-cast_:
 
 ```C#
-    if (child is TypeA)
+    if (child is TypeA) //run-time check
     {
         //First Cast to TypeA, then invoke
-        ((TypeA)child).JumpOverFences();
+        ((TypeA)child).JumpOverFences(); 
     }
 ```
 
-And if you get this wrong, expect a run-time exception!
-
-Now we return to our example code and apply this concept. First let's add a new type, that is `Motorbike`. 
+And if you get this wrong, expect a run-time exception! Now we return to our example code and apply this concept. First let's add a new type, that is `Motorbike`. 
 
 - Motorbikes don't have towbars (although I'd like to see someone try)
 - Some Motorbikes can have sidecars
@@ -710,11 +713,11 @@ In `Main`, we can test this out by adding the following code:
 
 Let's think about the logic behind the class relationships:
 
-- A `RoadVehicle` is general, and not of any particular vehicle type. It has the common properties shared among more specific types, such as Cars and Motorbikes.
-- A Car is a type of `RoadVehicle`
-- A `Motorbike` is also a type of `RoadVehicle`
+- A roadVehicle is general, and not of any particular vehicle type. It has the common properties shared among more specific types, such as cars and motorbikes.
+- A car is a type of road vehicle
+- A motorbike is also a type of road vehicle
 
-Now consider a driver, who commutes to work every day. That driver has a primary mode of transport. For illustrative purposes, we can going to provide two concrete options: `Car` or `Motorbike`. However, each person is different. Let's now create the Driver class:
+Now consider a driver, who commutes to work every day. That driver has a primary mode of transport. For illustrative purposes, we provide only two concrete options: `Car` or `Motorbike`. However, each person is different, so it is not known until run-time which one it will be. Let's now create the Driver class to illustrate:
 
 ```C#
 using System;
@@ -756,13 +759,13 @@ namespace DepartmentOfTransport
 }
 ```
 
-Note that `PrimaryModeOfTransport` is of type `RoadVehicle`. We don't yet know what actual type each driver will use, so the common base class `RoadVehicle` is used as the type. To see this in action, let's clean up Main to keep things easier to read
+Note that `PrimaryModeOfTransport` is of type `RoadVehicle`. We don't yet know what actual type any given driver will use, so the common base class `RoadVehicle` is used as the type. To see this in action, let's clean up `Main` to keep things easier to read.
 
 ```C#
         static void Main(string[] args)
         {
             Driver commuter1 = new Driver(Name: "Regular Dave", new Car(EngineSerialNumber:12345,HasTowBarFitted:true));
-            Driver commuter2 = new Driver(Name: "Risky Dave", new Motorbike(EngineSerialNumber:333555));
+            Driver commuter2 = new Driver(Name: "Risky Dave",   new Motorbike(EngineSerialNumber:333555));
             Driver commuter3 = new Driver(Name: "Green Dave", null);
 
             Console.WriteLine(commuter1.Description);
@@ -771,7 +774,7 @@ Note that `PrimaryModeOfTransport` is of type `RoadVehicle`. We don't yet know w
         }
 ```        
 
-Note that concrete instances of `Car` and `Motorbike` are passed into the second parameter of commuter1 and commuter2 respectively. 
+Note that concrete instances of `Car` and `Motorbike` are passed in as the second parameter of `commuter1` and `commuter2` respectively. 
 Run the code. Look closely at the output
 
 ```
@@ -784,24 +787,20 @@ Risky Dave: Primary mode of transport is Road Vehicle. Wheels: 2, Capacity: 2 pe
 Green Dave, has no primary vehicle
 ```
 
-Note the console output for the first two, where we observe the _the correct description of the vehicle is displayed_ (for `Car` and `Motorbike` respectively).
-Lookimg back at the source for `Driver`, let's remind ourselves of the following key points:
+Note the console output for the first two, where we observe the _the correct description of the vehicle is displayed_ (for `Car` and `Motorbike` respectively). Lookimg back at the source for `Driver`, let's remind ourselves of the following key points:
 
 - `PrimaryModeOfTransport` is of type `RoadVehicle`
-- Despite this, `PrimaryModeOfTransport.Description` somehow knows to use the property from the child type (`Car` and `Motorbike` respectively)
+- `PrimaryModeOfTransport.Description` is virtual, so knows to check for a child type at run-time (`Car` and `Motorbike` respectively)
 
-This is Polymorphism and it is a run-time facility. At run time:
-
-- An instance of a class can be assigned to a variable with a _parent type_
-- Introspection is performed on the `PrimaryModeOfTransport` property to establish it's actual type.
-- The concrete property for `Description` in the child type was found and called.
+This is Polymorphism and to risk repeating myself too much, is a run-time facility.
 
 **Experiment**
-In RoadVehicleProperties.cs, try removing the word `virtual` from the line that reads `public virtual string Description`
+
+- In `RoadVehicleProperties.cs`, try removing the word `virtual` from the line that reads `public virtual string Description`
 
 **virtual** functions are functions that can be overridden and support polymorphic behaviour. This adds an extra run-time cost, but also allows for much more expressive code to be written.
 
-Try changing the keyword **override** to **new** (which is the default). Contrast the results.
+- Try changing the keyword **override** to **new** (which is the default). Contrast the results.
 
 The code in this section can be found in the [polymorph folder](/code/Chapter1/essential-c-sharp-part1/polymorph)
 
@@ -840,7 +839,7 @@ Before we finnish this section, let's take a quick clook at static classes. Cons
     }
 ```
     
-The class `MathTools` conly contains static members. You cannot have instance members in a static class. You cannot / do not need to ever use `new` in relation to a static class. As soon as you make a reference to it, it will exist. Note how `MathTools.Scale` can be used as a global property.
+The class `MathTools` conly contains static members. _You cannot have instance members in a static class_. You cannot / do not need to ever use `new` in relation to a static class. As soon as you make a reference to it, it will exist. Note how `MathTools.Scale` can be used as a global property.
 
 This is not something you are likely to use often, but it's good to know.
 
