@@ -35,7 +35,7 @@ By the end of this chapter you should be able to:
    1. Properties - instance and static
    1. Partial Classes
    1. Inheritance and constructors
-   1. Polymorphism and the big-bad-mouse
+   1. Polymorphism
    1. Static Classes
 1. [A first exploration into Xamarin.Forms](first-exploration.md)
    1. Hello World
