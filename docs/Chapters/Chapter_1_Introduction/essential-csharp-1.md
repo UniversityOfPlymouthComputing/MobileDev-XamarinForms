@@ -243,7 +243,7 @@ Change the `RoadVehicle` class to the following:
 
         public string Description()
         {
-            return string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", _numberOfWheels, _carriageCapacity);
+            return string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people, serialNo: {2:d}", NumberOfWheels, CarriageCapacity, EngineSerialNumber);
         }
         public RoadVehicle(int EngineSerialNumber, int NumberOfWheels=4, int CarriageCapacity=5)
         {
@@ -331,7 +331,7 @@ Sticking with the integer version, we can go a stage further and remove the expl
 
         public string Description()
         {
-            return string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", _numberOfWheels, _carriageCapacity);
+            return string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people, serialNo: {2:d}", NumberOfWheels, CarriageCapacity, EngineSerialNumber);
         }
         public RoadVehicle(int EngineSerialNumber, int NumerberOfWheels=4, int CarriageCapacity=5)
         {
@@ -387,7 +387,7 @@ Note also the following:
 Sometimes we don't want auto properties, and it makes more sense to back a property with an instance variable. Consider the `Description` property:
 
 ```C#
-public string Description => string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", NumberOfWheels, CarriageCapacity);
+public string Description => string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people, serialNo: {2:d}", NumberOfWheels, CarriageCapacity, EngineSerialNumber);
 ```
 
 Everytime this is accessed, the `FormatString` method is called. This is despite it never changing (it depends on `NumberOfWheels` and `CarriageCapacity`, both of which are fixed once initialised). As the type is `string`, this is a `reference type` which can be set to `null` (you can do the same with value types if you use _optionals_, but we cover that later).
@@ -401,7 +401,7 @@ Everytime this is accessed, the `FormatString` method is called. This is despite
             {
                 if (_description == null)
                 {
-                    _description = string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", NumberOfWheels, CarriageCapacity);
+                    _description = string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people, serialNo: {2:d}", NumberOfWheels, CarriageCapacity, EngineSerialNumber);
                 }
                 return _description;
             }
@@ -469,7 +469,7 @@ namespace DepartmentOfTransport
             {
                 if (_description == null)
                 {
-                    _description = string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people", NumberOfWheels, CarriageCapacity);
+                    _description = string.Format("Road Vehicle. Wheels: {0:d}, Capacity: {1:d} people, serialNo: {2:d}", NumberOfWheels, CarriageCapacity, EngineSerialNumber);
                 }
                 return _description;
             }
@@ -480,10 +480,10 @@ namespace DepartmentOfTransport
 
 Partial classes are fairly self explainatory, but you might not have known this was possible. As we will learn, this is useful in Xamarin.Forms as it helps split developer edited code from computer generated code.
 
-> All the code from this section [can be found in the folder properties](/code/Chapter1/essential-c-sharp-part1/properties/HelloWorld/)
+> All the code from this section [can be found in the folder properties](/code/Chapter1/essential-c-sharp-part1/properties)
 
 ## Inheritance
-Class inheritance is something that is used throughout Xamarin.Forms, so it's worth a recap on some important points using the example developed so far.
+Class inheritance is something that is used throughout .NET, Xamarin.Forms and is fundamental to C#, so it's worth a recap on some important points using the example developed so far.
 
 - Create a new class called `Car` in `Car.cs`
 - Change the code to match that shown below
@@ -504,20 +504,30 @@ namespace DepartmentOfTransport
 }
 ```
 
-Note how this class inherits from RoadVehicle
+This class **inherits** from `RoadVehicle` using the following syntax:
 
 ```C#
 class Car : RoadVehicle
 ```
 
-Note the following:
+There is some terminology around this.
+- This is known as _subclassing_. 
+- In this example, `RoadVehicle` might be referred to as the _parent_ class or _base class_.
+- The `Car` class is referred to as and the _child_ or _subclass_.
 
-- All properties and methods will be inherited
-- Only non-private properties of the parent class (`RoadVehicle`) will be accessible in the child class (`Car`)
-- You can only  inherit a single class (but implement many interfaces - covered later)
-- Note how the constructor first calls the constructor of the parent class before executing it's own. The default would be to call the parameterless constructor
+Note the following key points:
 
-in the child class, you typically do one or both of the following:
+- All properties and methods of the parent will be inherited by the child
+- Only non-private properties of the parent class will be accessible in the child class
+- In C#, you can only inherit a single parent class (but implement many interfaces - covered later) unlike in C++ where you can inherit many.
+- The child can reference itself using the keyword `this` and it's parent using `base` 
+- The constructor in the child first calls the constructor of the parent. Initialisation is perform top to bottom. If not specified, the default would be to automatically call the parameterless constructor of the parent.
+- Note the syntax for calling a specific parent constuctor.
+- The base class `RoadVehicle` also inherits from [`System.Object`](https://docs.microsoft.com/en-us/dotnet/api/system.object?view=netcore-2.1) by default.
+
+> You might want to use the debugger to step into the code and see the sequence in which constructors are called. The general rule is parent, then child.
+
+In the child class, you typically do one or both of the following:
 
 - add new functionality (additional properties and methods)
 - _override_ functionality
@@ -525,17 +535,21 @@ in the child class, you typically do one or both of the following:
 Let's look at examples of both.
 
 ### Adding functionality
-We've added an extra parameter, the option to attach a tow bar (for connecting and towing trailors). This is something that can change through the lifetime of a car, so this is a propery that can be both written and read.
+We've added an extra property `HasTowBar` (for connecting and towing trailors) to the `Car` class that was not present in the parent. This makes sense as not all Road Vehicles can have a tow bar fitted. For a car, the fitting of a tow bar is something that can change through the lifetime of a car, so this is a propery that can be both written and read.
 
-This property was made public, so it can be changed from outside. We can do this in Main. For example
+This property was made public, so it can be changed from outside. We can do this in `Main`. For example
 
 ```C#
     Car PrimaryCar = new Car(EngineSerialNumber: 13579);
     PrimaryCar.HasTowBar = true;
 ```
 
+It should be stresses that the `HasTowBar` property is only present in `Car`, and not `RoadVehicle`. Extending behaviour in this way is probably the most common thing to do when subclassing. 
+
+What is often more intriguing is when we wish to modify (either by replacing or  extending) the behaviour of a parent class using a process known as _overriding_.
+
 ### Overriding functionality
-In `RoadVehicle` there was a property `Description`. It is public, and therefore is also a public property of Car. We can demonstrate this by adding the following code to `Main`
+In `RoadVehicle` there was a property `Description`. It is public, and therefore is also a public property of `Car`. We can demonstrate this by adding the following code to `Main`
 
 ```C#
     Car PrimaryCar = new Car(EngineSerialNumber: 13579);
@@ -543,7 +557,7 @@ In `RoadVehicle` there was a property `Description`. It is public, and therefore
     Console.WriteLine(PrimaryCar.Description);
 ```            
 
-However, the output seems incomplete. It would be better if there was some indication that this was also a car and it has a towbar attached. We can do this by _overriding_ the property:
+However, the output seems incomplete and indistinguishable from a generic road vehicle. It is useful that the information is retined from the parent, but it would be better if there was some indication that this was also a car and it has a towbar attached. We can do this by _overriding_ (and in this case extending) the property:
 
 In `Car.cs`
 ```C#
@@ -556,7 +570,12 @@ In `Car.cs`
     }
 ```
 
-In `RoadVehicleProperties.cs`, add the keyword `virtual`
+Note how we've _extended_ the functionality here. `base.Description` will return the description string from the parent. Appended to this is an addition string relating to the car (in C# you can append strings with the `+` operator).
+
+> Aside: The code that reads `(HasTowBar ? " with towbar attached" : "."` is an inline conditional statement of the form `<condition> ? <value if true> : <value if false>`. 
+> `HasTowBar` is tested. If true, then `" with towbar attached"` is used otherwise its a full stop `"."`
+
+In `RoadVehicleProperties.cs`, to allow a baseclass method to be overridden in a child class, you also need to add the keyword [`virtual`](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/virtual)
 
 ```C#
     public virtual string Description
@@ -567,7 +586,15 @@ Run the code again and you should see additional information because it is a `Ca
 > The final code can be found in [the inheritence folder](/code/Chapter1/essential-c-sharp-part1/inheritance/HelloWorld)
 
 ## Polymorphism and virtual methods
-Polymorphism is a big word which can result in new developers running for the hills in fear, when in fact it's realtively simple. Consider the example so far:
+Polymorphism is a big word which can result in new developers running for the hills in fear, when in fact it's realtively simple. They key is in the keyword `virtual`
+
+From the Microsoft documentation:
+
+> When a virtual method is invoked, the run-time type of the object is checked for an overriding member. The overriding member in the most derived class is called, which might be the original member, if no derived class has overridden the member. (from https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/virtual, accessed 18/07/2019)
+
+[ TO DO - CLEARER EXPLAIATION ]
+
+Now we return to our example code:
 
 First let's add a new type, that is `Motorbike`. 
 
@@ -707,4 +734,6 @@ This is Polymorphism and it is a run-time facility. At run time:
 In RoadVehicleProperties.cs, try removing the word `virtual` from the line that reads `public virtual string Description`
 
 **virtual** functions are functions that can be overridden and support polymorphic behaviour. This adds an extra run-time cost, but also allows for much more expressive code to be written.
+
+Try changing the keyword **override** to **new** (which is the default). Contrast the results.
 
