@@ -805,6 +805,45 @@ Try changing the keyword **override** to **new** (which is the default). Contras
 
 The code in this section can be found in the [polymorph folder](/code/Chapter1/essential-c-sharp-part1/polymorph)
 
+## Static Classes
+Before we finnish this section, let's take a quick clook at static classes. Consider the following example:
+
+```C#
+    static public class MathTools
+    {
+        static readonly double Pi = 3.1415926541;
+        public static double Scale { get; set; } = 1.0;
+
+        public static double AreaOfCircle(double radius)
+        {
+            double r = radius * Scale;
+            return Pi * r * r;
+        }
+
+        public static double CircumferenceOfCircle(double radius)
+        {
+            double r = radius * Scale;
+            return Pi * r * 2.0;
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello World!");
+            Console.WriteLine("Area of a circle radius 10m is " + MathTools.AreaOfCircle(10.0));
+            Console.WriteLine("Circumference of a circle radius 10m is " + MathTools.CircumferenceOfCircle(10.0));
+            MathTools.Scale = 0.01;
+            Console.WriteLine("Area of a circle radius 10mm is " + MathTools.AreaOfCircle(10.0));
+            Console.WriteLine("Circumference of a circle radius 10mm is " + MathTools.CircumferenceOfCircle(10.0));
+        }
+    }
+    ```
+    
+The class `MathTools` conly contains static members. You cannot have instance members in a static class. You cannot / do not need to ever use `new` in relation to a static class. As soon as you make a reference to it, it will exist. Note how `MathTools.Scale` can be used as a global property.
+
+This is not something you are likely to use often, but it's good to know.
+
 -----
 
 [Back to Table of Contents](/docs/Chapters/Chapter_1_Introduction/README.md)
