@@ -20,74 +20,17 @@ namespace HelloBindings
 
         //Index of which saying to use
         private int next = 0;
-        public int SayingNumber
-        {
-            get
-            {
-                return next;
-            }
-            set
-            {
-                if (next != value)
-                {
-                    next = value;
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("SayingNumber"));
-                    }
-                }
-            }
-        }
-        string _message = "Welcome to Xamarin Forms!";
-        public string Message
-        {
-            get
-            {
-                return _message;
-            }
-            set
-            {
-                if (!value.Equals(_message))
-                {
-                    _message = value;
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("Message"));
-                    }
-                }
-            }
-        }
-
+        public int SayingNumber { get; private set; }
+        public string Message { get; private set;  }
         public void NextMessage()
         {
             SayingNumber = (SayingNumber + 1) % Sayings.Count;
             Message = Sayings[SayingNumber];
         }
 
-        bool _visible = true;
-        public bool IsTrue
-        {
-            get
-            {
-                return _visible;
-            }
-            set
-            {
-                if (value != _visible)
-                {
-                    _visible = value;
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("IsTrue"));
-                    }
-                }
-            }
-        }
-
-
         public Model()
         {
-            _message = Sayings[0];
+            Message = Sayings[0];
         }
     }
 }

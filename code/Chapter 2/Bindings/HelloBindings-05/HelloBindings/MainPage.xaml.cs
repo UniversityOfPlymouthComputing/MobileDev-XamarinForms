@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace HelloBindings
@@ -14,38 +13,29 @@ namespace HelloBindings
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
-        Model DataModel = new Model();
+        MainPageViewModel ViewModel = new MainPageViewModel();
 
-        public ICommand ButtonCommand
-        {
-            get; private set;
-        }
 
         public MainPage()
         {
             InitializeComponent();
 
-            ButtonCommand = new Command( execute: () => DataModel.NextMessage());
 
             //Bindings
-            ToggleSwitch.BindingContext = DataModel;
-            ToggleSwitch.SetBinding(Switch.IsToggledProperty, "IsTrue", BindingMode.OneWayToSource);
+            ToggleSwitch.BindingContext = ViewModel;
+            ToggleSwitch.SetBinding(Switch.IsToggledProperty, "UIVisible", BindingMode.OneWayToSource);
 
-            MessageButton.BindingContext = DataModel;
-            MessageButton.SetBinding(Button.IsEnabledProperty, "IsTrue", BindingMode.OneWay);
-            MessageButton.SetBinding(Button.TextProperty, "SayingNumber", BindingMode.OneWay, null, "Saying {0:d}");
-            //MessageButton.SetBinding(Button.CommandProperty, "ButtonCommand"); //Cannot work as Model has no such (Forms aware) property
+            MessageButton.BindingContext = ViewModel;
+            //MessageButton.SetBinding(Button.IsEnabledProperty, "UIVisible", BindingMode.OneWay);
+            MessageButton.SetBinding(Button.TextProperty, "SayingNumber", BindingMode.OneWay, null, "Saying: {0:d}");
+            MessageButton.SetBinding(Button.CommandProperty, "ButtonCommand"); //Cannot work as Model has no such (Forms aware) property
 
-            MessageLabel.BindingContext = DataModel;
-            MessageLabel.SetBinding(Label.TextProperty, "Message", BindingMode.OneWay);
-            MessageLabel.SetBinding(Label.IsVisibleProperty, "IsTrue", BindingMode.OneWay);
+            MessageLabel.BindingContext = ViewModel;
+            MessageLabel.SetBinding(Label.TextProperty, "CurrentSaying", BindingMode.OneWay);
+            MessageLabel.SetBinding(Label.IsVisibleProperty, "UIVisible", BindingMode.OneWay);
             MessageLabel.SetBinding(Label.TextColorProperty, "SayingNumber", BindingMode.OneWay, new ColorConverter());
 
         }
 
-        private void MessageButton_Clicked(object sender, EventArgs e)
-        {
-            DataModel.NextMessage();
-        }
     }
 }
