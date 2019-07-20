@@ -17,8 +17,8 @@ namespace HelloBindings
             ButtonCommand = new Command(execute: () =>
             {
                 DataModel.NextMessage();
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentSaying"));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SayingNumber"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSaying)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SayingNumber)));
             }, canExecute: () => this.UIVisible);
 
         }
@@ -39,7 +39,7 @@ namespace HelloBindings
                 if (value != _visible)
                 {
                     _visible = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UIVisible"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UIVisible)));
                     ((Command)ButtonCommand).ChangeCanExecute();
                 }
             }

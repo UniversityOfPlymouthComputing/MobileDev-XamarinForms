@@ -26,14 +26,13 @@ namespace HelloBindings
             ToggleSwitch.SetBinding(Switch.IsToggledProperty, "UIVisible", BindingMode.OneWayToSource);
 
             //MessageButton.BindingContext = ViewModel;
-            //MessageButton.SetBinding(Button.IsEnabledProperty, "UIVisible", BindingMode.OneWay);
-            MessageButton.SetBinding(Button.TextProperty, "SayingNumber", BindingMode.OneWay, null, "Saying: {0:d}");
-            MessageButton.SetBinding(Button.CommandProperty, "ButtonCommand"); //Cannot work as Model has no such (Forms aware) property
+            //MessageButton.SetBinding(Button.TextProperty, "SayingNumber", BindingMode.OneWay, null, "Saying: {0:d}");
+            //MessageButton.SetBinding(Button.CommandProperty, "ButtonCommand"); //Cannot work as Model has no such (Forms aware) property
 
             //MessageLabel.BindingContext = ViewModel;
-            MessageLabel.SetBinding(Label.TextProperty, "CurrentSaying", BindingMode.OneWay);
-            MessageLabel.SetBinding(Label.IsVisibleProperty, "UIVisible", BindingMode.OneWay);
-            MessageLabel.SetBinding(Label.TextColorProperty, "SayingNumber", BindingMode.OneWay, new ColorConverter());
+            //MessageLabel.SetBinding(Label.TextProperty, "CurrentSaying", BindingMode.OneWay);
+            //MessageLabel.SetBinding(Label.IsVisibleProperty, "UIVisible", BindingMode.OneWay);
+            //MessageLabel.SetBinding(Label.TextColorProperty, "SayingNumber", BindingMode.OneWay, new ColorConverter());
 
         }
 
