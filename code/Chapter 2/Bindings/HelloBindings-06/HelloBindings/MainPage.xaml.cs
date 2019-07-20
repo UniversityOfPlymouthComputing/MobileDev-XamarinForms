@@ -23,7 +23,7 @@ namespace HelloBindings
 
             //Bindings
             //ToggleSwitch.BindingContext = ViewModel;
-            ToggleSwitch.SetBinding(Switch.IsToggledProperty, "UIVisible", BindingMode.OneWayToSource);
+            //ToggleSwitch.SetBinding(Switch.IsToggledProperty, "UIVisible", BindingMode.OneWayToSource);
 
             //MessageButton.BindingContext = ViewModel;
             //MessageButton.SetBinding(Button.TextProperty, "SayingNumber", BindingMode.OneWay, null, "Saying: {0:d}");

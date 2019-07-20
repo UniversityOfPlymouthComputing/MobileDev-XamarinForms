@@ -38,7 +38,7 @@
         <Switch x:Name="ToggleSwitch"  
                 HorizontalOptions="Center"
                 VerticalOptions="End"
-                IsToggled="true"
+                IsToggled="{Binding Path=UIVisible, Mode=TwoWay}"
                 />
         <!-- TODO: replace IsToggled="true" -->
         
