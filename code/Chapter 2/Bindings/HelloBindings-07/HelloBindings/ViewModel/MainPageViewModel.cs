@@ -13,7 +13,7 @@ namespace HelloBindings
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand ButtonCommand { get; private set; }
 
-        public MainPageViewModel() : this(new LocalModel())
+        public MainPageViewModel() : this(new RemoteModel())
         {
             //Default use the Model class
             // Constructor chaining
