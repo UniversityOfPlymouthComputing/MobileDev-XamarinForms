@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:HelloBindings;assembly=HelloBindings;assembly=HelloBindings"
+             mc:Ignorable="d"
+             x:Class="HelloBindings.MainPage">
+            
+    <ContentPage.BindingContext>
+        <local:MainPageViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ColorConverter x:Key="ColorConv"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <StackLayout Padding="0,40,0,40">
+        
+        <Label x:Name="MessageLabel" 
+               FontSize="Large"
+               Text="{Binding Path=CurrentSaying}" 
+               IsVisible="{Binding Path=UIVisible}"
+               TextColor="{Binding Path=SayingNumber, Converter={StaticResource ColorConv}}"
+               HorizontalOptions="Center"
+               VerticalOptions="Start" 
+               />
+
+        <Button x:Name="MessageButton"
+                Text='{Binding Path=SayingNumber, StringFormat="Saying {0:d}"}'
+                Command="{Binding Path=ButtonCommand}"
+                HorizontalOptions="Center" 
+                VerticalOptions="CenterAndExpand"
+                />
+        
+        <Switch x:Name="ToggleSwitch"  
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                IsToggled="{Binding Path=UIVisible, Mode=TwoWay}"
+                />
+        <!-- TODO: replace IsToggled="true" -->
+        
+    </StackLayout>
+
+</ContentPage>
