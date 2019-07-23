@@ -14,6 +14,158 @@ You can use either Visual Studio 2019 or [Visual Studio Code](https://code.visua
 I will use Visual Studio 2019 for Windows for the sake of consistency (as it's what we use in our teaching labs).
 
 ## Optional Properties
+Consider the following code:
+
+```C#
+class MyModel
+{
+    public string FirstName { get; set; } = "Anon";
+    public string KnownAs { get; set; } = "Matey";
+    public int Age { get; set; } = 21;
+    public uint PhoneNumber { get; set; } = 0;
+
+    public void Display()
+    {
+        Console.WriteLine($"This is {FirstName}, also known as {KnownAs}, Age {Age}, Phone number {PhoneNumber}");
+    }
+}
+class Program
+{
+    static void Main(string[] args)
+    {
+        MyModel m = new MyModel();
+        m.Display();
+    }
+}
+```
+
+There is so much about this that is not ideal. Let's consider a few issues:
+
+- the default values are arbitrary but can still be displayed.
+- Display assumes all fields are set
+- It might be reasonable to expect a first name and age to be recorded, as everyone as these. The phone number is more problematic as it's quite conceivable that someone has no phone number. The familiar `KnownAs` property may also be irrelevant for many people (and might bring back bad memories of school!).
+
+Let's address the issue of default values by forcing the use of a constructor
+
+```C#
+...
+public MyModel(string FirstName, string KnownAs, int Age, uint PhoneNumber)
+{
+    this.FirstName = FirstName;
+    this.KnownAs = KnownAs;
+    this.Age = Age;
+    this.PhoneNumber = PhoneNumber;
+}
+...
+```
+
+**TASK** You can also remove the default property values
+
+Now in main, we are forced to provide the information
+
+
+```C#
+static void Main(string[] args)
+{
+    MyModel m = new MyModel("Arnold", "Ace", 54, 01234123456);
+    m.Display();
+}
+```
+
+Two of the properties, `PhoneNumber` and `KnownAs` may not be known, or this information may wish to be withheld. In this case, we can choose to make them _optional_ it indicate this. The way we achieve this depends on whether the data is a _reference type_ or a _value type_. Either way, what we don't want to do is make up special values to represent _not set_. For example, we could invent a scheme where the string "NONE" is used it indicate a string value has not been provided. This may work, but it's not a great solution. It's moderately costly to compare strings, but worse, if your code were to be reused in another project, this might not mean anything to other people
+
+## Optional Properties for Reference types
+If a variable is declared with any of the following, they are a reference type.
+
+- class
+- interface
+- delegate
+
+There are also some built in reference types:
+
+- dynamic
+- object
+- string
+
+Note that `string` is one of them!
+
+See [Reference types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/reference-types) for more details.
+
+You can thing of a reference type as something that _encapsulates the address_ of some data in memory (as discussed in a previous section). This is in contrast to [_value types_](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types) where the variable name refers to the content. The semantic differences won't be dwelled upon here, needless to say there is more explaination to be done.
+
+> A key feature of a reference type is that it can be set to `null`. We can use this to our advantage as `null` can represent _no value_ or _not set_
+
+Note that for value types (int, double, etc..), these **cannot** (by default) be set to `null`.
+
+## Optional Properties for Value Types
+If a variable is not declared as a reference type (as explained in the previous section), it must be a [value type](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types)
+
+By default, value types cannot be `null`. Luckily, C# has a special syntax to does allow for this
+
+Change the declaration of the PhoneNumber property to match the following:
+
+```C#
+public uint? PhoneNumber { get; set; }
+```
+
+The type is now `uint?`. _This is not the same as uint_, but for the most part, we can treat it as an ordinary `uint`.
+
+You can now set `PhoneNumber` to `nill` or a concrete value.
+
+## Putting it all together
+The code can now be changed as follows:
+
+```C#
+class MyModel
+{
+    public string FirstName { get; set; }
+
+    public string KnownAs { get; set; }
+
+    public int Age { get; set; }
+
+    public uint? PhoneNumber { get; set; }
+
+    public void Display()
+    {
+        string Str = $"This is {FirstName}";
+        if (KnownAs != null)
+        {
+            Str += $", also known as {KnownAs}";
+        }
+        Str += $", Age {Age}";
+        if (PhoneNumber != null)
+        {
+            Str += $", Phone number { PhoneNumber}";
+        } 
+        Console.WriteLine(Str);
+    }
+
+      public MyModel(string FirstName, int Age, string KnownAs=null, uint? PhoneNumber=null)
+      {
+          this.FirstName = FirstName;
+          this.KnownAs = KnownAs;
+          this.Age = Age;
+          this.PhoneNumber = PhoneNumber;
+      }
+}
+```
+
+Note that for the constructor, the parameters without defaults are now listed first. Now in `Main`, we can write:
+
+```C#
+static void Main(string[] args)
+{
+    MyModel m = new MyModel("Arnold", 54, null, null);
+    m.Display();
+}
+```
+
+As `null` will be the default for the two optional parameters, we can also write:
+
+```C#
+MyModel m = new MyModel(FirstName: "Brian", Age: 71);
+```
 
 ## Computed Properties
 
