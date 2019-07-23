@@ -250,9 +250,9 @@ Note the following:
 
 - The getters calculate their respective values _every time_ they are accessed, and they are always based on the current value of `Radius` 
 - The setters are removed from all but the `Radius` property (they are never set directly, at least not here)
-- These are auto properties, so we don't need create a backing store
+- These are auto properties, so we don't need create a backing store. Where there is no setter, then no storage is needed.
 
-This approach is suited to cases _where the calculations are not overly expensive_. Now consider the case where a property is potentially very slow. Examples include complex calculations or where a network transaction is involved. I won't include the details code here, but instead _mock it_ for test purposes.
+This approach is suited to cases _where the calculations are not overly expensive_. Now consider the case where a property is potentially very slow. Examples include complex calculations or where a network transaction is involved. I won't include the detail code here, but instead _mock_ the concept for illustrative and even test purposes.
 ## Cached Properties
 Replace the declaration of the `PI` constant with the following code:
 
@@ -277,14 +277,15 @@ Replace the declaration of the `PI` constant with the following code:
         return 3.1415926541;
     }
 ```
-The first time you read the `PI` property, the backing store `_pi` will be null. This will result in value being fully evaluated, and the result being returned. For all subsequent reads, the previously calculated value will be returned.
+Note that PI has a backing store `_pi`. The first time you read the `PI` property, the backing store `_pi` will be null. This will result in value being fully evaluated (taking approx 2 seconds), and the result being returned. For all subsequent reads, the previously calculated value will be returned (very fast).
 
 Note:
 
 - This approach should only be used where it is truely justifed.
 - In this example, `_pi` never becomes out of date, so we don't need to concern ourselves with forcing it to be recomputed (setting it to `null` would for it). This is not the general case!
+- In the case of 2 second delays, we should consider using `async` and `await` (see below).
 
-**Task** For purely illustrative purposes, try using this approach for the `Area` property. Remember that you only need to calculate Area the first time **unless** the Radius is changed. _Hint: create a setter for Radius._
+**Task** For purely illustrative purposes, try using this approach for the `Area` property. Remember that you only need to calculate Area the first time it is read **unless** the Radius is changed. _Hint: create a setter for Radius._
 
 Caching schemes such as these can greatly improve performance, but can equally become very complicated to test. The fundamental reason for this is that the _sequence_ of operations is critical. 
 
