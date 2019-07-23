@@ -168,6 +168,125 @@ MyModel m = new MyModel(FirstName: "Brian", Age: 71);
 ```
 
 ## Computed Properties
+Computed properties, or calculated properties as they may also be known, and properties that have no backing store. They are generally calculated on demand. 
+
+Consider the following (poorly written) C# Code
+
+```C#
+    class Circle
+    {
+        private const double PI = 3.1415926541;
+        public double Radius { get; set; }
+        public double Diameter { get; private set; }
+        public double Circumference { get; private set; }
+        public double Area { get; private set; }
+
+        public void CalculateArea()
+        {
+            Area = PI * Radius * Radius;
+        }
+
+        public void CalulateCircumference()
+        {
+            Circumference = PI * Diameter;
+        }
+
+        public void CalculateDiameter()
+        {
+            Diameter = 2.0 * Radius;
+        }
+        public Circle(double Radius)
+        {
+            this.Radius = Radius;
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Circle c1 = new Circle(3.0);
+            c1.CalculateDiameter();
+            c1.CalulateCircumference();
+            c1.CalculateArea();
+            Console.WriteLine($"A circle of radius {c1.Radius} has a diameter of {c1.Diameter}, circumference of {c1.Circumference} and area of {c1.Area}");
+        }
+    }
+```
+
+For this to work, note the following:
+
+- It's critical to calculate the Diameter _before_ the circumference. 
+- If the Radius changes, all parameter have to be re-calculated
+- Why are setters provided for Diameter, Area and Circumference?
+
+All parameters are a function of Radius, so let's make use of this:
+
+```C#
+class Circle
+{
+    private const double PI = 3.1415926541;
+    public double Radius { get; set; }
+
+    public double Diameter { get => 2.0 * Radius; }
+    public double Circumference { get => PI * Diameter; }
+    public double Area { get => PI * Radius * Radius; }
+
+    public Circle(double Radius)
+    {
+        this.Radius = Radius;
+    }
+}
+class Program
+{
+    static void Main(string[] args)
+    {
+        Circle c1 = new Circle(3.0);
+        Console.WriteLine($"A circle of radius {c1.Radius} has a diameter of {c1.Diameter}, circumference of {c1.Circumference} and area of {c1.Area}");
+    }
+}
+```
+
+Note the following:
+
+- The getters calculate their respective values _every time_ they are accessed, and they are always based on the current value of `Radius` 
+- The setters are removed from all but the `Radius` property (they are never set directly, at least not here)
+- These are auto properties, so we don't need create a backing store
+
+This approach is suited to cases _where the calculations are not overly expensive_. Now consider the case where a property is potentially very slow. Examples include complex calculations or where a network transaction is involved. I won't include the details code here, but instead _mock it_ for test purposes.
+## Cached Properties
+Replace the declaration of the `PI` constant with the following code:
+
+```C#
+    private double? _pi;
+    private double PI
+    {
+        get
+        {
+            if (_pi == null)
+            {
+                _pi = DoBigLongCalculationOfPi();
+            }
+            return (double)_pi;
+        }
+    }
+
+    //Simulate slow calculation of PI
+    private double DoBigLongCalculationOfPi()
+    {
+        Task.Delay(2000);
+        return 3.1415926541;
+    }
+```
+The first time you read the `PI` property, the backing store `_pi` will be null. This will result in value being fully evaluated, and the result being returned. For all subsequent reads, the previously calculated value will be returned.
+
+Note:
+
+- This approach should only be used where it is truely justifed.
+- In this example, `_pi` never becomes out of date, so we don't need to concern ourselves with forcing it to be recomputed (setting it to `null` would for it). This is not the general case!
+
+**Task** For purely illustrative purposes, try using this approach for the `Area` property. Remember that you only need to calculate Area the first time **unless** the Radius is changed. _Hint: create a setter for Radius._
+
+Caching schemes such as these can greatly improve performance, but can equally become very complicated to test. The fundamental reason for this is that the _sequence_ of operations is critical. 
 
 ## Operators
 
