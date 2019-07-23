@@ -9,7 +9,7 @@ namespace HelloBindings
 {
     public class RemoteModel : ISayingsModel
     {
-        private const string Url = "https://functionapphellobindings.azurewebsites.net/api/GetQuote";
+        private const string Url = "https://sayingsfunctionappplymouth.azurewebsites.net/api/LookupSaying?index=";
         private HttpClient _client;
 
         private HttpClient Client
@@ -74,11 +74,11 @@ namespace HelloBindings
         {
             //Simulate fetch from a network
             await Task.Delay(1000);
-            string result = await Client.GetStringAsync(Url);
+            string result = await Client.GetStringAsync(Url+SayingNumber.ToString());
             CurrentSaying = result;
             NextSaying();
 
-            //Read network - https://functionapphellobindings.azurewebsites.net/api/GetQuote
+            //Read network - https://sayingsfunctionappplymouth.azurewebsites.net/
 
         }
 
