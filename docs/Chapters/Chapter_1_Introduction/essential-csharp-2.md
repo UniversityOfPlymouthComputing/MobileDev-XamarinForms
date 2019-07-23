@@ -273,23 +273,42 @@ Replace the declaration of the `PI` constant with the following code:
     //Simulate slow calculation of PI
     private double DoBigLongCalculationOfPi()
     {
-        Task.Delay(2000);
+        for (uint n = 0; n < uint.MaxValue; n++)
+        {
+
+        };
         return 3.1415926541;
     }
 ```
-Note that PI has a backing store `_pi`. The first time you read the `PI` property, the backing store `_pi` will be null. This will result in value being fully evaluated (taking approx 2 seconds), and the result being returned. For all subsequent reads, the previously calculated value will be returned (very fast).
+Note that PI has a backing store `_pi`. The first time you read the `PI` property, the backing store `_pi` will be null. This will result in value being fully evaluated (taking several seconds) and being returned. For all subsequent reads, the previously calculated value will be returned (very fast).
+
+We can try this in `Main
+
+```C#
+Circle c1 = new Circle(3.0);
+Console.WriteLine($"A circle of radius {c1.Radius} has a diameter of {c1.Diameter}, circumference of {c1.Circumference} and area of {c1.Area}");
+c1.Radius = 4.0;
+Console.WriteLine($"A circle of radius {c1.Radius} has a diameter of {c1.Diameter}, circumference of {c1.Circumference} and area of {c1.Area}");
+```
 
 Note:
 
 - This approach should only be used where it is truely justifed.
-- In this example, `_pi` never becomes out of date, so we don't need to concern ourselves with forcing it to be recomputed (setting it to `null` would for it). This is not the general case!
-- In the case of 2 second delays, we should consider using `async` and `await` (see below).
+- In this example, `_pi` never becomes out of date once it's calculated, so we don't need to concern ourselves with forcing it to be recomputed (setting it to `null` would provoke this). This is not the general case however!
+- In the case of multiple second delays, we should consider running this on a backround thread and using `async` and `await` (see below).
 
 **Task** For purely illustrative purposes, try using this approach for the `Area` property. Remember that you only need to calculate Area the first time it is read **unless** the Radius is changed. _Hint: create a setter for Radius._
 
-Caching schemes such as these can greatly improve performance, but can equally become very complicated to test. The fundamental reason for this is that the _sequence_ of operations is critical. 
+Caching schemes such as these can greatly improve performance, but can equally become very complicated to test. The fundamental reason for this is that the _sequence_ of operations is critical, and trying to test all possible sequence becomes difficult. 
+
+You may wonder why this topic is relevent to mobile development? Mobile devices are increasingly powerful, but despite this, they are still considered to be resource (ram, storage, cpu, battery) constrained devices. Applications are often connected to a back-end service across a network, and transactions can be very slow in poor signal areas. Users are also sensitive to the lag and an unresponsive UI, as are the host operating systems. Therefore, developers need to be nimble in how they interact with the network and update the UI.
 
 ## Operators
+I've added this topic as it features in some of the examples. C# has some abilty to redefine the meaning of operators (such as +,-) when used with custom types (Classes usually).
+
+Let's look at some examples:
+
+
 
 ## Enumerated Types
 
