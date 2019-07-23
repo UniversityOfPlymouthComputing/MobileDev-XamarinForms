@@ -30,11 +30,19 @@
 
         <Button x:Name="MessageButton"
                 Text='{Binding Path=SayingNumber, StringFormat="Saying {0:d}"}'
-                Command="{Binding Path=ButtonCommand}"
+                Command="{Binding Path=FetchNextSayingCommand}"
                 HorizontalOptions="Center" 
                 VerticalOptions="CenterAndExpand"
                 />
+
         
+        <ActivityIndicator x:Name="Activity"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Start"
+                           IsRunning="{Binding Path=IsRequestingFromNetwork}"
+            
+            />
+
         <Switch x:Name="ToggleSwitch"  
                 HorizontalOptions="Center"
                 VerticalOptions="End"

@@ -7,7 +7,6 @@ namespace HelloBindingsLib
     public class PayLoad
     {
         public string Saying { get; set; }
-        public int Index { get; set; }
         public int From { get; set; }
         public PayLoad()
         {

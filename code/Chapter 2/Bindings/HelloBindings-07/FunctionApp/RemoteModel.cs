@@ -25,7 +25,6 @@ namespace FunctionApp
                     PayLoad p = new PayLoad
                     {
                         Saying = Sayings[index],
-                        Index = index,
                         From = Count
                     };
                     return p.ToXML();
@@ -43,17 +42,5 @@ namespace FunctionApp
             }
 
         }
-
-        static RemoteModel Create()
-        {
-            return new RemoteModel();
-        }
-
-        public RemoteModel()
-        {
-
-        }
-
-
     }
 }

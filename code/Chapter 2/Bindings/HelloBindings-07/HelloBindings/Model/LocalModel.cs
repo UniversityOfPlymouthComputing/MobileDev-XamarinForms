@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using ProfoundSayings;
+using HelloBindingsLib;
 
 namespace HelloBindings
 { 
@@ -33,8 +34,10 @@ namespace HelloBindings
                 }
             }
         }
-        public string CurrentSaying => Sayings[SayingNumber];
-
+        public string CurrentSaying
+        {
+            get => Sayings[SayingNumber];
+        }
         private void NextSaying()
         {
             SayingNumber = (SayingNumber + 1) % Sayings.Count;

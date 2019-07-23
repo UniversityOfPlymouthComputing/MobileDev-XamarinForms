@@ -9,25 +9,28 @@ namespace HelloBindings
 {
     class MainPageViewModel : INotifyPropertyChanged
     {
-        private ISayingsModel DataModel;
-        public event PropertyChangedEventHandler PropertyChanged;
-        public ICommand ButtonCommand { get; private set; }
+        private ISayingsModel DataModel;                                //Model object 
+        public event PropertyChangedEventHandler PropertyChanged;       //Used to generate events to enable binding to this layer
+        public ICommand FetchNextSayingCommand { get; private set; }    //Binable command to fetch a saying
 
         public MainPageViewModel() : this(new RemoteModel())
         {
-            //Default use the Model class
-            // Constructor chaining
+            // Constructor chaining - use RemoteModel or MockedRemoteModel
         }
 
         public MainPageViewModel(ISayingsModel WithModel)
         {
             DataModel = WithModel;
-            ButtonCommand = new Command(execute: async () => await ShowNextMessageCommand(), canExecute: () => UIVisible);
+            //Hook up FetchNextSayingCommand property
+            FetchNextSayingCommand = new Command(execute: async () => await DoFetchNextMessageCommand(), canExecute: () => ButtonEnabled);
+            //Hook up event handler for changes in the model
             DataModel.PropertyChanged += OnPropertyChanged;
-
         }
 
-        //Listen for changes on the model
+        //Command to fetch next message - made public to support unit testing
+        public async Task DoFetchNextMessageCommand() => await DataModel.NextSaying();
+
+        //Exent handler for all changes on the model
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals(nameof(DataModel.SayingNumber)))
@@ -38,31 +41,33 @@ namespace HelloBindings
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSaying)));
             }
+            else if (e.PropertyName.Equals(nameof(DataModel.IsRequestingFromNetwork)))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsRequestingFromNetwork)));
+                ((Command)FetchNextSayingCommand).ChangeCanExecute();
+            }
         }
 
-        //Command to show next message
-        async Task ShowNextMessageCommand()
-        {
-            await DataModel.NextSayingAsync();
-        }
-
+        //Map through read only acccess to Model properties
         public int SayingNumber => DataModel.SayingNumber;
         public string CurrentSaying => DataModel.CurrentSaying;
+        public bool IsRequestingFromNetwork => DataModel.IsRequestingFromNetwork;
+        
+        //Calculated property for the button canExecute
+        public bool ButtonEnabled => UIVisible && !IsRequestingFromNetwork;
 
-        private bool _visible = true;
+        //Bindable property to manage UI state visibility (not to be confused with model based state)
+        private bool _uiVisible = true;
         public bool UIVisible
         {
-            get
-            {
-                return _visible;
-            }
+            get => _uiVisible;
             set
             {
-                if (value != _visible)
+                if (value != _uiVisible)
                 {
-                    _visible = value;
+                    _uiVisible = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UIVisible)));
-                    ((Command)ButtonCommand).ChangeCanExecute();
+                    ((Command)FetchNextSayingCommand).ChangeCanExecute();
                 }
             }
         }

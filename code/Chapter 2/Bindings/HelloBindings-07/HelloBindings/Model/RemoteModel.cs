@@ -1,18 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ProfoundSayings;
+using HelloBindingsLib;
 
 namespace HelloBindings
 {
     public class RemoteModel : ISayingsModel
     {
-        private const string Url = "https://sayingsfunctionappplymouth.azurewebsites.net/api/LookupSaying?index=";
-        private HttpClient _client;
-
-        private HttpClient Client
+        //This model generates events for any other object to observe and react to
+        public event PropertyChangedEventHandler PropertyChanged;
+        //The number of strings in the collection
+        protected int Count { get; set; } = 0;
+        //URL string for the remote server
+        protected const string Url = "https://sayingsfunctionappplymouth.azurewebsites.net/api/LookupSaying?index=";
+        //Dynamically allocated HTTP client for performing a network connection
+        protected HttpClient _client;
+        protected HttpClient Client
         {
             get
             {
@@ -20,28 +25,30 @@ namespace HelloBindings
                 {
                     _client = new HttpClient();
                 }
-
                 return _client;
             }
         }
-        public RemoteModel()
-        {
-        }
-        private List<string> Sayings = new List<string>
-        {
-            "May the Force be With You",
-            "Live long and prosper",
-            "Nanoo nanoo"
-        };
 
-        private int _sayingNumber = 0;
+        //Set true if valid data has been acquired
+        protected bool _hasData = false;
+        public bool HasData {
+            get => _hasData;
+            protected set
+            {
+                if (_hasData != value)
+                {
+                    _hasData = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasData)));
+                }
+            }
+         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        //The position of the saying in the list
+        protected int _sayingNumber = 0;
         public int SayingNumber
         {
             get => _sayingNumber;
-            private set
+            protected set
             {
                 if (value != _sayingNumber)
                 {
@@ -50,38 +57,65 @@ namespace HelloBindings
                 }
             }
         }
-        string _currentSaying = "Live Long and prosper";
+
+        //The currently fetched saying
+        protected string _currentSaying = "Ye Olde Wise Sayings";
         public string CurrentSaying
         {
-            get {
-                return _currentSaying;
-            }
-            private set {
-                if (!value.Equals(_currentSaying))
+            get => _currentSaying;
+            protected set
+            {
+                if (!_currentSaying.Equals(value))
                 {
                     _currentSaying = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSaying)));
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SayingNumber)));
                 }
             }
         }
 
-        private void NextSaying()
+        //Set true while waiting on a network transaction
+        protected bool _isRequestingFromNetwork = false;
+        public bool IsRequestingFromNetwork
         {
-            SayingNumber = (SayingNumber + 1) % Sayings.Count;
+            get => _isRequestingFromNetwork;
+            protected set
+            {
+                if (value != _isRequestingFromNetwork)
+                {
+                    _isRequestingFromNetwork = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsRequestingFromNetwork)));
+                }
+            }
         }
-        public async Task NextSayingAsync()
+ 
+        //Fetches next saying from the network
+        public async Task NextSaying()
         {
-            //Simulate fetch from a network
-            await Task.Delay(1000);
-            string result = await Client.GetStringAsync(Url+SayingNumber.ToString());
-            CurrentSaying = result;
-            NextSaying();
-
-            //Read network - https://sayingsfunctionappplymouth.azurewebsites.net/
-
+            //Perform fetch from a network
+            int n = SayingNumber;
+            n = HasData ? (n + 1) % Count : 0;
+            IsRequestingFromNetwork = true;
+            await FetchSayingAsync(n);
+            IsRequestingFromNetwork = false;
         }
 
-
+        //Specific implmentation for fetching a saying from the network (Azure)
+        protected virtual async Task<bool> FetchSayingAsync(int WithIndex = 0)
+        {
+            string result = await Client.GetStringAsync(Url + WithIndex);
+            PayLoad p = PayLoad.FromXML(result);
+            if (p != null)
+            {
+                Count = p.From;
+                CurrentSaying = p.Saying;
+                SayingNumber = WithIndex;
+                HasData = true;
+            }
+            else
+            {
+                HasData = false;
+            }
+            return HasData;
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace HelloBindings
 
             //MessageButton.BindingContext = ViewModel;
             //MessageButton.SetBinding(Button.TextProperty, "SayingNumber", BindingMode.OneWay, null, "Saying: {0:d}");
-            //MessageButton.SetBinding(Button.CommandProperty, "ButtonCommand"); //Cannot work as Model has no such (Forms aware) property
+            //MessageButton.SetBinding(Button.CommandProperty, "FetchNextSayingCommand"); //Cannot work as Model has no such (Forms aware) property
 
             //MessageLabel.BindingContext = ViewModel;
             //MessageLabel.SetBinding(Label.TextProperty, "CurrentSaying", BindingMode.OneWay);

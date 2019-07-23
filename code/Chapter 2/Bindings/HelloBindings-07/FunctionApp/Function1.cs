@@ -7,16 +7,18 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using HelloBindingsLib;
 
 namespace FunctionApp
 {
-    public static class Function1
+    public static class Function1 
     {
         private static List<string> Sayings = new List<string>
         {
             "May the Force be With You",
             "Live long and prosper",
-            "Nanoo nanoo"
+            "Nanoo nanoo",
+            "Make it So!"
         };
         private static int Count => Function1.Sayings.Count;
 
@@ -33,16 +35,21 @@ namespace FunctionApp
             {
                 if ((index >= 0) && (index < Function1.Count))
                 {
-                    return (ActionResult)new OkObjectResult(Function1.Sayings[index]);
+                    PayLoad p = new PayLoad
+                    {
+                        From = Count,
+                        Saying = Sayings[index]
+                    };
+                    return (ActionResult)new OkObjectResult(p.ToXML());
                 }
                 else
                 {
-                    return new BadRequestObjectResult("Index out of range");
+                    return new BadRequestObjectResult("Index out of range. Please use an index from 0.." + Count);
                 }
 
             } else
             {
-                 return new BadRequestObjectResult("Please pass a index on the query string as an integer");
+                 return new BadRequestObjectResult("The query string parameter index must be an integer");
             }
 
         }
