@@ -44,9 +44,9 @@ By the end of this chapter you should be able to:
 1. [More essential concepts in C#](essential-csharp-2.md)
    1. Optional Properties
    1. Computed Properties
+   1. Tuples
    1. Operators
    1. Enumerated Types
-   1. async and await
 1. [A second exploration into Xamarin.Forms](second-exploration.md)
    1. The BMI Estimator
    1. Unit Testing - begin as we mean to carry on!
