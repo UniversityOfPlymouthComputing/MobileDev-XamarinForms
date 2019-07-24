@@ -557,6 +557,165 @@ In summary, operator and user-defined conversion operator overloading can be use
 ## Enumerated Types
 [Enumerated types](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/enumeration-types) are very useful for making code both safer and more readable.
 
+Consider the following type declaration:
 
+```C#
+    public enum MarketSector
+    {
+        Omnivore, Vegetarian, Vegan, Fructarian
+    }
+```
+
+Under the hood, a variable of type `MarketSector` is an integer. However, it can ONLY take on the values `MarketSector.Omnivore`, `MarketSector.Vegetarian`, `MarketSector.Vegan` and `MarketSector.Fructarian` which (by default) evaluate to 0,1,2 and 3 respectively. 
+
+```C#
+    MarketSector s = MarketSector.Vegan;
+    Console.WriteLine((int)s);
+```
+ would display the value 2. You can override the encoded values. For example,
+ 
+ ```C#
+    public enum MarketSector
+    {
+        Omnivore=1, Vegetarian=2, Vegan=Vegetarian+10, Fructarian=Vegetarian+100
+    }
+    
+    MarketSector s = MarketSector.Vegan;
+    Console.WriteLine((int)s);
+```    
+
+would display 12. Note that you cannot assign `s` to a numerical value. The benefit of this include:
+
+- The code is more readable
+- The compiler can enforce that only permitted values can be assigned
+
+Now look at the following example code:
+
+```C#
+    public static class Extensions
+    {
+        public static string Definition(this MarketSector s)
+        {
+            switch (s)
+            {
+                case MarketSector.Omnivore:
+                    return "Eats both meat and vegetables";
+                case MarketSector.Vegetarian:
+                    return "A person who does not eat meat or fish, and sometimes other animal products, especially for moral, religious, or health reasons.";
+                case MarketSector.Vegan:
+                    return "A person who does not eat or use animal products.";
+                case MarketSector.Fruitarian:
+                    return "A person who eats only fruit, and possibly nuts and seeds.";
+                default:
+                    return "Error - did you add another category without updating the code?";
+            }
+        }
+    }
+    public enum MarketSector
+    {
+        Omnivore=1, Vegetarian=2, Vegan=Vegetarian+10, Fruitarian = Vegetarian +100
+    }
+
+    [Flags]
+    public enum IngredientsContain
+    {
+        Wheat = 1,
+        Dairy = 2,
+        Gluten = 4,
+        Nuts = 8
+    }
+
+    class Recipe
+    {
+        public IList<string> Ingredients { get; set; }
+        public IngredientsContain Allergens { get; set; }
+        public MarketSector TargetMarket;
+
+        public string PackagingNoticeSuitability
+        {
+            get
+            {
+                switch (TargetMarket)
+                {
+                    case MarketSector.Omnivore:
+                        return "Contains meat products";
+                    case MarketSector.Vegetarian:
+                        return "Suitable for Vegetarians";
+                    case MarketSector.Vegan:
+                        return "Vegan";
+                    case MarketSector.Fruitarian:
+                        return "Fruitarian Certified";
+                    default:
+                        return "Note sure - don't eat this!";
+                }
+            }
+        }
+```
+
+### [Flags] attribute
+By applying the `Flags` attribute, an enumerated value can take on any combination of permitted values. The integer values are typically powers of 2.
+
+```C#
+    [Flags]
+    public enum IngredientsContain
+    {
+        Wheat = 1,
+        Dairy = 2,
+        Gluten = 4,
+        Nuts = 8
+    }
+```
+
+This is why the following line is valid:
+
+```C#
+    FavCurry.Allergens = IngredientsContain.Dairy | IngredientsContain.Gluten;
+```
+
+The values are combined with a logical-or. These can be tested for using an expression such as:
+
+```C#
+    if (FavCurry.Allergens.HasFlag(IngredientsContain.Nuts))
+    {
+        Console.WriteLine("Warning - this product may be banned from certain airlines");
+    }
+```
+
+Again, note how the code is more readable than if numerical values were used. There is more to be said for enumerated types.
+
+### Extensions
+In C#, you can even extend an enumerated type to include methods. Remembering that an enumerated type is fundamentally an integer, then such mehods will operate on the contained value. The example above is highlighted here:
+
+```C#
+      public static string Definition(this MarketSector s)
+        {
+            switch (s)
+            {
+                case MarketSector.Omnivore:
+                    return "Eats both meat and vegetables";
+                case MarketSector.Vegetarian:
+                    return "A person who does not eat meat or fish, and sometimes other animal products, especially for moral, religious, or health reasons.";
+                case MarketSector.Vegan:
+                    return "A person who does not eat or use animal products.";
+                case MarketSector.Fruitarian:
+                    return "A person who eats only fruit, and possibly nuts and seeds.";
+                default:
+                    return "Error - did you add another category without updating the code?";
+            }
+        }
+    }
+    public enum MarketSector
+    {
+        Omnivore=1, Vegetarian=2, Vegan=Vegetarian+10, Fruitarian = Vegetarian +100
+    }
+```
+
+This code add the method `Definition` such that it can be applied to an instance (ultimately an integer), so that it can be invoked as follows:
+
+```C#
+    Console.WriteLine(FavCurry.TargetMarket.Definition());
+```
+
+Although it is a static method, like unary overloaded operators, some syntactic sugaring is used to allow this method to be invoked against an instance of the enumerated type.  
 
 ## async and await
