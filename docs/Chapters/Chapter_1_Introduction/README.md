@@ -1,4 +1,4 @@
-[Top](/docs/README.md)
+[Contents](/docs/README.md)
 
 ----
 
