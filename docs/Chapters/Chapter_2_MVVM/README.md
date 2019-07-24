@@ -73,9 +73,9 @@ Ok, that's a lot of stuff and I suspect it does not yet hold much meaning until 
 
 Like the examples before it, the example that is developed in this section is also trivially simple. This is on purpose. It starts with the familiar MVC architecture, and is evolved incrementally to a testable MVVM archirecture. Although the resulting MVVM mode is longer and possibly overkill for such a simple application, it is hopefully illustrative. You can then apply it yourself to more real-world applications that scale beyond the trivial.
 
-All the code is available on the GitHub site.
+All the code is available on the GitHub site. It is **strongly suggested** you open and examine each example as we progress.
 
-[Part 1 is here](code/Chapter2/Bindings/HelloBindings-01)
+[Part 1 is here](/code/Chapter2/Bindings/HelloBindings-01)
 
 
 
