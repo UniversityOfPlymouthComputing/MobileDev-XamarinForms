@@ -25,6 +25,10 @@ The key point here is the connection between the View Model (which probably soun
 
 ![MVVM Layers](img/mvvm-visibility.png)
 
+This is achieved through the use of a binding layer between the view model and the view.
+
+![MVVM](img/mvvm.png)
+
 The example that is developed in this section is also very simple. It starts with a MVC architecture and is evolved incrementally to a MVVM. Although the MVVM mode is longer and possibly overkill for such a simple application, it is 
 
 ----
