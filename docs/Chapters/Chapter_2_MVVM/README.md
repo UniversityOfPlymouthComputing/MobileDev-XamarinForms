@@ -10,7 +10,7 @@ In the previous example, a Model-View-Controller architecture was used. For simp
 
 Despite this, many excellent applications have been written with MVC. 
 
-> The Model-View-ViewModel (MVVM) architecture is similar to MVC, only it is not tightly coupled to the view making it easier to test. XAML was designed with MVVM in mind.
+> The Model-View-ViewModel (MVVM) architecture is similar to MVC, only it is not tightly coupled to the view making it easier to test.
 
 [From the Microsoft Documentation](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm) (accessed 24/07/2019)
 
@@ -18,7 +18,7 @@ Despite this, many excellent applications have been written with MVC.
 
 _From: https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm (accessed 24/07/2019)_
 
-The key point here is the connection between the View Model (which probably sounds like a Controller at this point) and the View: _they are not tightly coupled_.
+The key point here is the connection between the View Model (which probably sounds like a Controller at this point) and the View: _they are not as tightly coupled as MVC_.
 
 - The View knows something of the ViewModel, but the ViewModel does not know any specifics about the View
 - The View Model knows something of the Model, but the Model knows nothing about the ViewModel
@@ -44,7 +44,7 @@ Consider two possible scenarios:
 The Models define the _application state_ - Within the Model objects are the actual data, plus any methods that operate on the data. The ViewModel should not contan any domain specific data. A good Model should be self contained and highly testable.
 
 **UI State**
-The ViewModel also has state, but it is nothing to do with the domain Model data. These are typically properties relating to UI State, such as whether a Label is visible (`bool`), the selected row of a table (`int`) etc. A good view model will also be highly testable. In fact one of the objectives is to be able to simulate UI logic (clicks, text input etc.) through calling methods via a unit testing framework.
+The ViewModel also has state, but it is nothing to do with the domain Model data. These are typically properties relating to UI State, such as whether a Label is visible (`bool`), the selected row of a table (`int`) etc. A good view model will also be highly testable. In fact one of the objectives is to be able to simulate UI logic (clicks, text input etc.) through calling methods on the ViewModel, via a unit testing framework and without the need to link in UI libraries.
 
 _You need to see it to fully appreciate this_
 
@@ -56,26 +56,127 @@ So how does this work? Starting with the interface between the ViewModel and Vie
 - Bindings can be uni-directional or bi-directional. 
     - For uni-directional bindings, you also have control in which direction changes are propagated.
 - Content pages and UI Components have a property called the `BindingContext` - this is typically the ViewModel
+    - It is often the case that the View instantiates the ViewModel.
 - It is also possible to bind UI elements to other UI elements (no view model involved)
 - There can be multiple View Models and Models for any given View
-- It is often the case that the View instantiates the ViewModel.
 
 For the interface between the ViewModel and Model, some key conceptual points to note are as follows:
 
 - It is often the case that the ViewModel instantiates the Model
 - The link between them may be limited to the ViewModel calling synchronous (public) APIs on the Model, and storing returned values.
-    - If the returned values are saved in bounded properties in the ViewModel, then the UI may be updated accordingly
+    - If the returned values are saved in bounded properties in the ViewModel, then the UI may be automatically updated.
 - The ViewModel can also invoke Asynchronous methods on the Model - the call-back is typically performed using .NET events
 
 Ok, that's a lot of stuff and I suspect it does not yet hold much meaning until you see it in practise. For this, we need a simple example to illustrate all the key points.
 
-## Part 1 - The Wise Sayings Application
+## Part 1 - The Wise Sayings Application and Familiar Code
 
-Like the examples before it, the example that is developed in this section is also trivially simple. This is on purpose. It starts with the familiar MVC architecture, and is evolved incrementally to a testable MVVM archirecture. Although the resulting MVVM mode is longer and possibly overkill for such a simple application, it is hopefully illustrative. You can then apply it yourself to more real-world applications that scale beyond the trivial.
+Like the examples before it, the example that is developed in this section is also trivially simple. This is on purpose. It starts with the familiar MVC architecture, and is evolved incrementally to a testable MVVM archirecture with Model data being pulled from the cloud (Azure Function). Although the resulting MVVM mode is longer and possibly overkill for such a simple application, it is hopefully illustrative. You can then apply it yourself to more real-world applications that scale beyond the trivial.
+
+> Anticipate the difficult by managing the easy. Lao Tzu
 
 All the code is available on the GitHub site. It is **strongly suggested** you open and examine each example as we progress.
 
 [Part 1 is here](/code/Chapter2/Bindings/HelloBindings-01)
+
+### The Button Event Handler
+The view is defined in XAML along with some code-behind to manage the UI logic
+
+Looking at the XAML and code-behind, there are some key points to note.
+
+
+When the `Button` is clicked, it invokes the event handler `MessageButton_Clicked`
+```C#
+  private void MessageButton_Clicked(object sender, EventArgs e)
+  {
+      MessageLabel.Text = Sayings[next];
+      next = (next + 1) % Sayings.Count;
+  }
+```  
+The event handler is specified in XAML using the `Clicked` property as follows
+```XAML
+  <Button x:Name="MessageButton"
+          Text="Click Me" 
+          HorizontalOptions="Center" 
+          VerticalOptions="CenterAndExpand"
+          Clicked="MessageButton_Clicked"
+          />
+```
+
+### The Toggle Switch Event Handler
+The binary toggle switch is of type Switch, which is instantiated in XAML. 
+
+```XAML
+  <Switch x:Name="ToggleSwitch"  
+          HorizontalOptions="Center"
+          VerticalOptions="End"
+          IsToggled="true"
+          Toggled="ToggleSwitch_Toggled"
+          />
+```
+
+Note the event handler `Toggled` is set to the `ToggleSwitch_Toggled` method in the code behind:
+
+```C#
+  private void ToggleSwitch_Toggled(object sender, ToggledEventArgs e)
+  {
+      MessageLabel.IsVisible = ToggleSwitch.IsToggled;
+      MessageButton.IsEnabled = ToggleSwitch.IsToggled;
+  }
+```
+Note the role is simply to enable / disable the Switch and the Message label. This is UI state. 
+
+### The Model Data
+The model data can be considered to be the instance variables `Sayings` and `next`. These are not yet properties, and yes, it would be better practise to make them properties.. all in good time.
+
+## Part 2 - Binding Between UI Elements using Code
+[Part 2 is here](/code/Chapter2/Bindings/HelloBindings-02). Build and run this to see what it does. Note that strange behaviour once you get back to the first saying. This was simply added to make a point.
+
+This step is simply to illustrate the mechanism of binding. Code is used to set up the bindings as it shows the APIs that are leveraged by XAML in subsequent sections.
+
+The first point to note is that the event handler for the Switch has been removed.
+
+```XAML
+     <Switch x:Name="ToggleSwitch"  
+             HorizontalOptions="Center"
+             VerticalOptions="End"
+             IsToggled="true"
+             />
+```                
+
+We will instead bind it's `IsToggled` property to `IsVisibleProperty` property of the Label and the `IsEnabledProperty` property of the button.
+
+First, look at the code-behind 
+```C#
+  public MainPage()
+  {
+      InitializeComponent();
+
+      MessageLabel.BindingContext = ToggleSwitch;
+      MessageLabel.SetBinding(Label.IsVisibleProperty, "IsToggled", BindingMode.TwoWay);
+
+      MessageButton.BindingContext = ToggleSwitch;
+      MessageButton.SetBinding(Button.IsEnabledProperty, "IsToggled", BindingMode.TwoWay);
+  }
+```        
+
+[FIGURE - SOURCE TARGET]
+
+First the `MessageLabel`.
+```C#
+   MessageLabel.BindingContext = ToggleSwitch;
+```
+Now the interesting bit:
+```C#
+MessageLabel.SetBinding(Label.IsVisibleProperty, "IsToggled", BindingMode.TwoWay);
+```
+With bindings there is first the `BindingContext` which acts as the **source** object. In uni-direction bindings, the default is always from source to target, where the source here is `ToggleSwitch` and the target is the `MessageLabel`. For two-way bindings, either could act as the source for the other.
+
+Now the `SetBinding` method is called on the target (`MessageLabel`) - remember this is a specific instance on `Label` instantiated via XAML. 
+- First we provide the **target property** as the first parameter. Note this is a static member (type `BindableProperty`) of the `Label` class. We wont worry about the specifics of this. What we need to remember is that it wll be nammed as the instance property (`IsVisible`) appended with the word `Property`  
+- Next we give the name of the **source property**, but this time as a `string` (we will see why this is important later). This string is the name of the source property "IsToggled" 
+
+target (Label) : IsVisible is bound to source (Switch) : IsToggled
 
 
 
