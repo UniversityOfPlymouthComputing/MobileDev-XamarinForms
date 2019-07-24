@@ -720,6 +720,5 @@ Although it is a static method, like unary overloaded operators, some syntactic 
 
 See [Extension Methods](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods) for a more comprehensive discussion.
 
-## async and await
-I will briefly introduce `async` and `await` as they are so commonly used whereever networking is required. [A much longer discussion can be found here](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/).
 
+[Back to Table of Contents](/docs/Chapters/Chapter_1_Introduction/README.md)
