@@ -681,9 +681,9 @@ The values are combined with a logical-or. These can be tested for using an expr
     }
 ```
 
-Again, note how the code is more readable than if numerical values were used. There is more to be said for enumerated types.
+Again, note how the code is more readable than if numerical values were used. There is more to be said for enumerated types. You can read more in the [Microsoft documentation](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/enumeration-types#enumeration-types-as-bit-flags).
 
-### Extensions
+### Extension Methods
 In C#, you can even extend an enumerated type to include methods. Remembering that an enumerated type is fundamentally an integer, then such mehods will operate on the contained value. The example above is highlighted here:
 
 ```C#
@@ -716,6 +716,10 @@ This code add the method `Definition` such that it can be applied to an instance
     Console.WriteLine(FavCurry.TargetMarket.Definition());
 ```
 
-Although it is a static method, like unary overloaded operators, some syntactic sugaring is used to allow this method to be invoked against an instance of the enumerated type.  
+Although it is a static method, like unary overloaded operators, some syntactic sugaring is used to allow this method to be invoked against an instance of the enumerated type.
+
+See [Extension Methods](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods) for a more comprehensive discussion.
 
 ## async and await
+I will briefly introduce `async` and `await` as they are so commonly used whereever networking is required. [A much longer discussion can be found here](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/).
+
