@@ -303,10 +303,65 @@ Caching schemes such as these can greatly improve performance, but can equally b
 
 You may wonder why this topic is relevent to mobile development? Mobile devices are increasingly powerful, but despite this, they are still considered to be resource (ram, storage, cpu, battery) constrained devices. Applications are often connected to a back-end service across a network, and transactions can be very slow in poor signal areas. Users are also sensitive to the lag and an unresponsive UI, as are the host operating systems. Therefore, developers need to be nimble in how they interact with the network and update the UI.
 
-## Operators
-I've added this topic as it features in some of the examples. C# has some abilty to redefine the meaning of operators (such as +,-) when used with custom types (Classes usually).
+## Operator Overloading
+I've added this topic as it features in some of the following examples. C# has some abilty to redefine the meaning of operators (such as +,-) when used with custom types (Classes or Structures) using something known as [operator overloading](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/operator-overloading)
+
+```C#
+    class Coordinate
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public Coordinate(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        //Translate (math speak for add in this case) - returns a new Coordinate that is the sum
+        public static Coordinate operator +(Coordinate u, Coordinate v) => new Coordinate(u.X + v.X, u.Y + v.Y);
+
+        // Equality
+        public static bool operator ==(Coordinate u, Coordinate v) => (u.X == v.X) && (u.Y == v.Y);
+        public static bool operator !=(Coordinate u, Coordinate v) => !((u.X == v.X) && (u.Y == v.Y));
+
+        public override string ToString() => $"x:{X},y:{Y}";
+    }    
+ 
+ 
+class Program
+{
+    static void Main(string[] args)
+    {
+        Coordinate p1 = new Coordinate(x: 3, y: 4);
+        Coordinate p2 = new Coordinate(x: -1, y: 1);
+
+        Console.WriteLine(p1+p2);
+
+        //Meet the value tuple type!
+        (int x, int y) u = (x: 1, y: 3);
+
+        //You write +, you get this for free!
+        p1 += p2;
+        Console.WriteLine($"P1 = {p1}");
+
+        //The equality operator
+        if (p1 != p2)
+        {
+            Console.WriteLine($"{p1} and {p2} are not equal");
+        }
+    }
+}
+```
+
+In the 
+
+## Type Operator Overloading
+C# can also perform [user defined type conversions](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators) which effectively overrides `=` in some cases)
 
 Let's look at some examples:
+
+
 
 
 
