@@ -23,11 +23,25 @@ The key point here is the connection between the View Model (which probably soun
 - The View knows something of the ViewModel, but the ViewModel does not know any specifics about the View
 - The View Model knows something of the Model, but the Model knows nothing about the ViewModel
 
+This is summarised in the following figure.
+
 ![MVVM Layers](img/mvvm-visibility.png)
 
-This is achieved through the use of a binding layer between the view model and the view.
+Inside the view model, you won't expect to see any types that are specific to Xamarin.Forms. You should instead see methods which use C#.net types. This makes it simpler to unit test.
+
+This is achieved through the use of a _binding layer_ between the view model and the view. Xamarin.Forms comes with a baked-in binding mechanism, but others are available. This is illustrated in the next figure:
 
 ![MVVM](img/mvvm.png)
+
+Some key conceptual points to note:
+
+- Through "bindings", properties of user interface objects will be bound to properties in the view model. This means when one is changed, the other is automatically updated
+   - Often there is a one-to-one mapping, such as the `Text` propery of a `Label` (type `string`) to a `string` property in the view model.
+   - Bindings can be uni-directional or bi-directional
+ - Content pages and UI Components have a property called the `BindingContext` - this is typically the ViewModel
+ - It is also possible to bind UI elements to other UI elements (not view model required)
+
+## Part 1 - The Wise Sayings Application
 
 The example that is developed in this section is also very simple. It starts with a MVC architecture and is evolved incrementally to a MVVM. Although the MVVM mode is longer and possibly overkill for such a simple application, it is 
 
