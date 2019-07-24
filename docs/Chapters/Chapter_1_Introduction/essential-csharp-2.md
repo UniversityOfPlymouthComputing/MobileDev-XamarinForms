@@ -1,5 +1,6 @@
 [Back to Table of Contents](/docs/Chapters/Chapter_1_Introduction/README.md)
 
+----
 
 # Essential C# Part 2
 This section is intended to be a quick refresher one more of the C# syntax we will encounter in subsequent sections. 
@@ -720,5 +721,6 @@ Although it is a static method, like unary overloaded operators, some syntactic 
 
 See [Extension Methods](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods) for a more comprehensive discussion.
 
+----
 
 [Back to Table of Contents](/docs/Chapters/Chapter_1_Introduction/README.md)
