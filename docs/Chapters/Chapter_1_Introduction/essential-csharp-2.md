@@ -555,5 +555,8 @@ In this example, the reader can probably guess the behaviour but more obvious, t
 In summary, operator and user-defined conversion operator overloading can be used to make code concise and in one sense more readby, but at risk of also introducing ambiguity. If working in a well understood domain (such as a particular field of mathematics), then operators might communicate their intent by implication through knowledge of the context. However, an explicit function name might be preferrable. It's up to you - use wisely!
 
 ## Enumerated Types
+[Enumerated types](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/enumeration-types) are very useful for making code both safer and more readable.
+
+
 
 ## async and await
