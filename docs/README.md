@@ -1,5 +1,6 @@
 # Contents
 [Chapter 1 - Introduction](Chapters/Chapter_1_Introduction/README.md)
+
 [Chapter 2 - Model View ViewModel (MVVM)](Chapters/Chapter_2_MVVM/README.md)
 
 _More to come_
