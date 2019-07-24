@@ -152,7 +152,7 @@ First, look at the code-behind
   {
       InitializeComponent();
 
-      MessageLabel.BindingContext = ToggleSwitch;
+      MessageLabel.BindingContext = ToggleSwitch; //Source
       MessageLabel.SetBinding(Label.IsVisibleProperty, "IsToggled", BindingMode.TwoWay);
 
       MessageButton.BindingContext = ToggleSwitch;
@@ -166,19 +166,21 @@ First the `MessageLabel`.
 ```C#
    MessageLabel.BindingContext = ToggleSwitch;
 ```
+
+Here the _target_ is `MessageLabel` and the _source_ is `ToggleSwitch`.
+
+We can think of this as `Target.BindingContext = Source`, where Target must be derived from `BindableObject` as is typically a UI component.
+
 Now the interesting bit:
 ```C#
 MessageLabel.SetBinding(Label.IsVisibleProperty, "IsToggled", BindingMode.TwoWay);
 ```
-With bindings there is first the `BindingContext` which acts as the **source** object. In uni-direction bindings, the default is always from source to target, where the source here is `ToggleSwitch` and the target is the `MessageLabel`. For two-way bindings, either could act as the source for the other.
+With bindings there is first the `BindingContext` which acts as a reference to the **source** object. In uni-direction bindings, the default is always from source to target, where the source here is `ToggleSwitch` and the target is the `MessageLabel`. For two-way bindings, either could act as the source for the other.
 
 Now the `SetBinding` method is called on the target (`MessageLabel`) - remember this is a specific instance on `Label` instantiated via XAML. 
+
 - First we provide the **target property** as the first parameter. Note this is a static member (type `BindableProperty`) of the `Label` class. We wont worry about the specifics of this. What we need to remember is that it wll be nammed as the instance property (`IsVisible`) appended with the word `Property`  
-- Next we give the name of the **source property**, but this time as a `string` (we will see why this is important later). This string is the name of the source property "IsToggled" 
-
-target (Label) : IsVisible is bound to source (Switch) : IsToggled
-
-
+- Next we give the name of the **source property**, but this time as a `string` (we will see why this is important later). This string is the name of the source property `IsToggled`.
 
 ----
 [Contents](/docs/README.md)
