@@ -127,13 +127,37 @@ Note the event handler `Toggled` is set to the `ToggleSwitch_Toggled` method in 
 Note the role is simply to enable / disable the Switch and the Message label. This is UI state. 
 
 ### The Model Data
-The model data can be considered to be the instance variables `Sayings` and `next`. These are not yet properties, and yes, it would be better practise to make them properties.. all in good time.
+The model data can be considered to be the instance variables `Sayings` and `next`. These are not yet properties, and yes, it would be better practise to make them properties..but all in good time.
 
 ## Part 2 - Binding Between UI Elements using Code
-[Part 2 is here](/code/Chapter2/Bindings/HelloBindings-02). Build and run this to see what it does. Note that strange behaviour once you get back to the first saying. This was simply added to make a point.
+[Part 2 is here](/code/Chapter2/Bindings/HelloBindings-02). Build and run this to see what it does. Note the strange behaviour once you get back to the first saying. This was added to illustrate a point and will be removed later.
 
-This step is simply to illustrate the mechanism of binding. Code is used to set up the bindings as it shows the APIs that are leveraged by XAML in subsequent sections.
+This step is simply to illustrate the mechanism of binding. Code is used to set up the bindings as it exposes the APIs that are leveraged by XAML in subsequent sections. This can be very helpful for demystifying what is going on.
 
+To begin with, a three way binding will be set up between the `MessageLabel`, the `ToggleSwitch` and the `MessageButton`.           
+
+We will bind `ToggleSwitch.IsToggled` to both the `MessageLabel.IsVisible` and `MessageButton.IsEnabled`. We will also set this up initially as a two-way binding. _A change in one will result in an automatical change in the other_. 
+
+1. A change to `TooglSwitch.IsToggled` will _automatically_ change both `MesageLabel.IsVisible` and `MessageButton.IsEnabled`
+1. A change to `MesageLabel.IsVisible` will _automatically_ change both `TooglSwitch.IsToggled`. This in turn will activate (1)
+1. A change to `MesageButton.IsEnabled` will _automatically_ change both `TooglSwitch.IsToggled`. This in turn will activate (1)
+
+### Binding Relationships
+The figure below captures the necessary relationships to establish a binding between two properties
+
+![Binding](img/binding.png)
+
+Becoming familiar with the notation is important here as it can otherwise get confusing. Some points to observe:
+
+- The _Target_ is typically a UI object, and must interit from `BindableObject` which in turn provides the property `BindingContext`
+- The `BindingContext` is a reference to the source - this can be any type of object (hence is more loosely coupled)
+- A binding is setup between specified properties of the source and target objects
+    - The target property busy inherit from BindableProperty
+    - The source property is specified by name (as a string). Something known as _reflection_ will be used to find a property of this name at run time.
+    
+As you can probably infer, the requiremens for the target are much more constrained than the source. The target does not know the concrete type of the source or it's bound property. This means _the source can by almost any type object_.  It is commonly either a ViewModel or another UI component.
+
+### Hooking up the Label
 The first point to note is that the event handler for the Switch has been removed.
 
 ```XAML
@@ -142,11 +166,10 @@ The first point to note is that the event handler for the Switch has been remove
              VerticalOptions="End"
              IsToggled="true"
              />
-```                
+```     
 
-We will instead bind it's `IsToggled` property to `IsVisibleProperty` property of the Label and the `IsEnabledProperty` property of the button.
+Next, look at the code-behind where the bindings are set up in code.
 
-First, look at the code-behind 
 ```C#
   public MainPage()
   {
@@ -160,8 +183,6 @@ First, look at the code-behind
   }
 ```        
 
-[FIGURE - SOURCE TARGET]
-
 First the `MessageLabel`.
 ```C#
    MessageLabel.BindingContext = ToggleSwitch;
@@ -169,12 +190,15 @@ First the `MessageLabel`.
 
 Here the _target_ is `MessageLabel` and the _source_ is `ToggleSwitch`.
 
-We can think of this as `Target.BindingContext = Source`, where Target must be derived from `BindableObject` as is typically a UI component.
+We can think of this as `Target.BindingContext = Source`, where the **Target** must be derived from `BindableObject`. The target is typically a UI component.
 
 Now the interesting bit:
 ```C#
 MessageLabel.SetBinding(Label.IsVisibleProperty, "IsToggled", BindingMode.TwoWay);
 ```
+
+![BindingTheMessageLabel](img/binding-label-to-switch.png)
+
 With bindings there is first the `BindingContext` which acts as a reference to the **source** object. In uni-direction bindings, the default is always from source to target, where the source here is `ToggleSwitch` and the target is the `MessageLabel`. For two-way bindings, either could act as the source for the other.
 
 Now the `SetBinding` method is called on the target (`MessageLabel`) - remember this is a specific instance on `Label` instantiated via XAML. 
