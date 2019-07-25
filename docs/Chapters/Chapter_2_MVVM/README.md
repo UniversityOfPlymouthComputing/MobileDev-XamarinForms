@@ -36,7 +36,7 @@ This is achieved through the use of a _binding layer_ between the ViewModel and 
 Consider two possible scenarios:
 
 1. The user makes a change to a UI element that has a property bound to a ViewModel property. This automatically causes an update to the ViewModel property without the need to write any code. The setter of that property may (or may not) then process the value and pass it to the Model via a public API. A common task for ViewModel is data conversion and updates to the Model.
-2. A waiting network connection (invoked from within the Model) returns a new value and asynchronously updates a value in the model. This is advertised as an event. The ViewModel is listening for such events and so will observe the change. It then changes one of the bound properties which in-turn, provokes an automatic update in the UI
+2. A waiting network connection (invoked from within the Model) returns a new value and asynchronously updates a value in the model. This is advertised as an event. The ViewModel is listening for such events and so will observe the change. It then might change one of the bound properties which in-turn, provokes an automatic update in the UI
 
 > The ViewModel is therefore the arbitrator between events in the View and events in the Model, marshalling data between them.
 
@@ -55,7 +55,7 @@ So how does this work? Starting with the interface between the ViewModel and Vie
    - Where there is no one-to-one type mapping, a _Value Converter_ can be inserted between them so that the ViewModel can avoid using UI types. 
 - Bindings can be uni-directional or bi-directional. 
     - For uni-directional bindings, you also have control in which direction changes are propagated.
-- Content pages and UI Components have a property called the `BindingContext` - this is typically the ViewModel
+- Content pages and UI Components have a property called the `BindingContext` - this typically references the ViewModel
     - It is often the case that the View instantiates the ViewModel.
 - It is also possible to bind UI elements to other UI elements (no view model involved)
 - There can be multiple View Models and Models for any given View
@@ -63,7 +63,7 @@ So how does this work? Starting with the interface between the ViewModel and Vie
 For the interface between the ViewModel and Model, some key conceptual points to note are as follows:
 
 - It is often the case that the ViewModel instantiates the Model
-- The link between them may be limited to the ViewModel calling synchronous (public) APIs on the Model, and storing returned values.
+- The link between them may be limited to the ViewModel calling synchronous (public) APIs on the Model, and processing any returned values.
     - If the returned values are saved in bounded properties in the ViewModel, then the UI may be automatically updated.
 - The ViewModel can also invoke Asynchronous methods on the Model - the call-back is typically performed using .NET events
 
