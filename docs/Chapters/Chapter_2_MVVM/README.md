@@ -139,8 +139,8 @@ To begin with, a three way binding will be set up between the `MessageLabel`, th
 We will bind `ToggleSwitch.IsToggled` to both the `MessageLabel.IsVisible` and `MessageButton.IsEnabled`. We will also set this up initially as a two-way binding. _A change in one will result in an automatical change in the other_. 
 
 1. A change to `TooglSwitch.IsToggled` will _automatically_ change both `MesageLabel.IsVisible` and `MessageButton.IsEnabled`
-1. A change to `MesageLabel.IsVisible` will _automatically_ change both `TooglSwitch.IsToggled`. This in turn will activate (1)
-1. A change to `MesageButton.IsEnabled` will _automatically_ change both `TooglSwitch.IsToggled`. This in turn will activate (1)
+1. A change to `MesageLabel.IsVisible` will _automatically_ change both `ToogleSwitch.IsToggled`. This in turn will activate (1)
+1. A change to `MesageButton.IsEnabled` will _automatically_ change both `ToogleSwitch.IsToggled`. This in turn will activate (1)
 
 ### Binding Relationships
 The figure below captures the necessary relationships to establish a binding between two properties
@@ -149,15 +149,15 @@ The figure below captures the necessary relationships to establish a binding bet
 
 Becoming familiar with the notation is important here as it can otherwise get confusing. Some points to observe:
 
-- The _Target_ is typically a UI object, and must interit from `BindableObject` which in turn provides the property `BindingContext`
-- The `BindingContext` is a reference to the source - this can be any type of object (hence is more loosely coupled)
+- The _Target_ is typically a UI object, and must interit from `BindableObject` (which provides the property `BindingContext`)
+- The `BindingContext` is a reference to the source - the source can be any type of object (hence is more loosely coupled)
 - A binding is setup between specified properties of the source and target objects
-    - The target property busy inherit from BindableProperty
-    - The source property is specified by name (as a string). Something known as _reflection_ will be used to find a property of this name at run time.
+    - The target property is of type BindableProperty
+    - The source property is loosely specified by name (as a string). 
     
-As you can probably infer, the requiremens for the target are much more constrained than the source. The target does not know the concrete type of the source or it's bound property. This means _the source can by almost any type object_.  It is commonly either a ViewModel or another UI component.
+As you can probably infer, the requiremens for the target are much more constrained than the source. The target does not know the concrete type of the source or it's bound property (just it's name). This means _the source can by almost any type object_.  It is commonly either a ViewModel or another UI component. Equally the source property is only known by name (string). Something known as [reflection](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection) will be used to find a property matching this name at run-time.
 
-### Hooking up the Label
+### Binding Properties of the Switch to the Label and Button
 The first point to note is that the event handler for the Switch has been removed.
 
 ```XAML
@@ -183,14 +183,15 @@ Next, look at the code-behind where the bindings are set up in code.
   }
 ```        
 
-First the `MessageLabel`.
+The `Switch` will be the source object. The `MessageLabel` and `MessageButton` will be targets. This creates a one-to-many realationship
+
+First the `MessageLabel`. 
+
 ```C#
    MessageLabel.BindingContext = ToggleSwitch;
 ```
 
 Here the _target_ is `MessageLabel` and the _source_ is `ToggleSwitch`.
-
-We can think of this as `Target.BindingContext = Source`, where the **Target** must be derived from `BindableObject`. The target is typically a UI component.
 
 Now the interesting bit:
 ```C#
