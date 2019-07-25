@@ -187,18 +187,42 @@ The `Switch` will be the source object. The `MessageLabel` and `MessageButton` w
 
 ![OneToMany](img/one-to-many.png)
 
-First the `MessageLabel` (target). 
+Note that each target object can only have one source, so this topology makes sense. Had we made the Switch the target, we would have a problem. In code we can set the source for each target by specifying the `BindingContext` property. 
 
 ```C#
+   ...
    MessageLabel.BindingContext = ToggleSwitch;
+   ...
+   MessageButton.BindingContext = ToggleSwitch;
+   ...
 ```
 
-Here the _target_ is `MessageLabel` and the _source_ is `ToggleSwitch`.
+Here the _targets_ are `MessageLabel` and `MessageButton`. These meet all requirements: both are UI objects, so inherit from `BindableObject` and have properties of type `BinableProperty` (see below). The source object (instance of `Switch`) is a reference type, so that's fine. 
 
-Now the interesting bit:
+Now the interesting bit the [SetBinding](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.bindableobjectextensions.setbinding?view=xamarin-forms) API:
 ```C#
-MessageLabel.SetBinding(Label.IsVisibleProperty, "IsToggled", BindingMode.TwoWay);
+   ...
+   MessageLabel.SetBinding(Label.IsVisibleProperty, "IsToggled", BindingMode.TwoWay);
+   ...
+   MessageButton.SetBinding(Button.IsEnabledProperty, "IsToggled", BindingMode.TwoWay);
+   ...
 ```
+
+You always start with the target, or put another way, you always _set the binding on the target_ (to rememer this, I like to visualise a cross-hair on each of the UI components I want to bind to). 
+
+Consider each parameter in turn:
+
+- The first parameter is of type `BindableProperty`. Now, this might seem confusing (because it is!). For a start, _static properties_ are provided. `Label.IsVisibleProperty` is not the same as `MessageLabel.IsVisible`.
+    - For any (bindable) property, there will be a static class property of the same name + suffic `Property`
+    - You always specify the static property
+    - Why? Err... I'll get back to you on that ok?
+- The second property is the _name_ of the source property, specified as a `string`.    
+- Finally, there is the direction. This enumerable type is can set to:
+    - Default
+    - TwoWay (changes are communicated in both direction)
+    - OneWay (changes are only communicated from source to taget)
+    - OneWayToSource (changes are only communicated from target to source)
+    - OneTime (changes only communicated when the `BindingContext` changes)
 
 ![BindingTheMessageLabel](img/binding-label-to-switch.png)
 
