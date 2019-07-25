@@ -25,12 +25,9 @@ namespace HelloBindings
         public MainPage()
         {
             InitializeComponent();
-
-            ToggleSwitch.BindingContext = this;
-
+            
             MessageLabel.BindingContext = ToggleSwitch;
             MessageLabel.SetBinding(Label.IsVisibleProperty, "IsToggled", BindingMode.TwoWay);
-            
             MessageButton.BindingContext = ToggleSwitch;
             MessageButton.SetBinding(Button.IsEnabledProperty, "IsToggled", BindingMode.TwoWay);
         }
