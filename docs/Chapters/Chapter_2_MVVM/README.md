@@ -185,7 +185,9 @@ Next, look at the code-behind where the bindings are set up in code.
 
 The `Switch` will be the source object. The `MessageLabel` and `MessageButton` will be targets. This creates a one-to-many realationship
 
-First the `MessageLabel`. 
+![OneToMany](img/one-to-many.png)
+
+First the `MessageLabel` (target). 
 
 ```C#
    MessageLabel.BindingContext = ToggleSwitch;
