@@ -165,7 +165,7 @@ Becoming familiar with the notation is important here as it can otherwise get co
 As you can probably infer, the requirements for the target are much more constrained than the source. The target does not know the concrete type of the source or it's bound property (just it's name). This means _the source can by almost any type object_.  It is commonly either a ViewModel or another UI component. Equally the source property is only known by name (type `string`). Behind the scenes, something known as [reflection](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection) will be used to find a property matching this name at run-time and bind to it.
 
 ### Binding Properties of the Switch to the Label and Button
-The first point to note is that the event handler for the Switch has been removed.
+The first point to note is that the event handler for the Switch has been removed. We still have the button handler (for now).
 
 ```XAML
      <Switch x:Name="ToggleSwitch"  
@@ -218,12 +218,15 @@ Now for the interesting bit, the [SetBinding](https://docs.microsoft.com/en-us/d
 You always start with the target, or put another way, you always _set the binding on the target_ (to rememer this, I like to visualise a cross-hair on each of the UI components I want to bind to). 
 
 ![BindingTheMessageLabel](img/binding-label-to-switch.png)
+_Binding `ToggleSwitch.IsToggled` to `MessageLabel.IsVisible`. Green is related to the source and blue is related to the target_
+
 ![BindingTheMessageButton](img/binding-button-to-switch.png)
+_Binding `ToggleSwitch.IsToggled` to `MessageButton.IsEnabled`_
 
 Consider each parameter in turn:
 
-- The first parameter is the **target property** of type `BindableProperty`. Now, the code might seem confusing (because it is!). For a start, _static properties_ are provided. 
-    - For any (bindable) property, there will be a static class property of the same name + suffix `Property`
+- The first parameter is the **target property** of type `BindableProperty`. On inspecton, the code might seem confusing (because it is!). For a start, _static properties_ on the target type. 
+    - For any (bindable) property, there will be a static class property of the same name + suffix `Property`.
     - You always pass the static property (never an instance property)
     - Why? Err... I'll get back to you on that ok?
 - The second property is the _name_ of the **source property**, specified as a `string`.    
@@ -234,9 +237,30 @@ Consider each parameter in turn:
     - OneWayToSource (changes are only communicated from target to source)
     - OneTime (changes only communicated when the `BindingContext` changes)
 
+### Two-Way Binding in Action
+Run the application and click the button until it recycles back to the first message. Let's examine what happens in the code at this point:
 
+```C#
+     private void MessageButton_Clicked(object sender, EventArgs e)
+     {
+         MessageLabel.Text = Sayings[next];
+         next = (next + 1) % Sayings.Count;
 
+         //Sneaky trick
+         if (next == 0)
+         {
+             MessageLabel.IsVisible = false;
+         }
+     }
+```
 
+The line of interest is this `MessageLabel.IsVisible = false;` Note that `MessageLabel` is a binding _target_. However, the binding between the switch and label was set to `BindingMode.TwoWay`. 
+
+- By changing `MessageLabel.IsVisible`, the two-way binding automatically changes `ToggleSwitch.IsToggled`, which in turn changes `MessageButton.IsEnabled`.
+- You might be worried that this could get into a ever-lasting loop. You would be right to be concerned and later we will have to be mindful to avoid such a trap. However, when binding between UI elements, checks are put in place to only update a bound property if it's value is actually going to change.
+
+## Part 3
+[Part 3 is here](/code/Chapter2/Bindings/HelloBindings-03). Build and run this to see what it does. Inspect the code fully before proceeding.
 
 
 
