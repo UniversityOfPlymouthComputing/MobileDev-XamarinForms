@@ -217,9 +217,12 @@ Now for the interesting bit, the [SetBinding](https://docs.microsoft.com/en-us/d
 
 You always start with the target, or put another way, you always _set the binding on the target_ (to rememer this, I like to visualise a cross-hair on each of the UI components I want to bind to). 
 
+![BindingTheMessageLabel](img/binding-label-to-switch.png)
+![BindingTheMessageButton](img/binding-button-to-switch.png)
+
 Consider each parameter in turn:
 
-- The first parameter is the **target property** of type `BindableProperty`. Now, the code might seem confusing (because it is!). For a start, _static properties_ are provided. `Label.IsVisibleProperty` is not the same as `MessageLabel.IsVisible`.
+- The first parameter is the **target property** of type `BindableProperty`. Now, the code might seem confusing (because it is!). For a start, _static properties_ are provided. 
     - For any (bindable) property, there will be a static class property of the same name + suffix `Property`
     - You always pass the static property (never an instance property)
     - Why? Err... I'll get back to you on that ok?
@@ -232,9 +235,8 @@ Consider each parameter in turn:
     - OneTime (changes only communicated when the `BindingContext` changes)
 
 
-![BindingTheMessageLabel](img/binding-label-to-switch.png)
 
-[UPDATE TO ALSO SHOW THE BUTTON]
+
 
 
 
