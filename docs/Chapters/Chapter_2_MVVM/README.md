@@ -259,9 +259,427 @@ The line of interest is this `MessageLabel.IsVisible = false;` Note that `Messag
 - By changing `MessageLabel.IsVisible`, the two-way binding automatically changes `ToggleSwitch.IsToggled`, which in turn changes `MessageButton.IsEnabled`.
 - You might be worried that this could get into a ever-lasting loop. You would be right to be concerned and later we will have to be mindful to avoid such a trap. However, when binding between UI elements, checks are put in place to only update a bound property if it's value is actually going to change.
 
-## Part 3
-[Part 3 is here](/code/Chapter2/Bindings/HelloBindings-03). Build and run this to see what it does. Inspect the code fully before proceeding.
+## Part 3 - This is not MVVM
+[Part 3 is here](/code/Chapter2/Bindings/HelloBindings-03). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding.
 
+Confirm the following:
+
+- A Model class has been added (and will be discussed)
+- In the code-behind, and instance of the Model class has been allocated `Model DataModel = new Model();`
+- The `BindingContext` for all the bound UI properties are referencing the model object `DataModel`
+    - I would add that binding directly to a Model is NOT MVVM, and is only temporary
+
+Again for illustrative purposes, we will skip the ViewModel layer for now and bind directly to a Model.
+
+### One-Way Bindings
+In the code-behind the XAML, we see a new property `DataModel` (type `Model`) has been added. For now, we will instantiate the model here
+
+```C#
+   Model DataModel = new Model();
+```
+
+As much as it pains me to do so, the model object can be used as a binding source.
+
+```C#
+   ...
+   ToggleSwitch.BindingContext = DataModel;
+   MessageButton.BindingContext = DataModel;
+   MessageLabel.BindingContext = DataModel;
+   ...
+```
+
+The UI properties are now bound to properties on the model:
+
+```C#
+   ...
+   ToggleSwitch.SetBinding(Switch.IsToggledProperty,  "IsTrue", BindingMode.OneWayToSource);
+   MessageButton.SetBinding(Button.IsEnabledProperty, "IsTrue", BindingMode.OneWay);
+   MessageLabel.SetBinding(Label.IsVisibleProperty,   "IsTrue", BindingMode.OneWay);
+   MessageLabel.SetBinding(Label.TextProperty, "CurrentSaying", BindingMode.OneWay);   
+   ...
+```
+
+Note the following:
+- The source is now the data model and the targets are all UI components (as is often the case).
+- The target (UI) properties `ToggleSwitch.IsToggled`, `MessageButton.IsEnabled` and `MessageLabel.IsVisible` are all bound to a single  property data model property `DataModel.IsTrue` (type `bool`).
+- The binding directions have been set to one-way
+    - By default, changes in the source will invoke changes in the targets 
+    - The exception is the switch (`OneWayToSource`), where changes in the UI component invoke changes in the model
+
+An additional binding has been added: `MessageLabel.Text` is bound to `DataModel.CurrentSaying`
+
+```C#
+   MessageLabel.SetBinding(Label.TextProperty, "CurrentSaying", BindingMode.OneWay);
+```
+
+What this means is that any change to the model `CurrentSaying` property will reflect in the `MessageLabel`. The current saying is updated when the button is clicked. We still have the event handler for the button, but it has now been reduced down to a single statement.
+
+```C#
+  private void MessageButton_Clicked(object sender, EventArgs e)
+  {
+      DataModel.NextMessage();
+  }
+```        
+
+The view behind code is now looking a little thinner. The data model now contains most of the application logic. Let's look at that next.
+
+### Creating Bindable Properties
+Recall that the model is now the binding source for all UI components. It exposes two properties used in the bindings,`IsTrue` and `CurrentSaying`. How does this work? Well, you may be pleased to know that it takes very little code to make the binding magic work!
+
+First, look at the class declaration:
+```C#
+   ...
+    class Model : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+   ...
+```
+
+Critcally, it implements the interface `INotifyPropertyChanged`. This means there will be a compiler error unless the interface requirements are met. There is only one:
+
+```C#
+   public event PropertyChangedEventHandler PropertyChanged;
+```  
+   
+This event is what the binding mechanism uses to listen for changes. It is the developers responsibility to signal an event when a change occues, as shown in the following extract:
+
+```C#
+     string _currentSaying = "Welcome to Xamarin Forms!";
+     public string CurrentSaying
+     {
+         get => _currentSaying;
+         set
+         {
+             if (!value.Equals(_currentSaying))
+             {
+                 _currentSaying = value;
+                 if (PropertyChanged != null)
+                 {
+                     PropertyChanged(this, new PropertyChangedEventArgs("CurrentSaying"));
+                 }
+             }
+         }
+     }
+```
+
+Here we see the setter and getter for the variable backed property `CurrentSaying`. Look closely at the setter. If (and only if) a new value is set, then the following is executed:
+
+```C#
+   PropertyChanged(this, new PropertyChangedEventArgs("CurrentSaying"));
+```
+
+If you recall the button event handler, it called the following method on the model: 
+
+```C#
+     public void NextMessage()
+     {
+         CurrentSaying = Sayings[next];
+         next = (next+ 1) % Sayings.Count;
+     }
+```
+
+What have we achieved?
+
+> By simply setting `CurrentSaying`, the UI automatically updates, but without reference to the UI anywhere in the model code.
+
+The `IsTrue` property is even more impressive. Three separate UI properies are bound to this property (here they are again)
+
+```C#
+   ToggleSwitch.SetBinding(Switch.IsToggledProperty,  "IsTrue", BindingMode.OneWayToSource);
+   MessageButton.SetBinding(Button.IsEnabledProperty, "IsTrue", BindingMode.OneWay);
+   MessageLabel.SetBinding(Label.IsVisibleProperty,   "IsTrue", BindingMode.OneWay);
+```   
+
+Again, key is the line in the setter that reads:
+
+```C#
+   PropertyChanged(this, new PropertyChangedEventArgs("IsTrue"));
+```
+
+There is nothing in the model that either sets or reads `IsTrue` (which strongly suggests this is not it's natural home - back to MVVM again!). Everything is performed using bindings. The toggle switch sets it, while the the message label and button observe it. The `IsTrue` property is simply there as a go-between for some UI state.
+
+** TASK ** Set a break point in the setter for `IsTrue`, debug the code, and click the toggle switch.
+
+## Part 4 - Type Conversion
+[Part 4 is here](/code/Chapter2/Bindings/HelloBindings-04). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding.
+
+Firstly, a new bindable property `SayingNumber` of type `int` has been addded to the model. Take a look at the model class to see the code (it's very much like the other properties).
+
+What is most different are two new bindings in the code-behind the XAML. The first is to bind the `Text` property (string) of the button to the `SayingNumber` (int). What probably stands out here is that the types are not the same. This is such a common scenario (many properties are strings), an additional conversion string can be passed as an additional parameter. For this example, no more work is needed!
+
+```C#
+   MessageButton.SetBinding(Button.TextProperty, "SayingNumber", BindingMode.OneWay, null, "Saying {0:d}");
+```
+
+What is not shown are a number of hidden parameters with default values. If we were to write the complete method, it would read:
+
+```C#
+   MessageButton.SetBinding(targetProperty: Button.TextColorProperty, path: "SayingNumber", mode: BindingMode.OneTime, converter: null, stringFormat: "Saying {0:d}");              )
+```
+
+The second binding is more complicated as it uses the `converter` parameter (default `null`). The source property `SayingNumber` (type `int`) is bound to the target label `TextColor` (type `Color`). A format string is not going to help in this case, so instead we create a simple object of type `ColorConverter` to convert between `int` to `Color`
+
+```C#
+   MessageLabel.SetBinding(Label.TextColorProperty, "SayingNumber", BindingMode.OneWay, new ColorConverter());
+```
+
+### The `TypeConverter` 
+The code for the `ColorConverter` class is shown below. 
+
+```C#
+    class ColorConverter : IValueConverter
+    {
+        //Implement this method to convert value to targetType by using parameter and culture.
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            int v = (int)value;
+            Color c;
+            switch (v)
+            {
+                case 0:
+                    c = Color.Red;
+                    break;
+                case 1:
+                    c = Color.Gold;
+                    break;
+                case 2:
+                    c = Color.Green;
+                    break;
+                default:
+                    c = Color.Black;
+                    break;
+            }
+            return c;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+```    
+
+Note that it implements the `IValueConverter` interface, which requires the following two methods:
+
+```C#
+public object Convert(object value, Type targetType, object parameter, CultureInfo culture); // int to Color
+public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture); Color to int
+```
+
+We only need the `Convert` method, which converts the source data (`int`) to the target (`Color`). The first parameter is the source data, which is cast immediately to type `int`. The target data is returned from the method. 
+
+You can read more about value converters in the [Microsoft Documentation](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/data-binding/converters)
+
+## Part 5 - Commanding and the ViewModel
+[Part 5 is here](/code/Chapter2/Bindings/HelloBindings-05). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding.
+
+The time has finally to adopt MVVM
+
+- The Model currently has properties related to UI State only
+- It's only going to get worse!
+
+There are two aims in mind:
+- To unit test the model and consider only domain specific data issues. Ideally, the code would be pure C#.NET
+- To unit test the ViewModel and test UI logic. Ideally, there will be no dependency on UI components in Xamarin.Forms
+
+A bit of code refactoring is there needed!
+
+### A Cleaner Model Class
+Here is the new Model class, with all the 
+```C#
+    class Model : INotifyPropertyChanged
+    {
+        //Keeping this around - I will need it later ;)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private List<string> Sayings = new List<string>
+        {
+            "May the Force be With You",
+            "Live long and prosper",
+            "Nanoo nanoo"
+        };
+
+        public int SayingNumber { get; private set; } //Index of which saying to use
+        public string CurrentSaying { get; private set;  }
+        public void NextMessage()
+        {
+            SayingNumber = (SayingNumber + 1) % Sayings.Count;
+            CurrentSaying = Sayings[SayingNumber];
+        }
+
+        public Model()
+        {
+            CurrentSaying = Sayings[0];
+        }
+    }
+```
+
+All the binding related code has been removed. I've kept in `INotifyPropertyChanged` but it's not needed at this stage (you should see a sqiggle in the editor suggesting that `PropertyChanged` is unused).
+
+Reflecting on this code, it's now very simple - it simply stores data and has one method (`NextMessage()`). This is simple to unit test!
+
+### Introducing the ViewModel
+Now we introduce the middle layer - the ViewModel.  First, let's examine the complete class:
+
+```C#
+   class MainPageViewModel : INotifyPropertyChanged
+    {
+        private Model DataModel = new Model();
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ICommand ButtonCommand { get; private set; }
+
+        public MainPageViewModel()
+        {
+            ButtonCommand = new Command(execute: () =>
+            {
+                DataModel.NextMessage();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentSaying"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SayingNumber"));
+            }, canExecute: () => this.UIVisible);
+        }
+
+        public int SayingNumber => DataModel.SayingNumber;
+        public string CurrentSaying => DataModel.CurrentSaying;
+
+        bool _visible = true;
+        public bool UIVisible
+        {
+            get => _visible;
+            set
+            {
+                if (value != _visible)
+                {
+                    _visible = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UIVisible"));
+                    ((Command)ButtonCommand).ChangeCanExecute();
+                }
+            }
+        }
+    }
+```
+
+For MVVM, note the following
+
+- **The View is going to bind to the ViewModel and NOT the model**, so once again we implement `INotifyPropertyChanged`.
+- The ViewModel will expose bindable properties to align with the bound view properties (albeit with converters in between where necessary) 
+- The ViewModel will look after UI state, but not domain data state
+- The ViewModel instantiates the `Model` (in this case) 
+- The ViewModel coordaintes data flow between Model and View.
+- We want to ViewModel to ultimately be unit testable, so we would like to remove event handlers (which have references to UI objects)
+
+In terms of exposing bindable properties to the view, let's do the easy stuff first and peform a simple data pass-through. 
+
+```C#
+  public int SayingNumber => DataModel.SayingNumber;
+  public string CurrentSaying => DataModel.CurrentSaying;
+```        
+
+These are both read-only. Neither of these properties are changed in the view model to there is no value in writing setters. The rest of the changes relate to removal of the event handler and replacement with _commanding_.
+
+### Commanding
+The event handler for the button has already been removed. A new property `ButtonCommand` (type `System.Windows.Input.ICommand`) has been added:
+
+```C#
+public ICommand ButtonCommand { get; private set; }
+```
+
+Let's take a sneaky look at the binding in the code-behind:
+
+```C#
+   MessageButton.SetBinding(Button.CommandProperty, "ButtonCommand"); 
+```
+
+This is rather nice, as it keeps with the MVVM architecture:
+
+> In short, we have replaced an event handler with a bindable property `ButtonCommand`
+
+I have chosen in instantiate the `Command` in the constructor as follows:
+
+```C#
+     public MainPageViewModel()
+     {
+         ButtonCommand = new Command(execute: () =>
+         {
+             DataModel.NextMessage();
+             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentSaying"));
+             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SayingNumber"));
+         }, canExecute: () => this.UIVisible);
+     }
+```        
+
+This is where all the action takes place! The `Command` class constructor as two important properties: `execute` (type `System.Action`) and `canExecute` (type `System.Func<bool>`). Both of these are types of anonymous function.
+
+When the Command is instantiated, the `canExecute:` property is executed. This simply executes the code `() => this.UIVisible` which returns a bool.
+- If a true is returned, the button is enabled
+- If a false is returned, the buttis is disabled
+
+When the button is clicked (assuming it is enabled) the bindings will invoke the execute: property.  
+
+```C#
+    DataModel.NextMessage();
+    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentSaying"));
+    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SayingNumber"));
+```             
+This first updates the model. In the knowledge that the `CurrentSaying` property and `SayingNumber` property will have changed, so the bindings on these properties are notified so that the UI is updated.
+
+Note how the UI state is managed here. The `IsEnabled` property is also bound via the `ButtonCommand` property. This makes reference to the following property:
+
+```C#
+     bool _visible = true;
+     public bool UIVisible
+     {
+         get => _visible;
+         set
+         {
+             if (value != _visible)
+             {
+                 _visible = value;
+                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UIVisible"));
+                 ((Command)ButtonCommand).ChangeCanExecute();
+             }
+         }
+     }
+```        
+
+This property is bound to the switch in the UI. If the switch is changed, the setter will execute. Observe the invokation of `((Command)ButtonCommand).ChangeCanExecute()`. This forces the `ButtonCommand` to reevaluate the canExecute: function and update the `IsEnabled` property on the bounded button.
+
+_What a tangled web we weave!_
+
+### The Code Behind
+Before we finish, let's look at the Code Behind, which now represents only the View in MVVM
+
+```C#
+    public partial class MainPage : ContentPage
+    {
+        MainPageViewModel ViewModel = new MainPageViewModel();
+
+        public MainPage()
+        {
+            InitializeComponent();
+
+            //Bindings
+            ToggleSwitch.BindingContext = ViewModel;
+            MessageButton.BindingContext = ViewModel;
+            MessageLabel.BindingContext = ViewModel;
+
+            ToggleSwitch.SetBinding(Switch.IsToggledProperty, "UIVisible", BindingMode.OneWayToSource);
+            MessageButton.SetBinding(Button.TextProperty, "SayingNumber", BindingMode.OneWay, null, "Saying: {0:d}");
+            MessageButton.SetBinding(Button.CommandProperty, "ButtonCommand"); 
+
+            MessageLabel.SetBinding(Label.TextProperty, "CurrentSaying", BindingMode.OneWay);
+            MessageLabel.SetBinding(Label.IsVisibleProperty, "UIVisible", BindingMode.OneWay);
+            MessageLabel.SetBinding(Label.TextColorProperty, "SayingNumber", BindingMode.OneWay, new ColorConverter());
+        }
+    }
+```
+
+Some points to note:
+- In this example, the ViewModel is instantiated by the View
+- The ViewModel is the Binding Context (source) for all targets
+- We added a new binding - the button `Command` property.
+
+In the next section, still keeping these APIs in mind, we remove ALL this code!
 
 
 
