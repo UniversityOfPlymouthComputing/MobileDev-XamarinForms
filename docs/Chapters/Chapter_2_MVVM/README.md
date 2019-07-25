@@ -1,8 +1,9 @@
-[Contents](/docs/README.md)
+[Back](/docs/README.md)
 
 ----
 
-# Model-View-ViewModel (MVVM)
+# Chapter 2 - Model-View-ViewModel (MVVM)
+
 In the previous example, a Model-View-Controller architecture was used. For simple applications, this works well with the following caveats:
 
 - It does not tends to scale well as controllers get complicated
