@@ -18,7 +18,7 @@ By the end of this chapter you should be able to:
 
 # Contents
 
-1. [Introduction to the Course](Introduction.md)
+1. [Model-View-ViewModel (MVVM)](Introduction.md)
 1. [Some essential concepts in C# - TO BE DONE](essential-c-sharp.md)
    1. Actions
    1. Functions
