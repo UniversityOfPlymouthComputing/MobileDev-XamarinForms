@@ -69,11 +69,18 @@ For the interface between the ViewModel and Model, some key conceptual points to
 
 Ok, that's a lot of stuff and I suspect it does not yet hold much meaning until you see it in practise. For this, we need a simple example to illustrate all the key points.
 
-## Part 1 - The Wise Sayings Application and Familiar Code
+# The "Wise Sayings" Application
 
-Like the examples before it, the example that is developed in this section is also trivially simple. This is on purpose. It starts with the familiar MVC architecture, and is evolved incrementally to a testable MVVM archirecture with Model data being pulled from the cloud (Azure Function). Although the resulting MVVM mode is longer and possibly overkill for such a simple application, it is hopefully illustrative. You can then apply it yourself to more real-world applications that scale beyond the trivial.
+Like the examples before it, the example that is developed in this section is also trivially simple. This is on purpose. 
 
 > Anticipate the difficult by managing the easy. Lao Tzu
+
+It starts with the familiar MVC architecture, and is evolved incrementally to a testable MVVM archirecture with Model data being pulled from the cloud (Azure Function). Although the resulting MVVM mode is longer and possibly overkill for such a simple application, it is hopefully illustrative. You can then apply it yourself to more real-world applications that scale beyond the trivial.
+
+ 
+## Part 1 - Start with Familiar Code
+
+We begin with using a coding style that most people new to Xamarin are familiar with. It follows the pattern used in the BMI application. Creating event handlers to update the UI state and model data.
 
 All the code is available on the GitHub site. It is **strongly suggested** you open and examine each example as we progress.
 
@@ -132,17 +139,17 @@ The model data can be considered to be the instance variables `Sayings` and `nex
 ## Part 2 - Binding Between UI Elements using Code
 [Part 2 is here](/code/Chapter2/Bindings/HelloBindings-02). Build and run this to see what it does. Note the strange behaviour once you get back to the first saying. This was added to illustrate a point and will be removed later.
 
-This step is simply to illustrate the mechanism of binding. Code is used to set up the bindings as it exposes the APIs that are leveraged by XAML in subsequent sections. This can be very helpful for demystifying what is going on.
+This step is simply to illustrate the mechanism of two-way _binding_. I have purposely used code to set up the bindings as it exposes the APIs that are leveraged by XAML in subsequent sections. This can be very helpful for demystifying what is going on.
 
 To begin with, a three way binding will be set up between the `MessageLabel`, the `ToggleSwitch` and the `MessageButton`.           
 
-We will bind `ToggleSwitch.IsToggled` to both the `MessageLabel.IsVisible` and `MessageButton.IsEnabled`. We will also set this up initially as a two-way binding. _A change in one will result in an automatical change in the other_. 
+We will bind `ToggleSwitch.IsToggled` to both the `MessageLabel.IsVisible` and `MessageButton.IsEnabled`. We will also set this up initially as a two-way binding. _A change in one will result in an automatic change in the others_. 
 
 1. A change to `TooglSwitch.IsToggled` will _automatically_ change both `MesageLabel.IsVisible` and `MessageButton.IsEnabled`
 1. A change to `MesageLabel.IsVisible` will _automatically_ change both `ToogleSwitch.IsToggled`. This in turn will activate (1)
 1. A change to `MesageButton.IsEnabled` will _automatically_ change both `ToogleSwitch.IsToggled`. This in turn will activate (1)
 
-### Binding Relationships
+### Bindings and Relationship Types
 The figure below captures the necessary relationships to establish a binding between two properties
 
 ![Binding](img/binding.png)
@@ -155,7 +162,7 @@ Becoming familiar with the notation is important here as it can otherwise get co
     - The target property is of type BindableProperty
     - The source property is loosely specified by name (as a string). 
     
-As you can probably infer, the requiremens for the target are much more constrained than the source. The target does not know the concrete type of the source or it's bound property (just it's name). This means _the source can by almost any type object_.  It is commonly either a ViewModel or another UI component. Equally the source property is only known by name (string). Something known as [reflection](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection) will be used to find a property matching this name at run-time.
+As you can probably infer, the requirements for the target are much more constrained than the source. The target does not know the concrete type of the source or it's bound property (just it's name). This means _the source can by almost any type object_.  It is commonly either a ViewModel or another UI component. Equally the source property is only known by name (type `string`). Behind the scenes, something known as [reflection](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection) will be used to find a property matching this name at run-time and bind to it.
 
 ### Binding Properties of the Switch to the Label and Button
 The first point to note is that the event handler for the Switch has been removed.
@@ -187,7 +194,7 @@ The `Switch` will be the source object. The `MessageLabel` and `MessageButton` w
 
 ![OneToMany](img/one-to-many.png)
 
-Note that each target object can only have one source, so this topology makes sense. Had we made the Switch the target, we would have a problem. In code we can set the source for each target by specifying the `BindingContext` property. 
+Note that _a target object can only have one source_, so this topology makes sense. Had we made the Switch the target, we would have a problem. In code we can set the source for each target by specifying the `BindingContext` property. 
 
 ```C#
    ...
@@ -197,9 +204,9 @@ Note that each target object can only have one source, so this topology makes se
    ...
 ```
 
-Here the _targets_ are `MessageLabel` and `MessageButton`. These meet all requirements: both are UI objects, so inherit from `BindableObject` and have properties of type `BinableProperty` (see below). The source object (instance of `Switch`) is a reference type, so that's fine. 
+Here the _targets_ are `MessageLabel` and `MessageButton`. These meet all requirements: both are UI objects, so inherit from `BindableObject` and have properties of type `BinableProperty` (discussed below). The source object (instance of `Switch`) is a reference type, so derived from object, so that's fine. 
 
-Now the interesting bit the [SetBinding](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.bindableobjectextensions.setbinding?view=xamarin-forms) API:
+Now for the interesting bit, the [SetBinding](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.bindableobjectextensions.setbinding?view=xamarin-forms) API.
 ```C#
    ...
    MessageLabel.SetBinding(Label.IsVisibleProperty, "IsToggled", BindingMode.TwoWay);
@@ -212,11 +219,11 @@ You always start with the target, or put another way, you always _set the bindin
 
 Consider each parameter in turn:
 
-- The first parameter is of type `BindableProperty`. Now, this might seem confusing (because it is!). For a start, _static properties_ are provided. `Label.IsVisibleProperty` is not the same as `MessageLabel.IsVisible`.
-    - For any (bindable) property, there will be a static class property of the same name + suffic `Property`
-    - You always specify the static property
+- The first parameter is the **target property** of type `BindableProperty`. Now, the code might seem confusing (because it is!). For a start, _static properties_ are provided. `Label.IsVisibleProperty` is not the same as `MessageLabel.IsVisible`.
+    - For any (bindable) property, there will be a static class property of the same name + suffix `Property`
+    - You always pass the static property (never an instance property)
     - Why? Err... I'll get back to you on that ok?
-- The second property is the _name_ of the source property, specified as a `string`.    
+- The second property is the _name_ of the **source property**, specified as a `string`.    
 - Finally, there is the direction. This enumerable type is can set to:
     - Default
     - TwoWay (changes are communicated in both direction)
@@ -224,14 +231,13 @@ Consider each parameter in turn:
     - OneWayToSource (changes are only communicated from target to source)
     - OneTime (changes only communicated when the `BindingContext` changes)
 
+
 ![BindingTheMessageLabel](img/binding-label-to-switch.png)
 
-With bindings there is first the `BindingContext` which acts as a reference to the **source** object. In uni-direction bindings, the default is always from source to target, where the source here is `ToggleSwitch` and the target is the `MessageLabel`. For two-way bindings, either could act as the source for the other.
+[UPDATE TO ALSO SHOW THE BUTTON]
 
-Now the `SetBinding` method is called on the target (`MessageLabel`) - remember this is a specific instance on `Label` instantiated via XAML. 
 
-- First we provide the **target property** as the first parameter. Note this is a static member (type `BindableProperty`) of the `Label` class. We wont worry about the specifics of this. What we need to remember is that it wll be nammed as the instance property (`IsVisible`) appended with the word `Property`  
-- Next we give the name of the **source property**, but this time as a `string` (we will see why this is important later). This string is the name of the source property `IsToggled`.
+
 
 ----
 [Contents](/docs/README.md)
