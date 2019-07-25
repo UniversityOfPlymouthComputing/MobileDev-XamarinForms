@@ -63,8 +63,8 @@ So how does this work? Starting with the interface between the ViewModel and Vie
 For the interface between the ViewModel and Model, some key conceptual points to note are as follows:
 
 - It is often the case that the ViewModel instantiates the Model
-- The link between them may be limited to the ViewModel calling synchronous (public) APIs on the Model, and processing any returned values.
-    - If the returned values are saved in bounded properties in the ViewModel, then the UI may be automatically updated.
+- The link between them may be limited to the ViewModel calling synchronous (public) APIs on the Model and handling any returned values.
+    - If the returned values result in changea to any bounded properties in the ViewModel, then the UI may be automatically updated.
 - The ViewModel can also invoke Asynchronous methods on the Model - the call-back is typically performed using .NET events
 
 Ok, that's a lot of stuff and I suspect it does not yet hold much meaning until you see it in practise. For this, we need a simple example to illustrate all the key points.
