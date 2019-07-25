@@ -18,21 +18,18 @@ namespace HelloBindings
 
         private int next = 0;
 
-        string _message = "Welcome to Xamarin Forms!";
-        public string Message
+        string _currentSaying = "Welcome to Xamarin Forms!";
+        public string CurrentSaying
         {
-            get
-            {
-                return _message;
-            }
+            get => _currentSaying;
             set
             {
-                if (!value.Equals(_message))
+                if (!value.Equals(_currentSaying))
                 {
-                    _message = value;
+                    _currentSaying = value;
                     if (PropertyChanged != null)
                     {
-                        PropertyChanged(this, new PropertyChangedEventArgs("Message"));
+                        PropertyChanged(this, new PropertyChangedEventArgs("CurrentSaying"));
                     }
                 }
             }
@@ -40,17 +37,14 @@ namespace HelloBindings
 
         public void NextMessage()
         {
-            Message = Sayings[next];
+            CurrentSaying = Sayings[next];
             next = (next+ 1) % Sayings.Count;
         }
 
         bool _visible = true;
         public bool IsTrue
         {
-            get
-            {
-                return _visible;
-            }
+            get => _visible;
             set
             {
                 if (value != _visible)

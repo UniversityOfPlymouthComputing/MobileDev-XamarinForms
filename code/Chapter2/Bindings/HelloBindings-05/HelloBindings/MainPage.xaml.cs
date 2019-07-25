@@ -15,27 +15,24 @@ namespace HelloBindings
     {
         MainPageViewModel ViewModel = new MainPageViewModel();
 
-
         public MainPage()
         {
             InitializeComponent();
 
+            //BindingContext is the same for all elements, so can use the containing view
+            
+            //ToggleSwitch.BindingContext = ViewModel;
+            //MessageButton.BindingContext = ViewModel;
+            //MessageLabel.BindingContext = ViewModel;
+            BindingContext = ViewModel;
 
-            //Bindings
-            ToggleSwitch.BindingContext = ViewModel;
             ToggleSwitch.SetBinding(Switch.IsToggledProperty, "UIVisible", BindingMode.OneWayToSource);
-
-            MessageButton.BindingContext = ViewModel;
-            //MessageButton.SetBinding(Button.IsEnabledProperty, "UIVisible", BindingMode.OneWay);
             MessageButton.SetBinding(Button.TextProperty, "SayingNumber", BindingMode.OneWay, null, "Saying: {0:d}");
-            MessageButton.SetBinding(Button.CommandProperty, "ButtonCommand"); //Cannot work as Model has no such (Forms aware) property
+            MessageButton.SetBinding(Button.CommandProperty, "ButtonCommand"); 
 
-            MessageLabel.BindingContext = ViewModel;
             MessageLabel.SetBinding(Label.TextProperty, "CurrentSaying", BindingMode.OneWay);
             MessageLabel.SetBinding(Label.IsVisibleProperty, "UIVisible", BindingMode.OneWay);
             MessageLabel.SetBinding(Label.TextColorProperty, "SayingNumber", BindingMode.OneWay, new ColorConverter());
-
         }
-
     }
 }

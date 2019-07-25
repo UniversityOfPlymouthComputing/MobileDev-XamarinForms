@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Input;
 
 namespace HelloBindings
 {
     class Model : INotifyPropertyChanged
     {
+        //Keeping this around - I will need it later ;)
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         private List<string> Sayings = new List<string>
         {
@@ -18,19 +15,17 @@ namespace HelloBindings
             "Nanoo nanoo"
         };
 
-        //Index of which saying to use
-        private int next = 0;
-        public int SayingNumber { get; private set; }
-        public string Message { get; private set;  }
+        public int SayingNumber { get; private set; } //Index of which saying to use
+        public string CurrentSaying { get; private set;  }
         public void NextMessage()
         {
             SayingNumber = (SayingNumber + 1) % Sayings.Count;
-            Message = Sayings[SayingNumber];
+            CurrentSaying = Sayings[SayingNumber];
         }
 
         public Model()
         {
-            Message = Sayings[0];
+            CurrentSaying = Sayings[0];
         }
     }
 }

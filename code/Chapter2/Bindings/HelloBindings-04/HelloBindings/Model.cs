@@ -20,10 +20,7 @@ namespace HelloBindings
         private int next = 0;
         public int SayingNumber
         {
-            get
-            {
-                return next;
-            }
+            get => next;
             set
             {
                 if (next != value)
@@ -36,21 +33,18 @@ namespace HelloBindings
                 }
             }
         }
-        string _message = "Welcome to Xamarin Forms!";
-        public string Message
+        string _currentSaying = "Welcome to Xamarin Forms!";
+        public string CurrentSaying
         {
-            get
-            {
-                return _message;
-            }
+            get => _currentSaying;
             set
             {
-                if (!value.Equals(_message))
+                if (!value.Equals(_currentSaying))
                 {
-                    _message = value;
+                    _currentSaying = value;
                     if (PropertyChanged != null)
                     {
-                        PropertyChanged(this, new PropertyChangedEventArgs("Message"));
+                        PropertyChanged(this, new PropertyChangedEventArgs("CurrentSaying"));
                     }
                 }
             }
@@ -59,16 +53,13 @@ namespace HelloBindings
         public void NextMessage()
         {
             SayingNumber = (SayingNumber + 1) % Sayings.Count;
-            Message = Sayings[SayingNumber];
+            CurrentSaying = Sayings[SayingNumber];
         }
 
         bool _visible = true;
         public bool IsTrue
         {
-            get
-            {
-                return _visible;
-            }
+            get => _visible;
             set
             {
                 if (value != _visible)
@@ -85,7 +76,7 @@ namespace HelloBindings
 
         public Model()
         {
-            _message = Sayings[0];
+            _currentSaying = Sayings[0];
         }
     }
 }

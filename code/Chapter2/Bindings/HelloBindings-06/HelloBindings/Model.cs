@@ -20,16 +20,16 @@ namespace HelloBindings
 
         //Index of which saying to use
         public int SayingNumber { get; private set; }
-        public string Message { get; private set;  }
+        public string CurrentSaying { get; private set;  }
         public void NextMessage()
         {
             SayingNumber = (SayingNumber + 1) % Sayings.Count;
-            Message = Sayings[SayingNumber];
+            CurrentSaying = Sayings[SayingNumber];
         }
 
         public Model()
         {
-            Message = Sayings[0];
+            CurrentSaying = Sayings[0];
         }
     }
 }

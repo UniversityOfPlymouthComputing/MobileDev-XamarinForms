@@ -3,7 +3,6 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using ProfoundSayings;
 using System.Threading.Tasks;
-using System;
 
 namespace HelloBindings
 {

@@ -25,7 +25,7 @@ namespace HelloBindings
 
         public int SayingNumber => DataModel.SayingNumber;
 
-        public string CurrentSaying => DataModel.Message;
+        public string CurrentSaying => DataModel.CurrentSaying;
 
         bool _visible = true;
         public bool UIVisible

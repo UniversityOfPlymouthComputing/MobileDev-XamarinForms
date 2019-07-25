@@ -14,8 +14,6 @@ namespace HelloBindings
     public partial class MainPage : ContentPage
     {
         //Data
-
-
         Model DataModel = new Model();
       
         public MainPage()
@@ -23,14 +21,13 @@ namespace HelloBindings
             InitializeComponent();
 
             ToggleSwitch.BindingContext = DataModel;
-            ToggleSwitch.SetBinding(Switch.IsToggledProperty, "IsTrue", BindingMode.OneWayToSource);
-
             MessageButton.BindingContext = DataModel;
-            MessageButton.SetBinding(Button.IsEnabledProperty, "IsTrue", BindingMode.OneWay);
-            
             MessageLabel.BindingContext = DataModel;
-            MessageLabel.SetBinding(Label.TextProperty, "Message", BindingMode.OneWay);
-            MessageLabel.SetBinding(Label.IsVisibleProperty, "IsTrue", BindingMode.OneWay);
+
+            ToggleSwitch.SetBinding(Switch.IsToggledProperty,  "IsTrue", BindingMode.OneWayToSource);
+            MessageButton.SetBinding(Button.IsEnabledProperty, "IsTrue", BindingMode.OneWay);
+            MessageLabel.SetBinding(Label.IsVisibleProperty,   "IsTrue", BindingMode.OneWay);
+            MessageLabel.SetBinding(Label.TextProperty, "CurrentSaying", BindingMode.OneWay);
         }
 
         private void MessageButton_Clicked(object sender, EventArgs e)

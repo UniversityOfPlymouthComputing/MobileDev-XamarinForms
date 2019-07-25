@@ -20,16 +20,18 @@ namespace HelloBindings
             InitializeComponent();
 
             ToggleSwitch.BindingContext = DataModel;
+            MessageButton.BindingContext = DataModel;
+            MessageLabel.BindingContext = DataModel;
+
             ToggleSwitch.SetBinding(Switch.IsToggledProperty, "IsTrue", BindingMode.OneWayToSource);
 
-            MessageButton.BindingContext = DataModel;
             MessageButton.SetBinding(Button.IsEnabledProperty, "IsTrue", BindingMode.OneWay);
             MessageButton.SetBinding(Button.TextProperty, "SayingNumber", BindingMode.OneWay, null, "Saying {0:d}");
 
-            MessageLabel.BindingContext = DataModel;
-            MessageLabel.SetBinding(Label.TextProperty, "Message", BindingMode.OneWay);
+            MessageLabel.SetBinding(Label.TextProperty, "CurrentSaying", BindingMode.OneWay);
             MessageLabel.SetBinding(Label.IsVisibleProperty, "IsTrue", BindingMode.OneWay);
             MessageLabel.SetBinding(Label.TextColorProperty, "SayingNumber", BindingMode.OneWay, new ColorConverter());
+
         }
 
         private void MessageButton_Clicked(object sender, EventArgs e)

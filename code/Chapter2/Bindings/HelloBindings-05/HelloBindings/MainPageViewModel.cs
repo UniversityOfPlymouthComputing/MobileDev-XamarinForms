@@ -8,7 +8,6 @@ namespace HelloBindings
     {
         private Model DataModel = new Model();
         public event PropertyChangedEventHandler PropertyChanged;
-        
 
         public ICommand ButtonCommand { get; private set; }
 
@@ -20,20 +19,16 @@ namespace HelloBindings
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentSaying"));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SayingNumber"));
             }, canExecute: () => this.UIVisible);
-
         }
 
         public int SayingNumber => DataModel.SayingNumber;
 
-        public string CurrentSaying => DataModel.Message;
+        public string CurrentSaying => DataModel.CurrentSaying;
 
         bool _visible = true;
         public bool UIVisible
         {
-            get
-            {
-                return _visible;
-            }
+            get => _visible;
             set
             {
                 if (value != _visible)
