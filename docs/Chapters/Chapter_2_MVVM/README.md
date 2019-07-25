@@ -29,6 +29,7 @@ By the end of this chapter you should be able to:
 1. [Part 4](mvvm-4.md)
 1. [Part 5](mvvm-5.md)
 1. [Part 6](mvvm-6.md)
+1. [Part 7](mvvm-6.md)
 1. Self-Study Tasks
 1. References
 
