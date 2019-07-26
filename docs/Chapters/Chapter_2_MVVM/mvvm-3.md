@@ -144,4 +144,5 @@ There is nothing in the model that either sets or reads `IsTrue` (which strongly
 ** TASK ** Set a break point in the setter for `IsTrue`, debug the code, and click the toggle switch.
 
 ----
-[Contents](/docs/README.md)
+
+[Contents](README.md)

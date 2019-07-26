@@ -80,4 +80,5 @@ It starts with the familiar MVC architecture, and is evolved incrementally to a 
 
  
 ----
-[Contents](/docs/README.md)
+
+[Contents](README.md)

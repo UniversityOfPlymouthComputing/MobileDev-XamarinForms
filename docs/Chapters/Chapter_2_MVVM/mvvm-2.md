@@ -126,4 +126,5 @@ The line of interest is this `MessageLabel.IsVisible = false;` Note that `Messag
 - You might be worried that this could get into a ever-lasting loop. You would be right to be concerned and later we will have to be mindful to avoid such a trap. However, when binding between UI elements, checks are put in place to only update a bound property if it's value is actually going to change.
 
 ----
-[Contents](/docs/README.md)
+
+[Contents](README.md)

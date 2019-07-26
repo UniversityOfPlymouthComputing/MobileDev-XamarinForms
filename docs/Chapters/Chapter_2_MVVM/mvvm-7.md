@@ -10,4 +10,5 @@ In this last section, I've done something that might seem a bit ambitious: I've 
 [ TO BE CONTINUED ]
 
 ----
-[Contents](/docs/README.md)
+
+[Contents](README.md)

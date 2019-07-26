@@ -62,4 +62,5 @@ The model data can be considered to be the instance variables `Sayings` and `nex
 
 
 ----
-[Contents](/docs/README.md)
+
+[Contents](README.md)

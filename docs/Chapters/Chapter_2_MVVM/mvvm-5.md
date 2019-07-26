@@ -224,4 +224,5 @@ Some points to note:
 In the next section, still keeping these APIs in mind, we remove ALL this code!
 
 ----
-[Contents](/docs/README.md)
+
+[Contents](README.md)

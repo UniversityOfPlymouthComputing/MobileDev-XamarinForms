@@ -74,4 +74,5 @@ You can read more about value converters in the [Microsoft Documentation](https:
 
 
 ----
-[Contents](/docs/README.md)
+
+[Contents](README.md)

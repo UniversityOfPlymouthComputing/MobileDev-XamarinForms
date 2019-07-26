@@ -158,4 +158,5 @@ I've specified two-way so the switch is initialised in the correct position.
 Take some time to study the XAML in this project, and compare it to the code equivalent from the previous version. Trying experimenting to see how intellisense helps you complete XAML bindings.
 
 ----
-[Contents](/docs/README.md)
+
+[Contents](README.md)
