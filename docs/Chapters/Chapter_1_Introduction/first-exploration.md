@@ -299,7 +299,7 @@ If we were to write the equivalent in code, it might look something like this:
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 
             };
-            btn.Clicked += Btn_Clicked; ;
+            btn.Clicked += Btn_Clicked;
 
             StackLayout lyt = new StackLayout();
             lyt.Children.Add(MyLabel);
