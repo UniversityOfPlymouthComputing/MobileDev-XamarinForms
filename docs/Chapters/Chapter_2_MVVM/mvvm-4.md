@@ -74,7 +74,7 @@ public object ConvertBack(object value, Type targetType, object parameter, Cultu
 
 We only need the `Convert` method, which converts the source data (`int`) to the target (`Color`). The first parameter is the source data, which is cast immediately to type `int`. The target data is returned from the method. 
 
-You can read more about value converters in the [Microsoft Documentation](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/data-binding/converters)
+You can read more about value converters in the [Microsoft Documentation](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/converters)
 
 
  [Next](mvvm-5.md)

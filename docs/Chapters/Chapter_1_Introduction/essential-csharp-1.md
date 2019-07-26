@@ -9,7 +9,7 @@ In this section, all the code will be targeting a console application.
 You can use either Visual Studio 2019 or [Visual Studio Code](https://code.visualstudio.com/download).
 
 - Visual Studio 2019. Create a new project, and search on "Console". From the results pick Console App (.NET Core)
-- Visual Studio Code. [See these instructions](https://docs.microsoft.com/en-us/dotnet/core/tutorials/with-visual-studio-code) to create and debug an console application.
+- Visual Studio Code. [See these instructions](https://docs.microsoft.com/dotnet/core/tutorials/with-visual-studio-code) to create and debug an console application.
 
 I will use Visual Studio 2019 for Windows for the sake of consistency (as it's what we use in our teaching labs).
 
@@ -190,7 +190,7 @@ We can visualise this as follows:
 
 Note now the referenses (ultimately addresses) are stored in stack variables `v1` and `v2`. You can think of this as making a note of where you left two objects. The note is not the same as the objects. Once execution leaves `Main`, all stack-based objects are automatically deleted,  including `v1` and `v2`. So what happens to the two instances of `RoadVehicle` stored in the heap memory?
 
-> Any object dynamically allocated on the heap with `new` will _persist as long as there is at least one reference to it_. If that reference is removed, the heap object will be automatically deallocated, thus freeing up the memory for other purposes. This process is automated by the .NET [_garbage collector_](https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals). **C#.NET is said to be a _managed_ language**. 
+> Any object dynamically allocated on the heap with `new` will _persist as long as there is at least one reference to it_. If that reference is removed, the heap object will be automatically deallocated, thus freeing up the memory for other purposes. This process is automated by the .NET [_garbage collector_](https://docs.microsoft.com/dotnet/standard/garbage-collection/fundamentals). **C#.NET is said to be a _managed_ language**. 
 > Lower level _unmanaged languages_ do not do this for you. In languages such as C and C++, it is the developer's responsibility to both allocate _and_ delete heap objects (in C++ you have both _new_ and _delete_ keywords, in C it's the functions `malloc` and `free`). If you forget to delete heap objects, you end up with forgotten objects on the heap that can no longer be reached (referenced). This is known as a _memory leak_. If you keep leaking memory, over time, the heap will fill with very real consequences.
 
 The great news is we rarely have to worry about deallocating memory or memory leakes as it's (mostly) done for us in C#.NET.
@@ -526,7 +526,7 @@ Note the following key points:
 - The child can reference itself using the keyword `this` and it's parent using `base` 
 - The constructor in the child first calls the constructor of the parent. Initialisation is perform top to bottom. If not specified, the default would be to automatically call the parameterless constructor of the parent.
 - Note the syntax for calling a specific parent constuctor.
-- The base class `RoadVehicle` also inherits from [`System.Object`](https://docs.microsoft.com/en-us/dotnet/api/system.object?view=netcore-2.1) by default.
+- The base class `RoadVehicle` also inherits from [`System.Object`](https://docs.microsoft.com/dotnet/api/system.object?view=netcore-2.1) by default.
 
 > You might want to use the debugger to step into the code and see the sequence in which constructors are called. The general rule is parent, then child.
 
@@ -578,7 +578,7 @@ Note how we've _extended_ the functionality here. `base.Description` will return
 > Aside: The code that reads `(HasTowBar ? " with towbar attached" : "."` is an inline conditional statement of the form `<condition> ? <value if true> : <value if false>`. 
 > `HasTowBar` is tested. If true, then `" with towbar attached"` is used otherwise its a full stop `"."`
 
-In `RoadVehicleProperties.cs`, to allow a baseclass method to be overridden in a child class, you also need to add the keyword [`virtual`](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/virtual)
+In `RoadVehicleProperties.cs`, to allow a baseclass method to be overridden in a child class, you also need to add the keyword [`virtual`](https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/virtual)
 
 ```C#
     public virtual string Description
@@ -593,7 +593,7 @@ Polymorphism is a big word which can result in new developers running for the hi
 
 From the Microsoft documentation:
 
-> When a virtual method is invoked, the run-time type of the object is checked for an overriding member. The overriding member in the most derived class is called, which might be the original member, if no derived class has overridden the member. (from https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/virtual, accessed 18/07/2019)
+> When a virtual method is invoked, the run-time type of the object is checked for an overriding member. The overriding member in the most derived class is called, which might be the original member, if no derived class has overridden the member. (from https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/virtual, accessed 18/07/2019)
 
 Consider the following three classes:
 

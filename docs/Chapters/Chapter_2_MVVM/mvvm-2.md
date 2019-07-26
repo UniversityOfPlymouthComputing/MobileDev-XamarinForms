@@ -30,7 +30,7 @@ Becoming familiar with the notation is important here as it can otherwise get co
     - The target property is of type BindableProperty
     - The source property is loosely specified by name (as a string). 
     
-As you can probably infer, the requirements for the target are much more constrained than the source. The target does not know the concrete type of the source or it's bound property (just it's name). This means _the source can by almost any type object_.  It is commonly either a ViewModel or another UI component. Equally the source property is only known by name (type `string`). Behind the scenes, something known as [reflection](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection) will be used to find a property matching this name at run-time and bind to it.
+As you can probably infer, the requirements for the target are much more constrained than the source. The target does not know the concrete type of the source or it's bound property (just it's name). This means _the source can by almost any type object_.  It is commonly either a ViewModel or another UI component. Equally the source property is only known by name (type `string`). Behind the scenes, something known as [reflection](https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/reflection) will be used to find a property matching this name at run-time and bind to it.
 
 ### Binding Properties of the Switch to the Label and Button
 The first point to note is that the event handler for the Switch has been removed. We still have the button handler (for now).
@@ -74,7 +74,7 @@ Note that _a target object can only have one source_, so this topology makes sen
 
 Here the _targets_ are `MessageLabel` and `MessageButton`. These meet all requirements: both are UI objects, so inherit from `BindableObject` and have properties of type `BinableProperty` (discussed below). The source object (instance of `Switch`) is a reference type, so derived from object, so that's fine. 
 
-Now for the interesting bit, the [SetBinding](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.bindableobjectextensions.setbinding?view=xamarin-forms) API.
+Now for the interesting bit, the [SetBinding](https://docs.microsoft.com/dotnet/api/xamarin.forms.bindableobjectextensions.setbinding?view=xamarin-forms) API.
 ```C#
    ...
    MessageLabel.SetBinding(Label.IsVisibleProperty, "IsToggled", BindingMode.TwoWay);

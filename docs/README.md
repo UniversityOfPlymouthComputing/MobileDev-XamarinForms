@@ -6,9 +6,9 @@
 _More to come_
 
 # Key References
-[Xamarin.Forms Documentation](https://docs.microsoft.com/en-gb/xamarin/xamarin-forms/)
+[Xamarin.Forms Documentation](https://docs.microsoft.com/xamarin/xamarin-forms/)
 
-[Xamarin.Forms APIs](https://docs.microsoft.com/en-gb/dotnet/api/xamarin.forms?view=xamarin-forms)
+[Xamarin.Forms APIs](https://docs.microsoft.com/dotnet/api/xamarin.forms?view=xamarin-forms)
 
 [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
 
@@ -20,7 +20,7 @@ _More to come_
 
 [Optional - Microsoft .NET](https://dotnet.microsoft.com/)
 
-[Microsoft Learner Paths for Xamarin](https://docs.microsoft.com/en-us/learn/browse/?roles=developer&resource_type=learning%20path&products=xamarin)
+[Microsoft Learner Paths for Xamarin](https://docs.microsoft.com/learn/browse/?roles=developer&resource_type=learning%20path&products=xamarin)
 
 # Useful Links
 

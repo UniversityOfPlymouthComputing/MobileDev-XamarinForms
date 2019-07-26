@@ -10,7 +10,7 @@ In this section, all the code will be targeting a console application.
 You can use either Visual Studio 2019 or [Visual Studio Code](https://code.visualstudio.com/download).
 
 - Visual Studio 2019. Create a new project, and search on "Console". From the results pick Console App (.NET Core)
-- Visual Studio Code. [See these instructions](https://docs.microsoft.com/en-us/dotnet/core/tutorials/with-visual-studio-code) to create and debug an console application.
+- Visual Studio Code. [See these instructions](https://docs.microsoft.com/dotnet/core/tutorials/with-visual-studio-code) to create and debug an console application.
 
 I will use Visual Studio 2019 for Windows for the sake of consistency (as it's what we use in our teaching labs).
 
@@ -90,16 +90,16 @@ There are also some built in reference types:
 
 Note that `string` is one of them!
 
-See [Reference types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/reference-types) for more details.
+See [Reference types](https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/reference-types) for more details.
 
-You can think of a reference type as something that _encapsulates the address_ of some data in memory (as discussed in a previous section). This is in contrast to [_value types_](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types) where the variable name refers to the actual content. The semantic differences won't be dwelled upon here, needless to say there is more explaination to be done.
+You can think of a reference type as something that _encapsulates the address_ of some data in memory (as discussed in a previous section). This is in contrast to [_value types_](https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/value-types) where the variable name refers to the actual content. The semantic differences won't be dwelled upon here, needless to say there is more explaination to be done.
 
 > A key feature of a reference type is that it can be set to `null`. We can use this to our advantage as `null` can represent _no value_ or _not set_
 
 Note that for value types (int, double, etc..), these **cannot** (by default) be set to `null`.
 
 ## Nullable Properties for Value Types
-If a variable is not declared as a reference type (as explained in the previous section), it must be a [value type](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types)
+If a variable is not declared as a reference type (as explained in the previous section), it must be a [value type](https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/value-types)
 
 By default, value types cannot be `null`. Luckily, C# has a special syntax to does allow for this
 
@@ -308,7 +308,7 @@ Caching schemes such as these can greatly improve performance, but can equally b
 You may wonder why this topic is relevent to mobile development? Mobile devices are increasingly powerful, but despite this, they are still considered to be resource (ram, storage, cpu, battery) constrained devices. Applications are often connected to a back-end service across a network, and transactions can be very slow in poor signal areas. Users are also sensitive to the lag and an unresponsive UI, as are the host operating systems. Therefore, developers need to be nimble in how they interact with the network and update the UI.
 
 ## Tuples (value type)
-A realtively recent addition to C# are [value-type _tuples](https://docs.microsoft.com/en-us/dotnet/csharp/tuples)_. This convenient language feature enables data to be encapsulated without the overhead of writing a custom class or structure.
+A realtively recent addition to C# are [value-type _tuples_](https://docs.microsoft.com/dotnet/csharp/tuples). This convenient language feature enables data to be encapsulated without the overhead of writing a custom class or structure.
 
 In general, they are written as follows:
 
@@ -383,7 +383,7 @@ Some examples are given below. Read through these and the comment as they are mo
 Tuples are particularly useful for returning multiple values from a method (as shown abopve in the `Flip` method example).
 
 ## Operator Overloading
-I've added this topic as it features in some of the following examples. C# has some abilty to redefine the meaning of operators (such as +,-) when used with custom types (Classes or Structures) using something known as [operator overloading](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/operator-overloading)
+I've added this topic as it features in some of the following examples. C# has some abilty to redefine the meaning of operators (such as +,-) when used with custom types (Classes or Structures) using something known as [operator overloading](https://docs.microsoft.com/dotnet/csharp/language-reference/operators/operator-overloading)
 
 ```C#
     class Coordinate
@@ -447,7 +447,7 @@ The `+` operator is overloaded, such that `A + B`, returns a _new_ instance of `
 Here, `psum` is a reference to a new instance of `Coordinate`, holding the vector sum of `p1` and `p2`.
 
 - Overloaded operators must be `static` and `public`
-- [Only specific operators may be overloaded](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/operator-overloading#overloadable-operators)
+- [Only specific operators may be overloaded](https://docs.microsoft.com/dotnet/csharp/language-reference/operators/operator-overloading#overloadable-operators)
 
 Some operators have a requirement that associated operators are also defined. `+` does not, but if you overload `==` you must also overide `!=` (or you get a compiler error)
 
@@ -470,7 +470,7 @@ Having operators can make code very clean to read, for example:
 However, the general advice is to use sparingly and only when the intent is clear. There is a view that operator overloading can lead to ambiguity, and there is some merit to this argument.
 
 ## Type Operator Overloading
-C# can also perform [user defined type conversions](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators) which effectively overrides `=` in some cases)
+C# can also perform [user defined type conversions](https://docs.microsoft.com/dotnet/csharp/language-reference/operators/user-defined-conversion-operators) which effectively overrides `=` in some cases)
 
 Let's look at some examples by adding the following code:
 
@@ -556,7 +556,7 @@ In this example, the reader can probably guess the behaviour but more obvious, t
 In summary, operator and user-defined conversion operator overloading can be used to make code concise and in one sense more readby, but at risk of also introducing ambiguity. If working in a well understood domain (such as a particular field of mathematics), then operators might communicate their intent by implication through knowledge of the context. However, an explicit function name might be preferrable. It's up to you - use wisely!
 
 ## Enumerated Types
-[Enumerated types](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/enumeration-types) are very useful for making code both safer and more readable.
+[Enumerated types](https://docs.microsoft.com/dotnet/csharp/programming-guide/enumeration-types) are very useful for making code both safer and more readable.
 
 Consider the following type declaration:
 
@@ -682,7 +682,7 @@ The values are combined with a logical-or. These can be tested for using an expr
     }
 ```
 
-Again, note how the code is more readable than if numerical values were used. There is more to be said for enumerated types. You can read more in the [Microsoft documentation](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/enumeration-types#enumeration-types-as-bit-flags).
+Again, note how the code is more readable than if numerical values were used. There is more to be said for enumerated types. You can read more in the [Microsoft documentation](https://docs.microsoft.com/dotnet/csharp/programming-guide/enumeration-types#enumeration-types-as-bit-flags).
 
 ### Extension Methods
 In C#, you can even extend an enumerated type to include methods. Remembering that an enumerated type is fundamentally an integer, then such mehods will operate on the contained value. The example above is highlighted here:
@@ -719,7 +719,7 @@ This code add the method `Definition` such that it can be applied to an instance
 
 Although it is a static method, like unary overloaded operators, some syntactic sugaring is used to allow this method to be invoked against an instance of the enumerated type.
 
-See [Extension Methods](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods) for a more comprehensive discussion.
+See [Extension Methods](https://docs.microsoft.com/dotnet/csharp/programming-guide/classes-and-structs/extension-methods) for a more comprehensive discussion.
 
 ----
 
