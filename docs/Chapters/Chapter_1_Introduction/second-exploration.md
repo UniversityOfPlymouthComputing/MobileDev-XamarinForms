@@ -422,5 +422,4 @@ We tentatively met `async` and `await`. These C# language features were put to g
 Next, we will discuss some more layout options and some basic navigation.
 
 # Challenge
-- Add a switch to the BMI Estimate UI to choose between male and female.
-- Add code to the BMI Estimate project so that the BMI value is colour coded to indicate which band the calculated value lies in. Note that it is different for males and females. Try to make as much code testable as possible.
+- Add two sliders as alternatives for entering the weight and height
