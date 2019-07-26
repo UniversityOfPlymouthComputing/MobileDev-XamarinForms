@@ -2,7 +2,7 @@
 
 ----
 
-## Part 3 - This is not MVVM
+## Part 3 - Creating Bindable Properties
 [Part 3 is here](/code/Chapter2/Bindings/HelloBindings-03). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding.
 
 Confirm the following:
