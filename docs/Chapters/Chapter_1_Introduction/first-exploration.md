@@ -422,7 +422,7 @@ Again, we are expecting there to be at least one other C# file with a partial de
 
 We see it subclasses [`ContentPage`](https://docs.microsoft.com/dotnet/api/xamarin.forms.contentpage?view=xamarin-forms).
 
-Once again, the constructor of the C# class calls the initialisation method `InitializeComponent()`. This is realted to the companion XAML file (as we will see).
+Once again, the constructor of the C# class calls the initialisation method `InitializeComponent()`. This is related to the companion XAML file (as we will see).
 
 ```C#
    public MainPage()
