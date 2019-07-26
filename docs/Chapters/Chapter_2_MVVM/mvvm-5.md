@@ -2,6 +2,8 @@
 
 ----
 
+[Prev](mvvm-4.md)
+
 ## Part 5 - Commanding and the ViewModel
 [Part 5 is here](/code/Chapter2/Bindings/HelloBindings-05). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding.
 
@@ -222,6 +224,8 @@ Some points to note:
 - We added a new binding - the button `Command` property.
 
 In the next section, still keeping these APIs in mind, we remove ALL this code!
+
+ [Next](mvvm-6.md)
 
 ----
 

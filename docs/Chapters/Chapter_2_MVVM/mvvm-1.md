@@ -2,6 +2,8 @@
 
 ----
  
+[Prev](Introduction.md)
+
 ## Part 1 - Start with Familiar Code
 
 We begin with using a coding style that most people new to Xamarin are familiar with. It follows the pattern used in the BMI application. Creating event handlers to update the UI state and model data.
@@ -59,6 +61,10 @@ Note the role is simply to enable / disable the Switch and the Message label. Th
 
 ### The Model Data
 The model data can be considered to be the instance variables `Sayings` and `next`. These are not yet properties, and yes, it would be better practise to make them properties..but all in good time.
+
+
+
+ [Next](mvvm-2.md)
 
 
 ----

@@ -2,6 +2,9 @@
 
 ----
 
+
+[Prev](mvvm-5.md)
+
 ## Part 6 - Bindings in XAML
 [Part 6 is here](/code/Chapter2/Bindings/HelloBindings-06). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding. 
 
@@ -156,6 +159,8 @@ I've specified two-way so the switch is initialised in the correct position.
 
 **TASK**
 Take some time to study the XAML in this project, and compare it to the code equivalent from the previous version. Trying experimenting to see how intellisense helps you complete XAML bindings.
+
+ [Next](mvvm-7.md)
 
 ----
 

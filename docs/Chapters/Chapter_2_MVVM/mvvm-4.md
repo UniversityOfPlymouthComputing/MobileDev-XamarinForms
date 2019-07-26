@@ -2,6 +2,10 @@
 
 ----
 
+
+[Prev](mvvm-3.md)
+
+
 ## Part 4 - Type Conversion
 [Part 4 is here](/code/Chapter2/Bindings/HelloBindings-04). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding.
 
@@ -72,6 +76,8 @@ We only need the `Convert` method, which converts the source data (`int`) to the
 
 You can read more about value converters in the [Microsoft Documentation](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/data-binding/converters)
 
+
+ [Next](mvvm-5.md)
 
 ----
 

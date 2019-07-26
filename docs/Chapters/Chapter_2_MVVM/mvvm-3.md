@@ -2,6 +2,8 @@
 
 ----
 
+[Prev](mvvm-2.md)
+
 ## Part 3 - Creating Bindable Properties
 [Part 3 is here](/code/Chapter2/Bindings/HelloBindings-03). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding.
 
@@ -142,6 +144,9 @@ Again, key is the line in the setter that reads:
 There is nothing in the model that either sets or reads `IsTrue` (which strongly suggests this is not it's natural home - back to MVVM again!). Everything is performed using bindings. The toggle switch sets it, while the the message label and button observe it. The `IsTrue` property is simply there as a go-between for some UI state.
 
 ** TASK ** Set a break point in the setter for `IsTrue`, debug the code, and click the toggle switch.
+
+
+ [Next](mvvm-4.md)
 
 ----
 

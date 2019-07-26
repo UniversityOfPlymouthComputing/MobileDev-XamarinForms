@@ -2,6 +2,8 @@
 
 ----
 
+[Prev](mvvm-1.md)
+
 ## Part 2 - Binding Between UI Elements using Code
 [Part 2 is here](/code/Chapter2/Bindings/HelloBindings-02). Build and run this to see what it does. Note the strange behaviour once you get back to the first saying. This was added to illustrate a point and will be removed later.
 
@@ -124,6 +126,9 @@ The line of interest is this `MessageLabel.IsVisible = false;` Note that `Messag
 
 - By changing `MessageLabel.IsVisible`, the two-way binding automatically changes `ToggleSwitch.IsToggled`, which in turn changes `MessageButton.IsEnabled`.
 - You might be worried that this could get into a ever-lasting loop. You would be right to be concerned and later we will have to be mindful to avoid such a trap. However, when binding between UI elements, checks are put in place to only update a bound property if it's value is actually going to change.
+
+
+[Next](mvvm-3.md)
 
 ----
 
