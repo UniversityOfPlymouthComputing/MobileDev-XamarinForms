@@ -308,7 +308,7 @@ Caching schemes such as these can greatly improve performance, but can equally b
 You may wonder why this topic is relevent to mobile development? Mobile devices are increasingly powerful, but despite this, they are still considered to be resource (ram, storage, cpu, battery) constrained devices. Applications are often connected to a back-end service across a network, and transactions can be very slow in poor signal areas. Users are also sensitive to the lag and an unresponsive UI, as are the host operating systems. Therefore, developers need to be nimble in how they interact with the network and update the UI.
 
 ## Tuples (value type)
-A realtively recent addition to C# are [value-type _tuples](https://docs.microsoft.com/dotnet/csharp/tuples)_. This convenient language feature enables data to be encapsulated without the overhead of writing a custom class or structure.
+A realtively recent addition to C# are [value-type _tuples_](https://docs.microsoft.com/dotnet/csharp/tuples). This convenient language feature enables data to be encapsulated without the overhead of writing a custom class or structure.
 
 In general, they are written as follows:
 
