@@ -28,7 +28,7 @@ A few points to note:
    - A Xamrin.Android Project
    - A Shared Project (Forms)
    
-   The advantage is that much of the code for both Android and iOS, including most of the UI, is contained in the Shared Project. In some cases 100% code can be shared between both platforms. This is made possible through clever abstraction of platform specific features. You also retain the possibility to write native code where the abstractions do not exist or meet requirements.
+   The advantage is that much of the code for both Android and iOS, including most of the UI, is contained in the Shared Project. In some cases 99% code can be shared between both platforms, with a small amount of platform-specific boiler-plate code. This is made possible through clever abstraction of platform specific features. You also retain the possibility to write native code where the abstractions do not exist or meet requirements.
    
    Xamarin.Forms also allows you to specify your user interface layout using a declarative XML based language known as XAML. Components employ _renderers_ to draw each Xamarin Forms component with an equivalent platform native control (where one exists). For example, a Xamarin Button placed in a view heirarchy will end up as a UIButton for iOS or an Android Button for Android. This means all the standard accessibility and localisation features continue to operate as normal. Arguably, it's easier for the Xamarin team to keep up with evolving platforms.
    
