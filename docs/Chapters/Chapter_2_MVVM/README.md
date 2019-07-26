@@ -23,10 +23,10 @@ By the end of this chapter you should be able to:
    1. Actions
    1. Functions
    1. Interfaces
-1. [Part 1](mvvm-1.md)
-1. [Part 2](mvvm-2.md)
-1. [Part 3](mvvm-3.md)
-1. [Part 4](mvvm-4.md)
+1. [Part 1 - Start with Familiar Code](mvvm-1.md)
+1. [Part 2 - Binding Between UI Elements using Code](mvvm-2.md)
+1. [Part 3 - Creating Bindable Properties](mvvm-3.md)
+1. [Part 4 - Type Conversio](mvvm-4.md)
 1. [Part 5](mvvm-5.md)
 1. [Part 6](mvvm-6.md)
 1. [Part 7](mvvm-6.md)
