@@ -5,7 +5,7 @@
 This is a course in cross platform mobile software development using Xamarin.Forms and Microsoft Visual Studio 2019. The focus is on cross platform software development for mobile phones (as opposed to tablet or Desktop computers). However, with further study, other targets can easily be accomodated.
 
 > "Xamarin.Forms is a cross-platform UI toolkit that allows developers to efficiently create native user interface layouts that can be shared across iOS, Android, and Universal Windows Platform apps." 
-https://docs.microsoft.com/en-us/xamarin/get-started/
+https://docs.microsoft.com/xamarin/get-started/
 
 A key feature of Xamarin is that the code you produce is _native_ as opposed to interpreted (such as JavaScript). Apps based on native code typically provide better performance and can be written in a number of ways, including:
 
@@ -34,7 +34,7 @@ A few points to note:
    
    Google Flutter is relatively new, and takes a slightly different approach. Like Xamarin.Forms, UI is specificed declaritively and not with a UI designer. However, the controls are drawn to _look like_ native controls on each respective platform. In essence, it mimicks the native UI of each platform.
    
-   Xamarin.Forms, Google Flutter and React Native all have their merits, so to choose a "best" approach is somewhat artificial and risks being more preference than science. As this course builds on previous courses in C# and design patterns (at the University of Plymouth) and leverages [Microsoft Azure](https://azure.microsoft.com/en-gb/), it made sense to opt for Xamarin.Forms and C# (front to back). From an educational perspective, Xamarin.Forms is also a good platform to expose learners to abstraction techniques using Object Orientated patterns and the mature C# language and .NET frameworks. At the time of writing Xamarin Forms is on it's 4th version, and is fairly mature and widely adopted.
+   Xamarin.Forms, Google Flutter and React Native all have their merits, so to choose a "best" approach is somewhat artificial and risks being more preference than science. As this course builds on previous courses in C# and design patterns (at the University of Plymouth) and leverages [Microsoft Azure](https://azure.microsoft.com/), it made sense to opt for Xamarin.Forms and C# (front to back). From an educational perspective, Xamarin.Forms is also a good platform to expose learners to abstraction techniques using Object Orientated patterns and the mature C# language and .NET frameworks. At the time of writing Xamarin Forms is on it's 4th version, and is fairly mature and widely adopted.
    
 ## Approach
 A taught module is shorter than many might first think. Over a 13 week period, it typically consumes 100Hrs including lectures, practicals, self-study, assignments and assessment. 

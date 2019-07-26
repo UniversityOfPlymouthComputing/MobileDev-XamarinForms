@@ -4,8 +4,8 @@
 In this section, we build another single paged application, only this time we will add a little more complexity. For this, there are some suggested prerequisites including:
 
 - **Static methods** There is one instance of a static method in this example. Worth revising if you're unsure.
-- **await and async** If you've not met these two before, you will now! They deserve a much more thorough treatment than is given here. If you want the long treatment, [try this article](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/). Alternatively, maybe give it a try here first.
-- **`out` parameters** Useful for in-place modification, but bordering on obscure. If unsure, [this is a good time to revise this](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/out-parameter-modifier).
+- **await and async** If you've not met these two before, you will now! They deserve a much more thorough treatment than is given here. If you want the long treatment, [try this article](https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/async/). Alternatively, maybe give it a try here first.
+- **`out` parameters** Useful for in-place modification, but bordering on obscure. If unsure, [this is a good time to revise this](https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/out-parameter-modifier).
 
 For this section, we will specifically look at the following:
 

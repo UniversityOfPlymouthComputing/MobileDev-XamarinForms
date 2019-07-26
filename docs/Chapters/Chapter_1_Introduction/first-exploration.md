@@ -13,9 +13,9 @@ This section is intended to familiarise you with the tools and to demonstrate so
 - For the Mac, [follow this link](create-project-mac.md)
 - For Windows, [follow this link](create-project-pc.md)
 
-For more detailed information on setting up the Android Emulator, [see the  Microsoft page](https://docs.microsoft.com/en-us/xamarin/android/get-started/installation/android-emulator/)
+For more detailed information on setting up the Android Emulator, [see the  Microsoft page](https://docs.microsoft.com/xamarin/android/get-started/installation/android-emulator/)
 
-To setup a real device for development, [see the guide from Microsoft](https://docs.microsoft.com/en-us/xamarin/android/get-started/installation/set-up-device-for-development)
+To setup a real device for development, [see the guide from Microsoft](https://docs.microsoft.com/xamarin/android/get-started/installation/set-up-device-for-development)
 
 Before you try and run anything, take some time to explore these projects. There are some important points to note:
 
@@ -110,17 +110,17 @@ public partial class App : Application
 
 The parent class is `Application`, a Xamarin.Forms class that (amongst other things) provides important hooks into the application lifecycle. Notice how most of the methods are overridden.
 
-> If you are interested, details can be found in the [Microsoft Documentation](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.application?view=xamarin-forms)
+> If you are interested, details can be found in the [Microsoft Documentation](https://docs.microsoft.com/dotnet/api/xamarin.forms.application?view=xamarin-forms)
 
 iOS and Android have their own equivalent of course (e.g. the AppDelegate on iOS), but you can avoid writing platform specific code by subclassing the `Application` class and overriding methods such as `OnStart()`, as is shown above.
 
-- This is a `partial` class declatation. This suggests that _somewhere_, there is at least one other [C# partial class](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)  declaration. More on that in the next section.
+- This is a `partial` class declatation. This suggests that _somewhere_, there is at least one other [C# partial class](https://docs.microsoft.com/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)  declaration. More on that in the next section.
 
 This class is also declared within a _namespace_
 ```C#
 namespace HelloXamarinForms
 ```
-[Namespaces](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/namespaces/) are a way to avoid name collisions. You can think of them as _prefixes_ on Class, Structure and Interface names - so really we are declaring `HelloXamarinForms.App`. 
+[Namespaces](https://docs.microsoft.com/dotnet/csharp/programming-guide/namespaces/) are a way to avoid name collisions. You can think of them as _prefixes_ on Class, Structure and Interface names - so really we are declaring `HelloXamarinForms.App`. 
 
 > Namespaces are helpful as there may be other classes, structures or interfaces called `App` maybe in your own code or a third-party library. Whenever we wish to refer to this particular class, we _could_ type `HelloXamarinForms.App`. This can produce verbose code, so often you see the `using` keyword at the top of a source file. This allows for implicit namespace qualifiers which helps keep code concise and readable. Of course, if there are names which conflict within the set of namespaces you use, then you would still need to give the explicit name. Again, more on this later.
 
@@ -178,7 +178,7 @@ Once again, the `MainPage` class is constructed using two files, `MainPage.xaml.
 Let's start with the XAML file
 
 #### MainPage.xaml
-The user interface for `MainPage` is declared in an XML based language known as [XAML](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/).
+The user interface for `MainPage` is declared in an XML based language known as [XAML](https://docs.microsoft.com/xamarin/xamarin-forms/xaml/).
 
 _If_ you've come from another mobile platform, you might be surprised to find yourself declaring your user inteterface in XML. You might be even more surprised to discover there is no [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) tool to write the XML for you. If you are from the iOS world, there is no graphical StoryBoard - although when we meet Shell, there is something equivalent (although it's still text based).
 
@@ -213,7 +213,7 @@ Ok, let's take an initial look at the UI for `MainPage`.
 
 ##### ContentPage
 
-Firstly, there is the opening element `<ContentPage ...` along with another list of [XML namespaces](https://www.w3schools.com/xml/xml_namespaces.asp), [ContentPage](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.contentpage?view=xamarin-forms) is a Xamarin.Forms class for managing (no surprise) a page of content.
+Firstly, there is the opening element `<ContentPage ...` along with another list of [XML namespaces](https://www.w3schools.com/xml/xml_namespaces.asp), [ContentPage](https://docs.microsoft.com/dotnet/api/xamarin.forms.contentpage?view=xamarin-forms) is a Xamarin.Forms class for managing (no surprise) a page of content.
 
 > `MainPage` is a subclass of `ContentPage`.
 
@@ -253,7 +253,7 @@ public class ContentPage : TemplatedPage
 ...
 ```
 
-The part in square parenthesis is known as a [Class Attribute](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/). This is setting an attribute `ContentProperty` to the string "Content". At _run time_, when the XAML is parsed, the code can look up the `ContentProperty` attribute of the `ContentPage` class (a string), and treat this it as the default property (where none is given otherwise).
+The part in square parenthesis is known as a [Class Attribute](https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/attributes/). This is setting an attribute `ContentProperty` to the string "Content". At _run time_, when the XAML is parsed, the code can look up the `ContentProperty` attribute of the `ContentPage` class (a string), and treat this it as the default property (where none is given otherwise).
 
 
 ##### StackLayout
@@ -269,7 +269,7 @@ Why `StackLayout`? Well, all content pages need two things:
 
 This object fulfills the second of these requirements. In fact, for content to display properly, the root view object (`Content` property) in any content page should be a layout of some sort.
 
-[StackLayout](https://docs.microsoft.com/en-gb/dotnet/api/xamarin.forms.stacklayout?view=xamarin-forms), a subclass of the `Layout` class, is one of the commonly used and simpler layout objects in Xamarin.Forms. [More layout choices are available](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/layouts/stack-layout) and will be discussed later.
+[StackLayout](https://docs.microsoft.com/dotnet/api/xamarin.forms.stacklayout?view=xamarin-forms), a subclass of the `Layout` class, is one of the commonly used and simpler layout objects in Xamarin.Forms. [More layout choices are available](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/layouts/stack-layout) and will be discussed later.
 
 `StackLayout` can be used to layout components in both vertical and horizontal orientations, and they can be nested. The default orientation is vertical.
 
@@ -420,7 +420,7 @@ public partial class MainPage : ContentPage
 
 Again, we are expecting there to be at least one other C# file with a partial declaration of `MainPage`, _somewhere_.
 
-We see it subclasses [`ContentPage`](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.contentpage?view=xamarin-forms).
+We see it subclasses [`ContentPage`](https://docs.microsoft.com/dotnet/api/xamarin.forms.contentpage?view=xamarin-forms).
 
 Once again, the constructor of the C# class calls the initialisation method `InitializeComponent()`. This is realted to the companion XAML file (as we will see).
 
@@ -719,7 +719,7 @@ To aid your understanding of XAML, take a look at the excellent tutorials from w
 
 Also useful from Microsoft.com
 
-- [C# Partial Classes and Methods](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)
-- [C# Attributes](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/)
+- [C# Partial Classes and Methods](https://docs.microsoft.com/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)
+- [C# Attributes](https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/attributes/)
 
 

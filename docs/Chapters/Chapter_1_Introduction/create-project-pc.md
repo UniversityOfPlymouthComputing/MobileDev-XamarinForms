@@ -51,7 +51,7 @@ If you are using a PC, then you will need remote access to a Mac to build and ru
 
 - A pre-requisite for this step is that you have installed and run Xcode on a Mac at least once. This Mac should be accessible on your network
 
-If you wish to develop for iOS using a PC, [please see the Microsoft support site](https://docs.microsoft.com/en-us/xamarin/ios/get-started/installation/windows/connecting-to-mac/)
+If you wish to develop for iOS using a PC, [please see the Microsoft support site](https://docs.microsoft.com/xamarin/ios/get-started/installation/windows/connecting-to-mac/)
 
 To build and test on iOS, right click the iOS project and select 
 
@@ -119,7 +119,7 @@ Sometimes the Software Development Kit (SDK) for Android has updates. This might
 
 - Click through Platforms and Tools. Check for an UPDATE button appearing.
 
-For more details, [see the Microsoft documentation](https://docs.microsoft.com/en-us/xamarin/android/get-started/installation/android-sdk?tabs=windows)
+For more details, [see the Microsoft documentation](https://docs.microsoft.com/xamarin/android/get-started/installation/android-sdk?tabs=windows)
 
 ### Update the Android Settings
 The version of Android you are using is specified in the native Android project. 
