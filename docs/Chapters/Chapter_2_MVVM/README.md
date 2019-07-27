@@ -28,7 +28,7 @@ By the end of this chapter you should be able to:
 1. [Part 1 - Start with Familiar Code](mvvm-1.md)
 1. [Part 2 - Binding Between UI Elements using Code](mvvm-2.md)
 1. [Part 3 - Creating Bindable Properties](mvvm-3.md)
-1. [Part 4 - Type Conversio](mvvm-4.md)
+1. [Part 4 - Type Conversion](mvvm-4.md)
 1. [Part 5 - Commanding and the ViewModel](mvvm-5.md)
 1. [Part 6 - Bindings in XAML](mvvm-6.md)
 1. [Part 7 - Hooking up to the Cloud](mvvm-7.md)

@@ -12,11 +12,11 @@ Despite this, many excellent applications have been written with MVC.
 
 > The Model-View-ViewModel (MVVM) architecture is similar to MVC, only it is not tightly coupled to the view making it easier to test.
 
-[From the Microsoft Documentation](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm) (accessed 24/07/2019)
+[From the Microsoft Documentation](https://docs.microsoft.com/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm) (accessed 24/07/2019)
 
 > The Model-View-ViewModel (MVVM) architectural pattern was invented with XAML in mind. The pattern enforces a separation between three software layers — the XAML user interface, called the View; the underlying data, called the Model; and an intermediary between the View and the Model, called the ViewModel. The View and the ViewModel are often connected through data bindings defined in the XAML file. The BindingContext for the View is usually an instance of the ViewModel.
 
-_From: https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm (accessed 24/07/2019)_
+_From: https://docs.microsoft.com/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm (accessed 24/07/2019)_
 
 The key point here is the connection between the View Model (which probably sounds like a Controller at this point) and the View: _they are not as tightly coupled as MVC_.
 
@@ -162,7 +162,7 @@ Becoming familiar with the notation is important here as it can otherwise get co
     - The target property is of type BindableProperty
     - The source property is loosely specified by name (as a string). 
     
-As you can probably infer, the requirements for the target are much more constrained than the source. The target does not know the concrete type of the source or it's bound property (just it's name). This means _the source can by almost any type object_.  It is commonly either a ViewModel or another UI component. Equally the source property is only known by name (type `string`). Behind the scenes, something known as [reflection](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/reflection) will be used to find a property matching this name at run-time and bind to it.
+As you can probably infer, the requirements for the target are much more constrained than the source. The target does not know the concrete type of the source or it's bound property (just it's name). This means _the source can by almost any type object_.  It is commonly either a ViewModel or another UI component. Equally the source property is only known by name (type `string`). Behind the scenes, something known as [reflection](https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/reflection) will be used to find a property matching this name at run-time and bind to it.
 
 ### Binding Properties of the Switch to the Label and Button
 The first point to note is that the event handler for the Switch has been removed. We still have the button handler (for now).
@@ -206,7 +206,7 @@ Note that _a target object can only have one source_, so this topology makes sen
 
 Here the _targets_ are `MessageLabel` and `MessageButton`. These meet all requirements: both are UI objects, so inherit from `BindableObject` and have properties of type `BinableProperty` (discussed below). The source object (instance of `Switch`) is a reference type, so derived from object, so that's fine. 
 
-Now for the interesting bit, the [SetBinding](https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.bindableobjectextensions.setbinding?view=xamarin-forms) API.
+Now for the interesting bit, the [SetBinding](https://docs.microsoft.com/dotnet/api/xamarin.forms.bindableobjectextensions.setbinding?view=xamarin-forms) API.
 ```C#
    ...
    MessageLabel.SetBinding(Label.IsVisibleProperty, "IsToggled", BindingMode.TwoWay);
@@ -468,7 +468,7 @@ public object ConvertBack(object value, Type targetType, object parameter, Cultu
 
 We only need the `Convert` method, which converts the source data (`int`) to the target (`Color`). The first parameter is the source data, which is cast immediately to type `int`. The target data is returned from the method. 
 
-You can read more about value converters in the [Microsoft Documentation](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/data-binding/converters)
+You can read more about value converters in the [Microsoft Documentation](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/converters)
 
 ## Part 5 - Commanding and the ViewModel
 [Part 5 is here](/code/Chapter2/Bindings/HelloBindings-05). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding.
