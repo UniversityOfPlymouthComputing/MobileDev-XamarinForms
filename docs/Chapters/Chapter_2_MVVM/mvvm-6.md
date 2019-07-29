@@ -90,6 +90,8 @@ is equivalent to writing the following in the `MainPage` class (a subclass of `C
    BindingContext = new MainPageViewModel();
 ```
 
+There is nothing (that I am aware of) that says you should instantiate a ViewModel in this way. In fact, often we don't want to use the parameterless constructor. 
+
 ### Instantiating the ColorConverter class
 A similar technique is used to instantiate the `ColorConverter` class needed to convert an `int` to `Color`. We could have done this in the code behind, but luckily we have a tidier way: the `ResourceDictionary`
 
