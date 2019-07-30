@@ -15,10 +15,15 @@ In this last section, we look at how to better communicate with the user. This i
 
 A demo of the final application is here
 
-![Final Application](https://youtu.be/tDCPw1KSoUc)
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=tDCPw1KSoUc" target="_blank"><img src="http://img.youtube.com/vi/tDCPw1KSoUc/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
+
 
 ### Updating the View
 Let's start with what we want the application to look like:
+
+[Updated user interface](img/hello-bindings-final.png)
 
 ```XAML
 <?xml version="1.0" encoding="utf-8" ?>
