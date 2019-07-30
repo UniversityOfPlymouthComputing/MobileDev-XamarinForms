@@ -23,7 +23,7 @@ A demo of the final application is here
 ### Updating the View
 Let's start with what we want the application to look like:
 
-[Updated user interface](img/hello-bindings-final.png)
+![Updated user interface](img/hello-bindings-final.png)
 
 The XAML for this interface is slightly modified:
 
