@@ -402,10 +402,196 @@ Now the network layer is built (and tested of course!), we can adapt the viewmod
 
 > By binding to model properties, we now get _events_ from the model AND the view to manage.
 
-![Model Bindings](model-mvvm-bindings.png)
+![Model Bindings](img/model-mvvm-bindings.png)
 
+For each property in the Model, there is another in the ViewModel of the same name.
 
-[ TO BE CONTINUED ]
+```C#
+    public class MainPageViewModel : INotifyPropertyChanged
+    {
+        private SayingsAbstractModel DataModel { get; }                 //Model object 
+        public event PropertyChangedEventHandler PropertyChanged;       //Used to generate events to enable binding to this layer
+        public ICommand FetchNextSayingCommand { get; private set; }    //Binable command to fetch a saying
+
+        public MainPageViewModel(SayingsAbstractModel WithModel)
+        {
+            DataModel = WithModel;
+            //Hook up FetchNextSayingCommand property
+            FetchNextSayingCommand = new Command(execute: async () => await DoFetchNextMessageCommand(), 
+                                              canExecute: () => ButtonEnabled);
+            //Hook up event handler for changes in the model
+            DataModel.PropertyChanged += OnPropertyChanged;
+        }
+
+        //Command to fetch next message - made public to support unit testing
+        public async Task DoFetchNextMessageCommand() => await DataModel.NextSaying();
+
+        //Exent handler for all changes on the model
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals(nameof(DataModel.SayingNumber)))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SayingNumber)));
+            }
+            else if (e.PropertyName.Equals(nameof(DataModel.HasData)))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasData)));
+            }
+            else if (e.PropertyName.Equals(nameof(DataModel.CurrentSaying)))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSaying)));
+            }
+            else if (e.PropertyName.Equals(nameof(DataModel.IsRequestingFromNetwork)))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsRequestingFromNetwork)));
+                ((Command)FetchNextSayingCommand).ChangeCanExecute();
+            }
+        }
+
+        //Map through read only acccess to Model properties
+        public int SayingNumber => DataModel.SayingNumber;
+        public string CurrentSaying => DataModel.CurrentSaying;
+        public bool IsRequestingFromNetwork => DataModel.IsRequestingFromNetwork;
+        public bool HasData => DataModel.HasData;
+        
+        //Calculated property for the button canExecute
+        public bool ButtonEnabled => UIVisible && !IsRequestingFromNetwork;
+
+        //Bindable property to manage UI state visibility (not to be confused with model based state)
+        private bool _uiVisible = true;
+        public bool UIVisible
+        {
+            get => _uiVisible;
+            set
+            {
+                if (value != _uiVisible)
+                {
+                    _uiVisible = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UIVisible)));
+                    ((Command)FetchNextSayingCommand).ChangeCanExecute();
+                }
+            }
+        }
+
+    }
+```
+
+First note there is a read-only property for the Model
+
+```C#
+   private SayingsAbstractModel DataModel { get; }                 //Model object 
+```        
+Note the data type is the abstract base-class. This allows us to use polymorphism to perform a run-time switch between different concrete classes (a real and a mocked in this case).
+
+The only place this can be modifed is in the constructor, shown below:
+
+```C#
+     public MainPageViewModel(SayingsAbstractModel WithModel)
+     {
+         DataModel = WithModel;
+         //Hook up FetchNextSayingCommand property
+         FetchNextSayingCommand = new Command(execute: async () => await DoFetchNextMessageCommand(), 
+                                           canExecute: () => ButtonEnabled);
+         //Hook up event handler for changes in the model
+         DataModel.PropertyChanged += OnPropertyChanged;
+     }
+```        
+
+- The model is passed as a parameter. This will be from either the View or a unit testing framework.
+- The button command is configured 
+- The notifications from the Model are connected to the ViewModel by setting `DataModel.PropertyChanged += OnPropertyChanged;`
+
+We have to handle the events ourselves, decide which property has been changed and in most case, simply notify the view layer.
+
+```C#
+     private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+     {
+         if (e.PropertyName.Equals(nameof(DataModel.SayingNumber)))
+         {
+             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SayingNumber)));
+         }
+         else if (e.PropertyName.Equals(nameof(DataModel.HasData)))
+         {
+             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasData)));
+         }
+         else if (e.PropertyName.Equals(nameof(DataModel.CurrentSaying)))
+         {
+             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSaying)));
+         }
+         else if (e.PropertyName.Equals(nameof(DataModel.IsRequestingFromNetwork)))
+         {
+             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsRequestingFromNetwork)));
+             ((Command)FetchNextSayingCommand).ChangeCanExecute();
+         }
+     }  
+```
+
+Note the last case: `((Command)FetchNextSayingCommand).ChangeCanExecute();` When the network changes state, so the Button may need to be enabled or disabled.
+
+You may be wondering why we don't update the ViewModel properties in the code above? The next four lines should explain it.
+
+```C#
+     //Map through read only acccess to Model properties
+     public int SayingNumber => DataModel.SayingNumber;
+     public string CurrentSaying => DataModel.CurrentSaying;
+     public bool IsRequestingFromNetwork => DataModel.IsRequestingFromNetwork;
+     public bool HasData => DataModel.HasData;
+```        
+
+This application is so simple, that the ViewModel is simply acting as a go-between in this respect (more complex applications add additional logic of course).
+
+The only exception is the following property:
+
+```C#
+   public bool ButtonEnabled => UIVisible && !IsRequestingFromNetwork;
+```        
+which is a property which indicates if the button should be enabled. This depends on the state of the network and the position of the switch in the UI. Note that `UIVisible` is bound to the switch in the user interface. Back to the constructor as we see this line:
+
+```C#
+      FetchNextSayingCommand = new Command(execute: async () => await DoFetchNextMessageCommand(), 
+                                        canExecute: () => ButtonEnabled);
+```
+
+There are two places where `ButtonEnabled` can possibly change
+
+- The Model event that updates `IsRequestingFromNetwork` 
+- The setter for `UIVisible` (should it ever be used)
+
+So `((Command)FetchNextSayingCommand).ChangeCanExecute();` is invoked in both places.
+
+### Updating the View
+There is very little change to the View except to pass a parameter to the ViewModel constructor. 
+
+```C#
+BindingContext = new MainPageViewModel(new RemoteModel());
+```
+
+If you prefer not to use Azure and use a Mocked version, change this to:
+
+```C#
+BindingContext = new MainPageViewModel(new MockedRemoteModel());
+```
+
+### What is missing?
+So far, we've focused mainly on _expected behaviour_ whereby the network is fully connected and the data returned is perfectly formed. What we have not (yet) fully considered are the following:
+
+- The network is unreachable
+- The access key has changed
+- The function was changed and now returns a different data format (oops!)
+
+For this, we need to look at the values returned from the button command
+
+```C#
+   public async Task DoFetchNextMessageCommand() => await DataModel.NextSaying();
+```
+
+We are currently ingoring the tuple data `(bool success, string ErrorString)` returned by `NextSaying()` or any exceptions that happen to be thrown.
+
+It is tempting to try and ignore such things, but you can't (or at least should not).
+
+> It is the handing of the unexpected that is often the differentiator of a robust and a weak application
+
+In the next and last section for this example, we do just this.
 
 
 ----
