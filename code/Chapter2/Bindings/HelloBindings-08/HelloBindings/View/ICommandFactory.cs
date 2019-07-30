@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace HelloBindings
 {
-    interface ICommandFactory
+    public interface ICommandFactory
     {
         ICommand CreateConcreteCommand(Action execute, Func<bool> canExecute);
     }

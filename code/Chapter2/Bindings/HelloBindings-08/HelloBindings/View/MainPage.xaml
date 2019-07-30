@@ -18,7 +18,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     
-    <StackLayout Padding="0,40,0,40">
+    <StackLayout Padding="0,40,0,0">
         
         <Label x:Name="MessageLabel" 
                FontSize="Large"
@@ -35,13 +35,17 @@
                 HorizontalOptions="Center" 
                 VerticalOptions="CenterAndExpand"
                 />
-
         
+        <Label Text="Tap the button to fetch a saying"
+               VerticalOptions="Start"
+               HorizontalOptions="Center"
+               IsVisible="{Binding HasNoData}"
+               />
+
         <ActivityIndicator x:Name="Activity"
                            HorizontalOptions="Center"
                            VerticalOptions="Start"
                            IsRunning="{Binding Path=IsRequestingFromNetwork}"
-            
             />
 
         <Switch x:Name="ToggleSwitch"  
@@ -49,7 +53,13 @@
                 VerticalOptions="End"
                 IsToggled="{Binding Path=UIVisible, Mode=TwoWay}"
                 />
-        <!-- TODO: replace IsToggled="true" -->
+
+        
+        <Button Text="About" 
+                Clicked="DoAboutButtonClicked"
+                VerticalOptions="End"
+                HorizontalOptions="End"
+                />
         
     </StackLayout>
 

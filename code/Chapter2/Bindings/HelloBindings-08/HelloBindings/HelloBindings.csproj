@@ -26,4 +26,9 @@
   <ItemGroup>
     <ProjectReference Include="..\HelloBindingsLib\HelloBindingsLib.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="View\AboutPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

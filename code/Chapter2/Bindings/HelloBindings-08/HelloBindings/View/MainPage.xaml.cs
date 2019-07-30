@@ -22,7 +22,7 @@ namespace HelloBindings
             InitializeComponent();
 
             //Create ViewModel
-            ViewModel = new MainPageViewModel(new RemoteModel(), this);
+            ViewModel = new MainPageViewModel(new MockedRemoteModel(), this);
             BindingContext = ViewModel;
         }
 
@@ -31,15 +31,29 @@ namespace HelloBindings
             return new Command(execute, canExecute);
         }
 
+        public void ChangeCanExecute(ICommand cmd)
+        {
+            Command c = cmd as Command;
+            c.ChangeCanExecute();
+        }
+
+        //Show error message dialog
         public async Task ShowErrorMessageAsync(string ErrorMessage)
         {
             await DisplayAlert("Error", ErrorMessage, "OK");
         }
 
-        public Task ShowModalAboutPageAsync()
+        //Show modal AboutPage (could be called from the ViewModel)
+        public async Task ShowModalAboutPageAsync()
         {
-            //TODO:
-            throw new NotImplementedException();
+            var about = new AboutPage();
+            await Navigation.PushModalAsync(about);
+        }
+
+        //View-specific event handler
+        private async void DoAboutButtonClicked(object sender, EventArgs e)
+        {
+            await ShowModalAboutPageAsync();
         }
     }
 }

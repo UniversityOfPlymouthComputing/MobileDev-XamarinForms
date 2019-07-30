@@ -1,21 +1,17 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
-using Xamarin.Forms;
-using Xamarin.Essentials;
-using ProfoundSayings;
 using System.Threading.Tasks;
-using System;
 
 namespace HelloBindings
 {
-    class MainPageViewModel : INotifyPropertyChanged
+    public class MainPageViewModel : INotifyPropertyChanged
     {
-        private ISayingsModel DataModel;                                //Model object 
+        private SayingsAbstractModel DataModel {get; }                  //Model object 
         public event PropertyChangedEventHandler PropertyChanged;       //Used to generate events to enable binding to this layer
         public IMainPageViewHelper MainPageViewHelper { get; private set; }
         public ICommand FetchNextSayingCommand { get; private set; }    //Binable command to fetch a saying
 
-        public MainPageViewModel(ISayingsModel WithModel, IMainPageViewHelper pvh)
+        public MainPageViewModel(SayingsAbstractModel WithModel, IMainPageViewHelper pvh)
         {
             //Reference back to ViewHelper (typically the View, but might be a unit test framework)
             MainPageViewHelper = pvh;
@@ -28,7 +24,7 @@ namespace HelloBindings
 
             //Hook up button command (typically created by the view as Command is part of Xamarin.Forms)
             FetchNextSayingCommand = MainPageViewHelper.CreateConcreteCommand(  execute: async () => await DoFetchNextMessageCommand(), 
-                                                                            canExecute: () => ButtonEnabled);
+                                                                             canExecute: () => ButtonEnabled);
         }
 
         //Command to fetch next message - made public to support unit testing
@@ -38,7 +34,6 @@ namespace HelloBindings
             if (NetworkOutcome.success == false)
             {
                 await MainPageViewHelper.ShowErrorMessageAsync(NetworkOutcome.ErrorString);
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NetworkOutcome)));
             }
         }
 
@@ -49,6 +44,10 @@ namespace HelloBindings
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SayingNumber)));
             }
+            else if (e.PropertyName.Equals(nameof(DataModel.HasData)))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasNoData)));
+            }            
             else if (e.PropertyName.Equals(nameof(DataModel.CurrentSaying)))
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSaying)));
@@ -56,7 +55,7 @@ namespace HelloBindings
             else if (e.PropertyName.Equals(nameof(DataModel.IsRequestingFromNetwork)))
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsRequestingFromNetwork)));
-                ((Command)FetchNextSayingCommand).ChangeCanExecute();
+                MainPageViewHelper.ChangeCanExecute(FetchNextSayingCommand);
             }
         }
 
@@ -65,7 +64,8 @@ namespace HelloBindings
         public string CurrentSaying => DataModel.CurrentSaying;
         public bool IsRequestingFromNetwork => DataModel.IsRequestingFromNetwork;
         public (bool success, string ErrorString) NetworkOutcome { get; set; }
-
+        public bool HasNoData => !DataModel.HasData;
+        
         //Calculated property for the button canExecute
         public bool ButtonEnabled => UIVisible && !IsRequestingFromNetwork;
 
@@ -80,7 +80,7 @@ namespace HelloBindings
                 {
                     _uiVisible = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UIVisible)));
-                    ((Command)FetchNextSayingCommand).ChangeCanExecute();
+                    MainPageViewHelper.ChangeCanExecute(FetchNextSayingCommand);
                 }
             }
         }

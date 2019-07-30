@@ -12,12 +12,11 @@ namespace HelloBindings
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
-    {
-        //MainPageViewModel ViewModel = new MainPageViewModel();
-
+    {        
         public MainPage()
         {
             InitializeComponent();
+            BindingContext = new MainPageViewModel(new RemoteModel());
 
             //BindingContext = new MainPageViewModel();
 

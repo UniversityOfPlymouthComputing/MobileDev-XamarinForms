@@ -6,22 +6,18 @@ using System.Threading.Tasks;
 
 namespace HelloBindings
 {
-    class MainPageViewModel : INotifyPropertyChanged
+    public class MainPageViewModel : INotifyPropertyChanged
     {
-        private ISayingsModel DataModel;                                //Model object 
+        private SayingsAbstractModel DataModel { get; }                 //Model object 
         public event PropertyChangedEventHandler PropertyChanged;       //Used to generate events to enable binding to this layer
         public ICommand FetchNextSayingCommand { get; private set; }    //Binable command to fetch a saying
 
-        public MainPageViewModel() : this(new RemoteModel())
-        {
-            // Constructor chaining - use RemoteModel or MockedRemoteModel
-        }
-
-        public MainPageViewModel(ISayingsModel WithModel)
+        public MainPageViewModel(SayingsAbstractModel WithModel)
         {
             DataModel = WithModel;
             //Hook up FetchNextSayingCommand property
-            FetchNextSayingCommand = new Command(execute: async () => await DoFetchNextMessageCommand(), canExecute: () => ButtonEnabled);
+            FetchNextSayingCommand = new Command(execute: async () => await DoFetchNextMessageCommand(), 
+                                              canExecute: () => ButtonEnabled);
             //Hook up event handler for changes in the model
             DataModel.PropertyChanged += OnPropertyChanged;
         }
@@ -35,6 +31,10 @@ namespace HelloBindings
             if (e.PropertyName.Equals(nameof(DataModel.SayingNumber)))
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SayingNumber)));
+            }
+            else if (e.PropertyName.Equals(nameof(DataModel.HasData)))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasData)));
             }
             else if (e.PropertyName.Equals(nameof(DataModel.CurrentSaying)))
             {
@@ -51,6 +51,7 @@ namespace HelloBindings
         public int SayingNumber => DataModel.SayingNumber;
         public string CurrentSaying => DataModel.CurrentSaying;
         public bool IsRequestingFromNetwork => DataModel.IsRequestingFromNetwork;
+        public bool HasData => DataModel.HasData;
         
         //Calculated property for the button canExecute
         public bool ButtonEnabled => UIVisible && !IsRequestingFromNetwork;

@@ -2,8 +2,10 @@
 
 namespace HelloBindings
 {
-    interface IMainPageViewHelper : ICommandFactory, IPageViewHelper
+    //Helper APIs specific to MainPageView
+    public interface IMainPageViewHelper : ICommandFactory, IPageViewHelper
     {
+        //Display an about page
         Task ShowModalAboutPageAsync();
     }
 }
