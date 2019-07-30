@@ -176,7 +176,7 @@ The View now implements an interface `IMainPageViewHelper`. The consolidated lis
 
 You should see that all these methods are indeed implemented in the View code behind. Why is another matter! Consider what each of these methods does:
 
-#### Task ShowModalAboutPageAsync()
+#### Interface method `Task ShowModalAboutPageAsync()`
 This pushes another view (see `AboutPage.xaml` and `AboutPage.xaml.cs`) onto the **Modal View Stack**. 
 ```C#
     public async Task ShowModalAboutPageAsync()
@@ -187,7 +187,7 @@ This pushes another view (see `AboutPage.xaml` and `AboutPage.xaml.cs`) onto the
 ```
 The `Navigation` property is a property of a Page, and **not** a view model. This **has** to be performed from within a View class. However, we _might_ want to invoke it from our ViewModel.
 
-#### Task ShowErrorMessageAsync(string)
+#### Interface method `Task ShowErrorMessageAsync(string)`
 This displays an alert box (as shown in the video). 
 ```C#
     public async Task ShowErrorMessageAsync(string ErrorMessage)
@@ -197,7 +197,7 @@ This displays an alert box (as shown in the video).
 ```
 Again, the `DisplayAlert` API is only available as a method on a View object, but does not exist in a ViewModel. We might however wish to invoke this from a ViewModel.
 
-#### Command APIs
+#### Interface methods - `Command` related APIs
 The last two are less obvious, but both relate to the concrete class `Command`
 
 ```C#
