@@ -7,7 +7,7 @@
 ## Part 7 - Hooking up to the Cloud
 [Part 7 is here](/code/Chapter2/Bindings/HelloBindings-07). Inspect and familiarise yourself with the code fully before proceeding. There is some preliminary work you need to do before you can run it.
 
-In this last section, I've done something that might seem a bit ambitious: I've stored the list of sayings in the cloud (jargon for someone elses computer), and I'm going to use Azure Functions to retrieve them. This would allow me to add more sayings without app updates. Also, as long as we moderate usage, it's free, and we like free.
+In this section, I've done something that might seem a bit ambitious: I've stored the list of sayings in the cloud (jargon for someone elses computer), and I'm going to use Azure Functions to retrieve them. This would allow me to add more sayings without app updates. Also, as long as we moderate usage, it's free, and we like free.
 
 ### Setting up an Azure Function
 
@@ -16,7 +16,7 @@ In this last section, I've done something that might seem a bit ambitious: I've 
 The function we are going to use is as follows:
 
 ```C#
-   public static class Function1 
+    public static class Function1 
     {
         private static List<string> Sayings = new List<string>
         {
@@ -29,11 +29,8 @@ The function we are going to use is as follows:
 
         [FunctionName("Function1")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "LookupSaying")] HttpRequest req,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "LookupSaying")] HttpRequest req)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
-
             string name = req.Query["index"];
             bool success = int.TryParse(name, out int index);
             if (success)
@@ -45,12 +42,14 @@ The function we are going to use is as follows:
                         From = Count,
                         Saying = Sayings[index]
                     };
+                    
                     return (ActionResult)new OkObjectResult(p.ToXML());
                 }
                 else
                 {
                     return new BadRequestObjectResult("Index out of range. Please use an index from 0.." + Count);
                 }
+
             } else
             {
                  return new BadRequestObjectResult("The query string parameter index must be an integer");
