@@ -382,8 +382,28 @@ Therefore, there is not specific role for the ViewModel to play! Therefore, all 
 The `ShowModalAboutPageAsync()` is part of the `IMainPageViewHelper` public interface, and therefore accessible from the ViewModel. This might prove important should the logic change. For now, it's unused.
 
 ### Reflection
+We started with a very simple application "HelloBindings" modelled on something that resembled a "Model View Controller" architecture. Through the addition of a bindings, this migrated to an architecture known as "Model View ViewModel" (MVVM). For such a simple example, this would seem like overengineering until you begin to scale the application.
 
+The data model was switched to one that leveraged a [Azure Function](https://azure.microsoft.com/services/functions/). This was a static method in the cloud which could be invoked through HTTP (known as an HTTP trigger). This addded a new level of complexity to the application as the model interface became asynchronous.
 
+A principle adhered to was [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns). 
+- The View both instanatiated view objects, but also (in this case) instantiated the view model. All view related tasks, including any that required access to concrete objects in Xamarin.Forms, were implemented within the view objects. The view presented an interface to the ViewModel and bound to it's properties using a bindings layer (which itself uses reflection to avoid the need for tight-binding).
+- The view model is the glue between the View and the Model. It exposes bindable properties to form a loose coupling with the view. It observes events from the Model. An abstract class was used to allow easy switching between different concrete models. Further abstraction with interfaces could have been used. However, the trade would be additional code and complexity. It is also very unlikely any of the code would be reused except in unit tests.
+- The Model was developed to focus on it's specific task, that of encapsulating data, fetching data from the cloud and methods that operate on the data. Exposes bindable properties that communicated status changes that any other object might choose to observe. This is done without knowledge of the objects themselves. This makes it very easy to write unit tests.
+
+MMVM seems like a lot of extra work? - a simple application was used here to an educational vehicle, and to hopefully help explain MVVM and the different roles played by each layer. As applications scale, so architecture becomes more important. Now, if this _was_ the final application, one might question if MVVM was worth all the extra effort. I'm not going to dare even try to answer this for fear of starting a heated debate or even a [flame-war](https://en.wikipedia.org/wiki/Flaming_(Internet)). This application is simply not worth debating.
+
+What about Design Patterns? If you are well versed in design patterns, you may well have taken issue with some of the code in this section. If you do have views and wish to share them, by all means post a comment. However, please keep it polite and understand the author is self-taught, has a formal background in electronics and digital signal processing and is not really a computer scientist ( so please be gentle with me :)
+
+### Further Reading
+[XAML Basics - Part 4 - Data Binding Basics](https://docs.microsoft.com/xamarin/xamarin-forms/xaml/xaml-basics/data-binding-basics), Accessed 30/07/2-019
+[XAML Basics - Part 5 - From Data Bindings to MVVM](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm), Accessed 30/07/2-019
+
+### Going Deeper
+[The Model-View-ViewModel Pattern](https://docs.microsoft.com/xamarin/xamarin-forms/enterprise-application-patterns/mvvm), Accessed 30/07/2019
+
+### Challenge
+Try writing some Unit tests for Model and ViewModel. Feel free to refactor the code if you strongly believe it to be necessary or beneficial. For example, you might decide to replace the button Command binding with an event handler.
 
 ----
 
