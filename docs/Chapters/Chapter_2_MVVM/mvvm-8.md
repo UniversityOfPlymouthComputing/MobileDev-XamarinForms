@@ -207,12 +207,79 @@ The last two are less obvious, but both relate to the concrete class `Command`
 
 Recall that the button command property is bound to a ViewModel property of type `ICommand`. Now, `ICommand` is an _interface_, so this needs to be assigned to an instance of a concrete derivative. In our case, this the concrete _class_ is type `Command` which is part of Xamarin Forms, and is strictly a view object. 
 
-> Take a sneaky peek at the ViewModel and you will see the following line is no longer present at the top of the source file: `using Xamarin.Forms;`  Any activities related to the concrete `Command` class have now been delegated to the View.
+- The View is given the responsibility of instantiating Xamarin.Forms concrete objects.
+- As `ChangeCanExecute` is not part of `ICommand` but `Command`, then this is handled in the View as well
 
-I appreciate this is pedantic, but it was done to simply float the idea that we have a _separation of concerns_. ViewModels can of course instantiate View objects, but that makes them harder to test.
+> Take a sneaky peek at the ViewModel and you will see the following line is no longer present at the top of the source file: `using Xamarin.Forms;`  This is possible as there is no longer any reference to any concrete Xamarin.Forms classes - it has all been delegated to the View object.
+
+I appreciate this is pedantic (in my humble opinion) and in this simple application only serves to complicate matters, but it was done to simply illustrate the _idea_ that we have a clear _separation of concerns_.
+
+Remember the following stated right back at the start:
+
+- The ViewModel knows nothing of the View (or it's concrete data types)
+- The Model knows nothing of the ViewModel
+
+Well, here you have it!
+
+ViewModels can of course instantiate and call methods on View objects, and the world will continue to revolve, but that does make them harder to test if we pursue the idea of unit testing the ViewModel (maybe using CIT?). If the code can be kept to pure C#.NET, then in one sense we can expect less problems with testing. Actually Commands prove to be quick tricky to test however you access them, but that's for another time.
+
+As we also saw, some tasks (such as navigation) can only be performed by the view layer. Therefore, we need a way to invoke such behaviours from the ViewModel.
+
+### Reverse Reference to the View
+In the view code, we see the ViewModel being instantiated:
+
+```C#
+    private MainPageViewModel ViewModel { get; set; }
+
+    public MainPage()
+    {
+        InitializeComponent();
+
+        //Create ViewModel
+        ViewModel = new MainPageViewModel(new MockedRemoteModel(), this);
+        BindingContext = ViewModel;
+    }
+```
+
+Note the second parameter, `this`. You might thing, hang on - you've giving the ViewModel a concrete class! We have not.
+Take a look at the ViewModel constructor:
+
+```C#
+        ...
+        private SayingsAbstractModel DataModel {get; }                  //Model object 
+        public event PropertyChangedEventHandler PropertyChanged;       //Used to generate events to enable binding to this layer
+        public IMainPageViewHelper MainPageViewHelper { get; private set; }
+        public ICommand FetchNextSayingCommand { get; private set; }    //Binable command to fetch a saying
+
+        public MainPageViewModel(SayingsAbstractModel WithModel, IMainPageViewHelper pvh)
+        {
+            //Reference back to ViewHelper (typically the View, but might be a unit test framework)
+            MainPageViewHelper = pvh;
+            
+            //Set chosen data model (this may different, depending if instantiated by the view or a unit test framework
+            DataModel = WithModel;
+
+            //Hook up event handler for changes in the model
+            DataModel.PropertyChanged += OnPropertyChanged;
+
+            //Hook up button command (typically created by the view as Command is part of Xamarin.Forms)
+            FetchNextSayingCommand = MainPageViewHelper.CreateConcreteCommand(  execute: async () => await DoFetchNextMessageCommand(), 
+                                                                             canExecute: () => ButtonEnabled);
+        }
+        ...
+```
+The second parameter is has an _interface_ type `IMainPageViewHelper`. The ViewModel has no idea that it is also of (concrete) type `ContentPage`, and neither does it need to know. 
+
+> Using an interface type in this way means that **any** conrete type can be passed as a parameter, as long as it implements the interface. This is sometimes referred to as loose coupling. The ViewModel only knows about the methods declared in the interface(s). These methods are pure C#.NET that happen to perform View related tasks on behalf of the ViewModel (and have access to View related objects and methods). The specifics of implementation are hidden from the ViewModel.
+
+For test purposes, we could easily pass a fake user interface object, presenting the same interface, but mimicking the View logic. Similarly, we can more easily change the View code without needing to change the ViewModel.
+ 
+Note how the property `MainPageViewHelper` is set to maintain a reference back to the view.
+ 
+The main _takeaway_ (sic) here is separation of concerns. If we compartentalise code, it helps us maintain and test. From a more humanistic perspective, it may even help others navigate your code.
 
 ### Handling Network Errors
-The discussion begins back in the model base class with the following method:
+Coming back to graceful handling of network errors, the discussion begins back in the model base class with the following method:
 
 ```C#
   //Wrapper around the specific implmentation for fetching a saying
@@ -250,11 +317,71 @@ Note the following:
 - In the event of an error, all other properties are unchanged
 - This method is invoked via the public model API  `Task<(bool success, string status)> FetchSayingAsync(int)` from the ViewModel code
 
+Somehow, the return values need to be marshalled by the ViewModel (that's it's role) and displayed by the View (again, that's it's job).
+Some of this can be done through seamlessly through bindings, and some tasks will need to delegated to the View.
 
+It all starts with a button command, which invokes the following UI logic in the ViewModel
 
+```C#
+    public async Task DoFetchNextMessageCommand()
+    {
+        NetworkOutcome = await DataModel.NextSaying();
+        if (NetworkOutcome.success == false)
+        {
+            await MainPageViewHelper.ShowErrorMessageAsync(NetworkOutcome.ErrorString);
+        }
+    }
+``` 
 
-[TO BE DONE]
+The line `await MainPageViewHelper.ShowErrorMessageAsync(NetworkOutcome.ErrorString);` invokes a method on the View to display the error string in an alert dialog. Remember that `MainPageViewHelper` is effectively a reverse reference back to the View.
 
+The label that displays "Tap the button to fetch a saying" will also be made visible when such an error occurs. This is achieved through binding the label property `isVisible` to the `HasNoData` property on the ViewModel, which is derived from the bound Model property `HasData`.
+
+```C#
+    ...
+    private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        ...
+        else if (e.PropertyName.Equals(nameof(DataModel.HasData)))
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasNoData)));
+        }            
+        ...
+    }
+    
+    ...
+    
+    public bool HasNoData => !DataModel.HasData;
+    ...
+```        
+ 
+Note how the ViewModel _converts_ the bound Model property `HasData` to it's inverse `HasNoData` and exposes it to the view via bindings. Conversion is one of the roles ViewModel's tend to play
+
+### The About Page
+Finally, there is the button in the bottom right of the screen which presents the About page.
+
+- This button is always available
+- There is no UI state logic top consider
+
+Therefore, there is not specific role for the ViewModel to play! Therefore, all the code for presenting the About page is contained in the view:
+
+```C#
+    public async Task ShowModalAboutPageAsync()
+    {
+        var about = new AboutPage();
+        await Navigation.PushModalAsync(about);
+    }
+
+    //View-specific event handler
+    private async void DoAboutButtonClicked(object sender, EventArgs e)
+    {
+        await ShowModalAboutPageAsync();
+    }
+```
+
+The `ShowModalAboutPageAsync()` is part of the `IMainPageViewHelper` public interface, and therefore accessible from the ViewModel. This might prove important should the logic change. For now, it's unused.
+
+### Reflection
 
 
 
