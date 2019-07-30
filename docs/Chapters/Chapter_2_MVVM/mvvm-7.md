@@ -593,6 +593,7 @@ It is tempting to try and ignore such things, but you can't (or at least should 
 
 In the next and last section for this example, we do just this.
 
+ [Next](mvvm-8.md)
 
 ----
 
