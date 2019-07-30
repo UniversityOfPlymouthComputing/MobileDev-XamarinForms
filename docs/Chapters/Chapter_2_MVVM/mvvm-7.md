@@ -402,6 +402,7 @@ Now the network layer is built (and tested of course!), we can adapt the viewmod
 
 > By binding to model properties, we now get _events_ from the model AND the view to manage.
 
+![Model Bindings](model-mvvm-bindings.png)
 
 
 [ TO BE CONTINUED ]
