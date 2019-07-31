@@ -52,69 +52,36 @@ You can now run and test your cloud function on your local machine
 1. Run
 1. A commmand window / terminal should appear - once it's ready, it should display the URL to connect to the 
 
+![Local Function Container](img/LocalFunctionContainer.png)
 
+Run a browser on your computer and paste in the following:
 
-[TO BE DONE]
+http://localhost:7071/api/Function1?name=XamarinDev
 
-The function we are going to use is as follows:
+You should see the message "Hello, XamarinDev" appear in your browser.
 
-```C#
-    public static class Function1 
-    {
-        private static List<string> Sayings = new List<string>
-        {
-            "May the Force be With You",
-            "Live long and prosper",
-            "Nanoo nanoo",
-            "Make it So!"
-        };
-        private static int Count => Function1.Sayings.Count;
+### Changing the Function
+Now we are going to replace the function with something more useful. First, we are going to create a library with some common code. This will be shared with both the Azure Function and the Mobile Client
 
-        [FunctionName("Function1")]
-        public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "LookupSaying")] HttpRequest req)
-        {
-            string name = req.Query["index"];
-            bool success = int.TryParse(name, out int index);
-            if (success)
-            {
-                if ((index >= 0) && (index < Function1.Count))
-                {
-                    PayLoad p = new PayLoad
-                    {
-                        From = Count,
-                        Saying = Sayings[index]
-                    };
-                    
-                    return (ActionResult)new OkObjectResult(p.ToXML());
-                }
-                else
-                {
-                    return new BadRequestObjectResult("Index out of range. Please use an index from 0.." + Count);
-                }
+#### Create the HelloBindings Library
+Perform the following 
 
-            } else
-            {
-                 return new BadRequestObjectResult("The query string parameter index must be an integer");
-            }
-
-        }
-    }
-```
-
-Note how this function is _stateless_, i.e. it has no memory of previous calls. It's a pure function where you pass in parameters, you get back a response. There is no _remembering_ of past calls (or who made them) by the server. Any _state_ must be held by the client. To facilitate this, this function takes a single parameter `index`, provided by the client, to specify which saying is being requested. The response is some XML which includes the saying and the total number of sayings available.
-
-So, for a READ (GET), we might issue:
-
-`https:\\<url-to-function>?code=<id from azure>&index=1`
- 
-If index is within range the response will be XML of the form:
-
-[TBD]
-
-The XML data is produced using a technique known as _serialisation_. This behaviour (and the ability to de-serialise) is encapsulated in the `PayLoad` class
+1. Right-click the Solution
+1. Click Add -> new project
+1. For the search filters, set the Language to C#, the Platform to Android and the Project type to Library
+1. Select "Class Library (.NET Standard)" then click Next
+1. Set the Project name to "HelloBindingsLib" and Click Create
+1. Rename `Class1.cs` to `PayLoad.cs`
+1. Paste the following code into PayLoad.cs
+1. As a last step, right-click the `HelloBindingsLib` project and select Build
 
 ```C#
+using System;
+using System.IO;
+using System.Xml.Serialization;
+
+namespace HelloBindingsLib
+{
     public class PayLoad
     {
         public string Saying { get; set; }
@@ -141,13 +108,105 @@ The XML data is produced using a technique known as _serialisation_. This behavi
             }
         }
     }
+}
 ```
 
-Yes I could have used JSON, but as the data is small and XML is baked right in, then XML is fine. The great thing is this exact same code is used on the server and in the client (it is help in a shared library).
+Study this code and note the following:
 
+- It encapsulates two properties:
+    - `Saying` which is a string (the current saying to display)
+    - `From` which is an integer. This will represent how many different sayings are available in the cloud
+- You can convert an instance of this class to XML using the `ToXML()` method. This uses a process known as _serialization_
+- You can also `de-serialize` the XML back into an instance of `PayLoad` using the `FromXML(string)` method
+
+XML serialization and deserialization is baked right into .NET, and as the data is small, it is an entirely suitable format to represent data as it moves across the network. An alterantive would be to use JSON.
+
+#### Adding Dependencies
+The idea of using the library created above is it allows the same code base to be used in the cloud and in the client. To access this library, you simply make the library a dependency of each project.
+
+1. Expand the `FunctionApp` project and right-click `Dependencies`
+1. Click Add Reference
+1. Under Project->Solution, select `HelloBindingsLib` and click OK
+
+Now repeat for the `HelloBindings` cross platform project (there is no need to add this to the native Android or iOS projects)
+
+That's it! You just need to remember to add `using HelloBindingsLib;` to the top of any source files that wishes to use the `PayLoad` class.
+
+#### Update the Azure Function
+Inside the Azure function project `FunctionApp`, replace the source in `Function1.cs` with the following:
+
+```C#
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using HelloBindingsLib;
+
+namespace FunctionApp
+{
+    public static class Function1
+    {
+        private static List<string> Sayings = new List<string>
+        {
+            "May the Force be With You",
+            "Live long and prosper",
+            "Nanoo nanoo",
+            "Make it So!"
+        };
+        private static int Count => Sayings.Count;
+
+        [FunctionName("Function1")]
+        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "LookupSaying")] HttpRequest req)
+        {
+            string name = req.Query["index"];
+            bool success = int.TryParse(name, out int index);
+            if (success)
+            {
+                if ((index >= 0) && (index < Count))
+                {
+                    PayLoad p = new PayLoad
+                    {
+                        From = Count,
+                        Saying = Sayings[index]
+                    };
+                    return new OkObjectResult(p.ToXML());
+                }
+                else
+                {
+                    return new BadRequestObjectResult("Index out of range. Please use an index from 0.." + (Count - 1));
+                }
+
+            }
+            else
+            {
+                return new BadRequestObjectResult("The query string parameter index must be an integer");
+            }
+        }
+    }
+}
+```
+
+1. Right click the `FunctionApp` project and click Build
+1. Set the `FunctionApp` project as the Start Up project
+1. Run
+1. Enter the address `http://localhost:7071/api/LookupSaying?index=0` into a browser
+1. Try different values of index (remember to refresh the browser)
+1. Try entering an invalid index (e.g. `http://localhost:7071/api/LookupSaying?index=abc`)
+
+Let's look at this function more closely.
+
+Note how this function is _stateless_, i.e. it has no memory of previous calls. It's a pure function where you pass in parameters, you get back a response. There is no _remembering_ of past calls (or who made them) by the server. Any _state_ must be held by the client. To facilitate this, this function takes a single parameter `index`, provided by the client, to specify which saying is being requested. The response is some XML which includes the corresponding saying and the total number of sayings available.
+
+The advantage of having this in the cloud is that more sayings could be added without the need to update the mobile application. Hosting on Azure itself is only a few clicks away. For now however, we will stick with the local server.
+
+If we wanted the server to retain state of some sort, then we would need some form of persistant storage on the server (e.g. database) and probably the some form of user authentication (unless data is shared among all users). 
 
 ### Updating the Model
-The biggest change to this project is in the client model. The class has now been split into three:
+The biggest change to this project is in the client model. This code can be found in [Part 7](/code/Chapter2/Bindings/HelloBindings-07).
+From this point on, now you've seen how to create a function (and a library), you are advised to open Part 7 and study the code.
+
+The class has now been split into three:
 
 - An abstract base class `SayingsAbstractModel` containing most of the code
 - Two thin child classes: `RemoteModel` and `MockedRemoteModel` 
