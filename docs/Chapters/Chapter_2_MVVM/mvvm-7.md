@@ -202,6 +202,56 @@ The advantage of having this in the cloud is that more sayings could be added wi
 
 If we wanted the server to retain state of some sort, then we would need some form of persistant storage on the server (e.g. database) and probably the some form of user authentication (unless data is shared among all users). 
 
+### Giving it a try - Running two targets at once
+The [code in part 7](/code/Chapter2/Bindings/HelloBindings-07) is not quite ready. It will try and connect to the function hosted on your computer using the IP address `10.0.2.2` (as opposed to local host, which would be Android itself!). 
+
+_Let's try and first see it fail_
+
+To test the code with the local function, you need both server and mobile client running. To achieve this, do the following:
+
+1. Right-click the solution and click Properties
+1. Under Common Properties, choose Start Up Project.
+1. In the detail pane, choose "Multiple startiup projects"
+1. Set `FunctionApp` and `HelloBindings.Android` to Start, then click OK
+1. Start the application
+
+One the Android Emulator runs, you will probably find that clicking the button does very little! So you might wonder why. There is nothing wrong with the code. If you're curious try the following:
+
+1. Open SayingingsAbstractModel
+1. Find the method `protected async Task<(bool success, string status)> FetchSayingAsync(int WithIndex = 0)`
+1. Breakpoint the first-line in the catch block (`HasData = false;`)
+1. Run the code and click the button. The debugger you stop on the breakpoint
+1. Hover the mouse over `e.Message` on the following line
+
+You will see an error about _cleartext_ not being permitted. This is a policy change in Android. 
+
+> Android Apps are not permitted (by default) to connect to unencrypted end-points. They must use `https` (encrypted and signed form of `http`)
+
+Look at the server window, and you will see the address starts with `http` and not `https`. The _real_ Azure servers will also ways use `https` and a fully signed certificate (another benefit of getting someone else to host!). Changing the local server to use `https` is non-trivial. What is simpler is to create a security exception in Android.
+
+#### Testing Locally - Android Emulator Security
+By default, the Android emulator will not connect to a cleartext (http) endpoint. To override this for address 10.0.2.2, we need to make some edits to the Android project.
+
+In the Android Project, do the following:
+
+1. Add a folder `xml` to the resources folder
+1. Add a new XML file `network_security_config.xml` to this folder with the following content:
+```XML
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">10.0.2.2</domain>
+    </domain-config>
+</network-security-config>
+```
+> Handy hint. On the Android Emulator, `10.0.2.2` is resolved as the host PC running the emulator.
+3. In the Android manifest, set `android:networkSecurityConfig`. For example:
+```XML
+<application 	android:label="hello_bindings.Android" 
+		android:networkSecurityConfig="@xml/network_security_config"> 
+</application>
+```
+
 ### Updating the Model
 The biggest change to this project is in the client model. This code can be found in [Part 7](/code/Chapter2/Bindings/HelloBindings-07).
 From this point on, now you've seen how to create a function (and a library), you are advised to open Part 7 and study the code.
@@ -672,34 +722,6 @@ If you prefer not to use Azure and use a Mocked version, change this to:
 
 ```C#
 BindingContext = new MainPageViewModel(new MockedRemoteModel());
-```
-
-### Testing Locally - Android Emulator Security
-By default, the Android emulator will not connect to a cleartext (http) endpoint. To override this, we need to make some edits to the Android project.
-
-In the Android Project, do the following:
-
-1. Add a folder `xml` to the resources folder
-
-2. Add a new XML file `network_security_config.xml` to this folder with the following content:
-
-```XML
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-    <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">10.0.2.2</domain>
-    </domain-config>
-</network-security-config>
-```
-
-> Handy hint. On the Android Emulator, 10.0.2.2 is resolved as the host PC running the emulator.
-
-3. In the Android manifest, set android:networkSecurityConfig. For example:
-
-```XML
-<application 	android:label="hello_bindings.Android" 
-		android:networkSecurityConfig="@xml/network_security_config"> 
-</application>
 ```
 
 
