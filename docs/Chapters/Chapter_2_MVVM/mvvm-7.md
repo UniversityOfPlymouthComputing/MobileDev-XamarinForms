@@ -9,7 +9,24 @@
 
 In this section, I've done something that might seem a bit ambitious: I've stored the list of sayings in the cloud (jargon for someone elses computer), and I'm going to use Azure Functions to retrieve them. This would allow me to add more sayings without app updates. Also, as long as we moderate usage, it's free, and we like free.
 
+Another option is to run Azure functions _locally_. I will start with this, and if you wish to host on the cloud, you can do so.
+
+### Pre-requisites
+To run Azure functions locally, you need to meet some pre-requisites first:
+
+For both Mac and PC, the following apply:
+
+1. Ideally, if you don't already have it, [install the Node Package Manager (npm)](https://nodejs.org/en/download/)
+You can test if you already have it by opening a command shell / terminal and typing `npm`
+1. Install the Azure Functions Core Tools by typeing `npm install -g azure-functions-core-tools`
+
+
+
 ### Setting up an Azure Function
+Starting with [Part 6](/code/Chapter2/Bindings/HelloBindings-06), we're going to add an Azure Function to the project.
+
+
+
 
 [TO BE DONE]
 
@@ -101,6 +118,7 @@ The XML data is produced using a technique known as _serialisation_. This behavi
 ```
 
 Yes I could have used JSON, but as the data is small and XML is baked right in, then XML is fine. The great thing is this exact same code is used on the server and in the client (it is help in a shared library).
+
 
 ### Updating the Model
 The biggest change to this project is in the client model. The class has now been split into three:
@@ -570,6 +588,35 @@ If you prefer not to use Azure and use a Mocked version, change this to:
 ```C#
 BindingContext = new MainPageViewModel(new MockedRemoteModel());
 ```
+
+### Testing Locally - Android Emulator Security
+By default, the Android emulator will not connect to a cleartext (http) endpoint. To override this, we need to make some edits to the Android project.
+
+In the Android Project, do the following:
+
+1. Add a folder `xml` to the resources folder
+
+2. Add a new XML file `network_security_config.xml` to this folder with the following content:
+
+```XML
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">10.0.2.2</domain>
+    </domain-config>
+</network-security-config>
+```
+
+> Handy hint. On the Android Emulator, 10.0.2.2 is resolved as the host PC running the emulator.
+
+3. In the Android manifest, set android:networkSecurityConfig. For example:
+
+```XML
+<application 	android:label="hello_bindings.Android" 
+		android:networkSecurityConfig="@xml/network_security_config"> 
+</application>
+```
+
 
 ### What is missing?
 So far, we've focused mainly on _expected behaviour_ whereby the network is fully connected and the data returned is perfectly formed. What we have not (yet) fully considered are the following:
