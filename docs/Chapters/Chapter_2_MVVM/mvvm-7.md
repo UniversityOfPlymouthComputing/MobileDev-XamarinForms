@@ -203,7 +203,9 @@ The advantage of having this in the cloud is that more sayings could be added wi
 If we wanted the server to retain state of some sort, then we would need some form of persistant storage on the server (e.g. database) and probably the some form of user authentication (unless data is shared among all users). 
 
 ### Giving it a try - Running two targets at once
-The [code in part 7](/code/Chapter2/Bindings/HelloBindings-07) is not quite ready. It will try and connect to the function hosted on your computer using the IP address `10.0.2.2` (as opposed to local host, which would be Android itself!). 
+From this point on, now you've seen how to create a function (and a library), you are advised to open Part 7 and study the code. This already has the library, function project and also has updated model classes to download data from the cloud.
+
+The [code in part 7](/code/Chapter2/Bindings/HelloBindings-07) is not quite ready however. It will _try_ and connect to the function hosted on your computer using the IP address `10.0.2.2` (as opposed to local host, which would be Android itself!). 
 
 _Let's try and first see it fail_
 
@@ -215,9 +217,10 @@ To test the code with the local function, you need both server and mobile client
 1. Set `FunctionApp` and `HelloBindings.Android` to Start, then click OK
 1. Start the application
 
-One the Android Emulator runs, you will probably find that clicking the button does very little! So you might wonder why. There is nothing wrong with the code. If you're curious try the following:
+One the Android Emulator runs, you will probably find that clicking the button does very little! So you might wonder why. 
+There is nothing wrong with the code. If you're curious try the following:
 
-1. Open SayingingsAbstractModel
+1. Open `SayingingsAbstractModel.cs` (we will discuss this later)
 1. Find the method `protected async Task<(bool success, string status)> FetchSayingAsync(int WithIndex = 0)`
 1. Breakpoint the first-line in the catch block (`HasData = false;`)
 1. Run the code and click the button. The debugger you stop on the breakpoint
@@ -227,14 +230,14 @@ You will see an error about _cleartext_ not being permitted. This is a policy ch
 
 > Android Apps are not permitted (by default) to connect to unencrypted end-points. They must use `https` (encrypted and signed form of `http`)
 
-Look at the server window, and you will see the address starts with `http` and not `https`. The _real_ Azure servers will also ways use `https` and a fully signed certificate (another benefit of getting someone else to host!). Changing the local server to use `https` is non-trivial. What is simpler is to create a security exception in Android.
+Look at the server window, and you will see the address starts with `http` and not `https`. The _real Azure servers will always use `https` and a fully signed certificate_ (another benefit of getting someone else to host!). Changing the local server to use `https` is non-trivial. What is simpler is to create a security exception in Android for test purposes.
 
 #### Testing Locally - Android Emulator Security
 By default, the Android emulator will not connect to a cleartext (http) endpoint. To override this for address 10.0.2.2, we need to make some edits to the Android project.
 
-In the Android Project, do the following:
+In the **Android Project** (not the Xamarin.Forms project), do the following:
 
-1. Add a folder `xml` to the resources folder
+1. Within the Resources folder, add a sub-folder `xml`
 1. Add a new XML file `network_security_config.xml` to this folder with the following content:
 ```XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -244,19 +247,21 @@ In the Android Project, do the following:
     </domain-config>
 </network-security-config>
 ```
+
 > Handy hint. On the Android Emulator, `10.0.2.2` is resolved as the host PC running the emulator.
-3. In the Android manifest, set `android:networkSecurityConfig`. For example:
+
+3. In the Android manifest (Properties->AndroidManifest.xml), for the `application` element, set the attribute `android:networkSecurityConfig="@xml/network_security_config"`. For example:
+
 ```XML
 <application 	android:label="hello_bindings.Android" 
 		android:networkSecurityConfig="@xml/network_security_config"> 
 </application>
 ```
 
-### Updating the Model
-The biggest change to this project is in the client model. This code can be found in [Part 7](/code/Chapter2/Bindings/HelloBindings-07).
-From this point on, now you've seen how to create a function (and a library), you are advised to open Part 7 and study the code.
+Now try again.
 
-The class has now been split into three:
+### Updates to the Model
+The biggest change to this project is in the client model class. The single class in the previous section has now been split into three:
 
 - An abstract base class `SayingsAbstractModel` containing most of the code
 - Two thin child classes: `RemoteModel` and `MockedRemoteModel` 
@@ -357,7 +362,7 @@ Let's examing the base-class first
             return (success, ErrStr);
         }
 
-        //Wrapper around the specific implmentation for fetching a saying 
+        //Wrapper around the specific implmentation for fetching a saying
         protected async Task<(bool success, string status)> FetchSayingAsync(int WithIndex = 0)
         {
             try
@@ -377,14 +382,13 @@ Let's examing the base-class first
                     return (success: HasData, status: "Invalid Response");
                 }
             }
-            catch
+            catch (System.Exception e)
             {
                 HasData = false;
-                return (success: HasData, status: "Permission Denied");
+                return (success: HasData, status: e.Message);
             }
         }
 
-        //Specific implmentation for fetching a saying (either from the Azure network or mocked)
         protected abstract Task<PayLoad> FetchPayloadAsync(int WithIndex = 0);
     }
 ```
@@ -403,17 +407,17 @@ All the above are updated asynchronously. By making these bindable, this helps s
 To trigger a network connection there is _one_ simple public API
 
 ```C#
-     //Fetches next saying from the network
-     public async Task<(bool success, string ErrorString)> NextSaying()
-     {
-         //Perform fetch from a network
-         int n = SayingNumber;
-         n = HasData ? (n + 1) % Count : 0;
-         IsRequestingFromNetwork = true;
-         (bool success, string ErrStr) = await FetchSayingAsync(n);
-         IsRequestingFromNetwork = false;
-         return (success, ErrStr);
-     }
+	//Fetches next saying from the network
+	public async Task<(bool success, string ErrorString)> NextSaying()
+	{
+	    //Perform fetch from a network
+	    int n = SayingNumber;
+	    n = HasData ? (n + 1) % Count : 0;
+	    IsRequestingFromNetwork = true;
+	    (bool success, string ErrStr) = await FetchSayingAsync(n);
+	    IsRequestingFromNetwork = false;
+	    return (success, ErrStr);
+	}
 ```        
 
 The centrepiece of this is `(bool success, string ErrStr) = await FetchSayingAsync(n);` 
@@ -425,31 +429,32 @@ The centrepiece of this is `(bool success, string ErrStr) = await FetchSayingAsy
 Let's drill down into `FetchSayingAsync` (which is NOT public)
 
 ```C#
-     protected async Task<(bool success, string status)> FetchSayingAsync(int WithIndex = 0)
-     {
-         try
-         {
-             PayLoad p = await FetchPayloadAsync(WithIndex);
-             if (p != null)
-             {
-                 Count = p.From;
-                 CurrentSaying = p.Saying;
-                 SayingNumber = WithIndex;
-                 HasData = true;
-                 return (success: HasData, status: "OK");
-             }
-             else
-             {
-                 HasData = false;
-                 return (success: HasData, status: "Invalid Response");
-             }
-         }
-         catch
-         {
-             HasData = false;
-             return (success: HasData, status: "Permission Denied");
-         }
-     }
+        //Wrapper around the specific implmentation for fetching a saying
+        protected async Task<(bool success, string status)> FetchSayingAsync(int WithIndex = 0)
+        {
+            try
+            {
+                PayLoad p = await FetchPayloadAsync(WithIndex);
+                if (p != null)
+                {
+                    Count = p.From;
+                    CurrentSaying = p.Saying;
+                    SayingNumber = WithIndex;
+                    HasData = true;
+                    return (success: HasData, status: "OK");
+                }
+                else
+                {
+                    HasData = false;
+                    return (success: HasData, status: "Invalid Response");
+                }
+            }
+            catch (System.Exception e)
+            {
+                HasData = false;
+                return (success: HasData, status: e.Message);
+            }
+        }
 ```
 
 Key to this is the method call `PayLoad p = await FetchPayloadAsync(WithIndex);`. This method is not implemented in the base class, but in a child.
@@ -466,9 +471,13 @@ This is the actual model class that will interact with Azure Functions.
 ```C#
     public class RemoteModel : SayingsAbstractModel
     {
+        // URL string for the remote server
 
-        //URL string for the remote server
-        protected const string Url = "https://sayingsfunctionappplymouth.azurewebsites.net/api/LookupSaying?index=";
+        //protected const string Url = "https://sayingsfunctionappplymouth.azurewebsites.net/api/LookupSaying";
+        protected const string Url = "http://10.0.2.2:7071/api/LookupSaying"; // 10.0.2.2 is mapped through to the host PC
+
+        // Azure security key (using Function level authentication - now out of date ;)
+        protected const string azure_fn_key = "Z8W37szNxA5mdRmDkblGr/3fimj3IPojd6l9tDTBo4pgyHRtklovAA==";
 
         //Dynamically allocated HTTP client for performing a network connection
         protected static HttpClient _client;
@@ -479,7 +488,7 @@ This is the actual model class that will interact with Azure Functions.
                 if (_client == null)
                 {
                     _client = new HttpClient();
-                    _client.DefaultRequestHeaders.Add("x-functions-key", "Z8W37szNxA5mdRmDkblGr/3fimj3IPojd6l9tDTBo4pgyHRtklovAA==");
+                    _client.DefaultRequestHeaders.Add("x-functions-key", azure_fn_key);
                 }
                 return _client;
             }
@@ -487,14 +496,14 @@ This is the actual model class that will interact with Azure Functions.
 
         protected override async Task<PayLoad> FetchPayloadAsync(int WithIndex = 0)
         {
-            string result = await Client.GetStringAsync(Url + WithIndex);
+            string result = await Client.GetStringAsync($"{Url}?index={WithIndex}");
             PayLoad p = PayLoad.FromXML(result);
             return p;
         }
     }
 ```
 
-- The security key (yours will be different) is stored in the HTTP header
+- The security key (yours will be different) is stored in the HTTP header. This is only needed if you connect to an Azure hosted function
 - Note how we only create one instance of HTTP client (it is a `static` property)
 - This code can focus on one task, to fetch the payload. It does not need to concern itself with bound properties. It can be easily substitured with something to mimick it.
 
@@ -718,15 +727,14 @@ There is very little change to the View except to pass a parameter to the ViewMo
 BindingContext = new MainPageViewModel(new RemoteModel());
 ```
 
-If you prefer not to use Azure and use a Mocked version, change this to:
+If you prefer not to use Azure fFunctions and use a Mocked version, change this to:
 
 ```C#
 BindingContext = new MainPageViewModel(new MockedRemoteModel());
 ```
 
-
 ### What is missing?
-So far, we've focused mainly on _expected behaviour_ whereby the network is fully connected and the data returned is perfectly formed. What we have not (yet) fully considered are the following:
+So far, we've focused mainly on _expected behaviour_ whereby the network is fully connected and the data is rapidly returned and perfectly formed. What we have not (yet) fully considered are the following:
 
 - The network is unreachable
 - The access key has changed
@@ -744,7 +752,11 @@ It is tempting to try and ignore such things, but you can't (or at least should 
 
 > It is the handing of the unexpected that is often the differentiator of a robust and a weak application
 
-In the next and last section for this example, we do just this.
+Furthermore, there is another key ingredient missing:
+
+- User feedback - the user should receive especially when the network is busy or if an error occurs. Currently the user is left guessing. 
+
+In the next and last section for this example, we address these issues.
 
  [Next](mvvm-8.md)
 
