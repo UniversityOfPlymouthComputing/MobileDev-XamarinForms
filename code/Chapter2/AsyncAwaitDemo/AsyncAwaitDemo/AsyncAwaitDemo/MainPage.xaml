@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AsyncAwaitDemo.MainPage">
+
+    <StackLayout>
+        <Label Text="Look no Threads!"
+               FontSize="Large"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <ActivityIndicator x:Name="Activity1" IsRunning="False" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
+            <ActivityIndicator x:Name="Activity2" IsRunning="False" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
+            <ActivityIndicator x:Name="Activity3" IsRunning="False" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Button Text="TASK1" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Clicked="Button_Clicked_1"/>
+            <Button Text="TASK2" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Clicked="Button_Clicked_2"/>
+            <Button Text="TASK3" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Clicked="Button_Clicked_3"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
