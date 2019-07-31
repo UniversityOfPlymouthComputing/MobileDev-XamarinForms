@@ -7,24 +7,50 @@
 ## Part 7 - Hooking up to the Cloud
 [Part 7 is here](/code/Chapter2/Bindings/HelloBindings-07). Inspect and familiarise yourself with the code fully before proceeding. There is some preliminary work you need to do before you can run it.
 
-In this section, I've done something that might seem a bit ambitious: I've stored the list of sayings in the cloud (jargon for someone elses computer), and I'm going to use Azure Functions to retrieve them. This would allow me to add more sayings without app updates. Also, as long as we moderate usage, it's free, and we like free.
+In this section, I've done something that might seem a bit ambitious: I've stored the list of sayings in the cloud (jargon for someone elses computer), and I'm going to use Azure Functions to retrieve them. This would allow me to add more sayings without app updates. 
 
-Another option is to run Azure functions _locally_. I will start with this, and if you wish to host on the cloud, you can do so.
+Where possible, we will run Azure functions _locally_. There are some free services on Azure (see https://azure.microsoft.com/en-gb/free/ for details) 
 
 ### Pre-requisites
 To run Azure functions locally, you need to meet some pre-requisites first:
 
-For both Mac and PC, the following apply:
+Run the Visual Studio installer and ensure the Azure development tools are installed:
 
-1. Ideally, if you don't already have it, [install the Node Package Manager (npm)](https://nodejs.org/en/download/)
+![Install the Azure Tools](img/Install-Azure_Dev.png)
+
+To run the functions locally, for both Mac and PC, the following apply:
+
+1. If you don't already have it, [install the Node Package Manager (npm)](https://nodejs.org/en/download/)
 You can test if you already have it by opening a command shell / terminal and typing `npm`
 1. Install the Azure Functions Core Tools by typeing `npm install -g azure-functions-core-tools`
 
+For this section, _you don't need an Azure account_. However, if you still want to use the actual Azure cloud services, you will need a Microsoft Account and you'll need to sign up for Azure. There are free services (with terms), but it is your responsibility to manage your Azure account.
 
+Students and Faculty - https://azure.microsoft.com/free/students
+Others - https://azure.microsoft.com/free
+
+If you wish to do this, be aware you are entirely responsible for any costs you might incurr.
 
 ### Setting up an Azure Function
 Starting with [Part 6](/code/Chapter2/Bindings/HelloBindings-06), we're going to add an Azure Function to the project.
 
+There are a few options. One is directly from Visual Studio. The following are instructions for the PC version (the Mac is similar)
+
+1. Open your solution in Visual Studio
+1. Right click the Solution, Click Add, then New Project
+1. Search for `function`
+1. Choose `Azure Functions`, then click Next
+1. For the Project name, I chose "FunctionApp"
+1. Click Create
+1. Choose Http Trigger (we want the function to run in response to an HTTP request)
+1. Set Storage to None, leave Authorization level as Function 
+1. Click Create - Visual Studio to finish up
+
+You can now run and test your cloud function on your local machine
+
+1. Set up your function app to be the startup project
+1. Run
+1. A commmand window / terminal should appear - once it's ready, it should display the URL to connect to the 
 
 
 
