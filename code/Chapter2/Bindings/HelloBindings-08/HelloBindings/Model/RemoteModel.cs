@@ -11,7 +11,7 @@ namespace HelloBindings
         //protected const string Url = "https://sayingsfunctionappplymouth.azurewebsites.net/api/LookupSaying";
         protected const string Url = "http://10.0.2.2:7071/api/LookupSaying"; // 10.0.2.2 is mapped through to the host PC
         
-        // Azure security key (using Function level authentication)
+        // Azure security key (using Function level authentication) - now out of date ;)
         protected const string azure_fn_key = "Z8W37szNxA5mdRmDkblGr/3fimj3IPojd6l9tDTBo4pgyHRtklovAA==";
 
         //Dynamically allocated HTTP client for performing a network connection

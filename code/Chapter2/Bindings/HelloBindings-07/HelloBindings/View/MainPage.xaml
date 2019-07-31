@@ -37,21 +37,12 @@
                 VerticalOptions="CenterAndExpand"
                 />
 
-        
-        <ActivityIndicator x:Name="Activity"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Start"
-                           IsRunning="{Binding Path=IsRequestingFromNetwork}"
-            
-            />
-
         <Switch x:Name="ToggleSwitch"  
                 HorizontalOptions="Center"
                 VerticalOptions="End"
                 IsToggled="{Binding Path=UIVisible, Mode=TwoWay}"
                 />
-        <!-- TODO: replace IsToggled="true" -->
-        
+
     </StackLayout>
 
 </ContentPage>
