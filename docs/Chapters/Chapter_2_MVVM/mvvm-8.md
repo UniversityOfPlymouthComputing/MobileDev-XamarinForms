@@ -15,7 +15,7 @@ In this last section, we look at how to better communicate with the user. This i
 
 A demo of the final application is here
 
-<p align="center">
+<p>
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=tDCPw1KSoUc" target="_blank"><img src="http://img.youtube.com/vi/tDCPw1KSoUc/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
