@@ -34,6 +34,10 @@ If you wish to do this, be aware you are entirely responsible for any costs you 
 ### Setting up an Azure Function
 Starting with [Part 6](/code/Chapter2/Bindings/HelloBindings-06), we're going to add an Azure Function to the project.
 
+<p>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=JRwPyCk7wTA" target="_blank"><img src="http://img.youtube.com/vi/JRwPyCk7wTA/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
+
 There are a few options. One is directly from Visual Studio. The following are instructions for the PC version (the Mac is similar)
 
 1. Open your solution in Visual Studio
@@ -61,9 +65,16 @@ http://localhost:7071/api/Function1?name=XamarinDev
 You should see the message "Hello, XamarinDev" appear in your browser.
 
 ### Changing the Function
-Now we are going to replace the function with something more useful. First, we are going to create a library with some common code. This will be shared with both the Azure Function and the Mobile Client
+Now we are going to replace the function with something more useful. 
 
 #### Create the HelloBindings Library
+First, we are going to create a library with some common code. This will be shared with both the Azure Function and the Mobile Client.
+You can watch the video and/or follow the steps below
+
+<p>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=ONPA8dBlzeI" target="_blank"><img src="http://img.youtube.com/vi/ONPA8dBlzeI/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
+
 Perform the following 
 
 1. Right-click the Solution
@@ -234,6 +245,12 @@ Look at the server window, and you will see the address starts with `http` and n
 
 #### Testing Locally - Android Emulator Security
 By default, the Android emulator will not connect to a cleartext (http) endpoint. To override this for address 10.0.2.2, we need to make some edits to the Android project.
+
+You can watch the video and/or follow the instructions below:
+
+<p>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=8arN4l_YqSs" target="_blank"><img src="http://img.youtube.com/vi/8arN4l_YqSs/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
 
 In the **Android Project** (not the Xamarin.Forms project), do the following:
 
