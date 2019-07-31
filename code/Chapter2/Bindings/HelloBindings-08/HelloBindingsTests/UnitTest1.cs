@@ -8,64 +8,6 @@ using System.Windows.Input;
 
 namespace HelloBindingsTests
 {
-
-    [TestClass]
-    public class TestVM : IMainPageViewHelper, ICommand
-    {
-        bool ButtonCanExecute { get; set; } = false;
-        Action ButtonExecuteAction { get; set; }
-        Func<bool> ButtonCanExecuteFunction { get; set; }
-
-        bool canChangeExecuteInvoked = false;
-
-        public event EventHandler CanExecuteChanged;
-
-        public void ChangeCanExecute(ICommand obj)
-        {
-            canChangeExecuteInvoked = true;
-            ButtonCanExecute = ButtonCanExecuteFunction();
-        }
-
-        public ICommand CreateConcreteCommand(Action execute, Func<bool> canExecute)
-        {
-            ButtonExecuteAction = execute;
-            ButtonCanExecuteFunction = canExecute;
-            return this;
-        }
-
-        public Task ShowErrorMessageAsync(string ErrorMessage)
-        {
-            Console.WriteLine(ErrorMessage);
-            return Task.CompletedTask;
-        }
-
-        public Task ShowModalAboutPageAsync()
-        {
-            Console.WriteLine("ModalAbout");
-            return Task.CompletedTask;
-        }
-
-        [TestMethod]
-        public void TestMethod1()
-        {
-            SayingsAbstractModel m = new MockedRemoteModel();
-            MainPageViewModel vm = new MainPageViewModel(m, this);
-            bool ce = vm.FetchNextSayingCommand.CanExecute(null);
-            Assert.IsTrue(ce, "Command Cannot Execute at Startup");
-            vm.FetchNextSayingCommand.Execute(null);
-            Assert.IsTrue(vm.CurrentSaying.Equals("May the Force be With You"), "Wrong sayng: " + vm.CurrentSaying);
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return ButtonCanExecuteFunction();
-        }
-
-        public void Execute(object parameter)
-        {
-            ButtonExecuteAction();
-        }
-    }
     [TestClass]
     public class TestLib
     {

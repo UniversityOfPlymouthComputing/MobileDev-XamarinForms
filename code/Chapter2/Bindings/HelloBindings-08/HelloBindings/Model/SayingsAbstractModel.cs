@@ -104,10 +104,10 @@ namespace HelloBindings
                     return (success: HasData, status: "Invalid Response");
                 }
             }
-            catch
+            catch (System.Exception e)
             {
                 HasData = false;
-                return (success: HasData, status: "Permission Denied");
+                return (success: HasData, status: e.Message);
             }
         }
 

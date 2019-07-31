@@ -1,6 +1,7 @@
-﻿using System.ComponentModel;
+﻿using HelloBindingsLib;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using HelloBindingsLib;
 
 namespace HelloBindings
 {
@@ -83,7 +84,7 @@ namespace HelloBindings
             return (success, ErrStr);
         }
 
-        //Wrapper around the specific implmentation for fetching a saying 
+        //Wrapper around the specific implmentation for fetching a saying
         protected async Task<(bool success, string status)> FetchSayingAsync(int WithIndex = 0)
         {
             try
@@ -103,10 +104,10 @@ namespace HelloBindings
                     return (success: HasData, status: "Invalid Response");
                 }
             }
-            catch
+            catch (System.Exception e)
             {
                 HasData = false;
-                return (success: HasData, status: "Permission Denied");
+                return (success: HasData, status: e.Message);
             }
         }
 

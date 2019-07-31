@@ -22,7 +22,7 @@ namespace HelloBindings
             InitializeComponent();
 
             //Create ViewModel
-            ViewModel = new MainPageViewModel(new MockedRemoteModel(), this);
+            ViewModel = new MainPageViewModel(new RemoteModel(), this);
             BindingContext = ViewModel;
         }
 

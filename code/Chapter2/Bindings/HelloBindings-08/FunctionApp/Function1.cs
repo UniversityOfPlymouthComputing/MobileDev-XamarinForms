@@ -19,7 +19,7 @@ namespace FunctionApp
         private static int Count => Sayings.Count;
 
         [FunctionName("Function1")]
-        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "LookupSaying")] HttpRequest req)
+        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "LookupSaying")] HttpRequest req)
         {
             string name = req.Query["index"];
             bool success = int.TryParse(name, out int index);

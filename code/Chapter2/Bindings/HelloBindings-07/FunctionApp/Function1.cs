@@ -7,7 +7,7 @@ using HelloBindingsLib;
 
 namespace FunctionApp
 {
-    public static class Function1 
+    public static class Function1
     {
         private static List<string> Sayings = new List<string>
         {
@@ -19,7 +19,7 @@ namespace FunctionApp
         private static int Count => Sayings.Count;
 
         [FunctionName("Function1")]
-        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "LookupSaying")] HttpRequest req)
+        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "LookupSaying")] HttpRequest req)
         {
             string name = req.Query["index"];
             bool success = int.TryParse(name, out int index);
@@ -36,12 +36,13 @@ namespace FunctionApp
                 }
                 else
                 {
-                    return new BadRequestObjectResult("Index out of range. Please use an index from 0.." + (Count-1));
+                    return new BadRequestObjectResult("Index out of range. Please use an index from 0.." + (Count - 1));
                 }
 
-            } else
+            }
+            else
             {
-                 return new BadRequestObjectResult("The query string parameter index must be an integer");
+                return new BadRequestObjectResult("The query string parameter index must be an integer");
             }
 
         }
