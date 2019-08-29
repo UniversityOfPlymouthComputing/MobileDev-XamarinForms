@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="FormsAppTest.MainPage">
+
+    <StackLayout>
+        <!-- Place new controls here -->
+        <Label Text="Welcome to Xamarin.Forms" 
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand" />
+        <Grid Padding="10,10,10,10" VerticalOptions="CenterAndExpand">
+           <Grid.RowDefinitions>
+               <RowDefinition Height="2*"/>
+               <RowDefinition Height="*"/>
+               <RowDefinition Height="100"/>
+           </Grid.RowDefinitions>
+           <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="Auto"/>
+               <ColumnDefinition Width="*"/>
+           </Grid.ColumnDefinitions>
+           
+           <Label Text="Hello" Grid.Row="0" Grid.Column="0"
+                  HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"
+                  VerticalOptions="FillAndExpand" VerticalTextAlignment="Center"
+                  TextColor="White" BackgroundColor="Red"/>
+            <Label Text="Welcome" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                   HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center" VerticalOptions="FillAndExpand"
+                   BackgroundColor="Green"/>
+           <Label Text="World" Grid.Row="2" Grid.Column="1" 
+                  HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"
+                  VerticalOptions="FillAndExpand" VerticalTextAlignment="Center"
+                  TextColor="Yellow" BackgroundColor="Blue"/>
+
+            <StackLayout Grid.Row="2" Grid.Column="0">
+                <Button Text="Press" BackgroundColor="Yellow" />
+                <Button Text="Me" BackgroundColor="YellowGreen"/>
+            </StackLayout>
+        </Grid>
+    </StackLayout>
+</ContentPage>
