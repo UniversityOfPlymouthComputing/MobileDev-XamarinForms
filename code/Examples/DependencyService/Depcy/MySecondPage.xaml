@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Details huh?"
+             x:Class="Depcy.MySecondPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button Text="Click Me" x:Name="TheButton" VerticalOptions="CenterAndExpand" />
+            <Button Text="Cover me!" x:Name="TheModalButton" VerticalOptions="CenterAndExpand" />
+            <Button Text="Go Away"  x:Name="GoAwayButton" VerticalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
