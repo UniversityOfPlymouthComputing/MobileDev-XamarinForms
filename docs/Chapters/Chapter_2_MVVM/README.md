@@ -22,10 +22,10 @@ By the end of this chapter you should be able to:
 # Contents
 1. [Model-View-ViewModel (MVVM)](Introduction.md)
 1. [Some essential concepts in C# - TO BE DONE](essential-c-sharp.md)
-   1. Anonymous Functions
-   1. Asynchronous programming - async and await
-   1. Loose Coupling with Interfaces
-   1. Handling Exceptions with Try-Catch
+   1. [Anonymous Functions](anonymous-functions.md)
+   1. [Asynchronous programming - async and await](async-programming.md)
+   1. [Loose Coupling with Interfaces](loose-coupling.md)
+   1. [Handling Exceptions with Try-Catch](try-catch.md)
 1. [Part 1 - Start with Familiar Code](mvvm-1.md)
 1. [Part 2 - Binding Between UI Elements using Code](mvvm-2.md)
 1. [Part 3 - Creating Bindable Properties](mvvm-3.md)
