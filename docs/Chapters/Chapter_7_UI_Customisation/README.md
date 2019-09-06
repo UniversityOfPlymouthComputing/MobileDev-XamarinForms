@@ -15,8 +15,8 @@ By the end of this chapter you should be able to:
 1. [UI Styling- TO BE DONE]() 
 1. [Runtime Platform Checks - TO BE DONE]()
 1. [Platform Checks in XAML  - TO BE DONE]()
-1. [Material Design]()
-1. [Calling platform specific code]()
+1. [Material Design - TO BE DONE]()
+1. [Calling platform specific code - TO BE DONE]()
 1. Self-Study Tasks
 1. References
 

@@ -14,11 +14,11 @@ By the end of this chapter you should be able to:
 # Contents
 1. [Custom Renderers-  - TO BE DONE]() 
 1. [Fast Renderers - TO BE DONE]()
-1. [Tuning Performance]()
-1. [Tuning binary size]()
-1. [Compiled Bindings]()
-1. [Offline First]()
-1. [Advanced Testing]()
+1. [Tuning Performance - TO BE DONE]()
+1. [Tuning binary size - TO BE DONE]()
+1. [Compiled Bindings - TO BE DONE]()
+1. [Offline First - TO BE DONE]()
+1. [Advanced Testing - TO BE DONE]()
 1. Self-Study Tasks
 1. References
 
