@@ -78,9 +78,8 @@ Like the examples before it, the example that is developed in this section is al
 
 It starts with the familiar MVC architecture, and is evolved incrementally to a testable MVVM archirecture with Model data being pulled from the cloud (Azure Function). Although the resulting MVVM mode is longer and possibly overkill for such a simple application, it is hopefully illustrative. You can then apply it yourself to more real-world applications that scale beyond the trivial.
 
-
- [Next](mvvm-1.md)
-
+[Next - Some essential concepts in C# - TO BE DONE](essential-c-sharp.md)
+ 
 ----
 
 [Contents](README.md)

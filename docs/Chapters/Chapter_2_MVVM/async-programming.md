@@ -2,12 +2,12 @@
 
 ----
 
-[Prev](anonymous-functions.md.md)
+[Prev](anonymous-functions.md)
 
-# Anonymous Functions
+# Asynchronous Programming
 
 
-[Next - Asynchronous Programming](async-programming.md)
+[Next - Loose Coupling with Interfaces](loose-coupling.md)
 
 ----
 
