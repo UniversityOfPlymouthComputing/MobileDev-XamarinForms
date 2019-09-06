@@ -19,6 +19,7 @@ By the end of this chapter you should be able to:
 1. [Compiled Bindings - TO BE DONE]()
 1. [Offline First - TO BE DONE]()
 1. [Advanced Testing - TO BE DONE]()
+1. [Building NuGET Packages - TO BE DONE]()
 1. Self-Study Tasks
 1. References
 
