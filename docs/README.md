@@ -11,7 +11,7 @@
 
 [Chapter 6 - Shell Navigation](Chapters/Chapter_6_ShellNavigation/README.md)
 
-[Chapter 7 - Platform Specific Behaviour](Chapters/Chapter_7_PlatformSpecificBehaviour/README.md)
+[Chapter 7 - UI Customisation](Chapters/Chapter_7_UI_Customisation/README.md)
 
 [Chapter 8 - Advanced Topics](Chapters/Chapter_8_AdvancedTopics/README.md)
 
