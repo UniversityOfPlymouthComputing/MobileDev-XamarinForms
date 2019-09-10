@@ -1,0 +1,24 @@
+[Contents](README.md)
+
+----
+
+[Prev](README.md)
+
+# Essential C#
+As in the previous chapter, some of the prerequisite C#.NET knowledge is covered. You may have met some of this before, in which case consider this useuful revision.
+
+Topics Include:
+
+   1. [Anonymous Functions](anonymous-functions.md). You may have written many _instance methods_ or _static / class methods_ by now, both of which are a type of _function_. Functions in C#.NET are not just program code, but are data structures, and are sometimes also said to be _first class types_. This means a _function_ type can be passed as a parameter, returned from another function or referenced in a variable (for later use maybe). This may seem very strange, especially if you are coming from older languages, but it's a powerful language feature that has many useful applications. First-class functions also have a useful behaviour known as "capturing" which will also be explained. If we are not careful, this discussion could easily end up in a long discussion about _functional programming_. For all its merits and critisisms (yes, flame wars still rage on), this is _not_ a course in functional programming. Instead, this topic is being covered as it is a prequisite for some of the APIs we will be using (and is transferrable to many other modern languages). If you are a big  advocate of function programming, I hear that F# is nice.
+
+   1. [Asynchronous Programming - async and await](async-programming.md). When you first learn to program, you probably write operations in a particular sequence, and expect those operations to be performed in the exact same sequence. This is fine for simple tasks and still the most common type of code used. However, this approach struggles when you need to interact with hardware (which can be slow) epecially in conjunction with tasks such as user interfaces which need to remain fast and responsive. Examples of slow tasks incude uploaded and retreiving information across the internet, saving data to persistent storage or performing a large complex calculation. All these examples have one thing in common - they can take a noticable amount of time to complete. If we were to perform any of these operations sequentially in our UI code (such as in an event handler), this could render the UI unresponsive and may even cause the app to be kicked by the host operating system. The traditional solution is to use some form of multi-tasking, often by running multiple _threads_ of code at the same time. The main UI code might run on one thread, and a networking code (subject to long delays) on another another. The slow network operations would therefore not interfere with the UI code timing. A problem with this approach is one of safe and correct synchronisation between the threads, especially where they share any information (this is a whole topic in itself!). Rather than rely on the developer to write complex (and often buggy) multi-threaded code, the notion of an asynchronous API is introduced, along with an excellent language feature `await` and `async`. This is a radiacally different approach, that does **NOT** have to involve multithreaded programming. How does this work? I will try and explain.
+
+   1. [Loose Coupling with Interfaces](loose-coupling.md). You may have used C# interfaces or seen them used in examples. You might be wondering _what's the point?_. Surely it's a bit like a class, but with no code or data. Well, interfaces are not that, and one of the most heavily used Object Orientated language features in C# (and other languages). One of the key reasons to use them is to avoid "Tight Coupling" between objects. This means, one object may need to reference another, but without the need to specify (at compile time) the actual concrete class type. This is useful when we wish to switch different code in and out of our project, or update classes without breaking other parts of the project. You can think of interfaces as guaranteed lists of capabilities that can be attached to objects. This might all sound a bit mysterious / like nonsence, but hopefuly with a few simple practical examples, this will become clear. 
+
+   1. [Handling Exceptions with Try-Catch](try-catch.md). Error handling can easily be demoted to the "I'll deal with it later (and probably forget)" bin. This is a very human thing to do. Writing error handling can easily result in deeply nested conditional statements which quickly turn into a mess (also known as the _pyramid of hell_). It does not have to be this way. The Try-Catch language feature is a very powerful way to catch errors at run time and handle them gracefully, without the spaghetti code. Some APIs will require you to use Try-Catch, so even if you don't ever _throw an exception_ yourself, others might.
+
+[Next - Anonymous Functions](anonymous-functions.md)
+
+----
+
+[Contents](/docs/README.md)
