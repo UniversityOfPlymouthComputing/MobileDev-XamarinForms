@@ -7,6 +7,8 @@
 # Anonymous Methods and Lambda
 [C# has a bit of a history](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/anonymous-functions#the-evolution-of-delegates-in-c) when it comes to anonymous functions and lambdas. You may have heard the terms `Action`, `Delegate`, `Anonymous Function`, `Func`, `Lambda` or `Closure`. You may encounter any of these terms and it can be quite confusing. As C# evolved, new syntax was introduced to help code become more expressive and concise. The older syntax was kept for backwards compatibility.
 
+[The examples in this section can be found here](/code/Chapter2/AnonymousFunctions)
+
 ## Delegates (C# v1)
 From the Microsoft documentation:
 
