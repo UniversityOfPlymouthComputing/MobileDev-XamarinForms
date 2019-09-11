@@ -2,31 +2,6 @@
 
 namespace AnonymousFunctions
 {
-    public class Capturing
-    {
-        delegate double AddTo(double u);
-
-        AddTo CreateAccumulator(double initValue)
-        {
-            double sum = initValue;
-            AddTo lbd = (double u) => { sum += u; return sum; };
-            return lbd;
-        }
-
-        public Capturing()
-        {
-            double sum = 0.0;
-
-            AddTo lbd = (double u) =>
-            {
-                sum += u;
-                return sum;
-            };
-
-
-            
-        }
-    }
     public class Delegatev3 : DelegateCommon
     {
         public Delegatev3()
