@@ -221,6 +221,71 @@ public class ActionClass
 ## Capturing Behaviour
 There is one last thing I want to say about delegates and that is capturing behaviour. Capturing is especially useful for _functional programming_. In this course it is not likely this will be used, but you might encounter it or worse, inadvertently capture data and get unexpected results.
 
+Consider the following code with a particular focus on the order of each line.
+
+```C#
+int scale = 10;
+
+//The following delegate 'captures' the variable scale
+Func<int,int> f1 = (u) => scale * u;
+
+int y1 = f1(5);
+Console.WriteLine($"{scale} * 5 = {y1}");
+
+scale = 2;
+int y2 = f1(5);
+Console.WriteLine($"{scale} * 5 = {y2}");
+```
+
+Note the following:
+
+* delegate function `f1` makes reference to the variable `scale` currently in scope - it is said to _capture_ `scale` 
+* `f1` is declared after `scale`
+* When `scale` is later updated, this new is reflected when `f1` is invoked a second time
+
+Logically, we might say that `f1` captures `scale` _by reference_. However, there is more to capturing behaviour than this. Now consider a second example:
+
+```C#
+Func<double> CreateCounter(double initValue, double inc)
+{
+    double sum = initValue;
+    return () => { sum += inc; return sum; };
+}
+```
+
+The return type of `CreateCounter` is a delegate function. So this code does not return a normal value (such as an integer or double), but a delegate function.
+
+Note also that the delegate being returned captures the local variable `sum`. Let's now look at where the returned delegate is used.
+
+```C#
+public Capturing()
+{
+    Func<double> acc1 = CreateCounter(0.0, 1.0);
+    Func<double> acc2 = CreateCounter(10.0, 2.0);
+
+    Console.WriteLine("Counter 1: " + acc1().ToString());
+    Console.WriteLine("Counter 1: " + acc1().ToString());
+
+    Console.WriteLine("Counter 2: " + acc2().ToString());
+    Console.WriteLine("Counter 2: " + acc2().ToString());
+}
+```
+
+`acc1` and `acc2` each reference a delegate function. Remembed that within the `CreateCounter` method, this delegate function captures _the local variable_ `sum`. Normally, a local variable would go out of scope as soon as it exits, but here, it is _captured_ inside the delegate.
+
+* Each time `CreateCounter` is invoked, a unique local variable `sum` is created (typically on the function stack).
+* `sum` is captured inside the delegate, and thus is maintained in memory even after `CreateCounter` exit. This captured variable will persists as long as the delegate exists.  
+* The returned delegate includes both code and all captured variables.
+
+Here is the output:
+
+```
+Counter 1: 1
+Counter 1: 2
+Counter 2: 12
+Counter 2: 14
+```
+
 
 
 ## Summary
