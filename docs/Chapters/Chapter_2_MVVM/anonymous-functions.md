@@ -4,19 +4,27 @@
 
 [Prev](README.md)
 
-# Anonymous Methods and Lambda
-[C# has a bit of a history](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/anonymous-functions#the-evolution-of-delegates-in-c) when it comes to anonymous functions and lambdas. You may have heard the terms `Action`, `Delegate`, `Anonymous Function`, `Func`, `Lambda` or `Closure`. You may encounter any of these terms and it can be quite confusing. As C# evolved, new syntax was introduced to help code become more expressive and concise. The older syntax was kept for backwards compatibility.
+# Delegates, Anonymous Functions and Lambdas
+[C# has a bit of history](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/anonymous-functions#the-evolution-of-delegates-in-c) when it comes to delegates, anonymous functions and lambda's. You may have heard the terms `Action`, `Delegate`, `Anonymous Function`, `Func`, `Lambda` or `Closure`. These are all closely related (even logically equivalent), but you may encounter any of these terms and it can be quite confusing. 
+As C# evolved, new syntax was introduced to help code become more expressive and concise. The older syntax was kept presumably for backwards compatibility.
 
+## CODE EXAMPLES
 [The examples in this section can be found here](/code/Chapter2/AnonymousFunctions)
 
 ## Delegates (C# v1)
-From the Microsoft documentation:
+We begin with a quote from the Microsoft documentation:
 
 > A delegate is a type that represents references to methods with a particular parameter list and return type. 
 
 Source: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/index
 
-To declate a delegate type, you might write something such as:
+If you're a C or C++ programmer, this is somewhat akin to function pointers only with extra safety and a few additional features. Put simply, they are a way to pass **blocks of code** (plus associated data) to and from different parts of your application, as if you were moving data. 
+
+You can even consider such blocks of code (delegate type) as a data structure and treat it like any other. You can assign it to a property or variable, pass to a method or return from a method.
+
+Why would you want to do this? That would probably need a very long answer but I'll try and give some examples here.
+
+First of all, to declate a delegate _type_, you might write something such as:
 
 ```C#
 delegate int DoMath(int a, int b);
@@ -46,7 +54,7 @@ Look at the code above carefully, especially the line that reads:
 int y = f(xx[n], yy[n]);
 ```
 
-Consider the flexibility this brings. The method `doMathStuff` does not need to know anything about the specific function `f`. All it knows is it takes two integer parameters, and returns an integer. What it actually does is decided elsewhere. To illustrate this, consider the following methods that conform to this type:
+Consider the flexibility this brings. The method `doMathStuff` does not need to know anything about the specific function `f`. All it knows (from the type information) is that it takes two integer parameters, and returns an integer. What it actually does is defined elsewhere. To illustrate this, consider the following methods that conform to this type:
 
 ```C#
 int addSomeNumbers(int a, int b)
@@ -73,9 +81,9 @@ doMathStuff(del1_v1);
 doMathStuff(del2_v1);
 ```
 
-You might consider `doMathStuff` as a _decorator_ (code that wraps around another).
+You might consider `doMathStuff` as a _decorator_ (code that wraps statements around another).
 
-The syntax of example above is still perfectly valid. The subsequent sections are really just variations on this same theme, with increasingly tidy and concise syntax.
+The syntax of example above is perfectly valid and may still be used. The subsequent sections are really just variations on this same theme, with increasingly tidy and concise syntax.
 
 ## Delegates (C# v2)
 From the Microsoft documentation:
@@ -98,7 +106,7 @@ doMathStuff(del1_v2);
 
 Note how the delegate funcion has no name, hence the name _anonymous function_. In this case it is stored in a variable, and is passed as a parameter as before.
 
-You don't have to store the reference first. In the example below, the function is defined in the parameter list itself:
+You don't have to store the reference first. In the example below, the function is defined _inline_, within the parameter list itself:
 
 ```C#
 doMathStuff( delegate (int a, int b)
@@ -117,7 +125,7 @@ From the Microsoft documentation:
 Source: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/index
 
 ## Lambdas
-Lambda expressions tend to be the most concise and expressive form, and are probably now the most commonly used. Aside from using a slightly different syntax, _type inference_ can be used to shorten them to make them more concise and expressive. 
+Lambda expressions tend to be the most concise and expressive form of delegate, and are probably now the most commonly used. Aside from using a slightly different syntax, _type inference_ can be used to shorten them to make them more concise and expressive. 
 
 We define and store a lambda as we did with a delegate
 ```C#
@@ -139,13 +147,13 @@ DoMath del1_v2 = (a, b) => a + b;
 doMathStuff(del1_v2);
 ```
 
-Again, you can also specify the lambda as a parameter:
+Again, you can also write the lambda inline as a parameter:
 
 ```C#
 doMathStuff((a, b) => a * b);
 ```
 
-I think you'll agree this is much more concise and expressive than anonymous functions. You might thing there is little left to remove, but there is more... 
+I think you'll agree this is much more concise and expressive than anonymous functions. You might think there is little left to remove, but there is more... 
 
 ## Func and Action Delegates
 Common to all the code above was a delegate type declaration
@@ -175,6 +183,12 @@ public Funk()
         "we calculate the sum of products");
     doMathStuff( (a, b) => (double)a * (double)b );
 }
+```
+The output from the `Funk` method is as follows:
+
+```
+Now using Func<> we calculate the sum of products
+100
 ```
 
 Let's look closely at the `doMathStuff` method parameter:
@@ -215,11 +229,25 @@ public class ActionClass
     }
 }
 ```
+The output from invoking `ActionClass` is as follows:
+```
+Using Action<int>
+Outputing List
+2 is even
+4 is even
+6 is even
+8 is even
+Outputing List
+1 is low
+2 is low
+3 is low
+4 is low
+```
 
 `Action<>`  is the fundamentally the same as `Func<>` except it has no return type.
 
 ## Capturing Behaviour
-There is one last thing I want to say about delegates and that is capturing behaviour. Capturing is especially useful for _functional programming_. In this course it is not likely this will be used, but you might encounter it or worse, inadvertently capture data and get unexpected results.
+There is one last thing I want to say about delegates and that is capturing behaviour. Capturing is especially useful for _functional programming_. In this course it is not likely this will be used, but you might encounter it or maybe, inadvertently capture data and get unexpected results.
 
 Consider the following code with a particular focus on the order of each line.
 
@@ -237,13 +265,20 @@ int y2 = f1(5);
 Console.WriteLine($"{scale} * 5 = {y2}");
 ```
 
+The results are as follows:
+
+```
+10 * 5 = 50
+2 * 5 = 10
+```
+
 Note the following:
 
 * delegate function `f1` makes reference to the variable `scale` currently in scope - it is said to _capture_ `scale` 
-* `f1` is declared after `scale`
-* When `scale` is later updated, this new is reflected when `f1` is invoked a second time
+* `f1` is defined after `scale`
+* When `scale` is later updated, this is reflected in the result of `f1` when it is subsequently invoked.
 
-Logically, we might say that `f1` captures `scale` _by reference_. However, there is more to capturing behaviour than this. Now consider a second example:
+Logically, we might draw the concluion that `f1` captures `scale` _by reference_ (even through it is a _value type_), and this seems to be a fairly reasonably way to look at it. However, there is more to capturing behaviour than this. Now consider a second example where a method _returns_ a delegate function (this may seem a little weird at first):
 
 ```C#
 Func<double> CreateCounter(double initValue, double inc)
@@ -255,7 +290,7 @@ Func<double> CreateCounter(double initValue, double inc)
 
 The return type of `CreateCounter` is a delegate function. So this code does not return a normal value (such as an integer or double), but a delegate function.
 
-Note also that the delegate being returned captures the local variable `sum`. Let's now look at where the returned delegate is used.
+Note also that the delegate function being returned _captures_ the local variable `sum` and the parameter `inc`. You might be wondering if this is going to break? Afterall, both a local variable and a parameter would normally be inaccessible once the function ends. With capturing behaviour, both will live on! To illustrate, let's now look at where the returned delegate is used.
 
 ```C#
 public Capturing()
@@ -270,13 +305,6 @@ public Capturing()
     Console.WriteLine("Counter 2: " + acc2().ToString());
 }
 ```
-
-`acc1` and `acc2` each reference a delegate function. Remembed that within the `CreateCounter` method, this delegate function captures _the local variable_ `sum`. Normally, a local variable would go out of scope as soon as it exits, but here, it is _captured_ inside the delegate.
-
-* Each time `CreateCounter` is invoked, a unique local variable `sum` is created (typically on the function stack).
-* `sum` is captured inside the delegate, and thus is maintained in memory even after `CreateCounter` exit. This captured variable will persists as long as the delegate exists.  
-* The returned delegate includes both code and all captured variables.
-
 Here is the output:
 
 ```
@@ -286,15 +314,28 @@ Counter 2: 12
 Counter 2: 14
 ```
 
+`acc1` and `acc2` each store a reference a delegate function. Remember that within the `CreateCounter` method, this delegate function captures _the local variable_ `sum` and paramerer `inc` before being returned.
+
+`ac1` has captured 0.0 and 1.0 for `sum` and `inc`, whereas `ac2` has captured 10.0 and 2.0 respectively. These captured values are now part of the delegate. Where we invoke `acc1()` and `acc2()`, they are parameterless as they have all the information captured within to perform their task.
+
+> If you are curious, you might want to read up on _currying_, a functional programming technique that is related to the above.
+
+To reflect:
+
+* Each time `CreateCounter` is invoked, parameter `inc` and `initValue` are passed. A unique local variable `sum` is created (typically on the function stack).
+* `sum` and `inc` are both referenced inside the delegate, so both are _captured_ and thus persists (somewhere) in memory even after `CreateCounter` exits.
+* The captured `sum` and `inc` will persist as long as the delegate function persists.
+* The returned delegate includes both code and all captured variables.
+
+Each instance`acc1` and `acc2` have their own `sum` and `inc` captured within them. When delegate functions are returned from another function, you will get  code and possibly some form of captured state contained within.
 
 
 ## Summary
-Much more could be said about delegates, anonymous methods and lambda's. The intention is to give the reader an overview so that at least the concept is clear. Don't be surprised if you need to look up the syntax at first.
+Much more could be said about delegates, anonymous methods, lambda's and their applications. The intention is to give the reader an overview so that at least the concept is familiar. Don't be surprised if you need to look up the syntax at first (I still do).
 
+There is much more that could be said about passing and returning delegates. In the past I've included functional programming examples, but I found this left readers confused and even overwhelmed. The problem is it can be fun (well I think it's fun), but as an educator, this risks also becoming self-indulgant.
 
-
-
-
+Where you are likely to use delegates is with networking and UI interfaces. Completion handlers are often short and passed as a parameter. This could be the completion of a network transaction or an animation. What you might find is that this approach benefits from keeping related code together in one place, arguably making it easier to maintain.
 
 [Next - Asynchronous Programming - async and await](async-programming.md)
 
