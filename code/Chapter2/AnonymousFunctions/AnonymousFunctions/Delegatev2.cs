@@ -18,11 +18,16 @@ namespace AnonymousFunctions
             doMathStuff(del1_v2);
 
             Console.WriteLine("Then we multiply");
-            DoMath del2_v2 = delegate (int a, int b)
-            {
-                return a * b;
-            };
-            doMathStuff(del2_v2);
+            //DoMath del2_v2 = delegate (int a, int b)
+            //{
+            //    return a * b;
+            //};
+            //doMathStuff(del2_v2);
+
+            doMathStuff( delegate (int a, int b)
+                         {
+                                return a * b;
+                         } );
 
         }
     }

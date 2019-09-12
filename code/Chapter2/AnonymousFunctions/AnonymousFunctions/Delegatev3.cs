@@ -10,7 +10,8 @@ namespace AnonymousFunctions
 
             //C# Version 3 Delegate
             Console.WriteLine("First we add");
-            DoMath del1_v2 = (int a, int b) => { return a + b; };
+            //DoMath del1_v2 = (int a, int b) => { return a + b; };
+            DoMath del1_v2 = (a, b) => a + b;
             //Note how a function is now passed as a parameter
             doMathStuff(del1_v2);
 

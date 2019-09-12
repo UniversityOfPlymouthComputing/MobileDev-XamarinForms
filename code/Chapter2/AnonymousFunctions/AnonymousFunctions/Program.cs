@@ -9,6 +9,8 @@ namespace AnonymousFunctions
             _ = new Delegatev1();
             _ = new Delegatev2();
             _ = new Delegatev3();
+            _ = new Funk();
+            _ = new ActionClass();
             _ = new Capturing();
         }
     }
