@@ -15,7 +15,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -100,7 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AsyncAwaitDemo\AsyncAwaitDemo.csproj">
-      <Project>{6CDF69BE-C62F-40CF-A151-0985BEA3FB72}</Project>
+      <Project>{313564D4-D564-4345-A694-3E1EF529A398}</Project>
       <Name>AsyncAwaitDemo</Name>
     </ProjectReference>
   </ItemGroup>
