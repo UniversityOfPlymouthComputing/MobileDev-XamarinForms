@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="ImageFetch.MainPage">
+
+    <StackLayout x:Name="MainStackLayout">
+        
+        <Label Text="Welcome to Xamarin.Forms!"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand" />
+
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="CenterAndExpand"
+                     x:Name="InnerStack">
+
+            <Label x:Name="HiddenMessage"
+                   Text="Peek-a-boo"
+                   VerticalOptions="CenterAndExpand"
+                   BindingContext="{x:Reference ToggleSwitch}"
+                   IsVisible="{Binding Path=IsToggled}"
+                   HorizontalOptions="CenterAndExpand" />
+
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="CenterAndExpand">
+
+                <Button x:Name="FetchButton"
+                        Text="Fetch"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
+                        Clicked="FetchButton_Clicked" />
+
+                <Switch x:Name="ToggleSwitch"
+                        VerticalOptions="Center"
+                        HorizontalOptions="CenterAndExpand"/>
+
+            </StackLayout>
+
+            <ActivityIndicator x:Name="Spinner"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                IsEnabled="True"
+                                IsVisible="True"
+                                IsRunning="False" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

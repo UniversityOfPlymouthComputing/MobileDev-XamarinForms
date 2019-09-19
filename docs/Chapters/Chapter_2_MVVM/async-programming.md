@@ -49,9 +49,10 @@ So how do we perfom any of the above in an event handler? The answer lies in tur
 ## `await` and `async` in action
 As always, I like to use an example, and one that is relevent and simple. 
 
-### TASK
-- Create a new Xamarin.Forms project
-- Replace `MainPage.xaml` with the following 
+### TASK 01 - Synchronous APIs
+Open the task ....
+
+Commont to all the examples is `MainPage.xaml` with the following 
 
 ```XML
 <?xml version="1.0" encoding="utf-8"?>
