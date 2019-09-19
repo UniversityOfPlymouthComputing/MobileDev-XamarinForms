@@ -24,7 +24,7 @@ namespace ImageFetch
         {
             Spinner.IsRunning = true;
             FetchButton.IsEnabled = false;
-            var img =  await DownloadImageAsync("https://pbs.twimg.com/profile_images/471641515756769282/RDXWoY7W_400x400.png");
+            var img =  await DownloadImageAsync("https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/raw/master/code/Chapter2/ImageFetch/xam.png");
             img.VerticalOptions = LayoutOptions.CenterAndExpand;
             img.HorizontalOptions = LayoutOptions.CenterAndExpand;
             img.Aspect = Aspect.AspectFit;
