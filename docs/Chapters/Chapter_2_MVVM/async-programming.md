@@ -47,7 +47,157 @@ Almost all of the above turns out to be automatic. Our task is to register and w
 So how do we perfom any of the above in an event handler? The answer lies in turning a single event handler into a multiple event handler, and for that, we use `await` and `async`
 
 ## `await` and `async` in action
-As always, I like to use an example, and one that is relevent and simple. We will definately be communicating with a network in following sections, so let's go with that.
+As always, I like to use an example, and one that is relevent and simple. 
+
+### TASK
+- Create a new Xamarin.Forms project
+- Replace `MainPage.xaml` with the following 
+
+```XML
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="ImageFetch.MainPage">
+
+    <StackLayout x:Name="MainStackLayout">
+        
+        <Label Text="Welcome to Xamarin.Forms!"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand" />
+
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="CenterAndExpand"
+                     x:Name="InnerStack">
+
+            <Label x:Name="HiddenMessage"
+                   Text="Peek-a-boo"
+                   VerticalOptions="CenterAndExpand"
+                   BindingContext="{x:Reference ToggleSwitch}"
+                   IsVisible="{Binding Path=IsToggled}"
+                   HorizontalOptions="CenterAndExpand" />
+
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="CenterAndExpand">
+
+                <Button x:Name="FetchButton"
+                        Text="Fetch"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
+                        Clicked="FetchButton_Clicked" />
+
+                <Switch x:Name="ToggleSwitch"
+                        VerticalOptions="Center"
+                        HorizontalOptions="CenterAndExpand"/>
+
+            </StackLayout>
+
+            <ActivityIndicator x:Name="Spinner"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                IsEnabled="True"
+                                IsVisible="True"
+                                IsRunning="False" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
+```
+- Replace the code-behind `MainPage,xaml.cs` with the following:
+
+```C#
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Forms;
+
+namespace ImageFetch
+{
+    // Learn more about making custom code visible in the Xamarin.Forms previewer
+    // by visiting https://aka.ms/xamarinforms-previewer
+    [DesignTimeVisible(false)]
+    public partial class MainPage : ContentPage
+    {
+        public MainPage()
+        {
+            InitializeComponent();
+        }
+
+        private async void FetchButton_Clicked(object sender, EventArgs e)
+        {
+            Spinner.IsRunning = true;
+            FetchButton.IsEnabled = false;
+            var img =  await DownloadImageAsync("https://pbs.twimg.com/profile_images/471641515756769282/RDXWoY7W_400x400.png");
+            img.VerticalOptions = LayoutOptions.CenterAndExpand;
+            img.HorizontalOptions = LayoutOptions.CenterAndExpand;
+            img.Aspect = Aspect.AspectFit;
+            img.Opacity = 0.0;
+            MainStackLayout.Children.Add(img);
+
+            _ = await img.FadeTo(1.0, 2000);    //Allow to complete
+            _ = img.RotateTo(360, 4000);        //Run concurrently with the next
+            _ = await img.ScaleTo(2, 2000);     
+            _ = await img.ScaleTo(1, 2000);
+            Spinner.IsRunning = false;
+            FetchButton.IsEnabled = true;
+        }
+
+        async Task<Image> DownloadImageAsync(string fromUrl)
+        {
+            using (WebClient webClient = new WebClient())
+            {
+                var url = new Uri(fromUrl);
+                var bytes = await webClient.DownloadDataTaskAsync(url);
+                Image img = new Image();
+                img.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+                return img;
+            }
+        }
+    }
+}
+```
+- Build and run the code. 
+
+When you click the Fetch button it first downloads an image from the Internet, inserts the downloaded image into the layout and finally performs some animation. 
+
+> Downloading the image from the Internet can take several seconds. The animations follow, and also take several seconds to complete.
+
+- Note the animation - the image fades from transparent to opaque, then scales up and down while rotating.
+
+- As soon as you click the `Fetch` button, confirm the UI is still responsive by toggling the switch several times
+
+We will focus on the code-behind and not on the XAML (which is mostly just UI layout)
+
+## Download
+Consider the method `DownloadImageAsync` which downloads an image from the Internet. 
+
+```C#
+async Task<Image> DownloadImageAsync(string fromUrl)
+{
+    using (WebClient webClient = new WebClient())
+    {
+        var url = new Uri(fromUrl);
+        var bytes = await webClient.DownloadDataTaskAsync(url);
+        Image img = new Image();
+        img.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+        return img;
+    }
+}
+```
+
+There are three APIs we could use to download data from the Internet:
+
+- `DownloadData(Uri)` which would block until the data is fully downloaded
+- `DownloadDataAsync(Uri)` which does not block. However, an event handler would need to be set up to know when this is complete
+- `DownloadDataTaskAsync(url)`which also does not block, but avoid the need for a separate completion handler.
+
+Central to this is `webClient.DownloadDataTaskAsync(url)`. This method downloads data from the Internet asynchronously. 
 
 
 
