@@ -47,12 +47,35 @@ Almost all of the above turns out to be automatic. Our task is to register and w
 So how do we perfom any of the above in an event handler? The answer lies in turning a single event handler into a multiple event handler, and for that, we use `await` and `async`
 
 ## `await` and `async` in action
-As always, I like to use an example, and one that is relevent and simple. 
+I'm going to work through an example broken into 4 parts. 
 
-### TASK 01 - Synchronous APIs
-Open the task ....
+Each example is contained within the folder [ImageFetch](https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/tree/master/code/Chapter2/ImageFetch)
 
-Commont to all the examples is `MainPage.xaml` with the following 
+The following video shows the final product in v4. 
+
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=6U7aAykQiac" target="_blank"><img src="http://img.youtube.com/vi/6U7aAykQiac/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
+</p>
+
+Note the following:
+
+- When the Fetch button is tapped, the image is downloaded from the Internet. I have throttled the download speed in the Android Emulator to emphasise this point.
+- Throughout the operation of the application, the UI always remains responsive. Clicking the toggle button reveals and hides the label even during a download or while the image is animating.
+- Nowhere in the code will we create any threads (for those with experience of multi-threaded programming)
+
+There are three additional steps on the way to this:
+
+- **v1** Downloads the image synchronously (demonstrating blocking)
+- **v2** Downloads the image asynchronously. This allows the UI to remain response. It uses lambdas as a completion handler. This helps to explain how asynchronous APIs work.
+- **v3** Also downloads the image asynchronously, only this time, the code is significantly simplified using `await`
+- **v4** Reenforces the points in v3 by adding a sequence of animations, again using `await` to keep the code incredibly simple.
+
+### User Interface
+The user interface `MainPage.xaml` is common to each step.
+
+Again, it's not going to win any design awards but I'm striving to keep the code as concise and simple as possible. In fact, you might be surprised how little code is needed.
+
+The XAML is shown below:
 
 ```XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -105,64 +128,88 @@ Commont to all the examples is `MainPage.xaml` with the following
     </StackLayout>
 </ContentPage>
 ```
-- Replace the code-behind `MainPage,xaml.cs` with the following:
+
+### Version 01 - Using a Synchronous API
+The first version is intended to illustrate the problem we are solving. In this example, we download 
+Open the task in the folder v1 and examing the code-behind `MainPage,xaml.cs`
 
 ```C#
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-
-namespace ImageFetch
+public partial class MainPage : ContentPage
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
-    [DesignTimeVisible(false)]
-    public partial class MainPage : ContentPage
+    public MainPage()
     {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private async void FetchButton_Clicked(object sender, EventArgs e)
-        {
-            Spinner.IsRunning = true;
-            FetchButton.IsEnabled = false;
-            var img =  await DownloadImageAsync("https://pbs.twimg.com/profile_images/471641515756769282/RDXWoY7W_400x400.png");
-            img.VerticalOptions = LayoutOptions.CenterAndExpand;
-            img.HorizontalOptions = LayoutOptions.CenterAndExpand;
-            img.Aspect = Aspect.AspectFit;
-            img.Opacity = 0.0;
-            MainStackLayout.Children.Add(img);
+    private void FetchButton_Clicked(object sender, EventArgs e)
+    {
+        Spinner.IsRunning = true;
+        FetchButton.IsEnabled = false;
+        var img = DownloadImageSync("https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/raw/master/code/Chapter2/ImageFetch/xam.png");
+        img.VerticalOptions = LayoutOptions.CenterAndExpand;
+        img.HorizontalOptions = LayoutOptions.CenterAndExpand;
+        img.Aspect = Aspect.AspectFit;
+        MainStackLayout.Children.Add(img);
+        Spinner.IsRunning = false;
+        FetchButton.IsEnabled = true;
+    }
 
-            _ = await img.FadeTo(1.0, 2000);    //Allow to complete
-            _ = img.RotateTo(360, 4000);        //Run concurrently with the next
-            _ = await img.ScaleTo(2, 2000);     
-            _ = await img.ScaleTo(1, 2000);
-            Spinner.IsRunning = false;
-            FetchButton.IsEnabled = true;
-        }
-
-        async Task<Image> DownloadImageAsync(string fromUrl)
+    Image DownloadImageSync(string fromUrl)
+    {
+        using (WebClient webClient = new WebClient())
         {
-            using (WebClient webClient = new WebClient())
-            {
-                var url = new Uri(fromUrl);
-                var bytes = await webClient.DownloadDataTaskAsync(url);
-                Image img = new Image();
-                img.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
-                return img;
-            }
+            var url = new Uri(fromUrl);
+            //Download SYNCHRONOUSLY (NOT GOOD)
+            var bytes = webClient.DownloadData(url);
+            Image img = new Image();
+            img.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+            return img;
         }
     }
 }
 ```
+
+When the `Fetch` button is tapped, a single event handler `FetchButton_Clicked` is invoked. Within this code, the image is downloaded using the following line:
+
+```C#
+var img = DownloadImageSync("https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/raw/master/code/Chapter2/ImageFetch/xam.png");
+```
+
+The method `DownloadImageSync` performs the download and once compelete, returns an `Image`. This image is then  added to the UI.
+
+> We say this method is _synchronous_ because it does not return until all the tasks have been completed.
+
+The code for `DownloadImageSync` is shown below:
+
+```C#
+Image DownloadImageSync(string fromUrl)
+{
+    using (WebClient webClient = new WebClient())
+    {
+        var url = new Uri(fromUrl);
+        //Download SYNCHRONOUSLY (NOT GOOD)
+        var bytes = webClient.DownloadData(url);
+        Image img = new Image();
+        img.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+        return img;
+    }
+}
+```
+
+What is good about this code is that everything is performed in sequence. It is easy to follow and debug. However, it is also fundamentally flawed.
+
+**TASK**
+Run the code in **v1**. Click the `Fetch` button and then immediately after, try clicking the toggle switch.
+
+Try changing the Android Emulator settings
+
+
+
+### Version 02 - Asynchronous Download with a Completion Handler
+
+### Version 03 - Asynchronous Download with `await`
+
+### Version 04 - Adding Animation
 - Build and run the code. 
 
 When you click the Fetch button it first downloads an image from the Internet, inserts the downloaded image into the layout and finally performs some animation. 
