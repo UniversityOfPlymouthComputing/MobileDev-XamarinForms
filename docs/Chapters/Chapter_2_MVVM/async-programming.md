@@ -196,18 +196,186 @@ Image DownloadImageSync(string fromUrl)
 }
 ```
 
-What is good about this code is that everything is performed in sequence. It is easy to follow and debug. However, it is also fundamentally flawed.
+What is _good_ about this code is that everything is performed in sequence. It is easy to follow and debug. However, it is also fundamentally flawed due to the following line:
+
+```C#
+var bytes = webClient.DownloadData(url);
+```
+
+The `DownloadData` method of `WebClient` is _synchronous_. Execution will not progress past this method call until all the data has downloaded. We say such behaviour is **blocking**. A problem with blocking is that the UI event queue will not be processed, rendering the user interface as unresponsive.
+
 
 **TASK**
-Run the code in **v1**. Click the `Fetch` button and then immediately after, try clicking the toggle switch.
+- Run the code in **v1**. Click the `Fetch` button and then immediately after, try clicking the toggle switch.
 
-Try changing the Android Emulator settings
+- Try experimenting with the Android Emulator Network type settings
 
+![Emulator Settings](img/android-cellular.png)
 
+If you drop the network speed to very low rates, you might even get a warning about an _unresponsive application_.
+
+> The traditional solution to managing blocking code is to put it in a separate _thread_ (code that runs in paralle). However, this adds significant complexity and real risk of introducing bugs that are notoriously difficult to find.
+
+A safer and more elegant solution is to provide an _asynchronous_ alternative.
 
 ### Version 02 - Asynchronous Download with a Completion Handler
+A word of caution with this section. _If at any point you get confused, do not blame yourself_. I will try my best to be clear, but I confess I struggle to do so, even for such a simple example. You might argue this is as much a reflection of the approach as it is my inability to explain clearly. However, when we come to contrast it with `v3`, you will hopefully see why I'm so keen on the modern approach in C# (`async` and `await`). Now you've been forewarned, read on in the comfort that it will get better...
+
+Open the `v2` version of the project, build and test again. 
+
+> Note how this time, the `Fetch` button remains responsive even during the download of the image.
+
+This is a key point. The question is, how it this achieved?
+
+Below is the updated code-behind, which has been reworked to make use of an asynchronous API method call `DownloadDataAsync`.
+
+```C#
+private void FetchButton_Clicked(object sender, EventArgs e)
+{
+    Spinner.IsRunning = true;
+    FetchButton.IsEnabled = false;
+    DownloadImageAsync("https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/raw/master/code/Chapter2/ImageFetch/xam.png", (Image img)=>{
+        img.VerticalOptions = LayoutOptions.CenterAndExpand;
+        img.HorizontalOptions = LayoutOptions.CenterAndExpand;
+        img.Aspect = Aspect.AspectFit;
+        MainStackLayout.Children.Add(img);
+        Spinner.IsRunning = false;
+        FetchButton.IsEnabled = true;
+    });
+}
+
+void DownloadImageAsync(string fromUrl, Action<Image> Completed)
+{
+    using (WebClient webClient = new WebClient())
+    {
+        webClient.DownloadDataCompleted += (object sender, DownloadDataCompletedEventArgs e)=>
+        {
+            Image Img = new Image();
+            Img.Source = ImageSource.FromStream(() => new MemoryStream(e.Result));
+            Completed(Img); //Call back
+        };
+        var url = new Uri(fromUrl);
+        webClient.DownloadDataAsync(url);
+    }
+}
+```
+
+First take some time to study this code as best you can.
+
+We will start at the lowest level and work back out, so 
+let's begin with the actual method to download the image, which is found at the end of the `DownloadImageAsync` method:
+
+```C#
+webClient.DownloadDataAsync(url);
+```
+
+This method is `asynchronous` as it's name suggests. When you invoke it, **execution does not block**. Therefore, _it returns before the download has completed_. This is why this method cannot return a result (type `Image`) because it simply won't exist (yet). 
+
+So how do we get the result? 
+
+The `WebClient` class has an event handler for when data has been downloaded. This behaves much like the `Clicked` event handler of a button, and uses the same fundamental mechansim (the event queue).
+
+```C#
+        webClient.DownloadDataCompleted += (object sender, DownloadDataCompletedEventArgs e)=>
+        {
+            Image Img = new Image();
+            Img.Source = ImageSource.FromStream(() => new MemoryStream(e.Result));
+            Completed(Img); //Call back
+        };
+```
+
+So once, the download has completed, the event handler is called. Within the event handler, the image is constructed from the received data and passed as a parameter as follows:
+
+```C#
+Completed(Img);
+```
+
+What is `Completed`? It's the second parameter in our (enclosing) method `DownloadImageAsync`. So working back out:
+
+```C#
+void DownloadImageAsync(string fromUrl, Action<Image> Completed)
+```
+
+If we step out again and now look at where this method is invoked (within the button event handler), we see the following:
+
+```C#
+    DownloadImageAsync("https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/raw/master/code/Chapter2/ImageFetch/xam.png", (Image img)=>{
+        img.VerticalOptions = LayoutOptions.CenterAndExpand;
+        img.HorizontalOptions = LayoutOptions.CenterAndExpand;
+        img.Aspect = Aspect.AspectFit;
+        MainStackLayout.Children.Add(img);
+        Spinner.IsRunning = false;
+        FetchButton.IsEnabled = true;
+    });
+```
+
+Note the second parameter, Yes, it's lambda code (yipee!). The `DownloadImageAsync` method is given the code (by parameter) to run once the download is complete and an image has been constructed.
+
+ > The lambda itself has a single parameter of type `Image`.  The code within `DownloadImageAsync` calls this lambda, passing the downloaded image as a parameter.
+
+ Intuitive huh?
+
+> Don't be put off if this seems confusing, because it is. 
+
+I really want you to see the contrast with the previous example. In some ways, it is actually important to note any confusion this alternative style introduces. Afterall, clarity of code is important too.
+
+- `v1` was strightforward, and everything happened in sequence, which works well with human reasoning. However it was flawed because the UI was blocked during the download
+- `v2` solves the blocking phenomena, but at the expense of code that is much harder to write or follow. Although not impossible to write or understand, it is less intuitive.
+
+Before me move to `v3`, give the following some thought:
+
+> `v2` is only having to manage one asynchronous call. What if we wanted to perform several potentially blocking tasks (using asynchronous APIs), but in a particular sequence? Think about all the callbacks and _nesting_ of code that might evolve. One might argue this approach does not scale well without additional work. Maybe you've heard the term _pyramid of hell_?
+
+You might be thinking this is all sounding a bit negative, but it's not. We now meet `await` and `async`
 
 ### Version 03 - Asynchronous Download with `await`
+In `v2` we were able to circumvent blocking by using an asynchronous API.
+
+- The download was performed in the background (details were thankfully hidden from us)
+- When the download was complete, an event was posted on the event queue
+- Callbacks (completion handlers) were used to pass results back.
+
+However, in contrast to `v1`, the flow of events was somewhat lost even in this simple example.
+
+Open `v3` and inspect the code-behind. You might be surprised to see a style which is more similar to `v1` than `v2`!
+
+```C#
+private async void FetchButton_Clicked(object sender, EventArgs e)
+{
+    Spinner.IsRunning = true;
+    FetchButton.IsEnabled = false;
+    var img =  await DownloadImageAsync("https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/raw/master/code/Chapter2/ImageFetch/xam.png");
+    img.VerticalOptions = LayoutOptions.CenterAndExpand;
+    img.HorizontalOptions = LayoutOptions.CenterAndExpand;
+    img.Aspect = Aspect.AspectFit;
+
+    MainStackLayout.Children.Add(img);
+
+    Spinner.IsRunning = false;
+    FetchButton.IsEnabled = true;
+}
+
+async Task<Image> DownloadImageAsync(string fromUrl)
+{
+    using (WebClient webClient = new WebClient())
+    {
+        var url = new Uri(fromUrl);
+        var bytes = await webClient.DownloadDataTaskAsync(url);
+                
+        Image img = new Image();
+        img.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+        return img;
+    }
+}
+```
+
+Again, less work out from the actual download
+
+```C#
+var bytes = await webClient.DownloadDataTaskAsync(url);
+```
+
+This is subtly different to `v2`, with the addition of the word `Task` in the method name.
 
 ### Version 04 - Adding Animation
 - Build and run the code. 
