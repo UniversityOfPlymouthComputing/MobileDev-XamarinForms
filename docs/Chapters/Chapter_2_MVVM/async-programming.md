@@ -333,11 +333,10 @@ In `v2` we were able to circumvent blocking by using an asynchronous API.
 
 - The download was performed in the background (details were thankfully hidden from us)
 - When the download was complete, an event was posted on the event queue
-- Callbacks (completion handlers) were used to pass results back.
+- We wrote an event handler to process the completion event
+- Callbacks (completion handlers) were used to pass results back up the chain.
 
-However, in contrast to `v1`, the flow of events was somewhat lost even in this simple example.
-
-Open `v3` and inspect the code-behind. You might be surprised to see a style which is more similar to `v1` than `v2`!
+However, in contrast to `v1`, the flow of events was somewhat lost even in this simple example. Open `v3` and inspect the code-behind. You might be surprised to see a style which is more similar to `v1` than `v2`!
 
 ```C#
 private async void FetchButton_Clicked(object sender, EventArgs e)
@@ -369,7 +368,7 @@ async Task<Image> DownloadImageAsync(string fromUrl)
 }
 ```
 
-Again, less work out from the actual download
+No event handlers and no lambda's were needed, yet the UI is not blocked, so how is done? Again, less work out from the actual download
 
 ```C#
 var bytes = await webClient.DownloadDataTaskAsync(url);
@@ -406,12 +405,12 @@ Again, the `await` keyword is used. We can do this because `DownloadImageAsync` 
 
 So what does this mean and what is going on? From a working knowledge perspective, we can explain it as follows:
 
-- An awaitable method is asynchronous. 
+- An awaitable method is asynchronous and non-blocking. 
 - When invoked, it will typically perform some background task (such as a download). The details of this are typically hidden from the developer.
    - At this point, let us say we have reached _POINT A_ in the code.
-   - Execution does not moved beyond _POINT A_, but instead of blocking, control will be yielded to the event queue so that other events (including the UI) can be processed responsively
-- When the background task has completed, an event will be added to the event queue (details are hidden from the developer)
-   - When event is processed, it will resume execution from _POINT A_ 
+   - Execution does not move beyond _POINT A_, but instead of blocking, control will be yielded to the event queue so that other events (including the UI) can be processed responsively
+- When the background task has completed, an event will be added to the event queue (details are again hidden from the developer)
+   - When event is processed, __it will resume execution from POINT A_ 
    - The asynchronous method can even return a result as if it were synchronous code
 
 In other words, we can write code in a simple and sequential style as `v1`, with all the benefits of `v2`. We let the C#.NET compiler and runtime handle all the call-backs and events for us. 
@@ -423,8 +422,8 @@ Under the hood, the workings of `await` and `async` are far beyond the scope of 
 Here are a few guidelines for using `await` and `async`
 
 - Any method that invokves an _awaitable_ method itself becomes _awaitable_. Such methods must be prefixed with `async`
-- If an _awaitable_ method returns data of type `T`, it must instead return a value of type `Task<T>`
-- Event handlers can have a return type `void` (see below)
+- If an _awaitable_ method returns data of type `T`, it must instead return a value of type `Task<T>`. However, you treat the return type as type `T`
+- Asynchronous event handlers can have a return type `void` (see below)
 
 ```C#
 private async void FetchButton_Clicked(object sender, EventArgs e)
@@ -435,13 +434,19 @@ In the next example, we really see the benefit from `await` and `async` as we se
 ### Version 04 - Adding Animation
 Build and run the code in `v4`. 
 
-When you click the Fetch button it first downloads an image from the Internet, inserts the downloaded image into the layout and finally performs some animation. 
+When you click the Fetch button it first downloads an image from the Internet, inserts the downloaded image into the layout and finally performs a specific sequence of animations. 
 
 > Downloading the image from the Internet can take several seconds. The animations follow, and also take several seconds to complete.
 
-- Note the animation - the image fades from transparent to opaque, then scales up and down while rotating.
+- In the first animation, the image fades from transparent to opaque.
 
-- As soon as you click the `Fetch` button, confirm the UI is still responsive by toggling the switch several times
+- In the second animation, the image scales up and rotates.
+
+- In the final animation, the image continues to rotate and return to it's original size.
+
+**EXPERIMENT**
+
+As soon as you click the `Fetch` button, confirm the UI is still responsive by toggling the switch several times
 
 The only change from `v3` is the `Fetch` button event handler.
 
@@ -502,9 +507,9 @@ Spinner.IsRunning = false;
 FetchButton.IsEnabled = true;
 ```
 
-> Note how all this was written as if it was sequential code. Consider how a call-back approach would contrast
+> Note how all this was written as if it was sequential code. Consider how a call-back approach would contrast in terms of complexity.
 
-I rest my case.
+I propose `async` and `await` are one of the best features of C#.NET. I rest my case.
 
 [Next - Loose Coupling with Interfaces](loose-coupling.md)
 
