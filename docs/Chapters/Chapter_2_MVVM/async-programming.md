@@ -375,10 +375,65 @@ Again, less work out from the actual download
 var bytes = await webClient.DownloadDataTaskAsync(url);
 ```
 
-This is subtly different to `v2`, with the addition of the word `Task` in the method name.
+This is subtly different to `v2`, with the addition of the word `Task` in the method name. 
+
+> `DownloadDataTaskAsync` is invoked _as if it was a synchronous method_ (as in `v1`), only it is prefixed with the keyword `await`. Once complete, it returns an array of bytes which are then used to construct an image. This image is returned, again as we did in `v1`. However, **this code does not block the UI**.
+
+Hover your mouse over the method `DownloadDataTaskAsync` in Visual Studio and you might see something like the following image:
+
+![hover](img/hover_over_downloaddatataskasync.png)
+
+Note it is marked as _awaitable_. 
+
+The enclosing method is defined as follows:
+
+```C#
+async Task<Image> DownloadImageAsync(string fromUrl)
+```
+
+Note the following:
+
+- It returns a type `Task<Image>`
+- It is marked with the keyword `async`
+
+Now look at where `DownloadImageAsync` is invoked:
+
+```C#
+var img =  await DownloadImageAsync("https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/raw/master/code/Chapter2/ImageFetch/xam.png");
+```
+
+Again, the `await` keyword is used. We can do this because `DownloadImageAsync` is also awaitable.
+
+So what does this mean and what is going on? From a working knowledge perspective, we can explain it as follows:
+
+- An awaitable method is asynchronous. 
+- When invoked, it will typically perform some background task (such as a download). The details of this are typically hidden from the developer.
+   - At this point, let us say we have reached _POINT A_ in the code.
+   - Execution does not moved beyond _POINT A_, but instead of blocking, control will be yielded to the event queue so that other events (including the UI) can be processed responsively
+- When the background task has completed, an event will be added to the event queue (details are hidden from the developer)
+   - When event is processed, it will resume execution from _POINT A_ 
+   - The asynchronous method can even return a result as if it were synchronous code
+
+In other words, we can write code in a simple and sequential style as `v1`, with all the benefits of `v2`. We let the C#.NET compiler and runtime handle all the call-backs and events for us. 
+
+> What is so impressive (in my view) is how much effort has gone into this to make asynchronous programming more humanistic.
+
+Under the hood, the workings of `await` and `async` are far beyond the scope of this course (or my understanding). I suggest you'll find _it just works_.
+
+Here are a few guidelines for using `await` and `async`
+
+- Any method that invokves an _awaitable_ method itself becomes _awaitable_. Such methods must be prefixed with `async`
+- If an _awaitable_ method returns data of type `T`, it must instead return a value of type `Task<T>`
+- Event handlers can have a return type `void` (see below)
+
+```C#
+private async void FetchButton_Clicked(object sender, EventArgs e)
+```
+
+In the next example, we really see the benefit from `await` and `async` as we sequence up a number of asynchronsous operations, this time, animations.
 
 ### Version 04 - Adding Animation
-- Build and run the code. 
+Build and run the code in `v4`. 
 
 When you click the Fetch button it first downloads an image from the Internet, inserts the downloaded image into the layout and finally performs some animation. 
 
@@ -388,38 +443,68 @@ When you click the Fetch button it first downloads an image from the Internet, i
 
 - As soon as you click the `Fetch` button, confirm the UI is still responsive by toggling the switch several times
 
-We will focus on the code-behind and not on the XAML (which is mostly just UI layout)
-
-## Download
-Consider the method `DownloadImageAsync` which downloads an image from the Internet. 
+The only change from `v3` is the `Fetch` button event handler.
 
 ```C#
-async Task<Image> DownloadImageAsync(string fromUrl)
+private async void FetchButton_Clicked(object sender, EventArgs e)
 {
-    using (WebClient webClient = new WebClient())
-    {
-        var url = new Uri(fromUrl);
-        var bytes = await webClient.DownloadDataTaskAsync(url);
-        Image img = new Image();
-        img.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
-        return img;
-    }
+    Spinner.IsRunning = true;
+    FetchButton.IsEnabled = false;
+    var img =  await DownloadImageAsync("https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/raw/master/code/Chapter2/ImageFetch/xam.png");
+    img.VerticalOptions = LayoutOptions.CenterAndExpand;
+    img.HorizontalOptions = LayoutOptions.CenterAndExpand;
+    img.Aspect = Aspect.AspectFit;
+    img.Opacity = 0.0;
+
+    MainStackLayout.Children.Add(img);
+
+    _ = await img.FadeTo(1.0, 2000);    //Allow to complete
+    _ = img.RotateTo(360, 4000);        //Run concurrently with the next
+    _ = await img.ScaleTo(2, 2000);     
+    _ = await img.ScaleTo(1, 2000);
+
+    Spinner.IsRunning = false;
+    FetchButton.IsEnabled = true;
 }
+
+All that has changes is the addition of some additional lines of code:
+
+First, the image is set to fully transparent
+```C#
+img.Opacity = 0.0;
 ```
 
-There are three APIs we could use to download data from the Internet:
+The image is added to the layout, then it fades from transparent to visible
 
-- `DownloadData(Uri)` which would block until the data is fully downloaded
-- `DownloadDataAsync(Uri)` which does not block. However, an event handler would need to be set up to know when this is complete
-- `DownloadDataTaskAsync(url)`which also does not block, but avoid the need for a separate completion handler.
+```C#
+_ = await img.FadeTo(1.0, 2000);    //Allow to complete
+```
 
-Central to this is `webClient.DownloadDataTaskAsync(url)`. This method downloads data from the Internet asynchronously. 
+This takes 2 seconds to complete, while still allowing the UI to be responsive. Once the animation is complete, the method is able to resume (assuming there are no other events ahead of it in the event queue)
 
+```C#
+_ = img.RotateTo(360, 4000);        //Run concurrently with the next
+_ = await img.ScaleTo(2, 2000);     
+```
 
+Note the first line is not _awaited_. It is allowed to start and then execution moves to the next line which is _awaited_. This results in *both* animations occuring simultaneously (impressive huh!)
 
+Once the image has reached double size, is is anaimated back to it's original size over 2 seconds
 
+```C#
+ _ = await img.ScaleTo(1, 2000);
+ ```
 
+ Once this is complete, the UI is updated and the method exits.
 
+ ```C#
+Spinner.IsRunning = false;
+FetchButton.IsEnabled = true;
+```
+
+> Note how all this was written as if it was sequential code. Consider how a call-back approach would contrast
+
+I rest my case.
 
 [Next - Loose Coupling with Interfaces](loose-coupling.md)
 
