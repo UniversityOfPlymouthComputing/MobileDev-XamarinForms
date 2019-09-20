@@ -28,8 +28,14 @@ namespace ImageFetch
             img.VerticalOptions = LayoutOptions.CenterAndExpand;
             img.HorizontalOptions = LayoutOptions.CenterAndExpand;
             img.Aspect = Aspect.AspectFit;
+            img.Opacity = 0.0;
 
             MainStackLayout.Children.Add(img);
+
+            _ = await img.FadeTo(1.0, 2000);    //Allow to complete
+            _ = img.RotateTo(360, 4000);        //Run concurrently with the next
+            _ = await img.ScaleTo(2, 2000);     
+            _ = await img.ScaleTo(1, 2000);
 
             Spinner.IsRunning = false;
             FetchButton.IsEnabled = true;
