@@ -471,7 +471,7 @@ private async void FetchButton_Clicked(object sender, EventArgs e)
     Spinner.IsRunning = false;
     FetchButton.IsEnabled = true;
 }
-
+```
 All that has changes is the addition of some additional lines of code:
 
 First, the image is set to fully transparent
