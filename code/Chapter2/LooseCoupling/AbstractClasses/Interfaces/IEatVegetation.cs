@@ -1,5 +1,4 @@
-﻿using System;
-namespace AbstractClasses
+﻿namespace AbstractClasses
 {
     public interface IEatVegetation
     {

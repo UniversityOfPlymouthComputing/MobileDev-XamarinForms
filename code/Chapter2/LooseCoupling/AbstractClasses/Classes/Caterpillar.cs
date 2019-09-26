@@ -5,6 +5,11 @@
         public uint LandSpeedIndex => 1;
         public uint NumberOfLegs => 16;
 
+        public override void Breathe()
+        {
+            WriteStatus("Breathing through spiracles and without lungs");
+        }
+
         public void MunchAndCrunch()
         {
             WriteStatus("Mmmmm, lettuce");

@@ -8,10 +8,8 @@ namespace AbstractClasses
         {
             Console.WriteLine($"{this.GetType().Name}: {msg}");
         }
-        public void Breathe()
-        {
-            WriteStatus("is Breathing");
-        }
+
+        public abstract void Breathe();
 
         public Animal()
         {

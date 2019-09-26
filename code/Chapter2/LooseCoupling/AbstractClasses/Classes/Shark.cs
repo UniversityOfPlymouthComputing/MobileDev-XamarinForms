@@ -7,6 +7,11 @@ namespace AbstractClasses
         public uint PreditorIndex => 10;
         public uint WaterSpeed => 6;
 
+        public override void Breathe()
+        {
+            WriteStatus("Breathing through gills. In essence, a big fish.");
+        }
+
         public void SeekAndChasePrey()
         {
             WriteStatus("Dart, open mouth and snap");

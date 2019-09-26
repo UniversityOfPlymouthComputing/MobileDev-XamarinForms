@@ -5,6 +5,11 @@
         public uint LandSpeedIndex => 8;
         public uint NumberOfLegs => 4;
 
+        public override void Breathe()
+        {
+            WriteStatus("Breathing through mouth with lungs");
+        }
+
         public void MunchAndCrunch()
         {
             WriteStatus("Chew vigilently");

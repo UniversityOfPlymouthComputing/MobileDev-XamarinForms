@@ -8,6 +8,11 @@ namespace AbstractClasses
         public uint LandSpeedIndex => 1;
         public uint NumberOfLegs => 4;
 
+        public override void Breathe()
+        {
+            WriteStatus("Breathing aerobically when active, anaerobically when hibernating");
+        }
+
         public void MunchAndCrunch()
         {
             WriteStatus("Nibble the weed tips");
