@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractClassesAndInterfaces", "AbstractClasses\AbstractClassesAndInterfaces.csproj", "{99BE6700-7381-4C5B-BC99-1CEFCD551DCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication", "ConsoleApplication\ConsoleApplication.csproj", "{B7441DCD-B918-4350-8115-44301B01F415}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLibrary", "MyLibrary\MyLibrary.csproj", "{8D24AB57-34C1-40C5-987C-89B5CCD5FA63}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99BE6700-7381-4C5B-BC99-1CEFCD551DCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99BE6700-7381-4C5B-BC99-1CEFCD551DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99BE6700-7381-4C5B-BC99-1CEFCD551DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99BE6700-7381-4C5B-BC99-1CEFCD551DCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7441DCD-B918-4350-8115-44301B01F415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7441DCD-B918-4350-8115-44301B01F415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7441DCD-B918-4350-8115-44301B01F415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7441DCD-B918-4350-8115-44301B01F415}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D24AB57-34C1-40C5-987C-89B5CCD5FA63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D24AB57-34C1-40C5-987C-89B5CCD5FA63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D24AB57-34C1-40C5-987C-89B5CCD5FA63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D24AB57-34C1-40C5-987C-89B5CCD5FA63}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
