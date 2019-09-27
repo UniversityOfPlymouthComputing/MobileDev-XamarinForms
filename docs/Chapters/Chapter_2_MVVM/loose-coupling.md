@@ -38,6 +38,11 @@ If little of this is making any sense, then hopefully the following examples wil
 All the following examples are contained in a single solution [Loose Coupling](/code/Chapter2/LooseCoupling)
 
 ## Abstract Classes and Interfaces
+The first project is "AbstractClassesAndInterfaces". Open this project and review the project structure:
+
+![AbstractClassesAndInterfaces](img/AbstractClassesAndInterfaces.png)
+
+
 
 [Next - Handling Exceptions with Try-Catch](try-catch.md)
 
