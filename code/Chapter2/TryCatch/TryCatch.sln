@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NestedErrors", "NestedError
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomException", "CustomException\CustomException.csproj", "{9AE24C8E-87F9-4899-B5D5-F46D0E482547}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunTimeCrash", "RunTimeCrash\RunTimeCrash.csproj", "{71D97A07-B409-43AB-A5BF-5CA1CF0B6AF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,5 +33,9 @@ Global
 		{9AE24C8E-87F9-4899-B5D5-F46D0E482547}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AE24C8E-87F9-4899-B5D5-F46D0E482547}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AE24C8E-87F9-4899-B5D5-F46D0E482547}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71D97A07-B409-43AB-A5BF-5CA1CF0B6AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71D97A07-B409-43AB-A5BF-5CA1CF0B6AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71D97A07-B409-43AB-A5BF-5CA1CF0B6AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71D97A07-B409-43AB-A5BF-5CA1CF0B6AF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
