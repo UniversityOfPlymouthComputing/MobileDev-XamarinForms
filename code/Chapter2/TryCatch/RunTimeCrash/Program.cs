@@ -38,6 +38,10 @@ namespace TryCatch
             {
                 Console.WriteLine($"The answer..{w}");
             }
+            else
+            {
+                Console.WriteLine($"No such key");
+            }
 
             // ********************************
             // CASE 3 - Key does not exist
@@ -50,6 +54,15 @@ namespace TryCatch
             // CASE 4 - Integer Divide by Zero
             //uint y = vv / (uu - 1);
             // ********************************
+
+
+            List<string> mylist = new List<string>();
+            mylist.Add("Hello");
+            // ********************************
+            // CASE 5 - Null Reference
+            // mylist = null;
+            // ********************************
+            mylist.Add("World");
 
             Console.WriteLine("***********Done***********");
         }

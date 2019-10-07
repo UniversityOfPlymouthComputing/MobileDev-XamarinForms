@@ -18,7 +18,7 @@ Errors can also happen at highly inconvenient moments such as mid network transa
 These are just some examples. The main point is that comprehensive error handling can become very complex and thus creates the temptation to defer or even ignore handling them. 
 
 ### Code Examples
-Code Examples for this section are provided in the [solution file TryCatch](/code/Chapter2/TryCatch)
+Code Examples for this section are provided in the [solution file TryCatch](/code/Chapter2/TryCatch). Open the solution in Visual Studio.
 
 ### Sources of Error
 The compiler does it's best to prevent developers from performing dangerous operations. However, despite being a type-safe language, there are still many ways to cause a run-time error or even crash.
@@ -37,8 +37,93 @@ You may also have your own critical error which are bespoke to your application:
 - Numerical conditions that prevent a formula being calculated
 - Invalid response from a network
 
+> In the code example, open the project `RunTimeCrash` which demonstrates some of these errors. Within `Program.cs` there are a number of examples that cause a run-time exception and crash. Try commenting out each line and note the message that is displayed. Note the word _exception_ that appears.
+
+If you hover the mouse over a method you will see a pop-up summary (see below). One of the sections includes any _exceptions_ that are _thrown_ in the event of a failure.
+
+![PopupDocs](img/editor_popup_exception.png)
+
+## Run-time checks for exceptions
+Consider the example of a dictionary. 
+
+```C#
+Dictionary<string, uint> lookup = new Dictionary<string, uint>();
+lookup.Add("Life", 42);
+lookup.Add("Loudest", 10);
+lookup.Add("LouderStill", 11);
+```
+
+An attempt to get a key-value pair that does not exist can be checked in-place. The following code will successfully read the value `42` and store it in the temporary variable `w`.
+
+```C#
+if (lookup.TryGetValue("Life", out uint w))
+{
+    Console.WriteLine($"The answer..{w}");
+}
+else
+{
+    Console.WriteLine($"No such key");
+}
+```
+
+If the key `Life` did not exist in the dictionary, a false would be returned and "No such key" would be displayed. This fine if you want to handle the error immediately, but what if this was buried deep inside a stack of method calls within a library? You would need to find a way to propagate the error back up the call-stack to where corrective action needs to be implemented.
+
+Note the word _Try_ in the method name. The presence of this in the name often indicates at least two things: 
+(i) that the method can fail, and returns a `boolean` to indicate success or failure
+(ii) that there is an equivalent method without `Try` in the name (`GetValue` in this example) that instead _throws an exception_ upon failure
+
 ## Exception Handling with `try`-`catch`-`finally`
-Without dwelling on alternative ways to handle errors, let's dive right into a technique that has (arguably) transformed our ability to catch and process errors as they occur, namely exception handling with `try-catch-finally`.
+Without dwelling on alternative ways to handle errors, let's dive right into a technique that has (arguably) transformed our ability to catch and process errors as they occur, at any level in our code, and that is exception handling with `try-catch-finally`.
+
+> Build and run the example `NestedErrors`. You might find it helpful to breakpoint the code and step through it line by line. Be sure to step _in_ and not over.
+
+One the first occasion, you should find you stepped into the method `f1`, then `f2` and finally `f3`. ALl went well, and code execution returned to `Program.cs`. 
+
+One the second occasion, everything worked well until we got down to `f3` where a _divide by zero_ occurred. For those who may have forgotten the mathematics behind this, the result should be _infinity_ (strictly this is a limit and not a number, but hey, that's not important right now), but integers cannot represent such infinity, so _an exception is raised_.
+
+Let's look at the method `f3`
+
+```C#
+uint f3(uint n, uint d)
+{
+    uint dd = d / 2;
+    uint nn = n / dd;
+    return nn;
+}
+```
+
+Note the following:
+
+- The error occurred on the line `uint nn = n / dd;`
+- The return statement was never executed
+- Instead control was immediately passed up to `Program()` in `Program.cs`
+- The code did not crash. 
+
+> *Experiment*. Change the line in `Program()` that reads 
+>
+> `uint y2 = f1(65536, 4)` 
+>
+> to
+>
+> `uint y2 = f1(65536, 2)`. 
+> 
+> - In which function does the error occur?
+> - In both cases, after the error, where does execution resume 
+
+Let's now review the top-level code, where `f1` was invoked
+
+```C#
+try
+{
+    uint y2 = f1(65536, 4);
+    Console.WriteLine("Final result: {0}", y2);
+}
+catch (Exception ex)
+{
+    Console.WriteLine("Divide by zero");
+}
+```
+
 
 
 
