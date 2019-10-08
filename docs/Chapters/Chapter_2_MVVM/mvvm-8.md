@@ -4,7 +4,7 @@
 
 [Prev](mvvm-7.md)
 
-## Part 8 - Improving the User Experience
+## Part 8 - Handling Errors Gracefully
 
 [Part 8 is here](/code/Chapter2/Bindings/HelloBindings-08). Inspect and familiarise yourself with the code fully before proceeding. 
 
