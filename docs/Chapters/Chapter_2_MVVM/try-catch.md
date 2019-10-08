@@ -151,7 +151,111 @@ uint f1(uint n, uint d)
 
 Now the exception is re-thrown using the `throw` command. This is useful where error handling needs to be performed at different levels of granularity. For example, one catch block might "tidy up" by closing files and network sockets, and then pass the exception up the chain to UI code that can inform the user.
 
+## Custom Exceptions
+So far we have seen some of the C#.NET exceptions thrown and caught. More often than not, this is sufficient. However, what if your application detected an error that is specific only to your code. For example, readying an unrecognized string or detecting when numerical results might be unreliable (such as a loss of precision). These are not exceptions that will be otherwise thrown.
 
+> Open, build and run the `CustomExcepton` project.
+
+In this example, I've made it an error condition to divide by any value less than 2 (ok, I admit this is completely contrived to keep the example simple). A bespoke divide method is written to throw a custom exception when such a condition is detected:
+
+```C#
+private uint div(uint n, uint d)
+{
+    if (d < 2)
+    {
+        throw new BadMathException($"You cannot divide by less than 2 in this algorithm. Divisor or value {d} was used.");
+    } else
+    {
+        return n / d;
+    }
+}
+```
+
+Note how a contextually helpful error string is passed as a parameter. The exception class `BadMathException` is simply a subclass of `Exception`. No actual code was added (although it could be). It is the _type_ that is most important.
+
+```C#
+    public class BadMathException : Exception
+    {
+        public BadMathException()
+        {
+        }
+
+        public BadMathException(string message) : base(message)
+        {
+        }
+
+        public BadMathException(string message, System.Exception inner) : base(message, inner)
+        {
+        }
+    }
+```
+
+The exception is caught in the usual way using `try-catch`. 
+
+```C#
+try
+{
+    uint y1 = f1(65536, 8);
+    Console.WriteLine("Final result: {0}", y1);
+
+    uint y2 = f1(65536, 4);
+    Console.WriteLine("Final result: {0}", y2);
+}
+catch (BadMathException bme)
+{
+    Console.WriteLine(bme.Message);
+}
+catch (Exception e)
+{
+    Console.WriteLine("Something went wrong: {0}", e.Message);
+}
+```
+
+Note how two catch blocks were used, each using different exception _types_. Many methods throw multiple exceptions depending on the specific error. In this example, the specific error is checked first. For all other exception types, the general catch block is used. 
+
+## The `finally` block
+One of the potential problems with exceptions, whether caught or not, is that they can leave a system in an adverse state. Examples might include data inconsistency (data partially updated), remaining temporary files and files or network sockets being left open.
+
+What you may sometimes want is the idea of tidying up (closing files, etc.) whether an exception is caught or not. A `finally` block can be added to do just this.
+
+The following code is from the project `AndFinally` in the same solution as above. 
+
+> **Experiment**. Run this code and there should be no exception raised. Note which strings are written to the console and in which order.
+
+```C#
+public Program()
+{
+    uint p = 10, q=2;
+    uint y;
+    try
+    {
+        Console.WriteLine("Attempting the division");
+        y = p / q;
+        //return
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine("Exception caught: {0} ", e.Message);
+        //return;
+    }
+    finally
+    {
+        Console.WriteLine("Tidy Up - close files and network sockets");
+    }
+
+    Console.WriteLine("End of the code");
+}
+```
+
+Once the `try` block completes, the `finally` block is run before the code resumes.
+
+> **Experiment**. Set `q=0` and run this code again. This will force an exception. Again note which strings are written to the console and in which order.
+>
+> Now uncomment the `return` statement in the catch block and repeat.
+>
+> Finally, set `q=2`again and uncomment the `return` statement in the `try` block 
+
+The key observation is that the `finally` block will run either once the `try` block has successfully completed or (in the case of an exception) the `catch` block has completed. Even if you perform an early return (in either), the `finally` block will still run. This is useful as it means the code only has to be written in one place.
 
 ## Other Reading
 Good coverage of this topic is also available from the Microsoft documentation on [Exception Handling](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/exceptions/exception-handling)

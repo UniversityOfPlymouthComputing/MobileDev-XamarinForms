@@ -76,6 +76,10 @@ namespace NestedErrors
             {
                 Console.WriteLine(bme.Message);
             }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong: {0}", e.Message);
+            }
 
             Console.WriteLine("End");
 
