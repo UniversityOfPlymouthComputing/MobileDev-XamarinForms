@@ -258,7 +258,8 @@ Once the `try` block completes, the `finally` block is run before the code resum
 The key observation is that the `finally` block will run either once the `try` block has successfully completed or (in the case of an exception) the `catch` block has completed. Even if you perform an early return (in either), the `finally` block will still run. This is useful as it means the code only has to be written in one place.
 
 ## Other Reading
-Good coverage of this topic is also available from the Microsoft documentation on [Exception Handling](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/exceptions/exception-handling)
+Good coverage of this topic is also available from the Microsoft documentation on [Exception Handling](https://docs.microsoft.com/dotnet/csharp/programming-guide/exceptions/exception-handling)
+ and [Try-Catch-Finally](https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/try-catch-finally)
 
 
 [Next - Part 1 - Start with Familiar Code](mvvm-1.md)
