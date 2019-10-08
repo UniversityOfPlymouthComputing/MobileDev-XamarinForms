@@ -99,7 +99,7 @@ Note the following:
 - Instead control was immediately passed up to `Program()` in `Program.cs`
 - The code did not crash. 
 
-> *Experiment*. Change the line in `Program()` that reads 
+> **Experiment**. Change the line in `Program()` that reads 
 >
 > `uint y2 = f1(65536, 4)` 
 >
@@ -110,7 +110,7 @@ Note the following:
 > - In which function does the error occur?
 > - In both cases, after the error, where does execution resume 
 
-Let's now review the top-level code, where `f1` was invoked
+Let's now review the top-level code in `Program.cs`, where `f1` was invoked:
 
 ```C#
 try
@@ -120,10 +120,36 @@ try
 }
 catch (Exception ex)
 {
-    Console.WriteLine("Divide by zero");
+    Console.WriteLine("Divide by zero caught at the top level");
+}
+Console.WriteLine("End");
+```
+
+Note the code surrounded with a try block contains the invocation of `f1`. If any statement within the try-block throws an exception, and that exception is not already caught at a lower level, then the code in the catch block will run as soon as the exception is thrown. If the exception is not caught, then the code will terminate abruptly. What we mean by _throws an exception_ will be demonstrated in a later example.
+
+> **Experiment** Add a try-catch to the method `f1`. Show that the catch block no longer catches the exception (as it is already caught). What problems do you encounter when trying to do this?
+
+You might have wondered what value to return when the exception is caught. After all, you don't have a valid value to return! In this case, it was easier to handle the exception at the higher level . What if you wanted to do both? The good news is you can, by simply using the keyword `throw`
+
+```C#
+uint f1(uint n, uint d)
+{
+    uint dd = d / 2;
+    uint nn = n / dd;
+    try
+    {
+        uint yy = f2(nn, dd);
+        return yy;
+    }
+    catch (Exception)
+    {
+        Console.WriteLine("Error caught in f1");
+        throw; //Pass on up!
+    }
 }
 ```
 
+Now the exception is re-thrown using the `throw` command. This is useful where error handling needs to be performed at different levels of granularity. For example, one catch block might "tidy up" by closing files and network sockets, and then pass the exception up the chain to UI code that can inform the user.
 
 
 

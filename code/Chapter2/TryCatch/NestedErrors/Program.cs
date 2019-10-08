@@ -35,7 +35,7 @@ namespace NestedErrors
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Divide by zero");
+                Console.WriteLine("Divide by zero caught at the top level");
             }
 
             Console.WriteLine("End");
