@@ -6,7 +6,7 @@ namespace AndFinally
     {
         public Program()
         {
-            uint p = 10, q=1;
+            uint p = 10, q=2;
             uint y;
             try
             {
