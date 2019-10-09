@@ -55,6 +55,7 @@ By the end of this chapter you should be able to:
    1. The BMI Estimator
    1. Unit Testing - begin as we mean to carry on!
    1. Summary and Reflection  
+1. [Grid Layout](grid-layout.md)
 1. Self-Study Tasks
 1. References
 

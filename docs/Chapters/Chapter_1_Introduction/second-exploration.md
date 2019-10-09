@@ -13,6 +13,8 @@ For this section, we will specifically look at the following:
 - **Nested StackLayouts** - including horizontal layout
 - **Text `Entry` boxes** - including associated events 
 
+For the sef-study task, you will redesign the layout using a [Grid layout](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/layouts/grid).
+
 **Task**
 It is suggested that you follow along with this project. You won't have to type everything in as the final sources are available.
 
@@ -419,7 +421,8 @@ The problem with testing this method is that it depends on the view objects (UI)
 
 We tentatively met `async` and `await`. These C# language features were put to good effect to make sequencing of animations and delays super easy. Asynchronous programming was also contrasted with multi-threaded programming. Asynchronous code is not necessarily multi-threaded.
 
-Next, we will discuss some more layout options and some basic navigation.
+Next, we will discuss some more layout options.
 
-# Challenge
-- Add two sliders as alternatives for entering the weight and height
+----
+
+[Back to Table of Contents](./README.md)
