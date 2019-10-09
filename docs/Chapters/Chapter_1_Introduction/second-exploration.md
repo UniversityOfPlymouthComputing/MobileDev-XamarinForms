@@ -14,23 +14,23 @@ For this section, we will specifically look at the following:
 - **Text `Entry` boxes** - including associated events 
 
 **Task**
-It is suggested that you follow along with this project. You won't habve to type everything in as the final sources are available.
+It is suggested that you follow along with this project. You won't have to type everything in as the final sources are available.
 
 **A word about MVVM**
-It should be stressed this point that a conscious effort is being made to 'keep it simple'. For sure there are benefits from employing patterns, such as Model-View-ViewModel (MVVM) which incorporares 'binding' between components. However, there is already much to take in, so this will be deferred to a later discussion. Afterall, how is anyone supposed to appreciate the solution to a problem before they've encountered the problem? The intent here is to first become familiar and even comfortable with Xamarin Forms, maybe encounter some spaghetti code mess on route, before recognising the need and desire to employ patterns to bring things back under greater control. Motivation is key in education, maybe it is _the_ key. Without first establishing a need, clever and elegant solutions risk being passed by as just more 'stuff' to know. 
+It should be stressed this point that a conscious effort is being made to 'keep it simple'. For sure there are benefits from employing patterns, such as Model-View-ViewModel (MVVM) which incorporates 'binding' between components. However, there is already much to take in, so this will be deferred to a later discussion. After all, how is anyone supposed to appreciate the solution to a problem before they've encountered the problem? The intent here is to first become familiar and even comfortable with Xamarin Forms, maybe encounter some spaghetti code mess on route, before recognizing the need and desire to employ patterns to bring things back under greater control. Motivation is key in education, maybe it is _the_ key. Without first establishing a need, clever and elegant solutions risk being passed by as just more 'stuff' to know. 
 
 **A word about unit testing**
-In the next section we will encounter Unit Testing. This is something that is easily grasped and can be liberating (I know this sounds a little hippy with bear with me). It is also a great vehicle to practise our C# and to help us reflect on the code being written. Most of all, it allows us to slow down, test what we have crafted, and _build confidence_ so we can progress with greater confidence. It is sometimes said that to go faster, you must first slow down. I recognise that in myself whether writing software, HDL or designing some electronics. Unit testing can help here and can still be quite satisfying.
+In the next section we will encounter Unit Testing. This is something that is easily grasped and can be liberating (I know this sounds a little hippy with bear with me). It is also a great vehicle to practice our C# and to help us reflect on the code being written. Most of all, it allows us to slow down, test what we have crafted, and _build confidence_ so we can progress with greater confidence. It is sometimes said that to go faster, you must first slow down. I recognize that in myself whether writing software, HDL or designing some electronics. Unit testing can help here and can still be quite satisfying.
 
-Although considered good practise, I do not consider unit testing an advanced concept. I remmeber the first time I encountered unit testing. 30 minutes in and I was wondering, _why had I not known about this before?_ If you've not done unit testing before, maybe you will experience something similar. Visual studio also makes it very easy to implement.
+Although considered good practice, I do not consider unit testing an advanced concept. I remember the first time I encountered unit testing. 30 minutes in and I was wondering, _why had I not known about this before?_ If you've not done unit testing before, maybe you will experience something similar. Visual studio also makes it very easy to implement.
 
 Such testing regimes has become a necessity in part due to the complexity of modern software. In the early 1980's, life was simpler - you wrote BASIC (Beginners All-purpose Symbolic Instruction Code) into an interpreter, and saw instant results. You would often write short little programs to try ideas, and back then, a small red cube moving across the screen scored 'cool points' with your friends. It did not matter so much that your code structure got a little out of control and turned to digital spaghetti.
 
-Now the bar is higher, and we are (even mentally) trapped inside large IDEs and complex frameworks, not always feeling in total control. Even the humble "hello world" application gets entangled with user interface components, classes, Frameworks etc. Yes, you can write console applications and that is fine, but unit testing let's you write just functions to test your own project code all in the same solution. No mess, no UI, just code all kept tidily together. Best of all, as you update your project code, you can keep applying those tests. If you find a bug, you return to the tests. It's similar to testing an electronic circuit where you pull out a component (from a bigger system) and test it in isolation. Trying to do this while still connected to everything else adds further orders of magnitude levels of complexity. Longer term, we aim to write our code more like an electronic circuit - component based and inheretly testable.
+Now the bar is higher, and we are (even mentally) trapped inside large IDEs and complex frameworks, not always feeling in total control. Even the humble "hello world" application gets entangled with user interface components, classes, Frameworks etc. Yes, you can write console applications and that is fine, but unit testing let's you write just functions to test your own project code all in the same solution. No mess, no UI, just code all kept tidily together. Best of all, as you update your project code, you can keep applying those tests. If you find a bug, you return to the tests. It's similar to testing an electronic circuit where you pull out a component (from a bigger system) and test it in isolation. Trying to do this while still connected to everything else adds further orders of magnitude levels of complexity. Longer term, we aim to write our code more like an electronic circuit - component based and inherently testable.
 
-Unit Testing is also brought in early as it underpins some of the benefits (that MVVM thing again) that will become apparent later in the course. As a heads-up, with certain architectural decisions, it becomes possible to test the code that manages your UI state. If you've ever written an activity (Android) or view contoller (iOS) you may recognise this problem. If not, don't worry, you're going to meet it in Xamarin Forms as well. _Testing UI logic_ is a pretty big thing - you've met those bugs, the button that was not reenabled, the visual element that was not updated, the switch that was ignored etc. 
+Unit Testing is also brought in early as it underpins some of the benefits (that MVVM thing again) that will become apparent later in the course. As a heads-up, with certain architectural decisions, it becomes possible to test the code that manages your UI state. If you've ever written an activity (Android) or view controller (iOS) you may recognize this problem. If not, don't worry, you're going to meet it in Xamarin Forms as well. _Testing UI logic_ is a pretty big thing - you've met those bugs, the button that was not re-enabled, the visual element that was not updated, the switch that was ignored etc. 
 
-As a closing point, some perspective. The problem of testing will not go away. Any stateful system that depends on a sequence of events is always going to be trouble. Testing needs to be performed at all levels - user, UI, unit, and manual code walkthroughs. For sequential logic, full coverage soon becomes impossible to achieve. It's why safety critical systems often use older established technology that has undergone thousands / millions of hours. Anyway, we want to write code and not waffle on about testing, so with that in mind, let's build another app.
+As a closing point, some perspective. The problem of testing will not go away. Any statefull system that depends on a sequence of events is always going to be trouble. Testing needs to be performed at all levels - user, UI, unit, and manual code walk-through. For sequential logic, full coverage soon becomes impossible to achieve. It's why safety critical systems often use older established technology that has undergone thousands / millions of hours. Anyway, we want to write code and not waffle on about testing, so with that in mind, let's build another app.
 
 # StackLayout
 Let's start with a simple example of using stack layout, and explore some of the layout options.
@@ -46,11 +46,11 @@ Let's recap.
 - A StackLayout can be vertical or horizontal
    - For a vertical StackLayout, it will default to only allocating the _required_ vertical space for each component. It will allocate all the horizontal space it has.
    - For a horizontal StackLayout, it will default to only allocating the _required_ horizontal space for each component. It will allocate all the vertical space it has.
-- Where child view requests to expand along an axis, the stack view will try to allocate the maximuim space available. Where more than one component asks to expand along the same axis, so the space will be distributed evenly
+- Where child view requests to expand along an axis, the stack view will try to allocate the maximum space available. Where more than one component asks to expand along the same axis, so the space will be distributed evenly
 - Where a child requests to fill along a given axis, it will attempt to resize the control to fill the available space.
 
 ## The BMI Estimator
-The application is called the 'Body Mass Index' (BMI) Estimator. The task is fairly easy to decribe:
+The application is called the 'Body Mass Index' (BMI) Estimator. The task is fairly easy to describe:
 
 > A user enters two numeric values into two text boxes respectively. The first is the person's weight (in Kilograms) and the second is the person's height (in meters). The application validates the input values and if valid, calculates and displays the so-called body mass index (weight / height<sup>2</sup>)
 
@@ -128,7 +128,7 @@ Consider the figure below:
 
 Let's look at each aspect of MVC in turn.
 
-- **Model** The Model is pure C#.NET code. It encalsulates the data and all the operations performed on it, including any data-type conversion. It also exposes an API to update and read back the values. Becuase it is pure C# code, this lends it to being more easily tested.
+- **Model** The Model is pure C#.NET code. It encapsulates the data and all the operations performed on it, including any data-type conversion. It also exposes an API to update and read back the values. Because it is pure C# code, this lends it to being more easily tested.
 - **View** The View is written in XAML, and only contains View objects, including objects of type `Label`, `Image` and `Entry`. The view tends to be computer generated (to some extent). There are UI Test Frameworks, but these are harder to use than code testing tools.
 - **Controller** In the variant of MVC, the Controller coordinates information flow between the Model and View (so they never have to meet!). It handles events generated by the view objects and updates the model. It also contains UI logic, which updates view objects with newly calculated values and UI state changes (such as hiding/showing different UI elements). In general, if the Model class made a spontaneous change (e.g. via an incoming network packet), then these changes would be observed by the controller and updates to the view would be made, although the example here does not do this.
 
@@ -139,7 +139,7 @@ A downside with the MVC architecture is that the controller can quickly bloat an
 ### Building the Model Code
 We will write the UI logic last. Having designed a UI, we not turn our attention to the Model. There are only two central data parameters, _weight_ and _height_. However, both of these each have their own minimum and maximum values. They also have individual units and names which may be needed for display purposes. 
 
-- An early decision was made to encapsulate all this relevent information into the `BodyParameter` class and test.
+- An early decision was made to encapsulate all this relevant information into the `BodyParameter` class and test.
 
 Looking at the UI, it is observed that the numerical values entered are not numbers, but strings. Somewhere these strings are going to need to be _parsed_ to double values. These values need to be validated in code, and furthermore, this needs to be tested. 
 
@@ -150,14 +150,14 @@ Looking at the UI, it is observed that the numerical values entered are not numb
 
 Finally, both parameters are encapsulated inside a `BmiModel` class. This will be responsible for calculating the Body Mass Index ( weight / height<sup>2</sup>
 
-One criteria for all the above is that there shall be no reference / dependency on the UI code in the model classes. It should be possible to use them in a stand-alone command line application for example. More relevent to this case, they should be useable inside a _Unit Test_ project.
+One criteria for all the above is that there shall be no reference / dependency on the UI code in the model classes. It should be possible to use them in a stand-alone command line application for example. More relevant to this case, they should be useable inside a _Unit Test_ project.
 
 > If we can get the model right, in principle, the rest of the application will fall into place more easily.
 
 **Note** I don't want to create the illusion that the app was written in such a linear and logical order as is presented here. My brain at least does not work quite like that! The truth is there were a few iterations until a model design was settled upon. Yes there are more formal ways to model data and OO applications - for that, there are no doubt many excellent courses and books (none of which I've taken or read ;). Moving on...
 
 #### `BodyParameter` class
-The weight and height are encapsulated in the `BodyParameter` class. This class is repsonsible for converting, storing, describing and validating each parameter.
+The weight and height are encapsulated in the `BodyParameter` class. This class is responsible for converting, storing, describing and validating each parameter.
 
 Creation of the `BodyParameter` class is shown in the next video:
 
@@ -165,7 +165,7 @@ Creation of the `BodyParameter` class is shown in the next video:
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=IEMC40W75dA" target="_blank"><img src="http://img.youtube.com/vi/IEMC40W75dA/0.jpg" alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 </p>
 
-Visual Studio (Enterprise) has a useful feature that allows you to visualise your objects as a "Code Map". The Code Map for the `BodyParameter` class is shown below:
+Visual Studio (Enterprise) has a useful feature that allows you to visualize your objects as a "Code Map". The Code Map for the `BodyParameter` class is shown below:
 
 <table>
    <tr>
@@ -194,7 +194,7 @@ Setting up a unit test project in Visual Studio is mostly straightforward. Watch
 
 Some check points to consider:
 
-- Add a new MSTest (C#) unit test project to your soluton
+- Add a new MSTest (C#) unit test project to your solution
 - Make sure your class being tested is public
 - In the Unit Testing project, add a reference to the project containing the model code (Right click Dependencies->Add Reference)
 - Note the namespace of the unit testing project is probably different to the code under test. Add `using <namespace>` where possible.
@@ -227,7 +227,7 @@ The Code Map is shown below.
 
  <img src="./img/DataModel.png" alt="BodyParameter code map">
  
-Note the properties `Weight` and `Height` are of type `BodyParameter`. If we've written all the tests to cover as many eventualities as possible, and all tests pass, then it's time to write UI logic to synchronise the UI elements to the model. This will be done in a way that tries to be more familiar to the learner (as opposed to being purist).
+Note the properties `Weight` and `Height` are of type `BodyParameter`. If we've written all the tests to cover as many eventualities as possible, and all tests pass, then it's time to write UI logic to synchronies the UI elements to the model. This will be done in a way that tries to be more familiar to the learner (as opposed to being purist).
 
 ### UI Logic - hooking it all up
 The controller in this case is the code behind the XAML, that is [MainPage.xaml.cs](/code/Chapter1/bmi_estimate/final/bmi_estimate/MainPage.xaml.cs)
@@ -261,7 +261,7 @@ Take a look at this code and you will notice the keyword `async` and `await` in 
 
 This code sets the text of a `Label`(while it is usually invisible), fades it's colour to black, waits for 2s, then fades back to white again. The _asynchronous_ waits (`await`) essentially resume control back to the UI code until the following task (run in the background) has completed.
 
-> any function that performs an `await` must itself be marked as asycnronous using `async`
+> any function that performs an `await` must itself be marked as asynchronous using `async`
 
 Let's now follow the sequence of events from a character being entered into a text box (type `Entry`) through to model updates and consequential UI updates:
 
@@ -283,7 +283,7 @@ Whenever a character is added or removed, one of these is event handlers are cal
 
 > If you don't know what threads are, for now consider them functions running in parallel to the code we have been writing so far. All UI code must/should be running on the _main thread_. If you run some code that takes a significant time to complete (such as a delay, animation or write to disk), it is not acceptable to block up the main thread while waiting for it to complete. Doing so would render the UI unresponsive and risk the app being kicked by the host operating system. You need to find another way - this is the beauty of `async`/`await`. It allows you to interrupt / resume a method to break it into short bursts and for other tasks to run while it's waiting. 
 
-> Do not confuse `await` with running _code_ on another thread. `await` will simply yield execution from whereever it is called (mid-method) and allow the next task in the main thread queue to be performed (or sleep if there is nothing else to do). You typically `await` on some hardware device, such as a file write (disk controller), network transaction (network interface), delay (Hardware Timer) or animation (GPU possibly). Once the device has performs the operation, this will notify the operating system and in turn, this will generate a new event on the main thread queue. When this event is processed, the _awaiting_ method resumes where it left off (mid method, how clever!). Now, notice I mentioned device here. You wait on another (non CPU) device to complete a task. In effect, this is parallel processing through hardware (the only true type!) - what you cannot do is `await` on a CPU intensive calculation unless it spins out another thread. From the caller's perspective, it's all happening on the main thread.
+> Do not confuse `await` with running _code_ on another thread. `await` will simply yield execution from wherever it is called (mid-method) and allow the next task in the main thread queue to be performed (or sleep if there is nothing else to do). You typically `await` on some hardware device, such as a file write (disk controller), network transaction (network interface), delay (Hardware Timer) or animation (GPU possibly). Once the device has performs the operation, this will notify the operating system and in turn, this will generate a new event on the main thread queue. When this event is processed, the _awaiting_ method resumes where it left off (mid method, how clever!). Now, notice I mentioned device here. You wait on another (non CPU) device to complete a task. In effect, this is parallel processing through hardware (the only true type!) - what you cannot do is `await` on a CPU intensive calculation unless it spins out another thread. From the caller's perspective, it's all happening on the main thread.
 
 Ok, let's trace what happens next. 
 
@@ -291,7 +291,7 @@ Ok, let's trace what happens next.
    - The Entry Source (`EntrySource.Height` or `EntrySource.Weight`) to indicate which type of parameter is being updated
    - The text from the `Entry` box that has changed
 
-Remember the MVC discussion above? Well, there is the controller part where we _synchronise the View and the Model_
+Remember the MVC discussion above? Well, there is the controller part where we _synchronize the View and the Model_
 
 ```C#
 private async Task SyncViewAndModelAsync(EntrySource src, string newValueAsString)
@@ -347,7 +347,7 @@ Now how the parsing errors or out of range values are handled. For example:
    }
 ```
 
-The little `*` symbols are displayed next to entry fields that don't valdiate. Remember that the model object contained the validation code (so we could test it).
+The little `*` symbols are displayed next to entry fields that don't validate. Remember that the model object contained the validation code (so we could test it).
 
 Now we attempt to display a BMI value, or blank it if not valid
 
@@ -406,9 +406,9 @@ This section was based around a simple single page application, the BMI estimate
 
 - Model Code contained data, methods to perform calculations on the data and type conversions. It contained no UI code, and had to knowledge of either the controller or view
 - View code was written in XAML. Nested StackView objects were used for layout. A particular emphasis was made on understand the meaning of the terms start, center, end, fill and expand and their combinations.
-- Controller code was the code-behind the XAML. This has the task of synchronising UI and Model objects. The Controller instantiated the model and held references to the view objects. It also has the task of managing the UI State, including the showing and hiding of different labels depending on what data was entered.
+- Controller code was the code-behind the XAML. This has the task of synchronizing UI and Model objects. The Controller instantiated the model and held references to the view objects. It also has the task of managing the UI State, including the showing and hiding of different labels depending on what data was entered.
 
-Unit tests were introduced early as a best-practise. The Model code proved to be highly testable. The Controller was not unit tested however. The reason is that it would be more challenging.
+Unit tests were introduced early as a best-practice. The Model code proved to be highly testable. The Controller was not unit tested however. The reason is that it would be more challenging.
 
 Central to the controller code was `SyncViewAndModelAsync`. [The source can be seen here](/code/Chapter1/bmi_estimate/final/bmi_estimate/MainPage.xaml.cs).
 
@@ -417,7 +417,7 @@ Central to the controller code was `SyncViewAndModelAsync`. [The source can be s
 
 The problem with testing this method is that it depends on the view objects (UI) as well. A unit test application would have to somehow instantiate the view objects as well. Despite efforts to factor out code, it is still not obvious how this would be achieved seamlessly. This is where MVVM comes in and is a topic that will be introduced in subsequent chapters.
 
-We tentatively met `async` and `await`. These C# language features were put to good effect to make sequencing of animations and delays super easy. Asynchronous programming was also contrasted with multithreaded programming. Asynchronous code is not necessarily multithreaded.
+We tentatively met `async` and `await`. These C# language features were put to good effect to make sequencing of animations and delays super easy. Asynchronous programming was also contrasted with multi-threaded programming. Asynchronous code is not necessarily multi-threaded.
 
 Next, we will discuss some more layout options and some basic navigation.
 

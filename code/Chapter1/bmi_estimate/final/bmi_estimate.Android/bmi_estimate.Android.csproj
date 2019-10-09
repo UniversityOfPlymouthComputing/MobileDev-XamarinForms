@@ -15,7 +15,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
@@ -93,7 +92,7 @@
   <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\bmi_estimate\bmi_estimate.csproj">
-      <Project>{C2054F6F-06D4-4105-83D5-CD8FD5392FA8}</Project>
+      <Project>{3171B4BD-73A7-4118-AB63-81ED0AD74A6F}</Project>
       <Name>bmi_estimate</Name>
     </ProjectReference>
   </ItemGroup>

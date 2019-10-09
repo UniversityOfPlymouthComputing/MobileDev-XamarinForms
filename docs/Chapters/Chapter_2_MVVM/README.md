@@ -12,16 +12,16 @@ By the end of this chapter you should be able to:
 - Compare and Contrast MVVM and MVC architecture
 - Design and implement a View Model that support unit testing 
 - Create and apply the use of Anonymous functions in C#
-- Use an Interface to loosly coupling code
+- Use an Interface to loosely coupling code
 
 ### Xamarin.Forms and XAML
 - Create bindings between a View Model and a View using either C#, XAML or both
-- Contrast the requirements for a source and target ojects and properties in a Forms binding
+- Contrast the requirements for a source and target objects and properties in a Forms binding
 - Replace an event handler and UI state logic with a command binding
 
 # Contents
 1. [Model-View-ViewModel (MVVM)](Introduction.md)
-1. [Some essential concepts in C# - TO BE DONE](essential-c-sharp.md)
+1. [Some essential concepts in C#](essential-c-sharp.md)
    1. [Anonymous Functions](anonymous-functions.md)
    1. [Asynchronous Programming - async and await](async-programming.md)
    1. [Loose Coupling with Interfaces](loose-coupling.md)

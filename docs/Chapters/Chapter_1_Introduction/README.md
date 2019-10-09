@@ -10,7 +10,7 @@ By the end of this chapter you should be able to:
 ### C# and Software Engineering
 - Create and instantiate a class in C#
 - Split a Class into two partial classes
-- Create and access member properties and access mofifiers
+- Create and access member properties and access modifiers
 - Create shared data with static class members
 - Create a static class
 - Explain the meaning and purpose of a namespace
@@ -19,12 +19,12 @@ By the end of this chapter you should be able to:
 
 - Contrast Xamarin.Forms with other mobile development strategies
 - Know how to install and configure the required development tools
-- Create a simple single-page app for both Android and iOS
+- Create a simple single-page app for both Android and iOS using a stack layout
 - Create a reference to an element on a page
 - Create an event handler in Code for an UI component specified in XAML
 
 ### XAML
-- Compare and contrast an XML elelement and attribute
+- Compare and contrast an XML element and attribute
 - Explain the meaning and purpose of an XML namespace
 - Create a reference to a view object
 - Use a simple stack view to lay out controls
