@@ -15,6 +15,27 @@ This section only discussed the `XAML`.
 
 ## Top Level StackLayout
 
+```XML
+    <StackLayout>
+        <!-- Place new controls here -->
+        <Label Text="Welcome to Xamarin.Forms" 
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand" />
+
+        <Grid Padding="10,10,10,10" VerticalOptions="CenterAndExpand" BackgroundColor="LightGray" >
+           <Grid.RowDefinitions>
+               <RowDefinition Height="2*"/>
+               <RowDefinition Height="*"/>
+               <RowDefinition Height="100"/>
+           </Grid.RowDefinitions>
+           <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="Auto"/>
+               <ColumnDefinition Width="*"/>
+           </Grid.ColumnDefinitions>
+        </Grid>
+        
+    </StackLayout>
+```
 
 # Challenge
 - Add two sliders as alternatives for entering the weight and height
