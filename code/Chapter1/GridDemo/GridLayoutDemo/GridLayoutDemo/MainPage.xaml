@@ -8,7 +8,7 @@
 
     <!-- Top level layout is a Grid -->
     <Grid Padding="10,10,10,10" BackgroundColor="LightGray"
-          RowSpacing="20" ColumnSpacing="20" >
+          RowSpacing="10" ColumnSpacing="10" >
 
         <!-- The Grid can have its own resource dictionary-->
         <Grid.Resources>
@@ -35,13 +35,14 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-           
-        <Label Text="Welcome" Grid.Row="0" Grid.Column="0"
-               TextColor="White" BackgroundColor="Red"/>
+
+        <!-- Place Content -->
+        <Label Text="University of Plymouth" Grid.Row="0" Grid.Column="0"
+                TextColor="White" BackgroundColor="Red"/>
         <Label Text="Hello" Grid.Row="0" Grid.Column="1"
-               TextColor="Yellow" BackgroundColor="Blue"/>
+                TextColor="Yellow" BackgroundColor="Blue"/>
         <Label Text="World" Grid.Row="1" Grid.Column="1" 
-               BackgroundColor="Green"/>
+                BackgroundColor="Green"/>
         <Button Text="CLICK ME" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
 
     </Grid>
