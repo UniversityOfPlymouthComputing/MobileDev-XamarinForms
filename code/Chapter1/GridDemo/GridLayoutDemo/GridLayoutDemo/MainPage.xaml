@@ -1,7 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="GridLayoutDemo.MainPage">
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-    </StackLayout>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="GridLayoutDemo.MainPage">
+
+    <!-- Top level layout is a Grid -->
+    <Grid Padding="10,10,10,10" BackgroundColor="LightGray"
+          RowSpacing="20" ColumnSpacing="20" >
+
+        <!-- The Grid can have its own resource dictionary-->
+        <Grid.Resources>
+            <ResourceDictionary>
+                <!-- Implicit style : applies to all Labels in the grid -->
+                <Style TargetType="Label">
+                    <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                    <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                    <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                    <Setter Property="VerticalTextAlignment" Value="Center"/>
+                </Style>
+            </ResourceDictionary>            
+        </Grid.Resources>
+
+        <!-- Define Rows -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <!-- Define Columns -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+           
+        <Label Text="Welcome" Grid.Row="0" Grid.Column="0"
+               TextColor="White" BackgroundColor="Red"/>
+        <Label Text="Hello" Grid.Row="0" Grid.Column="1"
+               TextColor="Yellow" BackgroundColor="Blue"/>
+        <Label Text="World" Grid.Row="1" Grid.Column="1" 
+               BackgroundColor="Green"/>
+        <Button Text="CLICK ME" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+    </Grid>
 </ContentPage>
