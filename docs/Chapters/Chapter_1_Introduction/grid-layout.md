@@ -148,28 +148,60 @@ This sample code is in the project [`EmbeddedGrid`](/code/Chapter1/GridDemo/Embe
 
 In this example, the top level layout is a `StackLayout`, with the `Grid` as a child. Within the `Grid` is another `StackLayout` (just to prove the point).
 
-## Top Level StackLayout
-
 ```XML
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="FormsAppTest.MainPage">
 
-        <Grid Padding="10,10,10,10" VerticalOptions="CenterAndExpand" BackgroundColor="LightGray" >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Page Level Default Style for Label -->
+            <Style TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Top Level Layout -->
+    <StackLayout>
+        <!-- Some content -->
+        <Label Text="Welcome to Xamarin.Forms"/>
+
+        <!-- Embedded Grid Layout -->
+        <Grid Padding="10,0,10,10" VerticalOptions="FillAndExpand" BackgroundColor="LightGray" >
            <Grid.RowDefinitions>
-               <RowDefinition Height="2*"/>
+               <RowDefinition Height="auto"/>
                <RowDefinition Height="*"/>
-               <RowDefinition Height="100"/>
+               <RowDefinition Height="4*"/>
            </Grid.RowDefinitions>
            <Grid.ColumnDefinitions>
-               <ColumnDefinition Width="Auto"/>
+               <ColumnDefinition Width="*"/>
                <ColumnDefinition Width="*"/>
            </Grid.ColumnDefinitions>
+
+           <!-- Grid Content -->
+           <Label Text="Hello" Grid.Row="0" Grid.Column="0"
+                  TextColor="White" BackgroundColor="Red"/>
+            <Label Text="Welcome" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                   BackgroundColor="Green"/>
+           <Label Text="World" Grid.Row="2" Grid.Column="1" 
+                  TextColor="Yellow" BackgroundColor="Blue"/>
+
+            <!-- Embedded StackLayout -->
+            <StackLayout Grid.Row="2" Grid.Column="0" VerticalOptions="CenterAndExpand">
+                <Button Text="Press" BackgroundColor="Yellow" />
+                <Button Text="Me" BackgroundColor="YellowGreen"/>
+            </StackLayout>
         </Grid>
-        
     </StackLayout>
+</ContentPage>
 ```
 
 # Challenge
