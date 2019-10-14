@@ -136,14 +136,17 @@ Finally, we add the content. Note following:
 <Button Text="CLICK ME" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
 ```
 
+I hope much of the above is fairly self explanatory. Do experiment with the example code. In many ways, grid is simpler to use than `StackLayout`. Of course, you can combine the two, nesting either inside the other.
 
 ## Embedded Layouts
 
-The image below shows an example of a `StackLayout` and a `GridLayout`. The portion of the screen with the light gray background uses `GridLayout`
+The image below shows an example of a `StackLayout` and a `GridLayout` nested within each other. The portion of the screen with the light gray background uses `GridLayout`
 
 <img src="./img/GridLayoutExample.png" width=400px alt="Example using GridLayout">
 
-This section only discussed the `XAML`.
+This sample code is in the project [`EmbeddedGrid`](/code/Chapter1/GridDemo/EmbeddedGrid) and again only focuses on the `XAML`.
+
+In this example, the top level layout is a `StackLayout`, with the `Grid` as a child. Within the `Grid` is another `StackLayout` (just to prove the point).
 
 ## Top Level StackLayout
 
