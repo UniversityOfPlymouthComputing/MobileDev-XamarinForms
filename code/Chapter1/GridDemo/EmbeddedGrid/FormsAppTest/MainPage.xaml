@@ -25,15 +25,17 @@
 
         <!-- Embedded Grid Layout -->
         <Grid Padding="10,0,10,10" VerticalOptions="FillAndExpand" BackgroundColor="LightGray" >
-           <Grid.RowDefinitions>
-               <RowDefinition Height="auto"/>
-               <RowDefinition Height="*"/>
-               <RowDefinition Height="4*"/>
-           </Grid.RowDefinitions>
-           <Grid.ColumnDefinitions>
-               <ColumnDefinition Width="*"/>
-               <ColumnDefinition Width="*"/>
-           </Grid.ColumnDefinitions>
+
+            <!-- Define rows and columns -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
            <!-- Grid Content -->
            <Label Text="Hello" Grid.Row="0" Grid.Column="0"

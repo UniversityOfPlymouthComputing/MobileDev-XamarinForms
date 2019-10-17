@@ -204,11 +204,34 @@ In this example, the top level layout is a `StackLayout`, with the `Grid` as a c
 </ContentPage>
 ```
 
-# Challenge
-- Add two sliders as alternatives for entering the weight and height
+A few points to consider:
 
-# Self-Study Task
-Redesign the BMI example to use a grid layout.
+- Note (for later) how the label style is now added to the resource dictionary of the page. This applies the same implicit style to all objects of type `Label`.
+
+- The `Grid` itself has an attribute for `VerticalOptions` which impact on how it is positioned and sized by the containing `StackLayout`
+
+**Experiment** - Try changing the `VerticalOptions` attribute for the `Grid` to "End"
+
+**Experiment** - Try overriding the text size for all Labels in the Grid layout by adding the following:
+
+```XML
+<Grid.Resources>
+    <ResourceDictionary>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="Large" />
+        </Style>
+    </ResourceDictionary>
+</Grid.Resources>
+```
+
+# Tasks
+The UI of the BMI application needs improving. Entering values into text boxes is cumbersome and in this case, unnecessary. Furthermore, the layout could be cleaner. 
+
+Try the following:
+
+- Remove the text boxes and replace with two sliders for entering the weight and height
+
+- The current design is fundamentally a grid, only it used `StackLayout`. Redesign the BMI example to use a grid layout. 
 
 # References
 
