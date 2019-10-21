@@ -70,7 +70,7 @@ The first task is to instantiate a view model to bind to. We can do this using a
     </ContentPage.BindingContext>
 ```
 
-Remember - All elements have a namespace prefix. Where one is not specified, it default to the namepace for Xamarin.Forms. Therefore class names such as `Button` and `Label` can be kept concise.
+Remember - All elements have a namespace prefix. Where one is not specified, it default to the namespace for Xamarin.Forms. Therefore class names such as `Button` and `Label` can be kept concise.
 
 Our view model class `MainPageViewModel` is not part of Forms, XAML or any other framework. It is out own hand-rolled class that is part of the cross platform project with namespace HelloBindings, and in the _assembly_ HelloBindings (you can confirm the namespace from the properties of the cross platform project).
 
@@ -103,10 +103,10 @@ A similar technique is used to instantiate the `ColorConverter` class needed to 
     </ContentPage.Resources>
 ```
 
-A `ContentPage` has dictionary of key-value pairs for holding many types of objects referenced in the XAML code. Here the key is "ColorConv" and the associated value is an instance of `ColorConv` (from the cross platform project). We can now obtain a refernce to this object using the key (as we will see below).
+A `ContentPage` has dictionary of key-value pairs for holding many types of objects referenced in the XAML code. Here the key is "ColorConv" and the associated value is an instance of `ColorConv` (from the cross platform project). We can now obtain a reference to this object using the key (as we will see below).
 
 ### Setting the Bindings
-Firt the label used to display the current saying:
+First the label used to display the current saying:
 
 ```XAML
      <Label x:Name="MessageLabel" 

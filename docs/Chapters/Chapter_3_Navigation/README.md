@@ -22,6 +22,10 @@ By the end of this chapter you should be able to:
 
 [BEGIN]()
 
+
+# References
+[Microsoft documentation - Hierarchical Navigation](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/navigation/hierarchical)
+
 ----
 
 [Contents](/docs/README.md)
