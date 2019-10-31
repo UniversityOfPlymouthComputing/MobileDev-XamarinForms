@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BasicNavigation.AboutAbout"
+             x:Name="AboutAboutPage"
+             Title="More Info">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+
+            <Label Text="This is the top of the stack!"/>
+
+            <!-- For View to View binding, use x:Reference to reference another view object -->
+            <Label BindingContext="{x:Reference YearSlider}"
+                   Text="{Binding Value, StringFormat='The year is {0:F0}'}" />
+
+            <!-- You must set the maximum first or avoid an exception -->
+            <!-- This also does binding to the code behind (part of the same Page object) -->
+            <Slider 
+                    x:Name="YearSlider"
+                    Maximum="2100"
+                    Minimum="1970"
+                    BindingContext="{x:Reference AboutAboutPage}"
+                    Value="{Binding Year}"
+                    MinimumTrackColor="Blue"
+                    MaximumTrackColor="Red"
+            />
+
+            <Label Text="Tap below to go to the bottom"/>
+
+            <Button Text="To the Top" Clicked="DoNavigateTop"/>
+
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>
