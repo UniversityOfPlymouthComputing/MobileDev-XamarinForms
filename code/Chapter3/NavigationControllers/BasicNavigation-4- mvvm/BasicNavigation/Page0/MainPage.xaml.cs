@@ -11,20 +11,13 @@ namespace BasicNavigation
 {
 
     [DesignTimeVisible(false)]
-    public partial class MainPage : ContentPage, IMainPage
+    public partial class MainPage : ContentPage
     {
-        public MainPage()
+        public MainPage(MainPageViewModel vm = null)
         {
             InitializeComponent();
-            BindingContext = new MainPageViewModel(this);
-            //NavigationPage.SetBackButtonTitle(this, "Top");
+            BindingContext = vm ?? new MainPageViewModel();
+            NavigationPage.SetBackButtonTitle(this, "Back");
         }
-
-        public async Task NavigateToAboutPageAsync(string name)
-        {
-            AboutPage about = new AboutPage(name);
-            await Navigation.PushAsync(about, true);
-        }
-
     }
 }

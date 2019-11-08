@@ -8,15 +8,12 @@ namespace BasicNavigation
     //INotifyPropertyChanged  is already implemented for a ContentPage
     public partial class AboutAbout : ContentPage
     {
-        //Note how the reverse reference in passed as a parameter
-        public AboutAbout()
+        public AboutAbout(AboutAboutViewModel vm)
         {
             InitializeComponent();
-        }
 
-        private async void DoNavigateTop(object sender, EventArgs e)
-        {
-            await Navigation.PopToRootAsync();
+            //Bind to ViewModel
+            BindingContext = vm;
         }
     }
 }

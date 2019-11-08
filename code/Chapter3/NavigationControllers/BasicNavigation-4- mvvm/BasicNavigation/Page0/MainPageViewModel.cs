@@ -1,43 +1,93 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace BasicNavigation
 {
-    public class MainPageViewModel
+    public class MainPageViewModel : INotifyPropertyChanged
     {
-        public ICommand ButtonCommand { get; set; }
-        private IMainPage View { get; set; }
-
-        public MainPageViewModel(IMainPage view)
+        //Model
+        private PersonDetailsModel model;
+        public PersonDetailsModel Model
         {
-            // IoC - view is not instantiated here, but elsewhere
-            // In principle, this can be mocked for unit-testing purposes
-            View = view;
-            Console.WriteLine("Constructor for MainPageViewModel");
+            get => model;
+            set
+            {
+                if (model != value)
+                {
+                    model = value;
+                    OnPropertyChanged();
+                }
+                
+            }
+        }
+
+        //Useful property to reference the navigation page
+        protected INavigation Navigation => Application.Current.MainPage.Navigation;
+
+        //Event handling
+        public event PropertyChangedEventHandler PropertyChanged;
+        public ICommand ButtonCommand { get; set; }
+
+
+        //Bound Data Properties Exposed to the View (read only in this case)
+        public string Name => Model.Name;
+        public int BirthYear => Model.BirthYear;
+
+
+        //Create events when properties change
+        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        //Main constructor
+        public MainPageViewModel()
+        {
+            //Instantiate the model
+            Model = new PersonDetailsModel("NickO");
+
+            //Subscribe to changes in the model
+            model.PropertyChanged += OnModelPropertyChanged;
 
             //The command property - bound to a button in the view
-            ButtonCommand = new Command(execute: NavigateToAboutPage_v2);
+            ButtonCommand = new Command(execute: NavigateToAboutPage);
         }
 
-        void NavigateToAboutPage_v1()
+        //Watch for events on the model object
+        protected void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            //Flag changes to the view-viewmodel binding layer -  very simple pass-through in this example
+            if (e.PropertyName.Equals(nameof(Model.BirthYear)))
+            {
+                OnPropertyChanged(nameof(BirthYear));
+            }
+            else if (e.PropertyName.Equals(nameof(Model.Name)))
+            {
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        // Navigate to the About page - providing both View and ViewModel pair
+        void NavigateToAboutPage()
         {
             //This has a concrete reference to a view inside a VM - is this good/bad/indifferent?
-            AboutPage about = new AboutPage("NickO v1");
-            View.Navigation.PushAsync(about);
-        }
 
-        void NavigateToAboutPage_v2()
-        {
-            //This delegtes the navigation to the view and avoids references to
-            //concrete view types in the ViewModel
-            View.NavigateToAboutPageAsync("NickO v2");
+            // Create viewmodel and pass datamodel as a parameter
+            // NOTE that Model is a reference type
+            AboutPageViewModel avm = new AboutPageViewModel(Model); //VM knows about its model (reference)
+
+            // Instantiate the view, and provide the viewmodel
+            AboutPage about = new AboutPage(avm); //View knows about it's VM
+            Navigation.PushAsync(about);
         }
 
         // WHAT IS NOT DONE or SHOWN
         // Consider dependency injection to perform VM-first navigation
         // This is complex but does all the wiring / instantiation for you.
-        // Suggest a 3rd party MVVM framework e.g. MVVMCross or Prism to name just two
+        // Suggest a 3rd party MVVM framework e.g. Prism to name just one
     }
 }

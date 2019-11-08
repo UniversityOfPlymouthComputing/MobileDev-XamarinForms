@@ -37,7 +37,7 @@ namespace HelloBindings
             }
         }
 
-        //Exent handler for all changes on the model
+        //Event handler for all changes on the model
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals(nameof(DataModel.SayingNumber)))

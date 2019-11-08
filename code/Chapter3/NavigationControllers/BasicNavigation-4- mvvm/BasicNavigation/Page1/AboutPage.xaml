@@ -4,56 +4,40 @@
              x:Class="BasicNavigation.AboutPage"
              x:Name="About"
              Title="About">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
     <ContentPage.Content>
-        <Grid RowSpacing="10" ColumnSpacing="1" x:Name="GridOuter">
-            <Grid.Resources>
-                <ResourceDictionary>
-                    <Style TargetType="Label">
-                        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
-                        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                        <Setter Property="HorizontalTextAlignment" Value="Center"/>
-                        <Setter Property="VerticalTextAlignment" Value="Center" />
-                        <Setter Property="BackgroundColor" Value="Azure" />
-                    </Style>
+        <StackLayout>
 
-                </ResourceDictionary>
-            </Grid.Resources>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <Label Text="{Binding Name}"/>
 
-            <Label Text="BASIC NAVIGATION"
-                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                   FontSize="Title" FontFamily="Courier"
-                   />
-            <Label BindingContext="{x:Reference About}"
-                   Text="{Binding Year, StringFormat='(c) {0:F0}'}"
-                   Grid.Row="1" Grid.Column="0"
-                   />
-            <Label Text="Anon"
-                   Grid.Row="1" Grid.Column="1"
-                   x:Name="LabelAuthor"
-                   />
-            <Label Text="University of Plymouth"
-                   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                   BackgroundColor="LimeGreen"
-                   FontSize="Large"
-                   FontFamily="Courier"
-                   />
-            <Button Text="More"
-                    x:Name="ButtonDismiss"
-                    Grid.Row="3" Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Clicked="ButtonMore_Clicked"
-                    />
+            <!-- For View to View binding, use x:Reference to reference another view object -->
+            <Label BindingContext="{x:Reference YearSlider}"
+                   Text="{Binding Value, StringFormat='The year is {0:F0}'}" />
 
-        </Grid>
+            <!-- You must set the maximum first or avoid an exception -->
+            <!-- This also does binding, but the BindingContext is set in code -->
+            <Slider 
+                    x:Name="YearSlider"
+                    Maximum="2100"
+                    Minimum="1900"
+                    Value="{Binding BirthYear}"
+                    MinimumTrackColor="Blue"
+                    MaximumTrackColor="Red"
+            />
+
+            <Button Text="Edit Name" Command="{Binding ButtonCommand}"/>
+
+        </StackLayout>
+
     </ContentPage.Content>
 </ContentPage>

@@ -4,53 +4,17 @@ using Xamarin.Forms;
 
 namespace BasicNavigation
 {
-    public partial class AboutPage : ContentPage, IAboutAbout
+    public partial class AboutPage : ContentPage
     {
-        private int year = 2020;
-        public int Year
-        {
-            get => year;
-            set
-            {
-                if (value != year)
-                {
-                    year = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public AboutPage(string AuthorName)
+        public AboutPage(AboutPageViewModel vm = null)
         {
             InitializeComponent();
-            NavigationPage.SetBackButtonTitle(this, "Prev");
-            LabelAuthor.Text = AuthorName;
-        }
 
-        public void YearWasUpdated(int year)
-        {
-            Year = year;
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            Console.WriteLine("OnAppearing");
-        }
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            Console.WriteLine("OnDisappearing");
-        }
-
-        private async void ButtonMore_Clicked(object sender, EventArgs e)
-        {
-            //Set the binding context of the detail page to this
-            AboutAbout more = new AboutAbout
-            {
-                BindingContext = this
-            };
-            await Navigation.PushAsync(more, true);
+            //This next page does non-destructive editing - back button title reflects this
+            NavigationPage.SetBackButtonTitle(this, "Cancel");
+            
+            //Bind to the view model
+            BindingContext = vm ?? new AboutPageViewModel();
         }
     }
 }

@@ -13,5 +13,19 @@
     <Folder Include="Page0\" />
     <Folder Include="Page1\" />
     <Folder Include="Page2\" />
+    <Folder Include="Factory\" />
+    <Folder Include="Parked\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Parked\NavigationFactory.cs" />
+    <Compile Remove="Parked\IView.cs" />
+    <Compile Remove="Parked\ModelBase.cs" />
+    <Compile Remove="Parked\ViewModelBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Parked\NavigationFactory.cs" />
+    <None Include="Parked\IView.cs" />
+    <None Include="Parked\ModelBase.cs" />
+    <None Include="Parked\ViewModelBase.cs" />
   </ItemGroup>
 </Project>
