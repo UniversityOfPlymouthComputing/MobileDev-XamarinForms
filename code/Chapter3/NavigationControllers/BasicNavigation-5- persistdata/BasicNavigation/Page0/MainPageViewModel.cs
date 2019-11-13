@@ -56,7 +56,7 @@ namespace BasicNavigation
             if (Model == null)
             {
                 Model = new PersonDetailsModel("NickO");
-                Model.Save();
+                Model.Save(path);
             }
 
             //Subscribe to changes in the model

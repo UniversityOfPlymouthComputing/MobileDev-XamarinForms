@@ -86,6 +86,7 @@ namespace BasicNavigation
 
         public void Save(string FileName)
         {
+            this.Filename = FileName;
             using (var writer = new System.IO.StreamWriter(FileName))
             {
                 var serializer = new XmlSerializer(this.GetType());
