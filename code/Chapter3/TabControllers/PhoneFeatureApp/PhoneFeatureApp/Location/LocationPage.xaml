@@ -5,6 +5,21 @@
              BackgroundColor="{Binding BackgroundColor}"
              Title="Location" >
     <ContentPage.Content>
-        <Label Text="Location" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
+        <StackLayout>
+            <Label Text="Location"/>
+            <Label Text="{Binding LocationString}"/>
+            <Button Text="Update Location"
+                    Command="{Binding ButtonCommand}"
+                    VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                    />
+            <Button Text="Show in Maps"
+                    Command="{Binding MapCommand}"
+                    VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                    />
+
+            <ActivityIndicator VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"
+                               IsRunning="{Binding IsBusy}"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
