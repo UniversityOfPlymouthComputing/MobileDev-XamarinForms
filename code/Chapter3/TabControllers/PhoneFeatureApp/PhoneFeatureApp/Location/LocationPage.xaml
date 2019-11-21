@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PhoneFeatureApp.Location.LocationPage"
+             BackgroundColor="{Binding BackgroundColor}"
              Title="Location" >
     <ContentPage.Content>
         <Label Text="Location" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>

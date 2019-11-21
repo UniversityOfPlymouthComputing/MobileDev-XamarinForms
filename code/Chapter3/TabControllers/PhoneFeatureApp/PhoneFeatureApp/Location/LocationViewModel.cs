@@ -5,10 +5,11 @@ using Xamarin.Essentials;
 
 namespace PhoneFeatureApp.Location
 {
-    public class LocationViewModel : ViewModelBase
+    public class LocationViewModel : ViewModelCommon
     {
         public LocationViewModel()
         {
+            subscribeToBackgroundColChange();
         }
     }
 }
