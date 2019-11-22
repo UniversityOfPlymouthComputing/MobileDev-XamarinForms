@@ -1,10 +1,7 @@
 ﻿using System;
-using MVVMBase;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 using System.Windows.Input;
-using Xamarin.Essentials;
-using System.Threading.Tasks;
 
 // see https://docs.microsoft.com/en-us/xamarin/essentials/geolocation?context=xamarin%2Fxamarin-forms&tabs=android
 
@@ -46,7 +43,6 @@ namespace PhoneFeatureApp.Location
         }
 
         public ICommand ButtonCommand { get => buttonCommand; private set => buttonCommand = value; }
-
         public ICommand MapCommand { get => mapCommand; set => mapCommand = value; }
 
         public bool IsBusy
@@ -67,8 +63,10 @@ namespace PhoneFeatureApp.Location
         // ************************* Constructor **************************
         public LocationViewModel()
         {
+            //Update background colour when a shake is detected
             subscribeToBackgroundColChange();
 
+            //Command for updating location
             ButtonCommand = new Command(
                 execute: async () =>
                 {
@@ -108,6 +106,7 @@ namespace PhoneFeatureApp.Location
                 canExecute: () => { return !IsBusy;  }
                 );
 
+            //Command for launching a map application with the same location
             MapCommand = new Command(
                 execute: async () =>
                 {
