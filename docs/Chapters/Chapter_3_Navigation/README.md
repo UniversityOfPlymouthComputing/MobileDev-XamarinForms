@@ -12,6 +12,7 @@ By the end of this chapter you should be able to:
 ### Xamarin.Forms and XAML
 
 # Contents
+1. [C# Generics](Chapter_3_Navigation/generics.md)
 1. [Navigation Controllers - TO BE DONE]()
 1. [Tabs - TO BE DONE]()
 1. [Embedding Navigation into Tabs - TO BE DONE]()
