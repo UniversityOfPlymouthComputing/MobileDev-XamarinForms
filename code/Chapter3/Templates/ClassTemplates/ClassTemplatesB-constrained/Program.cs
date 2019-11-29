@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace ClassTemplatesB_constrained
 {
     // The constraint is that T must implement IComparable. Therefore we can perform a custom sort such objects in a collection
-    public class MyClass<T> where T : IComparable
+    public class SortedCollectionClass<T> where T : IComparable
     {
         public List<T> Objects { get; } = new List<T>();
 
@@ -30,12 +30,13 @@ namespace ClassTemplatesB_constrained
     {
         private Program()
         {
-            MyClass<ClassXY> container = new MyClass<ClassXY>();
+            SortedCollectionClass<ClassXY> container = new SortedCollectionClass<ClassXY>();
             container?.AddObject(new ClassXY(3.0,4.0));
             container?.AddObject(new ClassXY(1.0, 10.0));
             container?.AddObject(new ClassXY(0.3, 0.4));
             container?.ListAll();
 
+            //TASK 1 - Uncomment the following to use a different type T
             /* 
             MyClass<Binary32> container1 = new MyClass<Binary32>();
             container1?.AddObject(new Binary32(16));   // 16  is 00010000b
@@ -44,6 +45,15 @@ namespace ClassTemplatesB_constrained
             container1?.ListAll();
             */
 
+
+            //TASK 2 - Uncomment the code below. Why does it not compile?
+            /*
+            class AnotherClass
+            {
+            }
+
+            SortedCollectionClass<AnotherClass> container2 = new SortedCollectionClass<AnotherClass>();
+            */
         }
 
         static void Main(string[] args)

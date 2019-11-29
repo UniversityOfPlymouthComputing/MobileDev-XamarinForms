@@ -231,7 +231,7 @@ Let's now look at some key points for each class
 In the `Program` class, we see the following lines:
 
 ```C#
-MyClass<ClassXY> container = new MyClass<ClassXY>();
+SortedCollectionClass<ClassXY> container = new SortedCollectionClass<ClassXY>();
 container?.AddObject(new ClassXY(3.0,4.0));
 container?.AddObject(new ClassXY(1.0, 10.0));
 container?.AddObject(new ClassXY(0.3, 0.4));
@@ -240,16 +240,16 @@ container?.ListAll();
 
 > The objective of the application is to create a list of (x,y) coordinates and sort them in order of line length (aka Magnitude).
 
-Note that the class `MyClass<T>` is _generic_. In this example, the generic type `T` is defined as `ClassXY`. You could use others of course.
+Note that the class `SortedCollectionClass<T>` is _generic_. In this example, the generic type `T` is defined as `ClassXY`. You could use others of course.
 
 > The class `ClassXY` encapsulates a pair of cartesian coordinates (`xx`,`yy`). It has a single public property `Magnitude` which is the length of the line from the origin (0,0) to point (`xx`, `yy`). The mathematical details are unimportant for the purpose of this discussion.
 
 Let's now drill down deeper to see some of the detailed implementation.
 
-### The class `MyClass<T>`
-Consider the source for `MyClass<T>` below
+### The class `SortedCollectionClass<T>`
+Consider the source for `SortedCollectionClass<T>` below
 ```C#
-public class MyClass<T> where T : IComparable
+public class SortedCollectionClass<T> where T : IComparable
 {
     public List<T> Objects { get; } = new List<T>();
 
@@ -270,12 +270,13 @@ public class MyClass<T> where T : IComparable
 }
 ```
 
-The two key points from this class are:
+Some key points:
 
-1. The class declaration shows us how to apply a **constraint** to a generic type using the `where` keyword. The _constraint_ is that T **must** be of type `IComparible`. 
+1. The class declaration shows us how to apply a **constraint** to a generic type using the `where` keyword. The _constraint_ is that T **must** be of type `IComparible`.
 ```C#
-   public class MyClass<T> where T : IComparable
+   public class SortedCollectionClass<T> where T : IComparable
 ```
+
 2. The `Objects` property. This is of type `List<T>`, where `T` is the type of object in the list. [See here for more details about generic lists](https://docs.microsoft.com/dotnet/api/system.collections.generic.list-1?view=netframework-4.8)
 
 We can now state the following:
@@ -328,6 +329,14 @@ It works something along the following lines:
 
 This is a safe and concise alternative to a simple type-cast.
 
+> **TASKS** - Read the comments in the constructor of `Program.cs`. There are two tasks.
+>
+> For Task 1, uncomment the code, build and run. Examine the `Binary32` class to see how this works. Can you modify the `Binary32` class such that it is sorted in the opposite order.
+>
+> For Task 2, when you uncomment the code you get a compiler error. Why is this?
+
+For the first task, look at the `CompareTo` method closely. For the second, consider the constraint on `T`.
+
 ## Summary
 Generic types can make a Class more reusable and flexible. We will see how this helps us with the MVVM pattern later in this section.
 
@@ -340,3 +349,7 @@ Using constrained generic types actually widens the reuse and flexibility
 >Unbound generics (with no constraints) can be _any_ type of object, leaving the compiler with few guarantees about the implemented methods and properties. The only guarantee is that all objects inherit from `System.Object`. By _constraining_ the type, what we actually do is to _provide the compiler with more specific information about the object type_, and hence widen the methods and properties available. 
 
 Generics require some getting used to.
+
+---
+
+[Next - Navigation Controllers](Chapter_3_Navigation/NavControllers.md)
