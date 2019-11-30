@@ -287,6 +287,16 @@ Note the back-button title. It is not the title of the previous page as it was p
 
 What is slightly different in this page is the navigation behavior when you tap the button:
 
+```C#
+private async void DoNavigateTop(object sender, EventArgs e)
+{
+    await Navigation.PopToRootAsync();
+}
+```
+Unlike the back button, we navigate back to the root page (bottom of the stack).
+
+## Summary
+That covers the basics of hierarchial navigation in Xamarin.Forms. As I hope is clear, it is fairly simple.
 
 ---
 
