@@ -212,6 +212,80 @@ The second page in the hierarchy is the AboutPage shown here:
 
 <img src="img/about_page.png" width="200">
 
+This view is layed out using a grid as we saw in a previous section.
+
+* Take some time to study the XAML. We will not go through this as there is nothing particularly new.
+
+Instead, let's look at some of the code behind:
+
+First the constructor
+
+```C#
+public AboutPage(string AuthorName)
+{
+    InitializeComponent();
+    NavigationPage.SetBackButtonTitle(this, "Prev");
+    LabelAuthor.Text = AuthorName;
+}
+```
+
+Remember that the previous page passed in a string as a parameter. This is now used to initialise the view.
+
+### The Back Button
+
+Look at the back button in the screenshot above. You will see it says "Main Page". However, the following line in the constructor would appear to be setting the back button title to "Prev" ?
+
+```C#
+NavigationPage.SetBackButtonTitle(this, "Prev");
+```
+
+> You may have guessed this (or you already knew), but the back button title is always set by the previous page. By default, it is the title of the previous page but you can override it.
+
+This makes sense. A page does/ not know about the page before it. In fact, there may be many routes to the same page, in which case, the back button would be different for each.
+
+In this example, on the next page, we expect the back button to read "Prev".
+
+### OnAppearing and OnDissapearing
+In the code behind, we also see the following:
+
+```C#
+protected override void OnAppearing()
+{
+    base.OnAppearing();
+    Console.WriteLine("OnAppearing - do not count on this!");
+}
+protected override void OnDisappearing()
+{
+    base.OnDisappearing();
+    Console.WriteLine("OnDisappearing - do not count on this!");
+}
+```
+
+* Run the application for Android (and if possible, iOS). Watch the Application Output panel as you navigate to and from this view.
+
+The documentation warns us about these methods however.
+
+> When the PushAsync method is invoked, the following events occur:
+>
+> * The page calling PushAsync has its OnDisappearing override invoked.
+>
+> * The page being navigated to has its OnAppearing override invoked.
+>
+> * The PushAsync task completes.
+>
+>However, the precise order in which these events occur is platform dependent. For more information, see Chapter 24 of Charles Petzold's Xamarin.Forms book.
+>
+> [Microsoft Documentation](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/navigation/hierarchical)
+
+
+## The AboutAbout Page
+Tapping the button navigates to the `AboutAbout` page, the third and final page in the hierarchy.
+
+<img src="img/top_page.png" width="200">
+
+Note the back-button title. It is not the title of the previous page as it was previously set to "Prev".
+
+What is slightly different in this page is the navigation behavior when you tap the button:
 
 
 ---
