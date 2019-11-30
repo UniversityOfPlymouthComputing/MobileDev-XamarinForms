@@ -133,7 +133,7 @@ So quite a bit to think about here. Why is this a partial class? Where is the re
 #### App.xaml
 Alongside the C# file is a XAML file. In fact, in the solution explorer, these two files seem to be implicitly linked in some way.
 
-```XAML
+```XML
 <?xml version="1.0" encoding="utf-8"?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
@@ -147,12 +147,12 @@ Alongside the C# file is a XAML file. In fact, in the solution explorer, these t
 ```
 There are some clues in here:
 
-```XAML
+```XML
 <Application ...
 ```
 Ok, so this is something to do with the `Application` parent class we met in the C# file above. There are also quite a few [XML namespaces](https://www.w3schools.com/xml/xml_namespaces.asp) being defined. We will talk more about these later. They look scarier than they really are.
 
-```XAML
+```XML
 x:Class="HelloXamarinForms.App"
 ```
 This suggests this is something specifically to do with the `App` class. 
@@ -191,7 +191,7 @@ Note the following:
 
 Ok, let's take an initial look at the UI for `MainPage`.
 
-```XAML
+```XML
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
@@ -227,7 +227,7 @@ Note the `Content` property of `ContentPage` is explicity set in code, yet it do
 
 The following XAML would be equally valid:
 
-```XAML
+```XML
 ...
 <ContentPage.Content>
     <StackLayout>       
@@ -260,7 +260,7 @@ The part in square parenthesis is known as a [Class Attribute](https://docs.micr
 
 Next we see the XML element `<StackLayout>`. 
 
-As explained above, this will (indirectly) instantiatiate of an instance of the class `StackLayout` and set it to the `Content` property of `ContentPage`.
+As explained above, this will (indirectly) instantiate of an instance of the class `StackLayout` and set it to the `Content` property of `ContentPage`.
 
 Why `StackLayout`? Well, all content pages need two things:
 
@@ -331,7 +331,7 @@ So from this, we can probably expect other layout classes to have a `Children` p
 ##### The Label and Button
 Finally we see the declaration (and implicit instantiation) of `Label` and `Button` objects. These become added to the `Children` collection of the `StackLayout`.
 
-```XAML
+```XML
 <Label Text="Welcome to Xamarin.Forms!"
       FontSize="Large"
       HorizontalOptions="Center" 
@@ -341,7 +341,7 @@ Finally we see the declaration (and implicit instantiation) of `Label` and `Butt
 ```
 Note how the following is used:
 
-- XML elements declare instances of classes (note the absense of any dot characters)
+- XML elements declare instances of classes (note the absence of any dot characters)
    - Remember that all elements without an explicit namespace will have the default Forms namespace. `Button` is part of Forms.
 - XML attributes (of elements) are used to set properties on these objects. 
 
@@ -359,7 +359,7 @@ For the Label, the equivalent code might be:
 
 Another way to write the XAML would be as follows:
 
-```XAML
+```XML
       <Label x:Name="MessageLabel"> 
              <Label.Text>"Welcome to Xamarin.Forms!"</Label.Text>
              <Label.FontSize>18.0</Label.FontSize>
@@ -442,7 +442,7 @@ Next, we see the event handler for the button
 
 This is where things might seem surprising. There is nothing in this part of the class declaration that says anything about `MessageLabel`. You may recall that it _is_ referenced in the XAML.
 
-```XAML
+```XML
   <Label Text="Welcome to Xamarin.Forms!"
          FontSize="Large"
          HorizontalOptions="Center" 
@@ -452,7 +452,7 @@ This is where things might seem surprising. There is nothing in this part of the
 
 Yep, it's one of those XML attributes again! Then there is that `x:` prefix. In the same XAML file we see the following:
 
-```XAML
+```XML
 ...
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
@@ -547,7 +547,7 @@ Try the following:
 
 - Run the code and when it breaks, step in to the function.
 - Look at the name of the source file you enter
-- What is the classname?
+- What is the class name?
 
 # Summary and Reflection
 There is quite a lot of 'detail stuff' in a simple hello world application. We already met the following:
@@ -630,13 +630,13 @@ As the name **property-element** suggests, the XML element refers to a *propery*
 
 In general we write:
 
-```XAML
+```XML
 <Type property=... property=... />
 ```
 
 or 
 
-```XAML
+```XML
 <Type property=... ... >
    <Type.Property>
       _value_
@@ -646,7 +646,7 @@ or
 
 where `Type` without any namespace is a data type (class, interface, struct or enum) from *Forms*. Note that unless you specifically add a namespace prefix to an element, the **default namespace** is always added as a prefix, and this is the name-space for Forms declared at the top of every Form XAML file:
 
-```XAML
+```XML
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" ...
 ```
 
@@ -672,7 +672,7 @@ We saw this with the `Children` property (a list) of `StackLayout`.
 
 We can write this:
 
-```XAML
+```XML
 <StackLayout>
    <Label ... />
    <Button ... />
@@ -681,7 +681,7 @@ We can write this:
 
 but we can also be explicit if preferred:
 
-```XAML
+```XML
 <StackLayout>
    <Children>
       <Label ... />

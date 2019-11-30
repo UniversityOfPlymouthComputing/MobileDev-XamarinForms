@@ -16,12 +16,12 @@ namespace BasicNavigation
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Console.WriteLine("OnAppearing");
+            Console.WriteLine("OnAppearing - do not count on this!");
         }
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            Console.WriteLine("OnDisappearing");
+            Console.WriteLine("OnDisappearing - do not count on this!");
         }
 
         private async void ButtonMore_Clicked(object sender, EventArgs e)

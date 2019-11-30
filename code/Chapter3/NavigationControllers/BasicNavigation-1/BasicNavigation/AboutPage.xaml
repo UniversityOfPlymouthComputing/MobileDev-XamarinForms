@@ -5,6 +5,7 @@
              Title="About">
     <ContentPage.Content>
         <Grid RowSpacing="10" ColumnSpacing="1" x:Name="GridOuter">
+
             <Grid.Resources>
                 <ResourceDictionary>
                     <Style TargetType="Label">
@@ -14,15 +15,16 @@
                         <Setter Property="VerticalTextAlignment" Value="Center" />
                         <Setter Property="BackgroundColor" Value="Azure" />
                     </Style>
-
                 </ResourceDictionary>
             </Grid.Resources>
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="4*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
