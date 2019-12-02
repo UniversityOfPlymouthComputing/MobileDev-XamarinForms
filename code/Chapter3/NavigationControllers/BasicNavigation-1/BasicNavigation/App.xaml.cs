@@ -10,14 +10,9 @@ namespace BasicNavigation
         {
             InitializeComponent();
 
-            // Instantiate the first Page in the hierarchy.
-            MainPage firstPage = new MainPage();
-            
-            // Instantiate a NavigationPage which maintains a stack of pages
-            // passing in the first page to be displayed (bottom of the stack)
-            this.MainPage = new NavigationPage(firstPage);
+            FirstPage firstPage = new FirstPage();
 
-            // The NavigationPage is now the MainPage of the Application.
+            MainPage = new NavigationPage(firstPage);
         }
 
         protected override void OnStart()

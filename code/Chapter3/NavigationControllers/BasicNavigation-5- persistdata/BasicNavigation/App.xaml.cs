@@ -10,9 +10,9 @@ namespace BasicNavigation
         {
             InitializeComponent();
 
-            MainPage top = new MainPage();
+            FirstPage firstPage = new FirstPage();
 
-            MainPage = new NavigationPage(top);
+            MainPage = new NavigationPage(firstPage);
         }
 
         protected override void OnStart()
