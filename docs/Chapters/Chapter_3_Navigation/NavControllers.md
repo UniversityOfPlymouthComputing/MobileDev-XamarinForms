@@ -2,7 +2,10 @@
 
 ---
 
-The code examples for this section are to be [found in this folder](/code/Chapter3/NavigationControllers)
+The code examples for this section are to be [found in this folder](/code/Chapter3/NavigationControllers). There are two sub-folders:
+
+1. [View Based](/code/Chapter3/NavigationControllers/1-View_Based) - this contains a series of projects that provide examples of navigation based purely on XAML and the code-behind (View Objects). This allows us to focus on navigation itself with simple data binding in some cases.
+2. [MVVM Based](/code/Chapter3/NavigationControllers/2-MVVM_Based) - The adopts the same example application in 1 and adopts a simple MVVM pattern.
 
 # Hierarchial Navigation
 One of the most apparent differences between a desktop computer and a mobile device is screen size. It is therefore common to limit the information on screen. One popular approach on both iOS and Android is to organize and display information hierarchically.
@@ -14,7 +17,7 @@ A user interaction may select an item so they can drill down to a finer grained 
 > The settings application on both iOS and Android are examples of this. At the top level, there are broad categories. As you tap these items, you are taken to a deeper level of information. This process can go several layers deep until you find the information or setting of interest.
 
 ## A Navigation Stack
-The most common type if hierarchial navigation ....
+A common type is hierarchial navigation.
 
 > As each page is _pushed_ on top of the other, a Navigation Controller maintains a _stack_ of **views**. As the user navigates back, the top view is popped off the stack.
 

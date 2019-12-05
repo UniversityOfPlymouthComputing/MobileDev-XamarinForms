@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="First Page"
+             x:Class="BasicNavigation.FirstPage">
+
+        <Grid RowSpacing="10" ColumnSpacing="1" x:Name="GridOuter">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <Style TargetType="Label">
+                        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                        <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                        <Setter Property="VerticalTextAlignment" Value="Center" />
+                        <Setter Property="BackgroundColor" Value="Azure" />
+                    </Style>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Text="BASIC NAVIGATION"
+                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    FontSize="Title" FontFamily="Courier"
+                    />
+            <Label Text="(c) 2020"
+                    Grid.Row="1" Grid.Column="0"
+                    />
+            <Label Text="Anon"
+                    Grid.Row="1" Grid.Column="1"
+                    />
+            <Label Text="University of Plymouth"
+                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                    BackgroundColor="LimeGreen"
+                    FontSize="Large"
+                    FontFamily="Courier"
+                    />
+            <Button Text="Edit"
+                    Grid.Row="3" Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    x:Name="EditButton"
+                    />
+
+        </Grid>
+</ContentPage>
