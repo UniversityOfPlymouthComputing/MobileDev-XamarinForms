@@ -351,5 +351,5 @@ Using constrained generic types actually widens the reuse and flexibility
 Generics require some getting used to.
 
 ---
-
+[Next - Value and Reference Semantics](ValueRefSemantics.md)
 [Next - Navigation Controllers](Chapter_3_Navigation/NavControllers.md)

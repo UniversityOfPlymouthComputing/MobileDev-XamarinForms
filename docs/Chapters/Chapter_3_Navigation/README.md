@@ -13,6 +13,7 @@ By the end of this chapter you should be able to:
 
 # Contents
 1. [C# Generics](generics.md)
+1. [C# Value and Reference Semantics](ValueRefSemantics.md)
 1. [Navigation Controllers - TO BE DONE](NavControllers.md)
 1. [Tabs - TO BE DONE]()
 1. [Embedding Navigation into Tabs - TO BE DONE]()
