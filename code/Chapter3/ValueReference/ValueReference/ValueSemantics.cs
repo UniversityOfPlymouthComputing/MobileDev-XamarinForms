@@ -2,15 +2,15 @@
 
 namespace ValueReference
 {
-    class Program1
+    class ValueSemantics
     {
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            _ = new Program1();
+            _ = new ValueSemantics();
         }
 
-        public Program1()
+        public ValueSemantics()
         {
             //Entry point
 
@@ -30,6 +30,7 @@ namespace ValueReference
 
             //So which has changed?
             Console.WriteLine($"a={a}, b={b}");
+
         }
     }
 }

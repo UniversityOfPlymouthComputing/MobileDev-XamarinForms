@@ -4,17 +4,17 @@ using System.Runtime.CompilerServices;
 
 namespace ValueReference
 {
-    class Program4
+    class Equivalence
     {
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            _ = new Program4();
+            _ = new Equivalence();
         }
 
         void Display(MyObj obj, [CallerMemberName]string memberName = "") => Console.WriteLine(memberName + $" = {obj}");
 
-        public Program4()
+        public Equivalence()
         {
             //Entry point
 
@@ -40,11 +40,20 @@ namespace ValueReference
             //Compare two absolutely equal objects
             if (r1.Equals(r3))
             {
-                Console.WriteLine("r1 has the same values as r3");
+                Console.WriteLine("r1 Equals r3");
             }
+            else
+            {
+                Console.WriteLine("r1 is not Equal to r3");
+            }
+
             if (r1 == r3)
             {
                 Console.WriteLine("r1 is a reference to r3");
+            }
+            else
+            {
+                Console.WriteLine("r1 is not a reference to r3");
             }
 
             Console.WriteLine("***** Test for equality *****");
@@ -60,27 +69,57 @@ namespace ValueReference
             {
                 Console.WriteLine("r1 has the same values as r2");
             }
+            else
+            {
+                Console.WriteLine("r1 has different values to r2");
+            }
+
             if (r1 == r2)
             {
                 Console.WriteLine("r1 is a reference to r2");
+            } else
+            {
+                Console.WriteLine("r1 is not a reference to r2");
+            }
+
+            // **** Strucures ***
+            MyStruct s1 = new MyStruct(10, 20);
+            MyStruct s2 = new MyStruct(10, 20);
+            //if (s1 == s2) does not compile
+            if (s1.Equals(s2))
+            {
+                Console.WriteLine("s1 and s2 are the same!");
+            }
+            else
+            {
+                Console.WriteLine("s1 and s2 are not the same!");
             }
         }
 
     }
 
+    //Implement IEquatable<> to customise the definition of Equals
     public class MyObj : IEquatable<MyObj>
     {
         public int a;
         public int b;
         public MyObj(int aa, int bb) => (a, b) = (aa, bb);
 
-        //To perform a member by member comparison
+        //To perform a bespoke member by member comparison
         public bool Equals([AllowNull] MyObj other)
         {
             if (other == null) return false;
             return ((other.a == a) && (other.b == b));
         }
 
+        public override string ToString() => $"a={a}, b={b}";
+    }
+
+    public struct MyStruct
+    {
+        public int a;
+        public int b;
+        public MyStruct(int aa, int bb) => (a, b) = (aa, bb);
         public override string ToString() => $"a={a}, b={b}";
     }
 }

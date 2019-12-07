@@ -2,15 +2,15 @@
 
 namespace ValueReference
 {
-    class Program2
+    public class ValueAsReference
     {
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            _ = new Program2();
+            _ = new ValueAsReference();
         }
 
-        public Program2()
+        public ValueAsReference()
         {
             //Entry point
 
