@@ -153,6 +153,7 @@ Note how we get both the copy behavior and independence we saw with simple value
 
 
 ## Equivalence
+
 Build and step through the project `ValueReference-4`.
 
 We sometimes want to compare objects for equivalence. We need to be clear about what we mean by equivalence. 
@@ -185,6 +186,7 @@ public class MyObj : IEquatable<MyObj>
 ```
 
 ### The `==` operator
+
 We need to be careful in our assumptions about testing for equality.
 
 > From the [Microsoft documentation](https://docs.microsoft.com/dotnet/csharp/language-reference/operators/equality-operators), we learn that:
@@ -246,6 +248,7 @@ From the [Microsoft documentation](https://docs.microsoft.com/dotnet/api/system.
 Again, if you want to fully define the meaning of `Equals`, override and write one yourself.
 
 ## Immutable Reference Types
+
 For this section, build and step through the project `ValueReference-5`
 
 The key point in this example is a simple one:
@@ -276,17 +279,27 @@ string s2 = s1;
 
 At this point, `s2` is simply a reference to `s1`. These are reference types, so no data needs to be copied (so it's fast). If we are curious, we can test this using `Object.ReferenceEquals(s1,s2)`
 
-Next, `s1` is modified:
+Next, `s1` is 'modified':
 
 ```C#
-s1 = "World";
+s1 += " World";
 ```
 
-You might expect that `s2` is also updated, as after all `string` is reference type. However, remember that a literal string is a new instance of `string`. We could have written:
+You might expect that `s2` is also updated, as after all `string` is reference type. However, the type `string` is written to be _immutable_ (meaning it's contents cannot be changed once initialised). 
+
+> Every time you attempt to change a `string` type, a completely new string is instantiated with the updated value.
+
+The `+=` operator is overridden to create a new string containing the two contatinated strings. It is equivalent to the following:
 
 ```C#
-s1 = new string ("World");
+s1 = new string("Hello World");
 ```
+
+The old string is still referenced by `s2`, so remains in memory. This is depicted in the image below.
+
+<img src="img/immutable_types.png" width="600">
+
+## Passing Parameters by Reference
 
 
 

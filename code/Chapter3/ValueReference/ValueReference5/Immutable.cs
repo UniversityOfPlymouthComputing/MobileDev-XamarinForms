@@ -29,7 +29,7 @@ namespace ValueReference
 
             //Now modify s1
             Console.WriteLine("Modifying s1");
-            s1 = "World";
+            s1 += " World";
             Console.WriteLine($"s1={s1}, s2={s2}");
 
             //Compare
