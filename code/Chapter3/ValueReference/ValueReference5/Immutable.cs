@@ -57,6 +57,8 @@ namespace ValueReference
                 Console.WriteLine("s1 does not Equal s2");
             }
 
+            //The difference between a reference type and a ref
+            s1 = "Hello";
             UpdateString1(s1); //Does nothing
             Console.WriteLine($"s1={s1}, s2={s2}");
 
@@ -68,13 +70,14 @@ namespace ValueReference
         //Note the compiler warnings with this one
         void UpdateString1(string s)
         {
-            s = "ABC"; //equivalent to s = new string("ABC");
+            s += " World"; //equivalent to s = new string("Hello World");
         }
 
         //This has no compiler warning
         void UpdateString2(ref string s)
         {
-            s = "ABC";
+            //s is synomynous with the ref variable passed in
+            s += " World"; //Replace s with a new object new string("Hello World")
         }
 
     }

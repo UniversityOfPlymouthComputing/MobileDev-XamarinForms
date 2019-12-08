@@ -56,7 +56,7 @@ Next, we create another variable, only this time we tell the compiler to use _re
 ref int b = ref a;
 ```
 
-The variable `b` is now just another name for variable `a`. If we imagine `a` and `b` as variables in memory, then each has the same address.
+The variable `b` is now just another name for variable `a`. If we imagine `a` and `b` as variables in memory, then each has the exact same address (and therefore, they reference the same data).
 
 If we now modify `a`, we see the same change reflected in `b`. The following line:
 
@@ -74,7 +74,7 @@ Now both `a` and `b` return the value `21`.
 
 This example also demonstrates how this can be used to perform in-line modification. The following function takes two parameters:
 
-* a reference to an integer (that's a fancy pointer to C and C++ programmers!)
+* a reference to an integer
 * a value `delta`
 
 ```C#
@@ -91,7 +91,7 @@ int a = 10;
 updateInplace(ref a, 10);
 ```
 
-A reference to `a` is passed as the first parameter. A copy of the literal value 10 as the second.
+A reference to `a` is passed as the first parameter (so the parameter `u` is synonymous with `a`). A copy of the literal value 10 as the second.
 
 When the function returns, `a` will now equal `20`.
 
@@ -134,7 +134,7 @@ MyObj r2 = new MyObj(10, 20);
 MyObj r3 = r1;
 ```
 
-The reference `r3` is identical to `r1`. They both reference the same object in memory, so any change to one is reflected in the other.
+In this case, `r3` is not synonymous with `r1`, but references the same data in memory. Any change to the data of one is reflected in the other.
 
 Contrast this with the structure:
 
@@ -152,9 +152,9 @@ This is demonstrated in the code.
 Note how we get both the copy behavior and independence we saw with simple value types (`int`, `float` etc..). Contrast this with a class where no new objects are created and therefore no data needs to be copied.
 
 ### Passing Parameters
-A very common process is to pass either reference and value types as parameters to a method. It is important to understand the difference in behavior.
+A very common process is to pass either reference or value types as parameters to a method. It is important to understand the difference in behavior. To add more confusion, we also have the `ref` keyword which can be applied to either as well.
 
-When you pass a reference type, the method has access to the original object. For example:
+Let's start with a reference type. When you pass a reference type, the method has access to the original object. For example:
 
 ```C#
 MyObj r1 = new MyObj(2, 3);
@@ -170,7 +170,7 @@ static void NegateObjInline(MyObj obj)
 }
 ```
 
-Note how the method does not need to return a new object. Instead, it was possible to modify the original object passed in by reference. This needs to be used with caution as such behavior can seem ambiguous.
+Note how the method does not need to return a new object. Instead, it was possible to modify the original object via the reference provided. This needs to be used with caution as such behavior can seem ambiguous.
 
 Contrast this with value types:
 
@@ -188,7 +188,7 @@ static MyStruct NegateStruct(MyStruct s)
 
 Value type parameters are copied. Note how a new copy is returned and overwrites `s1`.
 
-You can still pass value types by reference using the `ref` keyword.
+Now look what happens when you use the `ref` keyword.
 
 ```C#
 MyStruct s2 = new MyStruct(2, 3);
@@ -202,9 +202,9 @@ static void NegateStructInline(ref MyStruct s)
 }
 ```
 
-What is somewhat better here is the explicit use of the keyword `ref` both in the method and at the point it is invoked. It is clear to the reader that a reference is being passed (presumably for a reason), and therefore you might expect it to perform an in-place modification.
+One might argue that the explicit use of the keyword `ref` helps communicate the intent both in the method and at the point it is invoked. It is clear to the reader that a reference is being passed (presumably for a reason), and therefore you might expect it to perform an in-place modification.
 
-> **Note** - unlike in older languages, you would not normally pass by reference for performance reasons. It's not even clear if there are performance benefits in C#.
+There is a subtle but important difference between a reference type and `ref`. We will talk more about `ref` later in this section.
 
 ## Equivalence
 
@@ -219,7 +219,7 @@ For reference types, we could mean either of the following:
 
 For value types, two variables cannot reference the same object in memory (one of the key features of value types). However, as with reference types, they may be equivalent in terms of having equal properties and/or type.
 
-I this example, we define a custom `Equals` method by implementing the interface `IEquatable<>`
+In this example, we define a custom `Equals` method by implementing the interface `IEquatable<>`
 
 ```C#
 public class MyObj : IEquatable<MyObj>
@@ -253,7 +253,7 @@ For our own classes, we can simply use the `==` operator to check if two variabl
 
 Two instances of this class can be compared in the following way:
 
-* Using the == operator, which will test if the references are the same (same object in memory)
+* Using the == operator, which will test if the references are to the same data (same object in memory)
    * If it's possible that `==` has been overridden, then use the `Object.ReferenceEquals` method`.
 
 * Using the `Equals` method. 
@@ -331,7 +331,7 @@ Next, we create a second reference `s2`
 string s2 = s1;
 ```
 
-At this point, `s2` is simply a reference to `s1`. These are reference types, so no data needs to be copied (so it's fast). If we are curious, we can test this using `Object.ReferenceEquals(s1,s2)`
+At this point, `s2` is simply a reference to the same data as `s1`. These are both reference types, so no data needs to be copied (so it's fast). If we are curious, we can test this using `Object.ReferenceEquals(s1,s2)`
 
 Next, `s1` is 'modified':
 
@@ -339,11 +339,11 @@ Next, `s1` is 'modified':
 s1 += " World";
 ```
 
-You might expect that `s2` is also updated, as after all `string` is reference type. However, the type `string` is written to be _immutable_ (meaning it's contents cannot be changed once initialised). 
+You might expect that `s2` is also updated, as after all `string` is reference type. However, the type `string` is written to be _immutable_ (meaning it's contents cannot be changed once initialized). 
 
 > Every time you attempt to change a `string` type, a completely new string is instantiated with the updated value.
 
-The `+=` operator is overridden to create a new string containing the two contatinated strings. It is equivalent to the following:
+The `+=` operator is overridden to create a new string containing the two concatenated strings. It is equivalent to the following:
 
 ```C#
 s1 = new string("Hello World");
@@ -353,8 +353,10 @@ The old string is still referenced by `s2`, so remains in memory. This is depict
 
 <img src="img/immutable_types.png" width="600">
 
+Note that throughout, `s1` and `s2` are still distinct variables. It is simply a question of what data they refer to.
+
 ## Using `ref` with reference types
-The `ref` keyword can be used for both reference types and value types.
+The `ref` keyword can be used for both reference types and value types, which may surprise you.
 
 > `ref` and reference types are not the same thing!
 >
@@ -362,9 +364,9 @@ The `ref` keyword can be used for both reference types and value types.
 >
 > [Microsoft Documentation](https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/ref) 
 
-So what is the meaning of passing a reference type, by reference? From the same documentation source:
+So what is the meaning of passing a reference type by reference? From the same documentation source:
 
-> "You can also use the ref keyword to pass reference types by reference. Passing a reference type by reference enables the called method to replace the object to which the reference parameter refers in the caller. The storage location of the object is passed to the method as the value of the reference parameter. If you change the value in the storage location of the parameter (to point to a new object), you also change the storage location to which the caller refers."
+> "You can also use the `ref` keyword to pass reference types by reference. Passing a reference type by reference enables the called method to replace the object to which the reference parameter refers in the caller. The storage location of the object is passed to the method as the value of the reference parameter. If you change the value in the storage location of the parameter (to point to a new object), you also change the storage location to which the caller refers."
 
 Here is a simple example:
 
@@ -376,23 +378,33 @@ UpdateString2(ref s1); //Replaces s1
 
 void UpdateString1(string s)
 {
-    s = "ABC"; //equivalent to s = new string("ABC");
+    s += " World"; //equivalent to s = new string("Hello World");
 }
 
 //This has no compiler warning
 void UpdateString2(ref string s)
 {
-    s = "ABC";
+    s+ = " World";
 }
 ```
 
-In the  case of the `UpdateString1` method, a reference type is passed as a parameter. Ordinarily, this would allow the method to change the object being referenced, _but not the reference itself_. Of course, `s1` is a `string` and immutable, so this method has no lasting effect (you will note the compiler issues a warning).
+In the  case of the `UpdateString1` method, a reference type is passed as a parameter `s`. 
 
-> If you are a C or C++ programmer, you can think of this as passing a copy of the address (an integer) of where `s1` is pointing to in memory. This allows you to change the data at that memory address, but not the pointer itself. You cannot change where `s1` points to.
+> At this point, the reference type `s` now references the same data as `s1`, but is still a distinct (local) variable and separate to `s1`.
 
-Now consider `UpdateString2`. The parameter is `ref string` which gives you access to the reference itself. This allows us to completely replace `s1` with an entirely new object!
+Next the line `s += " World";` is executed.
 
-> Again for C and C++ programmers, the address stored in a pointer has been replaced. It now points to a different area in memory.
+Ordinarily, this would allow the method to change the object data being referenced (currently by both `s1` and `s`), _except_ string types are *immutable* and `+=` is overloaded to create a new string. Therefore, `s` now references a new string `"Hello World"` while `s1` still references the original `"Hello"`. 
+
+When the function finishes, `s` goes out of scope so this method has no lasting effect (you will note the compiler issue a warning to this effect).
+
+> If you are a C or C++ programmer, you can think of this as passing a copy of the address (an integer) of where `s1` is pointing to in memory. This might allow you to change the data at that memory address, but not the pointer itself. You cannot change where `s1` points to in this way.
+
+Now consider `UpdateString2`. The parameter is `ref string` which gives you access to the reference itself. This allows us to completely replace `s1` with an entirely new reference!
+
+> Again for C and C++ programmers, the address stored in a pointer is being replaced. It now points to a different area in memory.
+
+The local parameter `s` is synonymous with `s1`, so when the reference `s` is updated by the `+=` operator, so is `s1`.
 
 Don't be surprised if this is confusing. Even if you can grasp all of this, it is worth considering that others may not. Consider avoiding such strategies and doing things in a more straightforward way.
 
@@ -400,15 +412,7 @@ Don't be surprised if this is confusing. Even if you can grasp all of this, it i
 
 There is something to be said for preferring value-semantics over reference. Value semantics are less ambiguous and in some circumstances safer. Do not get overly concerned about the overheads of value-semantics, including concerns about making (logical) copies of data. To a some extent, you can probably trust the optimizing compiler to keep the code efficient and fast (which often passes by reference anyway, utilizing copy on write etc..).
 
-If you want to know more about writing safe and efficient code, see https://docs.microsoft.com/dotnet/csharp/write-safe-efficient-code
-
-
-
-
-
-
-
-
+If you want to know more about writing safe and efficient code, see [this document](https://docs.microsoft.com/dotnet/csharp/write-safe-efficient-code).
 
 
 ---
