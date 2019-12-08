@@ -13,7 +13,6 @@ namespace ValueReference
         public Immutable()
         {
 
-
             //Entry point
             string s1 = "Hello"; //equivalent to: string s1 = new string("Hello");  
             string s2 = s1;
