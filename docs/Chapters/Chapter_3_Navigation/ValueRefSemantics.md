@@ -151,6 +151,60 @@ This is demonstrated in the code.
 
 Note how we get both the copy behavior and independence we saw with simple value types (`int`, `float` etc..). Contrast this with a class where no new objects are created and therefore no data needs to be copied.
 
+### Passing Parameters
+A very common process is to pass either reference and value types as parameters to a method. It is important to understand the difference in behavior.
+
+When you pass a reference type, the method has access to the original object. For example:
+
+```C#
+MyObj r1 = new MyObj(2, 3);
+ReferenceSemantics.NegateObjInline(r1);
+//r1 is now changed
+
+...
+
+static void NegateObjInline(MyObj obj)
+{
+    obj.a *= -1;
+    obj.b *= -1;
+}
+```
+
+Note how the method does not need to return a new object. Instead, it was possible to modify the original object passed in by reference. This needs to be used with caution as such behavior can seem ambiguous.
+
+Contrast this with value types:
+
+```C#
+MyStruct s1 = new MyStruct(2, 3);
+s1 = NegateStruct(s1); //pass a copy
+//s1 overwritten
+...
+static MyStruct NegateStruct(MyStruct s)
+{
+    MyStruct res = new MyStruct(-1 * s.a, -1 * s.b);
+    return res;
+}
+```
+
+Value type parameters are copied. Note how a new copy is returned and overwrites `s1`.
+
+You can still pass value types by reference using the `ref` keyword.
+
+```C#
+MyStruct s2 = new MyStruct(2, 3);
+NegateStructInline(ref s2); 
+//s2 now modified
+...
+static void NegateStructInline(ref MyStruct s)
+{
+    s.a *= -1;
+    s.b *= -1;
+}
+```
+
+What is somewhat better here is the explicit use of the keyword `ref` both in the method and at the point it is invoked. It is clear to the reader that a reference is being passed (presumably for a reason), and therefore you might expect it to perform an in-place modification.
+
+> **Note** - unlike in older languages, you would not normally pass by reference for performance reasons. It's not even clear if there are performance benefits in C#.
 
 ## Equivalence
 
@@ -299,7 +353,60 @@ The old string is still referenced by `s2`, so remains in memory. This is depict
 
 <img src="img/immutable_types.png" width="600">
 
-## Passing Parameters by Reference
+## Using `ref` with reference types
+The `ref` keyword can be used for both reference types and value types.
+
+> `ref` and reference types are not the same thing!
+>
+> "Do not confuse the concept of passing by reference with the concept of reference types. The two concepts are not the same. A method parameter can be modified by ref regardless of whether it is a value type or a reference type. There is no boxing of a value type when it is passed by reference."
+>
+> [Microsoft Documentation](https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/ref) 
+
+So what is the meaning of passing a reference type, by reference? From the same documentation source:
+
+> "You can also use the ref keyword to pass reference types by reference. Passing a reference type by reference enables the called method to replace the object to which the reference parameter refers in the caller. The storage location of the object is passed to the method as the value of the reference parameter. If you change the value in the storage location of the parameter (to point to a new object), you also change the storage location to which the caller refers."
+
+Here is a simple example:
+
+```C#
+string s1 = "Hello";
+UpdateString1(s1); //Does nothing
+UpdateString2(ref s1); //Replaces s1
+...
+
+void UpdateString1(string s)
+{
+    s = "ABC"; //equivalent to s = new string("ABC");
+}
+
+//This has no compiler warning
+void UpdateString2(ref string s)
+{
+    s = "ABC";
+}
+```
+
+In the  case of the `UpdateString1` method, a reference type is passed as a parameter. Ordinarily, this would allow the method to change the object being referenced, _but not the reference itself_. Of course, `s1` is a `string` and immutable, so this method has no lasting effect (you will note the compiler issues a warning).
+
+> If you are a C or C++ programmer, you can think of this as passing a copy of the address (an integer) of where `s1` is pointing to in memory. This allows you to change the data at that memory address, but not the pointer itself. You cannot change where `s1` points to.
+
+Now consider `UpdateString2`. The parameter is `ref string` which gives you access to the reference itself. This allows us to completely replace `s1` with an entirely new object!
+
+> Again for C and C++ programmers, the address stored in a pointer has been replaced. It now points to a different area in memory.
+
+Don't be surprised if this is confusing. Even if you can grasp all of this, it is worth considering that others may not. Consider avoiding such strategies and doing things in a more straightforward way.
+
+## Before we move on...
+
+There is something to be said for preferring value-semantics over reference. Value semantics are less ambiguous and in some circumstances safer. Do not get overly concerned about the overheads of value-semantics, including concerns about making (logical) copies of data. To a some extent, you can probably trust the optimizing compiler to keep the code efficient and fast (which often passes by reference anyway, utilizing copy on write etc..).
+
+If you want to know more about writing safe and efficient code, see https://docs.microsoft.com/dotnet/csharp/write-safe-efficient-code
+
+
+
+
+
+
 
 
 

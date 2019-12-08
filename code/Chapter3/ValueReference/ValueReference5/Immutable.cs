@@ -57,10 +57,10 @@ namespace ValueReference
                 Console.WriteLine("s1 does not Equal s2");
             }
 
-            UpdateString1(s1);
+            UpdateString1(s1); //Does nothing
             Console.WriteLine($"s1={s1}, s2={s2}");
 
-            UpdateString2(ref s1);
+            UpdateString2(ref s1); //Replaces s1
             Console.WriteLine($"s1={s1}, s2={s2}");
 
         }
@@ -68,7 +68,7 @@ namespace ValueReference
         //Note the compiler warnings with this one
         void UpdateString1(string s)
         {
-            s = "ABC";
+            s = "ABC"; //equivalent to s = new string("ABC");
         }
 
         //This has no compiler warning

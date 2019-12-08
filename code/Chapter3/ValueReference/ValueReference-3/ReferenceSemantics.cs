@@ -30,7 +30,7 @@ namespace ValueReference
             Display(r3, "r3");
 
             Console.WriteLine("Update r1");
-            ReferenceSemantics.NegateInline(r1);
+            NegateObjInline(r1);
             //r1.a *= -1;
             //r1.b *= -1;
 
@@ -45,15 +45,33 @@ namespace ValueReference
             MyStruct s1 = new MyStruct(2, 3);
             MyStruct s2 = s1;
             Console.WriteLine($"s1: {s1}, s2: {s2}");
-            s1.a *= -1;
+            s1 = NegateStruct(s1); //Passes a copy, gets back a new value
             Console.WriteLine($"s1: {s1}, s2: {s2}");
+
+            //Passing as a parameter
+            Console.WriteLine("Negate s2 inline");
+            NegateStructInline(ref s2); //Passed by reference
+            Console.WriteLine($"s1: {s1}, s2: {s2}");
+
         }
 
         // Parameter is a reference type, so can be modified inline
-        static void NegateInline(MyObj obj)
+        static void NegateObjInline(MyObj obj)
         {
             obj.a *= -1;
             obj.b *= -1;
+        }
+        // Parameter is a value type (a copy)
+        static MyStruct NegateStruct(MyStruct s)
+        {
+            MyStruct res = new MyStruct(-1 * s.a, -1 * s.b);
+            return res;
+        }
+        // Parameter is a reference type
+        static void NegateStructInline(ref MyStruct s)
+        {
+            s.a *= -1;
+            s.b *= -1;
         }
 
     }
