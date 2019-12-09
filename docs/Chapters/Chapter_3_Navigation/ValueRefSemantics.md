@@ -41,7 +41,7 @@ The value of `a` is now 11, but `b` remains at 10. The variables `a` and `b` exi
 These behaviors are also referred to as __value semantics__. The simple types (`char`, `short`, `int`, `long`, `float`, `double` etc.) all use value semantics.
 
 
-## Using reference semantics with value types
+## Using references to value types
 The next example is in the project `ValueReference-2`. Build and step through the code, making note of how the variables change.
 
 We start with a simple value type `a`
@@ -355,7 +355,7 @@ The old string is still referenced by `s2`, so remains in memory. This is depict
 
 Note that throughout, `s1` and `s2` are still distinct variables. It is simply a question of what data they refer to.
 
-## Using `ref` with reference types
+### Using `ref` with reference types
 The `ref` keyword can be used for both reference types and value types, which may surprise you.
 
 > `ref` and reference types are not the same thing!
@@ -378,7 +378,8 @@ UpdateString2(ref s1); //Replaces s1
 
 void UpdateString1(string s)
 {
-    s += " World"; //equivalent to s = new string("Hello World");
+    //equivalent to s = new string("Hello World");
+    s += " World"; 
 }
 
 //This has no compiler warning
@@ -402,9 +403,9 @@ Ordinarily, this would allow the method to change the object data being referenc
 
 When the function finishes, `s` goes out of scope so this method has no lasting effect (you will note the compiler issue a warning to this effect).
 
-> If you are a C or C++ programmer, you can think of this as passing a copy of the address (an integer) of where `s1` is pointing to in memory. This might allow you to change the data at that memory address, but not the pointer itself. You cannot change where `s1` points to in this way.
+> If you are a C or C++ programmer, you can think of this approach as passing a copy of the address stored in `s1` (an integer) into `s`. This might allow you to access and change the data at that memory address, but not the pointer `s1` itself. You cannot change where `s1` points to in this way.
 
-Now consider `UpdateString2`. The parameter is `ref string s` is synonymous with `s1`. This gives the method direct access to `s1` via the parameter `s`.
+Now consider the method `UpdateString2`. The parameter `ref string s` is synonymous with `s1`. This gives this method direct access to `s1` via the parameter `s`.
 
 <img src="img/ref2ref_3.png" width="600">
 
@@ -412,15 +413,67 @@ The local parameter `s` is synonymous with `s1`, so when the reference `s` is up
 
 <img src="img/ref2ref_4.png" width="600">
 
-> Again for C and C++ programmers, the address stored in a pointer is being replaced. It now points to a different area in memory.
+> Again for C and C++ programmers, the pointer variables `s1` and `s` have the same address (similar concept to a union). The address stored in `s1` can now be updated via it's in-scope alias `s`. When the method exits, `s1` now points to a different area in memory and the original can be de-allocated.
 
 Don't be surprised if this is confusing. Even if you can grasp all of this, it is worth considering that others may not. Consider avoiding such strategies and doing things in a more straightforward way.
 
+## Encapsulating Immutable and Value Types
+
+For this section, build and step through the project `ValueReference-6`
+
+If you want to pass value type or immutable reference type data by reference, you can always encapsulate the data in a class.
+
+For example, let's say we wished to pass an `int` and `string` to a method so both can be modified. We might encapsulate both data elements inside a class as follows:
+
+```C#
+public class DataModel
+{
+    private string _stringData; 
+    public string StringData {
+        get => _stringData;
+        set
+        {
+            if (_stringData == value) return;
+            _stringData = value;
+        }
+    }
+    public int IntData { get; set; } = 0;
+
+    public override string ToString() => $"{StringData}, {IntData}";
+
+    public DataModel(string str, int u) => (StringData, IntData) = (str,u);
+}
+```
+
+From another context, we might write a method to accept a parameter of type `DataModel`
+
+```C#
+void UpdateDataInline(DataModel model)
+{
+    Console.WriteLine("Updating model data");
+    model.StringData += " World";
+    model.IntData += 1;
+}
+```
+
+We can now pass data to this method and have it updated:
+
+```C#
+DataModel m1 = new DataModel("Hello",99);
+Console.WriteLine($"Model: {m1}");
+UpdateDataInline(m1);
+Console.WriteLine($"Model: {m1}");
+```
+
+The reference `m1` has not changed, but the data it references inside has changed. We can see this from the output.
+
 ## Before we move on...
 
-There is something to be said for preferring value-semantics over reference. Value semantics are less ambiguous and in some circumstances safer. Do not get overly concerned about the overheads of value-semantics, including concerns about making (logical) copies of data. To a some extent, you can probably trust the optimizing compiler to keep the code efficient and fast (which often passes by reference anyway, utilizing copy on write etc..).
+There is something to be said for preferring value-semantics over reference. Value semantics are less ambiguous and in some circumstances safer. Do not get overly concerned about the overheads of value-semantics, including concerns about making (logical) copies of data. To a some extent, you can probably trust the optimizing compiler to keep the code efficient and fast in most situations (which often passes by reference anyway, utilizing copy on write etc..).
 
 If you want to know more about writing safe and efficient code, see [this document](https://docs.microsoft.com/dotnet/csharp/write-safe-efficient-code).
+
+For additional reading, see also [Boxing and Unboxing](https://docs.microsoft.com/dotnet/csharp/programming-guide/types/boxing-and-unboxing)
 
 
 ---

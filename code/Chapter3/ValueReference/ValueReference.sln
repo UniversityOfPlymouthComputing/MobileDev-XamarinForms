@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValueReference-4", "ValueRe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValueReference-5", "ValueReference5\ValueReference-5.csproj", "{14BF6046-9387-4414-8326-DE282671590E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValueReference-6", "ValueReference-6\ValueReference-6.csproj", "{8BCDF0AF-F028-4082-B5B8-9EE7C5009BDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,5 +39,9 @@ Global
 		{14BF6046-9387-4414-8326-DE282671590E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14BF6046-9387-4414-8326-DE282671590E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14BF6046-9387-4414-8326-DE282671590E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BCDF0AF-F028-4082-B5B8-9EE7C5009BDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BCDF0AF-F028-4082-B5B8-9EE7C5009BDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BCDF0AF-F028-4082-B5B8-9EE7C5009BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BCDF0AF-F028-4082-B5B8-9EE7C5009BDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
