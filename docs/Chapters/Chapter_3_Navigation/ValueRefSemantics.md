@@ -390,21 +390,29 @@ void UpdateString2(ref string s)
 
 In the  case of the `UpdateString1` method, a reference type is passed as a parameter `s`. 
 
-> At this point, the reference type `s` now references the same data as `s1`, but is still a distinct (local) variable and separate to `s1`.
+> At this point, the reference type `s` now references the same data as `s1`, but is still a distinct (local) variable and separate to `s1`. Furthermore, `s` is in scope whereas `s1` is out of scope, so `s1` cannot be modified.
+
+<img src="img/ref2ref_1.png" width="600">
 
 Next the line `s += " World";` is executed.
 
 Ordinarily, this would allow the method to change the object data being referenced (currently by both `s1` and `s`), _except_ string types are *immutable* and `+=` is overloaded to create a new string. Therefore, `s` now references a new string `"Hello World"` while `s1` still references the original `"Hello"`. 
 
+<img src="img/ref2ref_2.png" width="600">
+
 When the function finishes, `s` goes out of scope so this method has no lasting effect (you will note the compiler issue a warning to this effect).
 
 > If you are a C or C++ programmer, you can think of this as passing a copy of the address (an integer) of where `s1` is pointing to in memory. This might allow you to change the data at that memory address, but not the pointer itself. You cannot change where `s1` points to in this way.
 
-Now consider `UpdateString2`. The parameter is `ref string` which gives you access to the reference itself. This allows us to completely replace `s1` with an entirely new reference!
+Now consider `UpdateString2`. The parameter is `ref string s` is synonymous with `s1`. This gives the method direct access to `s1` via the parameter `s`.
 
-> Again for C and C++ programmers, the address stored in a pointer is being replaced. It now points to a different area in memory.
+<img src="img/ref2ref_3.png" width="600">
 
 The local parameter `s` is synonymous with `s1`, so when the reference `s` is updated by the `+=` operator, so is `s1`.
+
+<img src="img/ref2ref_4.png" width="600">
+
+> Again for C and C++ programmers, the address stored in a pointer is being replaced. It now points to a different area in memory.
 
 Don't be surprised if this is confusing. Even if you can grasp all of this, it is worth considering that others may not. Consider avoiding such strategies and doing things in a more straightforward way.
 
