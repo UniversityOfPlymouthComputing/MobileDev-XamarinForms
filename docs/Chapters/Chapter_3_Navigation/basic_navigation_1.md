@@ -2,9 +2,12 @@
 
 ---
 # View Based Navigation
+All examples can be found within [this folder](/code/Chapter3/NavigationControllers/1-View_Based)
 
 ## Basic Navigation - 1
 Open the solution in the sub-folder BasicNavigation-1, build and run.
+
+> Note that these examples are somewhat contrived and stripped down to the minimum for educational and illustrative purposes. They certainly won't attract any design awards :)
 
 The basic navigation scheme is illustrated in the figure below:
 
@@ -16,21 +19,22 @@ The three views are made up of three simple subclasses of `ContentPage`:
 * `YearEditPage` (title: Year Edit)
 * `NameEditAbout` (title: Name Edit)
 
-> Each of these views is contained in another page of type `NavigationPage`. 
+> Each of these views is **contained** in another page of type `NavigationPage`. 
 
-The `NavigationPage` is assigned as the application's `MainPage` property.
-and is responsible for the following:
+The `NavigationPage` is assigned as the application's `MainPage` property and is responsible for the following:
 
-* Displaying the title bar
-* Displaying the currently visible page on the top of the stack in the content area below the title
 * Maintaining a 'stack' (last-in-first-out list) of pages
+* Displaying the title bar and back button
+* Displaying the currently visible page on the top of the stack in the content area below the title
 * Animating pages and title bars on and off the screen
 
 If we have navigated to the last of the three content pages, you might visualize this as follows:
 
 ![Basic Navigation](img/basic_navigation_stack.png)
 
-The title bar shows the title of each page and a back button. Pages are resized and drawn in the space below.
+> A *stack* is a well known data structure. If you are unfamiliar with the term, you might want to [read up on this](https://en.wikibooks.org/wiki/Data_Structures/Stacks_and_Queues).
+
+The title bar shows the title of the currently visible page and a back button (unless it's the first page). Pages are resized and drawn in the space below.
 
 Let's see how this is done
 
@@ -49,15 +53,17 @@ public App()
 The key points here are:
 
 * The application `MainPage` property is set to a new instance of `NavigationPage`
-* NavigationPage has been passed a reference to a new instance of the class `FirstPage` which is the root view
+   * It is helpful to remember that the `NavigationPage` is still a Page.
+
+* NavigationPage has been passed a reference to a new instance of the class `FirstPage` which is the root view (what will become the bottom item on the stack)
 
 The result of this is to display the following
 
 <img src="img/RootScreen.png" width="200">
 
-If you inspect the XAML, you will see this view is layed out using a grid as we saw in a an earlier section.
+If you inspect the XAML, you will see this view is laid out using a grid as we saw in a an earlier section.
 
-Notice that the title bar displays the title of the page, but there is no back button (because this page is at the bottom of the stack).
+Notice that the title bar displays the title of the page, but there is no back button (because this page is at the bottom of the stack). The title bar is part of the `NavigationPage`. The page on the top of the stack is resized to fit in the space below.
 
 Before we move to the next view, let's also take a look at `App.xaml`
 
@@ -82,7 +88,7 @@ Before we move to the next view, let's also take a look at `App.xaml`
 </Application>
 ```
 
-It's a bit of an aside, but note the resources contains a style for `Button`. It also contains some adjustments based on platform, a topic that will be covered later. For now, consider this style to be inherited throughout the application.
+It's a bit of an aside, but note the resources contains a style for `Button`. It also contains some adjustments based on platform, a topic that will be covered later. For now, consider this style to be inherited throughout the application. It will help us keep the rest of the application less cluttered.
 
 Moving on, let's look at the `FirstPage` class, which is the first visible page in the app.
 
@@ -108,9 +114,9 @@ So where does `NavigationPage` pick up the title? Take a look at the `ContentPag
              ...
 ```
 
-Note that `ContentPage` has a property `Title` set in the XAML. You can also set it in the code-behind as well of course. The `NavigationPage` uses this property to display the title.
+Note that `ContentPage` element has an attribute `Title` set in the XAML. You can also set it in the code-behind as well of course. The `NavigationPage` uses this property to display the title.
 
-> It is important to remember to include the title property when using `NavigationPage`. Failure to do so will result in a blank title bar.
+> It is a good habit to include the title property with all pages. Failure to do so will result in a blank title when using `NavigationPage`.
 
 ### Navigating to the Next Page
 Next we turn our attention to the button which can be seen in the XAML below:
@@ -162,16 +168,16 @@ public partial class FirstPage : ContentPage
 }
 ```
 
-In this example, it is the event handler that controls the navigation process resulting in the next page to appear. The code in the event handler is actually very simple, but a few things probably need highlighting here:
+In this example, it is the button event handler that controls the navigation process, resulting in the next page to be animated over the current page. The code in the event handler is actually very simple, but a few things probably need highlighting here:
 
 * A property inherited in every `ContentPage` is `Navigation`. In effect this is a proxy for navigation in general. 
    * As we will see, this can also used for modal presentation.
 
 * The next page we navigate to is first instantiated then pushed onto the navigation stack using `Navigation.PushAsync`. 
    * The next view is animated onto the screen.
-   * As the name suggests, this is asynchronous so you need to `await` this method. This makes the event handler asynchronous.
+   * As the name suggests, this is asynchronous so you need to `await` this method. This also makes the event handler asynchronous.
 
-* The navigation is performed from within the event handler, which is part of the code behind. The code-behind is considered a view class.
+* The navigation is performed from within the event handler, which is part of the code behind. The code-behind is considered a view object.
 
 So far there are no ViewModel or Model classes. We will come to this later.
 
@@ -180,9 +186,20 @@ The second page in the hierarchy is the `YearEditPage` shown here:
 
 <img src="img/second_navigation_page.png" width="200">
 
-Take some time to study the XAML and code-behind. I will not go through this as there is nothing particularly new.
+Take some time to study the XAML and code-behind. Take note of the comments in the XAML, especially the slider. You must set the `Maximum` before the `Minimum` to avoid an exception (this had be going for over an hour!)
 
-Instead, let's look at some of the code behind:
+```XML
+<Slider 
+        x:Name="YearSlider"
+        Maximum="2100"
+        Minimum="1900"
+        Value="1970"
+        MinimumTrackColor="Blue"
+        MaximumTrackColor="Red"
+/>
+```
+
+There is not much else that is different about this XAML, so turing our attention to the code behind:
 
 First the constructor where we connect up the event handlers.
 
@@ -210,7 +227,7 @@ NavigationPage.SetBackButtonTitle(this, "Cancel");
 
 > You may have guessed this (or you already knew), but the back button title is always set by the _previous page_.
 >
->Navigate to the last page and you will see the button label being overridden.
+>Navigate to the last page and you will see the button label being overridden to "Cancel".
 
 By default, the back button label is the title of the previous page, so it is role of the previous page to provide this information.
 
@@ -248,7 +265,6 @@ The documentation warns us about these methods however.
 >
 > [Microsoft Documentation](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/navigation/hierarchical)
 
-
 Examining the event handler for the edit button, we see the same navigation scheme
 
 ```C#
@@ -258,6 +274,8 @@ private async void EditButton_Clicked(object sender, EventArgs e)
     await Navigation.PushAsync(nextPage, true);
 }
 ```
+
+In terms of the slider events, we will deal with those later. For now, we focus on the navigation aspects.
 
 ## The NameEditPage Page
 Tapping the edit button navigates to the `NameEditPage` page, the third and final page in the hierarchy.
@@ -295,6 +313,8 @@ Unlike the back button, we programmatically navigate back. There are two methods
 * `Navigation.PopAsync()` navigates back to the previous page (same as the default back button)
 * `Navigation.PopToRootAsync()` navigates back to the root view.
 
+The advantage of this approach is that unlike the back button, we can intercept the event.
+
 ## Summary
 That covers the basics of hierarchial navigation in Xamarin.Forms. As I hope is made clear, the mechanism is fairly simple. 
 
@@ -311,8 +331,8 @@ For example, we might aim to achieve something similar to that depicted in the f
 
 For demonstration purposes, we are going to build on this application and adopt the scheme shown above.
 
-* Editing the year should be immediate (destructive editing)
-* When Editing the name, we want the option to undo any changes
+* Editing the year will be immediate (destructive editing)
+* When Editing the name, we will allow the user to undo/cancel any changes
 
 There is an important detail with hierarchial navigation you need to keep in mind:
 

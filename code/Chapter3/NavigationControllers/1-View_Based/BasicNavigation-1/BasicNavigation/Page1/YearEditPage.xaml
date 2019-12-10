@@ -24,7 +24,6 @@
                    Text="{Binding Value, StringFormat='The year is {0:F0}'}" />
 
             <!-- You must set the maximum first or avoid an exception -->
-            <!-- This also does binding, but the BindingContext is set in code -->
             <Slider 
                     x:Name="YearSlider"
                     Maximum="2100"
