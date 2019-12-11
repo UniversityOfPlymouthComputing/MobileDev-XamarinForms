@@ -119,7 +119,46 @@ private async void EditButton_Clicked(object sender, EventArgs e)
 This again sets the `BindingContext` of the next view to be the same as it's own (the previous view `FirstPage`).
 
 ### `NameEditPage` - binding to the `FirstPage`
+The `NameEditPage` is similar to the previous page, only that it only binds to the `Name` property in the XAML
 
+```XML
+<Entry Placeholder="Name Cannot be Blank"
+        x:Name="NameEntry"
+        VerticalOptions="StartAndExpand"
+        HorizontalTextAlignment="Center"
+        ClearButtonVisibility="WhileEditing"
+        Text="{Binding Name}" />
+
+<!-- For View to View binding, use x:Reference to reference another view object -->
+<Label BindingContext="{x:Reference NameEntry}"
+        Text="{Binding Text}"
+        VerticalOptions="StartAndExpand"
+        HorizontalTextAlignment="Center" />
+```
+
+Similarly the code-behind has no properties of it's own. It simply contains the code the save button event handler
+
+```C#
+public NameEditPage()
+{
+    InitializeComponent();
+    SaveButton.Clicked += SaveButton_Clicked;
+}
+
+// ************************** Event Handlers ***************************
+private async void SaveButton_Clicked(object sender, EventArgs e)
+{
+    Console.WriteLine("Save Clicked");
+    await Navigation.PopToRootAsync();
+}
+```
+
+There are some observations about this approach:
+
+* The edits in one page are bound to the data in another. This loses the idea of a page being self-contained / stand-alone
+* Changes to the UI elements have an immediate effect on the original model data, with no opportunity to cancel changes once an edit is made. 
+
+To address the above is going to require some additional work. The next couple sections go some way to resolving these, but as we shall see, an MVVM pattern may be preferred.
 
 --- 
 

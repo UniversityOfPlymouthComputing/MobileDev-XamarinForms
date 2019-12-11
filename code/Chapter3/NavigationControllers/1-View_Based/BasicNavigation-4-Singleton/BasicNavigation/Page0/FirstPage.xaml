@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:BasicNavigation"
              BindingContext="{x:Static local:SingletonModel.SharedInstance}"
              mc:Ignorable="d"
-             x:Name="ThisPage"
              Title="First Page"
              x:Class="BasicNavigation.FirstPage">
         <!-- Note some key edits above: -->
@@ -44,10 +43,9 @@
                    />
             <!-- The following label is bound to a property in the singleton model object -->
             <Label 
-                   Text="{Binding Year, StringFormat='(c) {0:F0}'}"
-                   x:Name="YearLabel"
-                   Grid.Row="1" Grid.Column="0"
-                   />
+                    Text="{Binding Year, StringFormat='(c) {0:F0}'}"
+                    Grid.Row="1" Grid.Column="0"
+                    />
             <!-- Again, binding to properties in the singleton model -->
             <Label 
                    Text="{Binding Name}"

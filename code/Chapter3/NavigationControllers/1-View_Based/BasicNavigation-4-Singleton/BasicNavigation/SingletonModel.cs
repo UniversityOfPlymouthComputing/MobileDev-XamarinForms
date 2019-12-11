@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace BasicNavigation
 {
-    public class SingletonModel : INotifyPropertyChanged
+    public sealed class SingletonModel : INotifyPropertyChanged
     {
         private static SingletonModel _model;
         private string _name = "Anon";
@@ -43,7 +43,7 @@ namespace BasicNavigation
             }
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
