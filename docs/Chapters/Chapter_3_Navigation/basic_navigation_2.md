@@ -4,9 +4,7 @@
 
 ## Basic Navigation 2 - Passing Data Forward
 
-Open the solution in the folder 
-
-[BasicNavigation-2-Passing_Data_Forward](/code/Chapter3/NavigationControllers/1-View_Based/BasicNavigation-2-Passing_Data_Forward)
+Open the solution in the folder [BasicNavigation-2-Passing_Data_Forward](/code/Chapter3/NavigationControllers/1-View_Based/BasicNavigation-2-Passing_Data_Forward)
 
 Run the code. You will notice that not much as changed in terms of it's visual behavior. Behind the scenes there are some changes which we will look at now.
 
@@ -49,18 +47,21 @@ private async void EditButton_Clicked(object sender, EventArgs e)
 }
 ```
 
-Note how the `Year` and `Name` properties are passed by parameter to the next page in the navigation hierarchy via the constructor.
+Note how the `Year` and `Name` properties are passed as parameters to the next page in the navigation hierarchy via the constructor.
 
 > Only having constructors with parameters prevents the developer from forgetting to provide key information.
 
 When doing this, we need to answer the following question:
 
 > Are we passing a copy of the data, or a reference?
+> If by reference, it is a mutable type?
+
+In this case, the integer is a value type and the string is an immutable reference type. This is fine for passing data forward, but does not solve the problem of getting any changes back. 
 
 To explain the significance of this, let's look at the next page, the `YearEditPage`
 
 ### YearEditPage
-Once again, this page have it's own properties for `Year` and `Name`. 
+Once again, this page have it's own properties for `Year` and `Name`.
 
 In the constructor, these are assigned to the valued passed from the previous page:
 
@@ -80,31 +81,11 @@ public YearEditPage(string name = "Anon", int year = 1970)
 #### Value Types vs Reference Types
 In the case of `Year`, this is an integer, so is a **value type**. 
 
-> When you assign one value type to another, you make an independent **copy**.
+> As we saw in a previous section, When you assign one value type to another, you make an independent **copy**.
 
 The property `Year` in `YearEditPage` is entirely independent of the `Year` property in `FirstPage`. Put another way, any edits to `Year` won't propagate back to the previous view.
 
-In the case of `Name`, you might think this is different. The `string` in C# is equivalent to `System.String` [(see the Microsoft Docs)](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/strings/)
-
-Therefore, `string` is a class and any instance a **reference type**. 
-
-> Ordinarily, when you assign one reference to another, then each reference the exact same data.
-
-However, `string` is written to be _immutable_ (you cannot change it once created). So for example:
-
-```C#
-string s1 = "123";
-string s2 = s1;
-s1 += s2;
-```
-
-* When string `s2` is assigned to `s1`, both are indistinguishable. 
-
-* When the string `s1` is modified, in this case by `s1 += s2`, a **new** string (of the right capacity) is created. `s1` now references a new string that is different to `s2` 
-
-* When this runs, `s2` will still be equal to "123".
-
-> In other words, `string` is written to have value type semantics.
+In the case of `Name`, type `string` is a class and any instance a **reference type**. However, `string` is written to be _immutable_ (you cannot change it once created). 
 
 In the constructor we see the following:
 
@@ -112,24 +93,24 @@ In the constructor we see the following:
 Name = name;
 ```
 
-Although `Name` is a reference type, any change to `Name` will not affect the original `name`.
+At this point, `Name` is a reference to the original string. Although `Name` is a reference type, any change to `Name` will result in a reference to a new object, leaving the original unchanged.
 
-> Had you used your own classes and passed an instance as a parameter, unless you do some additional work, the reference would allow you to modify the original copy.
+For both parameters, the data flow is forward only. In some instances, this might be all you require. 
 
-You simply need to decide which behavior you wish to implement.
+If you do wish to propagate changes back to the previous page, then you need a different strategy. A couple simple options might be:
+
+* Pass both parameters by reference (types `ref int` and `ref string`)
+* Encapsulate your data in a (mutable) model class and pass the instance as a parameter.
+* Which ever method you use, you will still need to find a scheme to update the views when they are re-exposed - later we will use binding to perform this for us.
 
 ### NameEditPage
 The situation is similar in this class, only this time only a string property of `Name` is held (it does not need a `Year`)
 
-Once again, any edits to the `Name` property is not reflected in the previous page for the reasons given above.
+Once again, any edits to the `Name` property are not reflected in the previous page for the reasons given above.
 
-> What if we use the mutable string `StringBuilder` instead? 
->
-> This is quite an interesting exercise to try and it can be made to work. 
->
-> _Hint:_ your views will not update when you navigate back. Consider binding your properties to the view.
+> **Exercise** - Using a method of your choice, can you get the edits in each page to update the data in the previous page(s). Consider overriding `OnAppearing()` and `OnDisappearing()` to update the views.
 
-In the next section, we will look at alternatives that use binding to manage a single copy of the data. These are not perfect by any means, but can be made to work in some instances.
+In the next section, we will look at alternatives that use binding to manage a single copy of the data. This technique is not perfect by any means, but can be made to work in some instances.
 
 --- 
 
