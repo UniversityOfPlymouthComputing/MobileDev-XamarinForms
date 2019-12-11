@@ -284,7 +284,14 @@ Tapping the edit button navigates to the `NameEditPage` page, the third and fina
 
 Note the back-button title. It is not the title of the previous page as it was previously set to "Cancel".
 
-Note also an additional "Save" button in the navigation bar.
+Note also an additional "Save" button in the navigation bar. In the XAML, this is added as follows:
+
+```XML
+<ContentPage.ToolbarItems> 
+    <ToolbarItem Text="SAVE"
+                 x:Name="SaveButton" />
+</ContentPage.ToolbarItems>
+```
 
 > The idea here will be to adopt non-destructive editing (see later example) where cancel will undo any changes to the name, whereas the save button will commit any changes.
 
