@@ -1,9 +1,9 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicNavigation-6.Android", "BasicNavigation.Android\BasicNavigation-6.Android.csproj", "{42079609-6E97-4200-AA92-924637411404}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmNavigation-1.Android", "BasicNavigation.Android\MvvmNavigation-1.Android.csproj", "{42079609-6E97-4200-AA92-924637411404}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicNavigation-6.iOS", "BasicNavigation.iOS\BasicNavigation-6.iOS.csproj", "{011EB9BD-090D-49AD-8D25-051FF9A5EB91}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmNavigation-1.iOS", "BasicNavigation.iOS\MvvmNavigation-1.iOS.csproj", "{011EB9BD-090D-49AD-8D25-051FF9A5EB91}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicNavigation", "BasicNavigation\BasicNavigation.csproj", "{CB663ABE-78E5-40BF-B738-6ABCF0F83C9B}"
 EndProject

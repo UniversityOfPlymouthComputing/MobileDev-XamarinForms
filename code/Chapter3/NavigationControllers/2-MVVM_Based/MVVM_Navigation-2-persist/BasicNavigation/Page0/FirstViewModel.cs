@@ -50,7 +50,7 @@ namespace BasicNavigation
         {
             //Instantiate the model
             string mainDir = FileSystem.AppDataDirectory;
-            string path = mainDir + "userdetails.txt";
+            string path = System.IO.Path.Combine(mainDir, "userdetails.txt");
 
             Model = PersonDetailsModel.Load(path);
             if (Model == null)

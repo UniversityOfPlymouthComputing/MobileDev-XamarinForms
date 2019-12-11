@@ -84,10 +84,10 @@ namespace BasicNavigation
             }
         }
 
-        public void Save(string FileName)
+        public void Save(string fn)
         {
-            this.Filename = FileName;
-            using (var writer = new System.IO.StreamWriter(FileName))
+            this.Filename = fn;
+            using (var writer = new System.IO.StreamWriter(fn))
             {
                 var serializer = new XmlSerializer(this.GetType());
                 serializer.Serialize(writer, this);

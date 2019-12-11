@@ -40,7 +40,7 @@ When an application is broken into a hierarchy of pages, there are some _archite
     * It needs to be decided whether edits are immediate or reversible
 * As a user navigates back up the hierarchy, edited or new information may need to be passed back up the chain and _before_ the view is destroyed.
    * The default 'back button' typically cannot be intercepted (let's get that one in early!)
-   * We need to decide early if any changes are saved or discarded
+   * We need to decide if any changes are saved or discarded
    * Additional interface elements may be needed to 'save / commit / undo' changes.
 * We will also try and keep to the MVVM pattern. 
    * Strictly, it should be the ViewModel that contains the navigation logic and it should be unit-testable.
