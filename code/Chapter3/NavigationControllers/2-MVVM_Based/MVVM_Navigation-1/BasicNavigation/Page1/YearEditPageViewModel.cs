@@ -1,13 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace BasicNavigation
 {
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class YearEditPageViewModel : INotifyPropertyChanged
     {
         //Model
         private PersonDetailsModel model;
@@ -21,7 +20,7 @@ namespace BasicNavigation
                     model = value;
                     OnPropertyChanged();
                 }
-                
+
             }
         }
 
@@ -32,11 +31,20 @@ namespace BasicNavigation
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand ButtonCommand { get; set; }
 
-
-        //Bound Data Properties Exposed to the View (read only in this case)
-        public string Name => Model.Name;
-        public int BirthYear => Model.BirthYear;
-
+        //Bound Data Properties Exposed to the View
+        public string Name => Model.Name;   //Read Only
+        public int BirthYear                //Read / Write
+        {
+            get => Model.BirthYear;
+            set
+            {
+                if (value != Model.BirthYear)
+                {
+                    Model.BirthYear = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         //Create events when properties change
         protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
@@ -45,16 +53,16 @@ namespace BasicNavigation
         }
 
         //Main constructor
-        public MainPageViewModel()
+        public YearEditPageViewModel(PersonDetailsModel model = null)
         {
             //Instantiate the model
-            Model = new PersonDetailsModel("NickO");
+            Model = model ?? new PersonDetailsModel("NickO");
 
             //Subscribe to changes in the model
             model.PropertyChanged += OnModelPropertyChanged;
 
             //The command property - bound to a button in the view
-            ButtonCommand = new Command(execute: NavigateToAboutPage);
+            ButtonCommand = new Command(execute: NavigateToAboutAboutPage);
         }
 
         //Watch for events on the model object
@@ -72,22 +80,21 @@ namespace BasicNavigation
         }
 
         // Navigate to the About page - providing both View and ViewModel pair
-        void NavigateToAboutPage()
+        void NavigateToAboutAboutPage()
         {
+            MessagingCenter.Subscribe<NameEditPageViewModel, string>(this, "NameUpdate", (sender, arg) =>
+            {
+                Model.Name = arg;
+            });
             //This has a concrete reference to a view inside a VM - is this good/bad/indifferent?
 
             // Create viewmodel and pass datamodel as a parameter
             // NOTE that Model is a reference type
-            AboutPageViewModel avm = new AboutPageViewModel(Model); //VM knows about its model (reference)
+            NameEditPageViewModel aavm = new NameEditPageViewModel(Model.Name); //VM knows about its model (reference)
 
             // Instantiate the view, and provide the viewmodel
-            YearEditPage about = new YearEditPage(avm); //View knows about it's VM
-            Navigation.PushAsync(about);
+            NameEditPage aabout = new NameEditPage(aavm); //View knows about it's VM
+            Navigation.PushAsync(aabout);
         }
-
-        // WHAT IS NOT DONE or SHOWN
-        // Consider dependency injection to perform VM-first navigation
-        // This is complex but does all the wiring / instantiation for you.
-        // Suggest a 3rd party MVVM framework e.g. Prism to name just one
     }
 }

@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace BasicNavigation
 {
-    public class AboutAboutViewModel : INotifyPropertyChanged
+    public class NameEditPageViewModel : INotifyPropertyChanged
     {
         //There is no separate model class as this ViewModel only edits a single string
         private string name;
@@ -38,7 +38,7 @@ namespace BasicNavigation
         }
 
         //Constructor - note that a reference to the model is NOT provided in this case
-        public AboutAboutViewModel(string name)
+        public NameEditPageViewModel(string name)
         {
             //Note that string is immutable and although a reference type, will be replaced if the user edits
             //without impacting on the original. Use a string builder for mutable strings
@@ -53,7 +53,7 @@ namespace BasicNavigation
         protected void SaveAndNavigateBack()
         {
             //TODO: Send result back - but how? :)
-            MessagingCenter.Send<AboutAboutViewModel, string>(this, "NameUpdate" ,Name);
+            MessagingCenter.Send<NameEditPageViewModel, string>(this, "NameUpdate" ,Name);
             Navigation.PopAsync();
         }
 

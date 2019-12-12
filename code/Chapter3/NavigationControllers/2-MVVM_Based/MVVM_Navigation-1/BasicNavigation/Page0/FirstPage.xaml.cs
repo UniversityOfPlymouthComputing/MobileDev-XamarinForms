@@ -13,10 +13,10 @@ namespace BasicNavigation
     [DesignTimeVisible(false)]
     public partial class FirstPage : ContentPage
     {
-        public FirstPage(MainPageViewModel vm = null)
+        public FirstPage(FirstPageViewModel vm = null)
         {
             InitializeComponent();
-            BindingContext = vm ?? new MainPageViewModel();
+            BindingContext = vm ?? new FirstPageViewModel();
             NavigationPage.SetBackButtonTitle(this, "Back");
         }
     }
