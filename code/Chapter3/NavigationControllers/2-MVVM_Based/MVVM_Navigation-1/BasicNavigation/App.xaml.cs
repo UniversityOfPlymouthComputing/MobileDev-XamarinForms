@@ -9,9 +9,8 @@ namespace BasicNavigation
         public App()
         {
             InitializeComponent();
-
+            
             FirstPage firstPage = new FirstPage();
-
             MainPage = new NavigationPage(firstPage);
         }
 

@@ -37,6 +37,20 @@ If you inspect the code, a few things may be apparent:
 
 The last point may sound negative, but it also flags that each view model shares a common pattern, and that this can be factored out (as we see MVVM_Navigation-3)
 
+### The `App` Class
+This is our entry point, and once again, we see the standard way to instantiate hierarchial navigation:
+
+```C#
+...
+FirstPage firstPage = new FirstPage();
+MainPage = new NavigationPage(firstPage);
+...
+```
+
+
+
+---
+
 
 
 
