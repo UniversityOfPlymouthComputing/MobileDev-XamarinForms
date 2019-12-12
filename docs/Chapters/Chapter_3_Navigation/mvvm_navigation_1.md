@@ -38,14 +38,28 @@ If you inspect the code, a few things may be apparent:
 The last point may sound negative, but it also flags that each view model shares a common pattern, and that this can be factored out (as we see MVVM_Navigation-3)
 
 ### The `App` Class
-This is our entry point, and once again, we see the standard way to instantiate hierarchial navigation:
+This is our entry point, in which several steps have been added:
 
 ```C#
-...
-FirstPage firstPage = new FirstPage();
-MainPage = new NavigationPage(firstPage);
-...
+   ...
+   //Instantiate the data model
+   PersonDetailsModel m = new PersonDetailsModel("Anon");
+
+   //Instantiate the viewmodel, and pass it a reference to the model
+   FirstPageViewModel vm = new FirstPageViewModel(m);
+
+   //Instantiatge the view, and pass it a reference to the viewmodel
+   FirstPage firstPage = new FirstPage(vm);
+
+   //Navigate in the first page
+   MainPage = new NavigationPage(firstPage);
 ```
+
+Here a few principles have been maintained:
+
+* The View knows has a typed reference to the ViewModel. The ViewModel does not need knowledge of the View that binds to it's properties.
+* The ViewModel has a typed reference to the Model
+
 
 
 
