@@ -48,7 +48,7 @@ namespace BasicNavigation
         public FirstPageViewModel(PersonDetailsModel m = null)
         {
             //Instantiate the model if one is not passed by parameter
-            Model = m ?? new PersonDetailsModel("NickO");
+            Model = m ?? new PersonDetailsModel("Anonymous");
 
             //Subscribe to changes in the model
             model.PropertyChanged += OnModelPropertyChanged;

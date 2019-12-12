@@ -9,8 +9,17 @@ namespace BasicNavigation
         public App()
         {
             InitializeComponent();
-            
-            FirstPage firstPage = new FirstPage();
+
+            //Instantiate the data model
+            PersonDetailsModel m = new PersonDetailsModel("Anon");
+
+            //Instantiate the viewmodel, and pass it a reference to the model
+            FirstPageViewModel vm = new FirstPageViewModel(m);
+
+            //Instantiatge the view, and pass it a reference to the viewmodel
+            FirstPage firstPage = new FirstPage(vm);
+
+            //Navigate in the first page
             MainPage = new NavigationPage(firstPage);
         }
 
