@@ -6,7 +6,7 @@ namespace BasicNavigation
 {
     public partial class YearEditPage : ContentPage
     {
-        public YearEditPage(AboutPageViewModel vm = null)
+        public YearEditPage(YearEditPageViewModel vm = null)
         {
             InitializeComponent();
 
@@ -14,7 +14,7 @@ namespace BasicNavigation
             NavigationPage.SetBackButtonTitle(this, "Cancel");
             
             //Bind to the view model
-            BindingContext = vm ?? new AboutPageViewModel();
+            BindingContext = vm ?? new YearEditPageViewModel();
         }
 
     }

@@ -2,7 +2,6 @@
 
 namespace BasicNavigation
 {
-
     public class PersonDetailsModel : BindableModelBase
     {
         
@@ -37,10 +36,10 @@ namespace BasicNavigation
         //Default constructor
         public PersonDetailsModel()
         {
-            Name = "NickO";
+            Name = "Anon";
             BirthYear = 1970;
         }
-        public PersonDetailsModel(string n = "NickO", int y = 1970)
+        public PersonDetailsModel(string n = "Anon", int y = 1970)
         {
             Name = n;
             BirthYear = y;

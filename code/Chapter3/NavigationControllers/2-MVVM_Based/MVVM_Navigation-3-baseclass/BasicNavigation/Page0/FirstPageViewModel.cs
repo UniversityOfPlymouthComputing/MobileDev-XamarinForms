@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -8,66 +7,31 @@ using Xamarin.Essentials;
 
 namespace BasicNavigation
 {
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class FirstPageViewModel : ViewModelBase<PersonDetailsModel>
     {
-        //Model
-        private PersonDetailsModel model;
-        public PersonDetailsModel Model
-        {
-            get => model;
-            set
-            {
-                if (model != value)
-                {
-                    model = value;
-                    OnPropertyChanged();
-                }
-                
-            }
-        }
-
-        //Useful property to reference the navigation page
-        protected INavigation Navigation => Application.Current.MainPage.Navigation;
 
         //Event handling
-        public event PropertyChangedEventHandler PropertyChanged;
         public ICommand ButtonCommand { get; set; }
-
 
         //Bound Data Properties Exposed to the View (read only in this case)
         public string Name => Model.Name;
         public int BirthYear => Model.BirthYear;
 
-
-        //Create events when properties change
-        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         //Main constructor
-        public MainPageViewModel()
+        public FirstPageViewModel(PersonDetailsModel model = null)
         {
             //Instantiate the model
-            string mainDir = FileSystem.AppDataDirectory;
-            string path = System.IO.Path.Combine(mainDir, "userdetails.txt");
-
-            Model = PersonDetailsModel.Load(path);
-            if (Model == null)
-            {
-                Model = new PersonDetailsModel("NickO");
-                Model.Save(path);
-            }
+            Model = model ?? new PersonDetailsModel("Anon");
 
             //Subscribe to changes in the model
-            model.PropertyChanged += OnModelPropertyChanged;
+            //Model.PropertyChanged += OnModelPropertyChanged;
 
             //The command property - bound to a button in the view
             ButtonCommand = new Command(execute: NavigateToAboutPage);
         }
 
         //Watch for events on the model object
-        protected void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             //Flag changes to the view-viewmodel binding layer -  very simple pass-through in this example
             if (e.PropertyName.Equals(nameof(Model.BirthYear)))
@@ -87,7 +51,7 @@ namespace BasicNavigation
 
             // Create viewmodel and pass datamodel as a parameter
             // NOTE that Model is a reference type
-            AboutPageViewModel avm = new AboutPageViewModel(Model); //VM knows about its model (reference)
+            YearEditPageViewModel avm = new YearEditPageViewModel(Model); //VM knows about its model (reference)
 
             // Instantiate the view, and provide the viewmodel
             YearEditPage about = new YearEditPage(avm); //View knows about it's VM

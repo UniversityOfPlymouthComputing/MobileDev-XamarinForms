@@ -6,29 +6,9 @@ using Xamarin.Forms;
 
 namespace BasicNavigation
 {
-    public class AboutPageViewModel : INotifyPropertyChanged
+    public class YearEditPageViewModel : ViewModelBase<PersonDetailsModel>
     {
-        //Model
-        private PersonDetailsModel model;
-        public PersonDetailsModel Model
-        {
-            get => model;
-            set
-            {
-                if (model != value)
-                {
-                    model = value;
-                    OnPropertyChanged();
-                }
-
-            }
-        }
-
-        //Useful property to reference the navigation page
-        protected INavigation Navigation => Application.Current.MainPage.Navigation;
-
         //Event handling
-        public event PropertyChangedEventHandler PropertyChanged;
         public ICommand ButtonCommand { get; set; }
         public ICommand BirthYearSliderCommand { get; set; }
 
@@ -47,17 +27,11 @@ namespace BasicNavigation
             }
         }
 
-        //Create events when properties change
-        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         //Main constructor
-        public AboutPageViewModel(PersonDetailsModel model = null)
+        public YearEditPageViewModel(PersonDetailsModel model = null)
         {
             //Instantiate the model
-            Model = model ?? new PersonDetailsModel("NickO");
+            Model = model ?? new PersonDetailsModel("Anon");
 
             //Subscribe to changes in the model
             model.PropertyChanged += OnModelPropertyChanged;
@@ -70,7 +44,7 @@ namespace BasicNavigation
         }
 
         //Watch for events on the model object
-        protected void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             //Flag changes to the view-viewmodel binding layer -  very simple pass-through in this example
             if (e.PropertyName.Equals(nameof(Model.BirthYear)))
@@ -86,7 +60,7 @@ namespace BasicNavigation
         // Navigate to the About page - providing both View and ViewModel pair
         void NavigateToAboutAboutPage()
         {
-            MessagingCenter.Subscribe<AboutAboutViewModel, string>(this, "NameUpdate", (sender, arg) =>
+            MessagingCenter.Subscribe<NameEditPageViewModel, string>(this, "NameUpdate", (sender, arg) =>
             {
                 Model.Name = arg;
                 Model.Save();
@@ -96,7 +70,7 @@ namespace BasicNavigation
 
             // Create viewmodel and pass datamodel as a parameter
             // NOTE that Model is a reference type
-            AboutAboutViewModel aavm = new AboutAboutViewModel(Model.Name); //VM knows about its model (reference)
+            NameEditPageViewModel aavm = new NameEditPageViewModel(Model.Name); //VM knows about its model (reference)
 
             // Instantiate the view, and provide the viewmodel
             NameEditPage aabout = new NameEditPage(aavm); //View knows about it's VM
