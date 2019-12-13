@@ -39,7 +39,7 @@ namespace BasicNavigation
         }
 
         //Create events when properties change
-        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        protected void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

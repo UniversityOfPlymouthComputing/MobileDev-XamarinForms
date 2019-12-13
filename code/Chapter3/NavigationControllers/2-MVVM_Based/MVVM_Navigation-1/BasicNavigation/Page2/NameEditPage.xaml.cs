@@ -8,12 +8,12 @@ namespace BasicNavigation
     //INotifyPropertyChanged  is already implemented for a ContentPage
     public partial class NameEditPage : ContentPage
     {
-        public NameEditPage(NameEditPageViewModel vm)
+        public NameEditPage(NameEditPageViewModel vm = null)
         {
             InitializeComponent();
 
             //Bind to ViewModel
-            BindingContext = vm;
+            BindingContext = vm ?? new NameEditPageViewModel();
         }
     }
 }

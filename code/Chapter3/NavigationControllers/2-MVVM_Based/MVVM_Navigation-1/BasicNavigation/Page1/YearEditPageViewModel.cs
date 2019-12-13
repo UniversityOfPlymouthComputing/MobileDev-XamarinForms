@@ -57,13 +57,13 @@ namespace BasicNavigation
         public YearEditPageViewModel(PersonDetailsModel model = null)
         {
             //Instantiate the model
-            Model = model ?? new PersonDetailsModel("NickO");
+            Model = model ?? new PersonDetailsModel("Anon");
 
             //Subscribe to changes in the model
             model.PropertyChanged += OnModelPropertyChanged;
 
             //The command property - bound to a button in the view
-            ButtonCommand = new Command(execute: NavigateToAboutAboutPage);
+            ButtonCommand = new Command(execute: NavigateToNameEditPage);
         }
 
         //Watch for events on the model object
@@ -81,7 +81,7 @@ namespace BasicNavigation
         }
 
         // Navigate to the About page - providing both View and ViewModel pair
-        void NavigateToAboutAboutPage()
+        void NavigateToNameEditPage()
         {
             MessagingCenter.Subscribe<NameEditPageViewModel, string>(this, "NameUpdate", (sender, arg) =>
             {
@@ -90,12 +90,12 @@ namespace BasicNavigation
             //This has a concrete reference to a view inside a VM - is this good/bad/indifferent?
 
             // Create viewmodel and pass datamodel as a parameter
-            // NOTE that Model is a reference type
-            NameEditPageViewModel aavm = new NameEditPageViewModel(Model.Name); //VM knows about its model (reference)
+            // NOTE that Model.Name is an immutable reference type (string)
+            NameEditPageViewModel vm = new NameEditPageViewModel(Model.Name); //VM knows about its model (reference)
 
             // Instantiate the view, and provide the viewmodel
-            NameEditPage aabout = new NameEditPage(aavm); //View knows about it's VM
-            Navigation.PushAsync(aabout);
+            NameEditPage aabout = new NameEditPage(vm); //View knows about it's VM
+            _ = Navigation.PushAsync(aabout);
         }
     }
 }

@@ -71,7 +71,7 @@ namespace BasicNavigation
             }
         }
 
-        // Navigate to the About page - providing both View and ViewModel pair
+        // Navigate to the Year Edit page - providing both View and ViewModel pair
         void NavigateToYearEditPage()
         {
             //This has a concrete reference to a view inside a VM - is this good/bad/indifferent?
@@ -82,7 +82,7 @@ namespace BasicNavigation
 
             // Instantiate the view, and provide the viewmodel
             YearEditPage about = new YearEditPage(avm); //View knows about it's VM
-            Navigation.PushAsync(about);
+            _ = Navigation.PushAsync(about);
         }
 
         // WHAT IS NOT DONE or SHOWN

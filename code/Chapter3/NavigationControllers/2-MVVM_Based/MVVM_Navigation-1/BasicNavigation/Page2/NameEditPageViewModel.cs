@@ -38,11 +38,11 @@ namespace BasicNavigation
         }
 
         //Constructor - note that a reference to the model is NOT provided in this case
-        public NameEditPageViewModel(string name)
+        public NameEditPageViewModel(string name = null)
         {
             //Note that string is immutable and although a reference type, will be replaced if the user edits
             //without impacting on the original. Use a string builder for mutable strings
-            Name = name;
+            Name = name ?? "Anon";
 
             //The command property - bound to a button in the view
             ButtonCommand = new Command(execute: SaveAndNavigateBack, canExecute: () => {
