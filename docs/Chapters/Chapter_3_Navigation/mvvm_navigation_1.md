@@ -259,7 +259,7 @@ If we look at the properties that are bound to the view, we see one of the chang
 
 There is a two-way binding between the `BirthYear` property and the slider value in the view. 
 
-* When the slider is moved, this invokes the setter of `BirthYear` which in turn updates the model `Model.BirthYear = value;`. 
+* When the slider is moved, this invokes the setter of `BirthYear` which in turn updates the model immediately `Model.BirthYear = value;`. 
 
 * No special conversion was needed in this instance, but it would be possible had there been a mismatch between the model data type and the view.
 
@@ -277,15 +277,79 @@ Another difference is in the command handler for the edit button `NavigateToName
       NameEditPageViewModel vm = new NameEditPageViewModel(Model.Name); //VM knows about its model (reference)
 
       // Instantiate the view, and provide the viewmodel
-      NameEditPage aabout = new NameEditPage(vm); //View knows about it's VM
-      _ = Navigation.PushAsync(aabout);
+      NameEditPage nextPage = new NameEditPage(vm); //View knows about it's VM
+      _ = Navigation.PushAsync(nextPage);
    }
 ```        
 
 Before we look at the specifics, it's good to remind ourselves of what we're trying to achieve.
 
-> The NameEdit view requires the option to cancel any edits. This is achieved by simply clicking the back button. An additional save button is added to commit any edits.
+> The NameEdit page requires the option to cancel any edits. This is achieved by simply clicking the back button. An additional save button is added to commit any edits.
 
+### Passing data forward and back
+In this example, the only data passed forwards is the data *needed* by the next page, which is a single string `Model.Name`.
+
+```C#
+NameEditPageViewModel vm = new NameEditPageViewModel(Model.Name);
+```
+
+Given the `NameEditPage` could be adapted for editing strings in other applications, this seems like a sensible policy.
+
+In the previous ViewModel, the data was passed by reference so it could be modified in-place. This is not the case here.
+
+> Remember from the section on value and reference types? Although `string` is a reference type, it is also _immutable_ so in effect, it behaves like a value type.
+
+So how do we receive updates?
+
+We could have passed by reference using the type `ref string` (a nice challenge for the reader!). For this exercise, another method will be demonstrated. Instead, we are going to obtain any edits on the data via `MessagingCenter` (which is included as part of Xamarin.Forms).
+
+> "The Xamarin.Forms MessagingCenter class implements the publish-subscribe pattern, allowing message-based communication between components that are inconvenient to link by object and type references. This mechanism allows publishers and subscribers to communicate without having a reference to each other, helping to reduce dependencies between them."
+>
+> [Microsoft Documentation - Messaging Center]((https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/messaging-center))
+
+In this code, we wish to _subscribe_ and listen for message "NameUpdate" from the `NameEditPageViewModel`. This message should tells us when the `Name` data has been saved by the user, and critically, what the new value is.
+
+Here is the code to _subscribe_
+
+```C#
+   MessagingCenter.Subscribe<NameEditPageViewModel, string>(this, "NameUpdate", (sender, arg) =>
+   {
+         Model.Name = arg;
+   });
+```      
+
+In this example, 
+
+* `this` object (type `YearEditPageViewModel`) is subscribed to any messages with signature "NameUpdate".
+* The message must originate from a `sender` of type `NameEditPageViewModel` (I could have used `object` for any type)
+* The accompanying data (arg) passed back is of type `string`
+* A simple closure has been passed as the last parameter to act as an event handler. Note that the Model is updated  with the new data.
+
+The corresponding publish will be seen in the next page.
+
+## The `NameEditPage`
+Once again, the XAML is mostly unchanged. The `Entry` element is bound to the `Name` property in the ViewModel
+
+```XML
+   <Entry Placeholder="Name Cannot be Blank"
+            x:Name="NameEntry"
+            VerticalOptions="StartAndExpand"
+            HorizontalTextAlignment="Center"
+            ClearButtonVisibility="WhileEditing"
+            Text="{Binding Name, Mode=TwoWay}" />
+```
+
+The code-behind again simple hooks up the `BindingContext` property:
+
+```C#
+   public NameEditPage(NameEditPageViewModel vm = null)
+   {
+      InitializeComponent();
+
+      //Bind to ViewModel
+      BindingContext = vm ?? new NameEditPageViewModel();
+   }
+```        
 
 
 ---

@@ -94,8 +94,8 @@ namespace BasicNavigation
             NameEditPageViewModel vm = new NameEditPageViewModel(Model.Name); //VM knows about its model (reference)
 
             // Instantiate the view, and provide the viewmodel
-            NameEditPage aabout = new NameEditPage(vm); //View knows about it's VM
-            _ = Navigation.PushAsync(aabout);
+            NameEditPage nextPage = new NameEditPage(vm); //View knows about it's VM
+            _ = Navigation.PushAsync(nextPage);
         }
     }
 }
