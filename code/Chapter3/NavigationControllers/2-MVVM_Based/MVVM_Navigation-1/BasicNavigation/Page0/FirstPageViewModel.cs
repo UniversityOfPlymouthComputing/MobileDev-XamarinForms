@@ -36,7 +36,7 @@ namespace BasicNavigation
         //Bound Data Properties Exposed to the View (read only in this case)
         public string Name => Model.Name;
         public int BirthYear => Model.BirthYear;
-
+        public string BackButtonTitle => "Back";
 
         //Create events when properties change
         protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")

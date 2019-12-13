@@ -11,7 +11,7 @@ namespace BasicNavigation
             InitializeComponent();
 
             //This next page does non-destructive editing - back button title reflects this
-            NavigationPage.SetBackButtonTitle(this, "Cancel");
+            //NavigationPage.SetBackButtonTitle(this, "Cancel");
             
             //Bind to the view model
             BindingContext = vm ?? new YearEditPageViewModel();

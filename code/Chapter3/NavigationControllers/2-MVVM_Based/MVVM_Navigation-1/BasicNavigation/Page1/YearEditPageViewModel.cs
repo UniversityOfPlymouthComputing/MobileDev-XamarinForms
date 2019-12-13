@@ -45,6 +45,7 @@ namespace BasicNavigation
                 }
             }
         }
+        public string BackButtonTitle => "Cancel";
 
         //Create events when properties change
         protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")

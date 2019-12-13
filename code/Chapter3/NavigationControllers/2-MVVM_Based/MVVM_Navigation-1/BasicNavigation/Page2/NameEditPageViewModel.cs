@@ -52,7 +52,6 @@ namespace BasicNavigation
 
         protected void SaveAndNavigateBack()
         {
-            //TODO: Send result back - but how? :)
             MessagingCenter.Send<NameEditPageViewModel, string>(this, "NameUpdate" ,Name);
             Navigation.PopAsync();
         }

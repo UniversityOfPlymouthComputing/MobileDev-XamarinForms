@@ -55,10 +55,14 @@ This is our entry point, in which several steps have been added:
    MainPage = new NavigationPage(firstPage);
 ```
 
-Here a few principles have been maintained:
+A few observations:
 
-* The View knows has a typed reference to the ViewModel. The ViewModel does not need knowledge of the View that binds to it's properties.
-* The ViewModel has a typed reference to the Model
+* The View has a typed reference to the ViewModel. The ViewModel does not need knowledge of the View that binds to it's properties (a property of the binding mechanism).
+* The ViewModel similarly has a typed reference to the Model. The Model is standalone and does not depend on the ViewModel.
+
+In MVVM terms, changes in the Model will be captured in the ViewModel through the binding mechanism. The ViewModel can also directly update the Model.
+
+Changes in the ViewModel will be captured in the View through the binding mechansim
 
 
 
