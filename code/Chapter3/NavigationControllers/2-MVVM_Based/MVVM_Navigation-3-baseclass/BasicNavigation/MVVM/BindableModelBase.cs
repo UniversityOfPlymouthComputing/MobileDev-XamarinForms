@@ -51,7 +51,6 @@ namespace BasicNavigation
                 {
                     var serializer = new XmlSerializer(typeof(ModelType));
                     ModelType m = serializer.Deserialize(stream) as ModelType;
-                    m.Filename = fn;
                     return m;
                 }
             }

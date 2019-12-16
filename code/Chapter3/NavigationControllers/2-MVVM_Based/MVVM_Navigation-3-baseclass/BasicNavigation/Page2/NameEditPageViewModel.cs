@@ -8,7 +8,7 @@ namespace BasicNavigation
 {
     public class NameEditPageViewModel : ViewModelBase
     {
-        //There is no separate model class as this ViewModel only edits a single string
+        //There is no separate model class as this ViewModel as it only edits a single string
         private string name;
         public string Name
         {

@@ -150,4 +150,4 @@ This has only begun to look at persistence.
 
 ---
 
-[Next - Factoring Common Code into Parent Classes]()
+[Next - Factoring Common Code into Parent Classes](mvvm-baseclass.md)

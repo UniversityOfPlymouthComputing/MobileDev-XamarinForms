@@ -27,12 +27,12 @@ namespace BasicNavigation
             //Model.PropertyChanged += OnModelPropertyChanged;
 
             //The command property - bound to a button in the view
-            ButtonCommand = new Command(execute: NavigateToAboutPage);
+            ButtonCommand = new Command(execute: NavigateToYearEditPage);
         }
 
         //Watch for events on the model object
         protected override void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
+        { 
             //Flag changes to the view-viewmodel binding layer -  very simple pass-through in this example
             if (e.PropertyName.Equals(nameof(Model.BirthYear)))
             {
@@ -41,21 +41,21 @@ namespace BasicNavigation
             else if (e.PropertyName.Equals(nameof(Model.Name)))
             {
                 OnPropertyChanged(nameof(Name));
-            }
+            } 
         }
 
         // Navigate to the About page - providing both View and ViewModel pair
-        void NavigateToAboutPage()
+        void NavigateToYearEditPage()
         {
             //This has a concrete reference to a view inside a VM - is this good/bad/indifferent?
 
             // Create viewmodel and pass datamodel as a parameter
             // NOTE that Model is a reference type
-            YearEditPageViewModel avm = new YearEditPageViewModel(Model); //VM knows about its model (reference)
+            YearEditPageViewModel vm = new YearEditPageViewModel(Model); //VM knows about its model (reference)
 
             // Instantiate the view, and provide the viewmodel
-            YearEditPage about = new YearEditPage(avm); //View knows about it's VM
-            Navigation.PushAsync(about);
+            YearEditPage nextPage = new YearEditPage(vm); //View knows about it's VM
+            Navigation.PushAsync(nextPage);
         }
 
         // WHAT IS NOT DONE or SHOWN
