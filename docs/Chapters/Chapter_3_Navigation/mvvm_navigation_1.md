@@ -400,15 +400,18 @@ Any preceding ViewModel could implement this interface and pass a reference of i
 > **Challenge** - implement a call back to replace the MessageCenter
 
 ## Improvements
-This application is only a demonstration used to learn to navigate. It was purposely kept simple so we can focus on the issues being studied. 
+This application is only a demonstration used to better understand navigation in Xamarin.Forms. It was purposely kept simple so we can focus on the issues being studied. 
 
 There are a couple improvements we will look at as they're common
 
-* The data is forgotten. Something that you may have noticed is that  
-* Repetition and verbosity. Code is purposely verbose and repetitive 
+* **The data is forgotten**. Something you may have noticed is that each time you run the app, the edits are lost. It's not a real app, but equally, it's hardly authentic either.
+* **Repetition and verbosity**. The code is purposely verbose and repetitive on purpose. Factoring out common code into a parent class would make a lot of sense if this was a real project, but it's not. Keeping the code in one place and in the field of view (as much as possible) may help reduce short-term memory loading for new learners.
+
+In the next two sections, we will briefly look at these two issues.
 
 ---
 
+[Next - Persistance](simple-persistance.md)
 
 
 

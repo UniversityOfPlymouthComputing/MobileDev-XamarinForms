@@ -79,11 +79,11 @@ namespace BasicNavigation
 
             // Create viewmodel and pass datamodel as a parameter
             // NOTE that Model is a reference type
-            YearEditPageViewModel avm = new YearEditPageViewModel(Model); //VM knows about its model (reference)
+            YearEditPageViewModel vm = new YearEditPageViewModel(Model); //VM knows about its model (reference)
 
             // Instantiate the view, and provide the viewmodel
-            YearEditPage about = new YearEditPage(avm); //View knows about it's VM
-            Navigation.PushAsync(about);
+            YearEditPage nextPage = new YearEditPage(vm); //View knows about it's VM
+            Navigation.PushAsync(nextPage);
         }
 
         // WHAT IS NOT DONE or SHOWN

@@ -50,10 +50,10 @@ namespace BasicNavigation
         //Default constructor
         public PersonDetailsModel()
         {
-            Name = "NickO";
+            Name = "Anon";
             BirthYear = 1970;
         }
-        public PersonDetailsModel(string n = "NickO", int y = 1970)
+        public PersonDetailsModel(string n = "Anon", int y = 1970)
         {
             Name = n;
             BirthYear = y;
@@ -104,7 +104,6 @@ namespace BasicNavigation
                 {
                     var serializer = new XmlSerializer(typeof(PersonDetailsModel));
                     PersonDetailsModel m = serializer.Deserialize(stream) as PersonDetailsModel;
-                    m.Filename = fn;
                     return m;
                 }
             }

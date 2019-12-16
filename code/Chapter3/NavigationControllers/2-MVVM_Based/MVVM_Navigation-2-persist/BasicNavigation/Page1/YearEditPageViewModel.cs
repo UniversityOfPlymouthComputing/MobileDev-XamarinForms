@@ -96,11 +96,11 @@ namespace BasicNavigation
 
             // Create viewmodel and pass datamodel as a parameter
             // NOTE that Model is a reference type
-            NameEditPageViewModel aavm = new NameEditPageViewModel(Model.Name); //VM knows about its model (reference)
+            NameEditPageViewModel vm = new NameEditPageViewModel(Model.Name); //VM knows about its model (reference)
 
             // Instantiate the view, and provide the viewmodel
-            NameEditPage aabout = new NameEditPage(aavm); //View knows about it's VM
-            Navigation.PushAsync(aabout);
+            NameEditPage nextPage = new NameEditPage(vm); //View knows about it's VM
+            Navigation.PushAsync(nextPage);
         }
     }
 }
