@@ -320,12 +320,12 @@ Here is the code to _subscribe_
 
 In this example, 
 
-* `this` object (type `YearEditPageViewModel`) is subscribed to any messages with signature "NameUpdate".
+* `this` object is subscribed to any messages with signature "NameUpdate".
 * The message must originate from a `sender` of type `NameEditPageViewModel` (I could have used `object` for any type)
 * The accompanying data (arg) passed back is of type `string`
 * A simple closure has been passed as the last parameter to act as an event handler. Note that the Model is updated  with the new data.
 
-The corresponding publish will be seen in the next page.
+The corresponding publish API will be seen in the next page.
 
 ## The `NameEditPage`
 Once again, the XAML is mostly unchanged. The `Entry` element is bound to the `Name` property in the ViewModel
@@ -339,7 +339,7 @@ Once again, the XAML is mostly unchanged. The `Entry` element is bound to the `N
             Text="{Binding Name, Mode=TwoWay}" />
 ```
 
-The code-behind again simple hooks up the `BindingContext` property:
+The code-behind again simply hooks up the `BindingContext` property:
 
 ```C#
    public NameEditPage(NameEditPageViewModel vm = null)
@@ -351,6 +351,61 @@ The code-behind again simple hooks up the `BindingContext` property:
    }
 ```        
 
+Now take a closer look at the `NameEditPageViewModel` class. You will see this class has it's own `Name` property, set in the constructor.
+
+```C#
+   Name = name ?? "Anon";
+```
+
+If not parameter is passed, it defaults to "Anon" (handy for testing). What is new is how the edited result is passed back. This occurs in the command handler for the save button:
+
+```C#
+   protected void SaveAndNavigateBack()
+   {
+      MessagingCenter.Send<NameEditPageViewModel, string>(this, "NameUpdate" ,Name);
+      Navigation.PopAsync();
+   }
+```      
+
+Note the API for posting a message. It's somewhat like a "broadcast" to all listening.
+
+Breaking this down:
+
+* The message originates from an object of type `NameEditPageViewModel` and has a `string` payload.
+* The message "NameUpdate" is sent from `this` object
+* The data is equal to the property `this.Name`
+
+
+## Some reflection on MessageCenter
+
+Passing data around an application can become complex, often requiring some knowledge of data types at least in one direction.
+
+ In the example above, the publisher (sending the data) does not need to know anything about the subscribers (recipients). The subscriber does specify the type of the publisher via a template parameter. However,  it's possible to loosen it further and specify type `object` as a template parameter. This does mean you need to ensure the message name string must be unique, but it offers the possibility of even less coupling.
+
+## Another Approach
+
+Using `MessagingCenter` is not the only method of loose coupling of course. Using interfaces to create a call-back is another. 
+
+We could create the following interface to accompany the `NameEditPage` class.
+
+```C#
+   public interface INameEditPage
+   {
+      public void UpdateNameString(string n);
+   }
+```    
+
+Any preceding ViewModel could implement this interface and pass a reference of itself by parameter. This way, the save command call invoke the `UpdateNameString` method. This is known as a *call back*. On the iOS platform, this is also known as delegation. 
+
+> **Challenge** - implement a call back to replace the MessageCenter
+
+## Improvements
+This application is only a demonstration used to learn to navigate. It was purposely kept simple so we can focus on the issues being studied. 
+
+There are a couple improvements we will look at as they're common
+
+* The data is forgotten. Something that you may have noticed is that  
+* Repetition and verbosity. Code is purposely verbose and repetitive 
 
 ---
 
