@@ -22,7 +22,8 @@
                 <Switch IsToggled="{Binding GyroEnabled}"/>
             </StackLayout>
             <Label Text="{Binding GyroString}"/>
-            
+            <Button Text="Shake" Command="{Binding ShakeButtonCommand}"/>
+
         </StackLayout>
         
     </ContentPage.Content>

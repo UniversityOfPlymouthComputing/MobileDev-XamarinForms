@@ -17,9 +17,10 @@ By the end of this chapter you should be able to:
 1. [Navigation Controllers](NavControllers.md)
    1. [View Based](basic_navigation_1.md)
    1. [MVVM Based](mvvm_navigation_1.md)
-1. [Tabbed Pages - TO BE DONE](tabbed_pages.md)
-1. [Embedding Navigation into Tabs - TO BE DONE]()
-1. [Modal Sheets - TO BE DONE]()
+1. [Tabbed Pages](tabbed_pages.md)
+   1. [TabbedPage](tabbedpage.md)
+   1. [Hierarchial Navigation within Tabbed Pages - TO BE DONE](nav-tab.md)
+1. [Modal Sheets - TO BE DONE](modal-nav.md)
 1. [Alerts - TO BE DONE]()
 1. Self-Study Tasks
 1. References

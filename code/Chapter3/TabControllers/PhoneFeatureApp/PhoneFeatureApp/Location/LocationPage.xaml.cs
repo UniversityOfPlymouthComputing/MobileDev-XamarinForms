@@ -10,7 +10,7 @@ namespace PhoneFeatureApp.Location
         public LocationPage()
         {
             InitializeComponent();
-            BindingContext = new LocationViewModel();
+            BindingContext = new LocationPageViewModel();
             this.IconImageSource = "location.png";
         }
     }

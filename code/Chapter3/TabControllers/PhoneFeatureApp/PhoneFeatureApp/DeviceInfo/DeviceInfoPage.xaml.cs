@@ -10,8 +10,10 @@ namespace PhoneFeatureApp.DeviceInfo
         public DeviceInfoPage()
         {
             InitializeComponent();
-            BindingContext = new DeviceInfoViewModel();
-            this.IconImageSource = "device.png";
+            BindingContext = new DeviceInfoPageViewModel();
+
+            //For this example, IconImageSource is set in XAML
+            //this.IconImageSource = "device.png";
         }
     }
 }

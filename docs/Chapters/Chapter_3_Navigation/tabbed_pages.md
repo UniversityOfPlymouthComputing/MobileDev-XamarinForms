@@ -24,15 +24,14 @@ Ultimately, all three may be quite distinct views within the same application.
 
 One of the standard ways to structure such an application is to use a [TabbedPage](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/navigation/tabbed-page)
 
+> Scan through this documentation page, and familiarise yourself with the scope of content. We will not and cannot go into every detail.
+
 In this section, a simple application is presented. This application is also a nice excuse to demonstrate [Xamarin Essentials](https://docs.microsoft.com/xamarin/essentials/) which is now included and configured as standard in Xamarin.Forms
 
 > I strongly suggest you take some time to look at the documentation of Xamarin.Essentials. Some great work has been done to abstract some of the most useful device features.
 
-## PhoneFeatureApp
-If you've worked (ok laboured) through the section on Hierarchial Navigation, this is going to seem simple as most of the issue have been discussed
-
-Open the solution in the folder [/code/Chapter3/TabControllers/PhoneFeatureApp]. Build and run the application, preferably on a real device. If you use a simulator, the Android simulator has slightly better support for motion sensors (the extended controls are rather impressive).
+With this in mind, let's now look at an example of an application with Tabbed Pages.
 
 ----
 
-[Next]()
+[Next - Tabbed Pages](tabbedpage.md)

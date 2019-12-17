@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace PhoneFeatureApp.Motion
 {
-    public class MotionViewModel : ViewModelCommon
+    public class MotionPageViewModel : ViewModelCommon
     {
         // Metrics
         private DisplayInfo MainDisplayInfo { get; set; }
@@ -41,11 +41,12 @@ namespace PhoneFeatureApp.Motion
         private Random rnd = new Random();
 
         // ************************* Constructor **************************
-        public MotionViewModel()
+        public MotionPageViewModel()
         {
             // Subscribe to changes of screen metrics
             MainDisplayInfo = DeviceDisplay.MainDisplayInfo;
             DeviceDisplay.MainDisplayInfoChanged += OnMainDisplayInfoChanged;
+            ShakeButtonCommand = new Command(execute: () => DoShake());
         }
 
 
@@ -177,6 +178,8 @@ namespace PhoneFeatureApp.Motion
             }
         }
 
+        public ICommand ShakeButtonCommand { get; private set; }
+
         // **************************** EVENTS *****************************
         //Rotation event
         void OnMainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
@@ -205,11 +208,15 @@ namespace PhoneFeatureApp.Motion
                 data.AngularVelocity.X, data.AngularVelocity.Y, data.AngularVelocity.Z);
         }
         //Shake
+        private void DoShake()
+        {
+            BackgroundColor = Color.FromRgba(rnd.Next(0, 255), rnd.Next(0, 255), rnd.Next(0, 255), 64);
+            MessagingCenter.Send<ViewModelCommon, Color>(this, "BackgroundColorChange", BackgroundColor);
+        }
         private void Accelerometer_ShakeDetected(object sender, EventArgs e)
         {
             //cmd-m or ctrl-m to simulate a shake
-            BackgroundColor = Color.FromRgba(rnd.Next(0, 255), rnd.Next(0,255), rnd.Next(0, 255), 64);
-            MessagingCenter.Send<ViewModelCommon, Color>(this, "BackgroundColorChange", BackgroundColor);
+            DoShake();
         }
 
         // *****************************************************************

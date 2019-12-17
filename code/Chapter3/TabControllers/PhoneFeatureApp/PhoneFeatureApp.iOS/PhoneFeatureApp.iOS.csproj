@@ -110,10 +110,18 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\device_square.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\device_square.imageset\device_ios_tabimg.png" />
-    <ImageAsset Include="Assets.xcassets\device_square.imageset\device_ios_tabimg%402x.png" />
-    <ImageAsset Include="Assets.xcassets\device_square.imageset\device_ios_tabimg%403x.png" />
+    <ImageAsset Include="Assets.xcassets\device_square.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\device_square.imageset\device_ios_tabimg.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\device_square.imageset\device_ios_tabimg%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\device_square.imageset\device_ios_tabimg%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

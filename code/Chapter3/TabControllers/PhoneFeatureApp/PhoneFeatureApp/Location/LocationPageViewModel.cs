@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace PhoneFeatureApp.Location
 {
-    public class LocationViewModel : ViewModelCommon
+    public class LocationPageViewModel : ViewModelCommon
     {
 
         private string locationString;
@@ -61,7 +61,7 @@ namespace PhoneFeatureApp.Location
         }
 
         // ************************* Constructor **************************
-        public LocationViewModel()
+        public LocationPageViewModel()
         {
             //Update background colour when a shake is detected
             subscribeToBackgroundColChange();

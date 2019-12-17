@@ -14,6 +14,14 @@ namespace PhoneFeatureApp
             Children.Add(new DeviceInfoPage());
             Children.Add(new LocationPage());
             Children.Add(new MotionPage());
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                BarBackgroundColor = new Color(1.0, 1.0, 1.0);
+                BarTextColor = new Color(0.0, 0.0, 1.0);
+
+                //Try this instead of the above two lines
+                //Xamarin.Forms.PlatformConfiguration.AndroidSpecific.TabbedPage.SetToolbarPlacement(this, Xamarin.Forms.PlatformConfiguration.AndroidSpecific.ToolbarPlacement.Bottom);
+            }
         }
     }
 }

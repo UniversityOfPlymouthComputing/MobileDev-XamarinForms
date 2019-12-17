@@ -10,7 +10,7 @@ namespace PhoneFeatureApp.Motion
         public MotionPage()
         {
             InitializeComponent();
-            BindingContext = new MotionViewModel();
+            BindingContext = new MotionPageViewModel();
             this.IconImageSource = "motion.png";
         }
     }

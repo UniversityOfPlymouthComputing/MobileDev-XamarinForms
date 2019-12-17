@@ -5,7 +5,7 @@ using Xamarin.Essentials;
 
 namespace PhoneFeatureApp.DeviceInfo
 {
-    public class DeviceInfoViewModel : ViewModelCommon
+    public class DeviceInfoPageViewModel : ViewModelCommon
     {
         // Device Model
         private readonly string _device = Xamarin.Essentials.DeviceInfo.Model;
@@ -35,7 +35,7 @@ namespace PhoneFeatureApp.DeviceInfo
         private readonly DeviceType _deviceType = Xamarin.Essentials.DeviceInfo.DeviceType;
         public string DeviceType => _deviceType.ToString();
 
-        public DeviceInfoViewModel()
+        public DeviceInfoPageViewModel()
         {
             subscribeToBackgroundColChange();
         }
