@@ -9,6 +9,21 @@ It is quite common to combine Tabbed Pages and Navigation Pages.
 * The TabbedPage is typically the top level container, with children that are of type `ContentPage` and `NavigationPage`.
 
 
+For this exercise, I am going to walk you though the task. A final solution is also provided.
+
+### Step 1 - Copy the Project Files and Add Dependencies
+First make a copy of the "TabControllers" folder and rename the new folder to "Combined". 
+
+We are going to modify the solution in the Combined folder.
+
+* Right-Click the Solution and select "Manage NuGet Packages".
+* Click the Browse Tab
+* In the search box type "Xamarin.Forms.Maps" (without the quotes)
+* Select the "Xamarin.Forms.Maps" by Microsoft 
+* Click the install button (next to 'Version')
+
+
+
 ----
 
 [Next]()

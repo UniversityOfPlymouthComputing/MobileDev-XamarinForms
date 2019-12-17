@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="Maps"
+             x:Class="PhoneFeatureApp.Location.MapWebPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Find your location"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <WebView x:Name="webView" WidthRequest="1000" HeightRequest="1000" Source="https://bing.com/maps/default.aspx?cp=50.3762~-4.1395" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

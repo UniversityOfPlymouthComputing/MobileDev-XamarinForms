@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PhoneFeatureApp.Location.LocationPage"
+             BackgroundColor="{Binding BackgroundColor}"
+             Title="Location" >
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Location"/>
+            <Label Text="{Binding LocationString}"/>
+            <Button Text="Update Location"
+                    Command="{Binding ButtonCommand}"
+                    VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                    />
+            <Button Text="Show in Maps"
+                    Command="{Binding MapCommand}"
+                    VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                    />
+
+            <ActivityIndicator VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"
+                               IsRunning="{Binding IsBusy}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
