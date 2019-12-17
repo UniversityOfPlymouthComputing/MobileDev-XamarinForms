@@ -61,7 +61,7 @@ namespace PhoneFeatureApp.Location
         }
 
         // ************************* Constructor **************************
-        public LocationPageViewModel()
+        public LocationPageViewModel() : base(null)
         {
             //Update background colour when a shake is detected
             subscribeToBackgroundColChange();
@@ -108,12 +108,10 @@ namespace PhoneFeatureApp.Location
 
             //Command for launching a map application with the same location
             MapCommand = new Command(
-                execute: async () =>
+                execute: () =>
                 {
-                    //var options = new MapLaunchOptions { Name = "Current Location" };
-                    //await Map.OpenAsync(Loc, options);
-                    //await Navigation.PushAsync(new MapWebPage());
-                    await LocationPage.NavigationContainer.PushAsync(new MapWebPage());
+                    var options = new MapLaunchOptions { Name = "Current Location" };
+                    _ = Map.OpenAsync(Loc, options);
                 },
                 canExecute: () => 
                 {

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -11,10 +11,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MVVM\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Location\MapWebPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
+    <Folder Include="About\" />
   </ItemGroup>
 </Project>

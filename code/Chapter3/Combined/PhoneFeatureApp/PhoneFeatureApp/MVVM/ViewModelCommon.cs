@@ -25,5 +25,7 @@ namespace PhoneFeatureApp
         {
             MessagingCenter.Subscribe<ViewModelCommon, Color>(this, "BackgroundColorChange", (sender, arg) => BackgroundColor = arg);
         }
+
+        public ViewModelCommon(INavigation nav = null) : base(nav) { }
     }
 }

@@ -16,11 +16,7 @@ First make a copy of the "TabControllers" folder and rename the new folder to "C
 
 We are going to modify the solution in the Combined folder.
 
-* Right-Click the Solution and select "Manage NuGet Packages".
-* Click the Browse Tab
-* In the search box type "Xamarin.Forms.Maps" (without the quotes)
-* Select the "Xamarin.Forms.Maps" by Microsoft 
-* Click the install button (next to 'Version')
+TO BE CONTINUED
 
 
 

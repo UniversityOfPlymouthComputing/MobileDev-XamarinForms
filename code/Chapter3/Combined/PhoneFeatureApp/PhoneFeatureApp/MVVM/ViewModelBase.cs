@@ -9,12 +9,20 @@ namespace MVVMBase
         public event PropertyChangedEventHandler PropertyChanged;
 
         //Useful property to reference the navigation page
-        protected INavigation Navigation => Application.Current.MainPage.Navigation;
+        protected INavigation Navigation { get; private set; }
 
         //Create events when properties change
         protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public ViewModelBase(INavigation nav = null)
+        {
+            if (nav != null)
+            {
+                Navigation = nav;
+            }
         }
     }
 
@@ -55,6 +63,8 @@ namespace MVVMBase
                     }
                 }
          */
+
+        public ViewModelBase(INavigation nav = null) : base(nav) { }
 
     }
 }

@@ -11,11 +11,15 @@ namespace PhoneFeatureApp
         public TopLevelPage()
         {
             Title = "Phone Feature App";
-            Children.Add(new DeviceInfoPage());
-            var loc = new NavigationPage(new LocationPage());
-            loc.Title = "Location";
-            loc.IconImageSource = "location.png";
-            Children.Add(loc);
+
+            var info = new DeviceInfoPage();
+            var nav = new NavigationPage(info);
+            nav.Title = info.Title;
+            nav.IconImageSource = info.IconImageSource;
+            
+            Children.Add(nav);
+
+            Children.Add(new LocationPage());
             Children.Add(new MotionPage());
             if (Device.RuntimePlatform == Device.Android)
             {

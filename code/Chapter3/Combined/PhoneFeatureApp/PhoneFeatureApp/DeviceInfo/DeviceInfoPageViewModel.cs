@@ -2,6 +2,7 @@
 using MVVMBase;
 using Xamarin.Forms;
 using Xamarin.Essentials;
+using System.Windows.Input;
 
 namespace PhoneFeatureApp.DeviceInfo
 {
@@ -35,9 +36,17 @@ namespace PhoneFeatureApp.DeviceInfo
         private readonly DeviceType _deviceType = Xamarin.Essentials.DeviceInfo.DeviceType;
         public string DeviceType => _deviceType.ToString();
 
-        public DeviceInfoPageViewModel()
+        //Command
+        private ICommand _buttonCommand;
+        public ICommand AboutButtonCommand { get => _buttonCommand; set => _buttonCommand = value; }
+
+        public DeviceInfoPageViewModel(INavigation nav) : base(nav)
         {
             subscribeToBackgroundColChange();
+            AboutButtonCommand = new Command(execute: () =>
+            {
+                _ = Navigation?.PushAsync(new About.AboutPage());
+            });
         }
 
         

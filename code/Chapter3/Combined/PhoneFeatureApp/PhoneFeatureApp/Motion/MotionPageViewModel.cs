@@ -41,7 +41,7 @@ namespace PhoneFeatureApp.Motion
         private Random rnd = new Random();
 
         // ************************* Constructor **************************
-        public MotionPageViewModel()
+        public MotionPageViewModel() : base(null)
         {
             // Subscribe to changes of screen metrics
             MainDisplayInfo = DeviceDisplay.MainDisplayInfo;

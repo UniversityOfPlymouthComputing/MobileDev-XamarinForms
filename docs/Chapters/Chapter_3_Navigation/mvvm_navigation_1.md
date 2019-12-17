@@ -204,9 +204,11 @@ where the `Navigation` property is a globally accessible object. For convenience
    protected INavigation Navigation => Application.Current.MainPage.Navigation;
 ```
 
+> Note - this works because we happen to know the `MainPage.Navigation` property is a reference to the `NavigationPage` (used throughout the app). Later when we use Tab pages, we need to be careful. It is possible to have multiple and separate instances of `NavigationPage`
+
 In addition, note that this view model has a concrete reference to the next view. 
 
-> Strictly speaking, these both add depednencies to view based objects (the next view, not the current view). For MVVM, some dissaprove whereas others may be more indifferent.
+> Strictly speaking, these both add dependencies to view based objects (the next view, not the current view). For MVVM, some disapprove whereas others may be more indifferent.
 >
 > Third-party frameworks [such as Prism](https://prismlibrary.github.io/docs/) utilise somewhat advanced techniques to further decouple ViewModels from View objects while still supporting navigation and unit testing.
 >
