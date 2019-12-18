@@ -232,4 +232,4 @@ There is now also [Xamarin.Forms Shell](https://docs.microsoft.com/xamarin/xamar
 
 ----
 
-[Next]()
+[Next - Modal Sheets](modal-nav.md)
