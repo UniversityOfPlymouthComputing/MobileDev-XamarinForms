@@ -7,11 +7,11 @@
 ## Intended Learning Outcomes
 By the end of this chapter you should be able to:
 
-### C# and Software Engineering
+TO BE REVISED
 
-### Xamarin.Forms and XAML
+----
 
-# Contents
+# Chapter 3 - Contents
 1. [C# Generics](generics.md)
 1. [C# Value and Reference Semantics](ValueRefSemantics.md)
 1. [Navigation Controllers](NavControllers.md)
@@ -20,16 +20,11 @@ By the end of this chapter you should be able to:
 1. [Tabbed Pages](tabbed_pages.md)
    1. [TabbedPage](tabbedpage.md)
    1. [Hierarchial Navigation within Tabbed Pages](nav-tab.md)
-1. [Modal Sheets - TO BE DONE](modal-nav.md)
-1. [Alerts - TO BE DONE]()
-1. Self-Study Tasks
-1. References
+1. [Modal Sheets](modal-nav.md)
+1. [Alerts and Popups - TO BE DONE](alerts.md)
+1. [Self-Study Tasks - TO BE DONE](self-study.md)
+1. [References - TO BE DONE](references.md)
 
-[BEGIN]()
-
-
-# References
-[Microsoft documentation - Hierarchical Navigation](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/navigation/hierarchical)
 
 ----
 
