@@ -7,9 +7,21 @@ Xamarin.Forms provides a very simple set of APIs for pop-ups and alerts
 
 First, you should make yourself familiar with the [Microsoft Documentation](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/pop-ups)
 
-Apart from looking at some example code, there is little point in replicating this as the documentation is very comrehensive!
+The APIs are fairly simple and the documentation is very comprehensive, so we will not focus on that aspect. The documentation covers three basic types of popup via three methods:
 
-Instead we will look at how you might provide native controls
+* `DisplayAlert` 
+* `DisplayActionSheet`
+* `DisplayPromptAsync`
+
+It is important to understand that these are all methods on the [`Page` class](https://docs.microsoft.com/dotnet/api/xamarin.forms.page?view=xamarin-forms).
+
+> The built-in pop-ups APIs are all **View Based**
+
+We will look at how you might invoke these from a view model. This was briefly covered before in an earlier chapter, but it is good to look at this again.
+
+
+
+
 
 ----
 
