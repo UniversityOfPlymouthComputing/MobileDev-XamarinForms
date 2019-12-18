@@ -17,13 +17,7 @@ namespace MVVMBase
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public ViewModelBase(INavigation nav = null)
-        {
-            if (nav != null)
-            {
-                Navigation = nav;
-            }
-        }
+        public ViewModelBase(INavigation navigation) => Navigation = navigation;
     }
 
     public abstract class ViewModelBase<DataModelType> : ViewModelBase where DataModelType : BindableModelBase
@@ -64,7 +58,7 @@ namespace MVVMBase
                 }
          */
 
-        public ViewModelBase(INavigation nav = null) : base(nav) { }
+        public ViewModelBase(INavigation nav) : base(nav) { }
 
     }
 }

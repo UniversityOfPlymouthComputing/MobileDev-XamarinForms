@@ -12,13 +12,13 @@ namespace PhoneFeatureApp
         {
             Title = "Phone Feature App";
 
+            //Manual plumbing
             var info = new DeviceInfoPage();
             var nav = new NavigationPage(info);
             nav.Title = info.Title;
             nav.IconImageSource = info.IconImageSource;
             
             Children.Add(nav);
-
             Children.Add(new LocationPage());
             Children.Add(new MotionPage());
             if (Device.RuntimePlatform == Device.Android)

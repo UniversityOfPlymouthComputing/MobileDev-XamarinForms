@@ -48,7 +48,6 @@ namespace PhoneFeatureApp.DeviceInfo
                 _ = Navigation?.PushAsync(new About.AboutPage());
             });
         }
-
         
     }
 }
