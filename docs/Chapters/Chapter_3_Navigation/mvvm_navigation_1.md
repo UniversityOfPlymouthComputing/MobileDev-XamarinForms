@@ -307,7 +307,7 @@ We could have passed by reference using the type `ref string` (a nice challenge 
 
 > "The Xamarin.Forms MessagingCenter class implements the publish-subscribe pattern, allowing message-based communication between components that are inconvenient to link by object and type references. This mechanism allows publishers and subscribers to communicate without having a reference to each other, helping to reduce dependencies between them."
 >
-> [Microsoft Documentation - Messaging Center]((https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/messaging-center))
+> [Microsoft Documentation - Messaging Center](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/messaging-center)
 
 In this code, we wish to _subscribe_ and listen for message "NameUpdate" from the `NameEditPageViewModel`. This message should tells us when the `Name` data has been saved by the user, and critically, what the new value is.
 

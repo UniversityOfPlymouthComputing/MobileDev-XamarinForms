@@ -119,6 +119,7 @@ private async void EditButton_Clicked(object sender, EventArgs e)
 This again sets the `BindingContext` of the next view to be the same as it's own (the previous view `FirstPage`).
 
 ### `NameEditPage` - binding to the `FirstPage`
+
 The `NameEditPage` is similar to the previous page, only that it only binds to the `Name` property in the XAML
 
 ```XML

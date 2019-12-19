@@ -21,9 +21,9 @@ TO BE REVISED
    1. [TabbedPage](tabbedpage.md)
    1. [Hierarchial Navigation within Tabbed Pages](nav-tab.md)
 1. [Modal Sheets](modal-nav.md)
-1. [Alerts and Popups - TO BE DONE](alerts.md)
+1. [Alerts and Popups](alerts.md)
 1. [Self-Study Tasks - TO BE DONE](self-study.md)
-1. [References - TO BE DONE](references.md)
+1. [References](references.md)
 
 
 ----
