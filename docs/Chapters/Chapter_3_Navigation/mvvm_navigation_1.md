@@ -73,7 +73,7 @@ Let's begin by looking at the Model. It's fairly simple and contains two bindabl
 
 The model implements the interface `INotifyPropertyChanged` and respective `PropertyChanged` property.
 
-There is not a lot to dicuss about this class except that it's standalone,  testable (not that there is much to test) and *it is a reference type*. This might be relevent if we wish to pass by reference later.
+There is not a lot to discuss about this class except that it's standalone,  testable (not that there is much to test) and *it is a reference type*. This might be relevant if we wish to pass by reference later.
 
 A single instance of the model was instantiates in the `App` class (see previous section above) and passed to the 
 
@@ -113,9 +113,9 @@ This is where most of the code is. By convention, it has the same name as the vi
 
 `FirstPage` => `FirstPageViewModel`
 
-Read through the ViewModel code and familiarise yourself with the contents. A few key points will be highlighed:
+Read through the ViewModel code and familiarize yourself with the contents. A few key points will be highlighted:
 
-* It has it's own reference to `Model`. This is acquired either from a previous view model (via the contructor parameter), or is instantiated locally. Here is the constructor:
+* It has it's own reference to `Model`. This is acquired either from a previous view model (via the constructor parameter), or is instantiated locally. Here is the constructor:
 
 ```C#
    public FirstPageViewModel(PersonDetailsModel m = null)
@@ -171,31 +171,30 @@ When the edit button is tapped, commanding is used to invoke the following metho
 ```C#
    void NavigateToYearEditPage()
    {
-      // NOTE that Model is a reference type
-      YearEditPageViewModel avm = new YearEditPageViewModel(Model); //VM knows about its model (reference)
+      YearEditPageViewModel vm = new YearEditPageViewModel(Model); //VM knows about its model (reference)
 
       // Instantiate the view, and provide the viewmodel
-      YearEditPage about = new YearEditPage(avm); //View knows about it's VM
-      Navigation.PushAsync(about);
+      YearEditPage nextPage = new YearEditPage(vm); //View knows about it's VM
+      _ = Navigation.PushAsync(nextPage);
    }
 ```        
 
 We are trying to keep the navigation logic to the ViewModel. First we instantiate the next view model, and pass the Model (a reference type encapsulating model data)
 
 ```C# 
-   YearEditPageViewModel avm = new YearEditPageViewModel(Model);
+   YearEditPageViewModel vm = new YearEditPageViewModel(Model);
 ```   
 
 Next we instantiate the *next* page, passing it a reference to the view model (for it to bind to).
 
 ```C#
-   YearEditPage about = new YearEditPage(avm); //View knows about it's VM
+   YearEditPage nextPage = new YearEditPage(vm); //View knows about it's VM
 ```
 
 Finally, the navigation itself is performed:
 
 ```C#
-   _ = Navigation.PushAsync(about);
+   _ = Navigation.PushAsync(nextPage);
 ```
 
 where the `Navigation` property is a globally accessible object. For convenience, a reference to this is added to the ViewModel:
