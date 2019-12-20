@@ -24,8 +24,8 @@ namespace SimpleListView
 
             // The ItemSelected event is now being used
             // SelectedItem bindable property is also employed
-            //PlanetListView.SelectionMode = ListViewSelectionMode.Single;   //Default
-            PlanetListView.SelectionMode = ListViewSelectionMode.None;   //Tap only
+            PlanetListView.SelectionMode = ListViewSelectionMode.Single;   //Default
+            //PlanetListView.SelectionMode = ListViewSelectionMode.None;   //Tap only
             PlanetListView.ItemTapped += PlanetListView_ItemTapped;        //User tapped
             PlanetListView.ItemSelected += PlanetListView_ItemSelectedAsync;    //Selection changed
         }

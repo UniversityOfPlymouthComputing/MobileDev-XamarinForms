@@ -16,6 +16,18 @@ namespace SimpleListView
     {
         private IMainPageHelper _viewHelper;
 
+        private bool _selectionModeOn = true;
+        public bool SelectionModeOn {
+            get => _selectionModeOn;
+            set
+            {
+                if (_selectionModeOn == value) return;
+
+                _selectionModeOn = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string _titleString = "Nothing Selected";
         public string TitleString {
             get => _titleString;
@@ -80,6 +92,8 @@ namespace SimpleListView
                 TitleString = _selectedString;
             }
         }
+
+       
 
         //Event handler for user tap
         public void UserTappedList(int row, string planetString)

@@ -3,19 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:SimpleListView"
              mc:Ignorable="d"
              x:Class="SimpleListView.MainPage">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BoolToSelectionModeConverter x:Key="bool2mode"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout>    
         <Label Text="{Binding TitleString}"
                Margin="0,40,0,40"
-               HorizontalOptions="Center"
+               HorizontalOptions="CenterAndExpand"
                VerticalOptions="CenterAndExpand" />
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand">
+            <Label Text="Selection Mode:" HorizontalOptions="End" VerticalOptions="Center"/>
+            <Switch x:Name="SelectSwitch" IsToggled="{Binding SelectionModeOn}" HorizontalOptions="Start" VerticalOptions="Center"/>
+        </StackLayout>
 
         <ListView ItemsSource="{Binding Planets}"
                   x:Name="PlanetListView"
                   SelectedItem="{Binding SelectedString, Mode=TwoWay}"
                   HorizontalOptions="Center"
+                  SelectionMode="{Binding Source={x:Reference SelectSwitch}, Path=IsToggled, Converter={StaticResource bool2mode} }"
                   VerticalOptions="CenterAndExpand"/>
     </StackLayout>
 </ContentPage>
