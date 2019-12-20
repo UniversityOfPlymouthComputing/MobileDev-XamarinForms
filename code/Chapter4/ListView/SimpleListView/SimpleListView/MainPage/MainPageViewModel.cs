@@ -14,9 +14,31 @@ namespace SimpleListView
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private IMainPageHelper _viewHelper;
+        //**********************  PRIVATE MEMBER VARIABLES *********************
 
+        private IMainPageHelper _viewHelper;
+        private List<string> _planets;
         private bool _selectionModeOn = true;
+        private string _titleString = "Nothing Selected";
+        private string _selectedString = "Nothing Selected";
+        private int _selectedRow = 0;
+        private int _selectionCount = 0;
+        private int _tapCount = 0;
+
+        // ***********************  BINDABLE PROPERTIES ************************
+
+        // ItemSource binds to an IEnumerable
+        public List<string> Planets
+        {
+            get => _planets;
+            set
+            {
+                if (_planets == value) return;
+                _planets = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool SelectionModeOn {
             get => _selectionModeOn;
             set
@@ -28,7 +50,6 @@ namespace SimpleListView
             }
         }
 
-        private string _titleString = "Nothing Selected";
         public string TitleString {
             get => _titleString;
             set
@@ -39,7 +60,21 @@ namespace SimpleListView
             }
         }
 
-        private int _selectedRow=0;
+        //This property is updated if the ListView selection changes by any means but ONLY if the selection changes
+        public string SelectedString
+        {
+            get => _selectedString;
+            set
+            {
+                if (_selectedString == value) return;
+
+                _selectedString = value;
+
+                //Update UI
+                TitleString = _selectedString ?? "Nothing Selected";
+            }
+        }
+
         public int SelectedRow
         {
             get => _selectedRow;
@@ -51,13 +86,52 @@ namespace SimpleListView
             }
         }
 
-        // ItemSource binds to an IEnumerable
-        private List<string> _planets;
-        public List<string> Planets {
-            get => _planets;
-            set => _planets = value;
+        public int SelectionCount {
+            get => _selectionCount;
+            set
+            {
+                if (_selectionCount == value) return;
+                _selectionCount = value;
+                OnPropertyChanged(nameof(CounterString));
+            }
         }
 
+        public int TapCount {
+            get => _tapCount;
+            set
+            {
+                if (_tapCount == value) return;
+                _tapCount = value;
+                OnPropertyChanged(nameof(CounterString));
+            }
+        }
+
+        public string CounterString => $"Taps: {TapCount}, Selections: {SelectionCount}";
+
+
+
+        // **************************  EVENT HANDLERS **************************
+
+        //Event handler for user tap
+        public async Task UserTappedListAsync(int row, string planetString)
+        {
+            SelectedRow = row;
+            TapCount += 1;
+            if (SelectionModeOn == false)
+            {
+                await _viewHelper.TextPopup("Tapped", $"{planetString} on row {row}");
+            }
+        }
+
+        //Event handler for selection changed
+        public async Task ItemSelectionChangedAsync(int row, string planetString)
+        {
+            SelectedRow = row;
+            SelectionCount += 1;
+            await _viewHelper.TextPopup("Selection Changed: ", $"{planetString} on row {row}");
+        }
+
+        // ***************************  CONSTRUCTOR ****************************
         public MainPageViewModel(IMainPageHelper viewHelper) : base(viewHelper.NavigationProxy)
         {
             _viewHelper = viewHelper;
@@ -74,39 +148,5 @@ namespace SimpleListView
             };
         }
 
-
-        // **************************  ITEM SELECTION **************************
-
-        //This property is updated if the ListView selection changes by any means
-        //but ONLY if the selection changes
-        private string _selectedString = "";
-        public string SelectedString
-        {
-            get => _selectedString;
-            set
-            {
-                if (_selectedString == value) return;
-                _selectedString = value;
-
-                //Update UI
-                TitleString = _selectedString;
-            }
-        }
-
-       
-
-        //Event handler for user tap
-        public void UserTappedList(int row, string planetString)
-        {
-            SelectedRow = row;
-            Console.WriteLine($"USER TAPPED EVENT: {planetString}, on row {row}");
-        }
-
-        //Event handler for selection changed
-        public async Task ItemSelectionChangedAsync(int row, string planetString)
-        {
-            SelectedRow = row;
-            await _viewHelper.TextPopup("Selection Changed", $"{planetString} on row {row}");
-        }
-    }
-}
+    } //END OF CLASS
+} //END OF NAMESPACE
