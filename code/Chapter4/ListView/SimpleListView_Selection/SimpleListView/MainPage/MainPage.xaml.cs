@@ -5,6 +5,7 @@ using Xamarin.Forms;
 
 namespace SimpleListView
 {
+
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
@@ -20,8 +21,23 @@ namespace SimpleListView
             BindingContext = vm;
 
             // Hook up event handlers
-            PlanetListView.SelectionMode = ListViewSelectionMode.None;        //Default
+            PlanetListView.SelectionMode = ListViewSelectionMode.Single;        //Default
             PlanetListView.ItemTapped += PlanetListView_ItemTapped;             //User tapped
+            PlanetListView.ItemSelected += PlanetListView_ItemSelectedAsync;    //Selection changed
+        }
+
+        //Called if the item selection changes (by any means)
+        private async void PlanetListView_ItemSelectedAsync(object sender, SelectedItemChangedEventArgs e)
+        {
+            //If nothing is selected, there is nothing to do
+            if (e.SelectedItem == null) return;
+
+            //Extract data
+            string itemString = (string)e.SelectedItem;
+            int selectedRow = e.SelectedItemIndex;
+
+            //Update ViewModel
+            await vm.ItemSelectionChangedAsync(row: selectedRow, planetString: itemString);
         }
 
         //Called if user taps a row (as opposed to programatically changing the selection)

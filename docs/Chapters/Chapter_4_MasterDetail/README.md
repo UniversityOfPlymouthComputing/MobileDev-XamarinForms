@@ -12,11 +12,11 @@ By the end of this chapter you should be able to:
 ### Xamarin.Forms and XAML
 
 # Contents
-1. [C# Collections - TO BE DONE]()
-1. [Lists and Bindings - TO BE DONE]()
-1. [ListView and Tables - TO BE DONE]()
-1. [Master-Detail - TO BE DONE]()
-1. [CollectionView - TO BE DONE]()
+1. [C# Collections - TO BE DONE]
+1. [ListView](listview.md)
+1. [Tables - TO BE DONE]
+1. [CollectionView - TO BE DONE]
+1. [Master-Detail - TO BE DONE]
 1. Self-Study Tasks
 1. References
 
