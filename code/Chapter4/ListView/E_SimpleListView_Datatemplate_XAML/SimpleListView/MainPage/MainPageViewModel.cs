@@ -148,7 +148,10 @@ namespace SimpleListView
                 new SolPlanet("Pluto", 5906.4)
             };
 
-            DeleteCommand = new Command<SolPlanet>(execute: (p) => DeleteItem(p));
+            DeleteCommand = new Command<SolPlanet>(execute: (p) =>
+            {
+                DeleteItem(p);
+            });
         }
 
     } //END OF CLASS

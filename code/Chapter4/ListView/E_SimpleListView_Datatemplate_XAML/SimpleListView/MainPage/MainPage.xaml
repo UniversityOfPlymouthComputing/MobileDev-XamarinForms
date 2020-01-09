@@ -48,10 +48,15 @@
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" Detail="{Binding Distance}">
                         <TextCell.ContextActions>
-                            <MenuItem Clicked="M1_Clicked" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" />
                             <!--
-                            <MenuItem Command="{Binding DeleteCommand}" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" />
+                            <MenuItem Clicked="M1_Clicked" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" />
                             -->
+                            
+                            <MenuItem   Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainPageViewModel}, Mode=FindAncestorBindingContext}, Path=DeleteCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Text="Delete!"
+                                        IsDestructive="True" />
+                            
                         </TextCell.ContextActions>
                     </TextCell> 
                 </DataTemplate>
