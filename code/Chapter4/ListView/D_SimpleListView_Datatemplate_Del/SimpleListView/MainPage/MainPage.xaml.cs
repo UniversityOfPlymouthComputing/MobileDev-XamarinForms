@@ -45,9 +45,17 @@ namespace SimpleListView
                     Text = "Delete",
                     IsDestructive = true
                 };
+
+                //Commanding - command is bound directly to the ICommand DeleteCommand = DeleteCommand<SolPlanet> property in ViewModel
+                //This presumably uses reflection to determine the parameter type
+                m1.SetBinding(MenuItem.CommandProperty, new Binding("DeleteCommand", source: vm));
                 
+                // See https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/listview/interactivity#context-actions
+                // The source for m1 is the data behind the cell (a specific element in the itemsource of the listview)
                 m1.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
-                //m1.Clicked += M1_Clicked;
+
+                // Or you could use an event handler
+                /*
                 m1.Clicked += (object sender, System.EventArgs e) => {
                     //Note that conditional statements evaluate left to right - && will short-circuit if the first condition is not true
                     if ((sender is MenuItem mi) && (mi.CommandParameter is SolPlanet p))
@@ -56,7 +64,8 @@ namespace SimpleListView
                         vm.DeleteItem(p);
                     }
                 };
-                
+                */
+
                 //Add menu item to the cell
                 cell.ContextActions.Add(m1);
 
@@ -64,6 +73,7 @@ namespace SimpleListView
             });
 
             //Binding proxy: When the DataTemplate instantiates a cell, it will also set up the binding as specified below
+            //The source will be a data elelement
             dataTemplate.SetBinding(TextCell.TextProperty, "Name");
             dataTemplate.SetBinding(TextCell.DetailProperty, "Distance");
 
@@ -71,18 +81,6 @@ namespace SimpleListView
             PlanetListView.ItemTemplate = dataTemplate;
             // *****************************************************************
         }
-
-        /*
-        private void M1_Clicked(object sender, System.EventArgs e)
-        {
-            //Note that conditional statements evaluate left to right - && will short-circuit if the first condition is not true
-            if ((sender is MenuItem mi) && (mi.CommandParameter is SolPlanet p))
-            {
-                Debug.WriteLine($"Vogons are destroying {p.Name}");
-                vm.DeleteItem(p);
-            }
-        }
-        */
 
         //Called if the item selection changes (by any means)
         private void PlanetListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)

@@ -42,18 +42,6 @@
                   SelectionMode="{Binding SelectionModeOn, Converter={StaticResource bool2mode}, Mode=TwoWay }"
                   SelectedItem="{Binding SelectedPlanet}">
                   <!-- SelectedItem is null to begin with -->
-
-            <!--
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Name}" Detail="{Binding Distance}">
-                        <TextCell.ContextActions>
-                            <MenuItem Clicked="M1_Clicked" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" />
-                        </TextCell.ContextActions>
-                    </TextCell> 
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            -->
         </ListView>
 
     </StackLayout>

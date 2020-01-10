@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using MVVMBase;
+using Xamarin.Forms;
 
 
 // https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/listview/
@@ -104,6 +106,8 @@ namespace SimpleListView
             }
         }
 
+        public ICommand DeleteCommand { get; private set; }
+
         public string CounterString => $"Taps: {TapCount}, Selections: {SelectionCount}";
 
         // **************************  EVENT HANDLERS **************************
@@ -143,6 +147,11 @@ namespace SimpleListView
                 new SolPlanet("Saturn", 1498.3),
                 new SolPlanet("Pluto", 5906.4)
             };
+
+            DeleteCommand = new Command<SolPlanet>(execute: (p) =>
+            {
+                DeleteItem(p);
+            });
         }
 
     } //END OF CLASS
