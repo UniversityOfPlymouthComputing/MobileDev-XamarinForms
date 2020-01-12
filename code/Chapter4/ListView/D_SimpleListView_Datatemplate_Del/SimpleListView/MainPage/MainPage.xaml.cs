@@ -29,7 +29,7 @@ namespace SimpleListView
             // *****************************************************************
             // DATA TEMPLATE
             // *****************************************************************
-
+            
             //Data template will instantiate a cell "when required"
 
             //Two options: I like the second but the first is more common
@@ -41,7 +41,7 @@ namespace SimpleListView
                 TextCell cell = new TextCell();
                 //We can set properties on cell
                 MenuItem m1 = new MenuItem
-                {
+                {                    
                     Text = "Delete",
                     IsDestructive = true
                 };
@@ -51,7 +51,8 @@ namespace SimpleListView
                 m1.SetBinding(MenuItem.CommandProperty, new Binding("DeleteCommand", source: vm));
                 
                 // See https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/listview/interactivity#context-actions
-                // The source for m1 is the data behind the cell (a specific element in the itemsource of the listview)
+                // The BindingContext for m1 is the data behind the cell (a specific element in the itemsource of the listview)
+                // See last para on p559 of the book by Charles Petzold
                 m1.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
 
                 // Or you could use an event handler

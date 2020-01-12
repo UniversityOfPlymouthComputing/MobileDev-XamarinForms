@@ -8,12 +8,6 @@
              x:Name="MainContentPage"
              x:Class="SimpleListView.MainPage">
 
-    <!-- This is added to support Intellisense -->
-    <!-- The d: prefix will mean it is ignored -->
-    <d:ContentPage.BindingContext>
-        <local:MainPageViewModel/>
-    </d:ContentPage.BindingContext>
-
     <!-- Converter -->
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -34,7 +28,7 @@
         
         <Label Text="{Binding TitleString}" />
         <Label Text="{Binding CounterString}" />
-        
+
         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand">
             <Label Text="Selection Mode:" HorizontalOptions="End" VerticalOptions="Center"/>
             <Switch x:Name="SelectSwitch" IsToggled="{Binding SelectionModeOn, Mode=TwoWay}" HorizontalOptions="Start" VerticalOptions="Center"/>

@@ -154,10 +154,5 @@ namespace SimpleListView
             });
         }
 
-        public MainPageViewModel() : base(null)
-        {
-            throw new System.Exception("You cannot call the parameterless constructor");
-        }
-
     } //END OF CLASS
 } //END OF NAMESPACE
