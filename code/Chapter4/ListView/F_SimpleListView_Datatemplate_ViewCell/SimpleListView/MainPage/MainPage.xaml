@@ -34,12 +34,15 @@
             <Switch x:Name="SelectSwitch" IsToggled="{Binding SelectionModeOn, Mode=TwoWay}" HorizontalOptions="Start" VerticalOptions="Center"/>
         </StackLayout>
 
-        <!-- SelectionMode="{Binding Source={x:Reference SelectSwitch}, Path=IsToggled, Converter={StaticResource bool2mode}, Mode=TwoWay }" --> 
+        <!-- SelectionMode="{Binding Source={x:Reference SelectSwitch}, Path=IsToggled, Converter={StaticResource bool2mode}, Mode=TwoWay }" -->
+        <!-- Consider setting RowHeight-->
+        <!-- Set HasUnevenRows="True" to autosize row height, although there is a performance hit for this -->
         <ListView ItemsSource="{Binding Planets}"
                   x:Name="PlanetListView"
                   HorizontalOptions="Center"
                   VerticalOptions="FillAndExpand"
                   SeparatorVisibility="Default"
+                  HasUnevenRows="False"
                   SelectionMode="{Binding SelectionModeOn, Converter={StaticResource bool2mode}, Mode=TwoWay }"
                   SelectedItem="{Binding SelectedPlanet}">
 
@@ -77,7 +80,6 @@
                             </Grid>
                         </ViewCell.View>
                             
-
                         <ViewCell.ContextActions>
                             <MenuItem   Command="{Binding Source={x:Reference MainContentPage}, Path=BindingContext.DeleteCommand}"
                                         CommandParameter="{Binding .}"
