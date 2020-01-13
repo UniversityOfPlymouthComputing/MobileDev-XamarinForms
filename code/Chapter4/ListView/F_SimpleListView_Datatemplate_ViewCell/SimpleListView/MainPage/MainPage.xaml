@@ -46,15 +46,47 @@
             <!-- Data Template in XAML -->
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}" Detail="{Binding Distance}">
-                        <TextCell.ContextActions>
-                            <!-- https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/menuitem#define-menuitem-behavior-with-mvvm -->
+                    <ViewCell>
+                        <ViewCell.View>
+                            <Grid RowSpacing="0">
+                                <Grid.Resources>
+                                    <ResourceDictionary>
+                                        <!-- Implicit style : applies to all Labels in the grid -->
+                                        <Style TargetType="Label">
+                                            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                                            <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                                            <Setter Property="HorizontalTextAlignment" Value="Start"/>
+                                            <Setter Property="VerticalTextAlignment" Value="Center"/>
+                                            <Setter Property="Margin" Value="0,0,0,0"/>
+                                        </Style>
+                                    </ResourceDictionary>            
+                                </Grid.Resources>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Text="Planet:" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Name}" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="Distance from the Sun:" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Distance}" />
+                            </Grid>
+                        </ViewCell.View>
+                            
+
+                        <ViewCell.ContextActions>
                             <MenuItem   Command="{Binding Source={x:Reference MainContentPage}, Path=BindingContext.DeleteCommand}"
                                         CommandParameter="{Binding .}"
                                         Text="Delete"
-                                        IsDestructive="True" />
-                        </TextCell.ContextActions>
-                    </TextCell>
+                                        IsDestructive="True"/>
+                        </ViewCell.ContextActions>
+
+                    </ViewCell>
+                
                 </DataTemplate>
             </ListView.ItemTemplate>
             
