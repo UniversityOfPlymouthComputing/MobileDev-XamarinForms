@@ -3,22 +3,28 @@
 ----
 
 # ListView
-Very often we wish to display a collection of data on a screen. Commonly the data itself is hierarchial. One of the simplest ways to achieve this is with a [ListView](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/listview/)
+Very often we wish to display a (mutable) collection of data on a screen. One of the most common ways to achieve this is with a [ListView](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/listview/)
 
+For static collections, there is also [`TableView`](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/tableview). The are covered in a [later section](tables.md)
 
-*TO BE ADDED*
-> Recall that by default, ListView calls `ToString()` on each item in its collection to visualize the item on the screen
->
->The default visualization also presents a problem with changes. ListView can't detect changes to the underlying data even if you're using property notification changes. ListView calls ToString only once when it first displays the row. It doesn't realize it needs to call ToString every time the underlying data changes.
->[Reference](https://docs.microsoft.com/en-us/learn/modules/display-collections-in-xamarin-forms-apps-with-listview/5-customize-listview-rows)
+For now we are going to focus on presenting collections (lists) of data that can _change_. For example, this my be the result of a database query, web query or data directly entered by the user.
 
+We might then want to interact by tapping on a specific row and navigating to a new detail screen. Such a screen might review more detail and/or allow data to be edited. This takes us into the topic of master-detail, and will be considered in a [later section](master-detail.md).
 
-*TO BE ADDED*
-> Pre-defined Cells Types
-> * TextCell: A row that has a main text label and a details text label
-> * EntryCell: A row that has a label and an editable entry
-> * SwitchCell: A row that has a label and a switch
-> * ImageCell: A row that has an image on the left and two labels
+## Scope
+
+To cover `ListView` in its entirety would take a long time. The following topics will be covered, leaving some of the details to the official documentation.
+
+* [Simple `ListView` Example](simple-listview.md)
+* [Adding Selection and Clicked Events](listview-selection.md)
+* [Adding data](listview-add.md)
+* [Deleting data](listview-delete.md) (including Data templates and Menu Items)
+* [Data templates and Menu Items in XAML](listview-datatemplate-xaml.md)
+* [Custom cell layout](viewcell.md) with `ViewCell`
+* [Organizing data in Groups](listview-groups.md)
+
+## Example Code
+All the topics above have their own section and example solution. The solution files are found in subfolders off the [/code/Chapter4/listview](/code/Chapter4/listview) folder.
 
 ## References
 
@@ -26,9 +32,9 @@ Very often we wish to display a collection of data on a screen. Commonly the dat
 
 [ListView Interactivity](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/listview/interactivity)
 
-[ListView Class](https://docs.microsoft.com/dotnet/api/xamarin.forms.listview?view=xamarin-forms)
+[ListView Class Reference](https://docs.microsoft.com/dotnet/api/xamarin.forms.listview?view=xamarin-forms)
 
 
 ----
 
-[Next]()
+[Next - Simple `ListView` Example](simple-listview.md)

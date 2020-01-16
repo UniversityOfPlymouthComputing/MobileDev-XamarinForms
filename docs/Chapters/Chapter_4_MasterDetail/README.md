@@ -14,9 +14,9 @@ By the end of this chapter you should be able to:
 # Contents
 1. [C# Collections - TO BE DONE]
 1. [ListView](listview.md)
-1. [Tables - TO BE DONE]
+1. [Tables - TO BE DONE](tables.md)
 1. [CollectionView - TO BE DONE]
-1. [Master-Detail - TO BE DONE]
+1. [Master-Detail - TO BE DONE](master-detail.md)
 1. Self-Study Tasks
 1. References
 
