@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="SimpleListView.MainPage">
+
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            <Setter Property="Margin" Value="0,40,0,40"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <StackLayout>    
+        <Label Text="{Binding TitleString}" />
+
+        <ListView ItemsSource="{Binding Planets}"
+                  x:Name="PlanetListView"
+                  HorizontalOptions="Center"
+                  VerticalOptions="CenterAndExpand"/>
+    </StackLayout>
+</ContentPage>
+
