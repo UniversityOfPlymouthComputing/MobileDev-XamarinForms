@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SimpleListView"
              mc:Ignorable="d"
              x:Class="SimpleListView.MainPage">
-
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:BoolToSelectionModeConverter x:Key="bool2mode"/>
