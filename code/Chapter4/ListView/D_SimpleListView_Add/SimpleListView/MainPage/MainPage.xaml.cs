@@ -24,6 +24,7 @@ namespace SimpleListView
             PlanetListView.SelectionMode = ListViewSelectionMode.Single;        //Default
             PlanetListView.ItemTapped += PlanetListView_ItemTapped;             //User tapped
             PlanetListView.ItemSelected += PlanetListView_ItemSelected;    //Selection changed
+            
         }
 
         //Called if the item selection changes (by any means)
