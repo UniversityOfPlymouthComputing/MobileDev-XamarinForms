@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:SimpleListView"
+             mc:Ignorable="d"
+             x:Class="SimpleListView.MainPage">
+
+    <!-- Converter -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BoolToSelectionModeConverter x:Key="bool2mode"/>
+        </ResourceDictionary>
+        <Style TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            <Setter Property="Margin" Value="0,40,0,40"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <!-- Platform Specific Padding -->
+    <ContentPage.Padding>        <OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 0" Android="10, 0" />    </ContentPage.Padding>
+
+    <!-- Layout -->
+    <StackLayout>
+        
+        <Label Text="{Binding TitleString}" />
+        <Label Text="{Binding CounterString}" />
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand">
+            <Label Text="Selection Mode:" HorizontalOptions="End" VerticalOptions="Center"/>
+            <Switch x:Name="SelectSwitch" IsToggled="{Binding SelectionModeOn, Mode=TwoWay}" HorizontalOptions="Start" VerticalOptions="Center"/>
+        </StackLayout>
+
+        <!-- SelectionMode="{Binding Source={x:Reference SelectSwitch}, Path=IsToggled, Converter={StaticResource bool2mode}, Mode=TwoWay }" --> 
+        <ListView ItemsSource="{Binding Planets}"
+                  x:Name="PlanetListView"
+                  HorizontalOptions="Center"
+                  VerticalOptions="FillAndExpand"
+                  SeparatorVisibility="Default"
+                  SelectionMode="{Binding SelectionModeOn, Converter={StaticResource bool2mode}, Mode=TwoWay }"
+                  SelectedItem="{Binding SelectedPlanet}">
+                  <!-- SelectedItem is null to begin with -->
+        </ListView>
+
+    </StackLayout>
+</ContentPage>
+

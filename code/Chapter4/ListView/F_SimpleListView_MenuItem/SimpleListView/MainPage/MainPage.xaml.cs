@@ -29,11 +29,11 @@ namespace SimpleListView
             // *****************************************************************
             // DATA TEMPLATE
             // *****************************************************************
-            
+
             //Data template will instantiate a cell "when required"
 
             //Two options: I like the second but the first is more common
-
+            
             //DataTemplate DataTemplate = new DataTemplate(typeof(TextCell)); 
             DataTemplate dataTemplate = new DataTemplate( () =>
             {

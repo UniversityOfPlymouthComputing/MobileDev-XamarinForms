@@ -88,5 +88,5 @@ As will be seen, there are other cell types we could have used, but for that, we
 
 ---
 
-[Next - Deleting data](listview-delete.md)
+[Next - Cells and Data Templates](listview-templates.md)
 

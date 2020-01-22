@@ -19,7 +19,8 @@ To cover `ListView` in its entirety would take a long time and risks being overw
 * [Tapped Event](listview-tapped.md)
 * [Item Selection](listview-selection.md)
 * [Adding data](listview-add.md)
-* [Deleting data](listview-delete.md) (including Data templates and Menu Items)
+* [Cells and Data Templates](listview-templates.md)
+* [Deleting Data and Menu Items](listview-delete.md)
 * [Data templates and Menu Items in XAML](listview-datatemplate-xaml.md)
 * [Custom cell layout](viewcell.md) with `ViewCell`
 * [Organizing data in Groups](listview-groups.md)
