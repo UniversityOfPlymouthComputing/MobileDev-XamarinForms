@@ -22,7 +22,7 @@ To cover `ListView` in its entirety would take a long time and risks being overw
 * [Cells and Data Templates](listview-templates.md)
 * [Deleting Data and Menu Items](listview-delete.md)
 * [Data templates and Menu Items in XAML](listview-datatemplate-xaml.md)
-* [Custom cell layout](viewcell.md) with `ViewCell`
+* [Custom cell layout with `ViewCell`](viewcell.md) 
 * [Organizing data in Groups](listview-groups.md)
 
 ## Example Code
