@@ -48,7 +48,7 @@ namespace SimpleListView
 
                 //Commanding - command is bound directly to the ICommand DeleteCommand = DeleteCommand<SolPlanet> property in ViewModel
                 //This presumably uses reflection to determine the parameter type
-                m1.SetBinding(MenuItem.CommandProperty, new Binding("DeleteCommand", source: vm));
+                m1.SetBinding(MenuItem.CommandProperty, new Binding("DeleteCommand", source: this.BindingContext));
                 
                 // See https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/listview/interactivity#context-actions
                 // The BindingContext for m1 is the data behind the cell (a specific element in the itemsource of the listview)
