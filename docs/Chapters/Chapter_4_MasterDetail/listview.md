@@ -26,9 +26,10 @@ To cover `ListView` in its entirety would take a long time and risks being overw
 * [Organizing data in Groups](listview-groups.md)
 
 ## Example Code
-All the topics above have their own section and example solution. The solution files are found in subfolders off the [/code/Chapter4/listview](/code/Chapter4/listview) folder.
+All the topics above have their own section and example solution. The solution files are found in sub-folders off the [/code/Chapter4/listview](/code/Chapter4/listview) folder.
 
 ## References
+[Petzold C., Creating Mobile Apps with Xamarin.Forms, Microsoft Press](https://docs.microsoft.com/xamarin/xamarin-forms/creating-mobile-apps-xamarin-forms/)
 
 [ListView](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/listview/)
 

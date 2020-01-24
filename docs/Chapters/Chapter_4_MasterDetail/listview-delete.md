@@ -181,7 +181,7 @@ When it comes to the parameter, we don't just want a single property, but the wh
 
 The "." is the path and refers to the data source object of `m1`, which is an instance `SolPlanet`.
 
-> If we had wanted to pass just the "Name", we could have written "./Name" or just "Name"
+> If we had wanted to pass just the "Name", we could have written "Name" instead.
 
 I recommend reading the section on Collection Views in the book by Charles Petzold. The last paragraph on p559 helps to explain the underlying mechanism.
 
