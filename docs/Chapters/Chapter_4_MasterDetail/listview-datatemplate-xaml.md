@@ -2,7 +2,7 @@
 
 ---
 
-# Data Templates and Menu Items in XAML
+# ListView - Data Templates and Menu Items in XAML
 
 The example for this section is found in the [/code/Chapter4/ListView/G_SimpleListView_Datatemplate_XAML](/code/Chapter4/ListView/G_SimpleListView_Datatemplate_XAML) folder.
 
@@ -102,4 +102,4 @@ Again, I refer to the documentation [Xamarin.Forms MenuItem - Define MenuItem be
 
 ---
 
-[Next - Custom cell layout with `ViewCell`](viewcell.md) 
+[Next - Custom cell layout with `ViewCell`](listview-viewcell.md) 

@@ -2,7 +2,7 @@
 
 ---
 
-# Deleting Data and Menu Items
+# ListView - Deleting Data and Menu Items
 
 The example for this section is found in the [/code/Chapter4/ListView/F_SimpleListView_MenuItem](/code/Chapter4/ListView/F_SimpleListView_MenuItem) folder.
 

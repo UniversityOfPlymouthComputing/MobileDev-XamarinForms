@@ -120,9 +120,16 @@ namespace SimpleListView
         {
             SelectedRow = row;
             TapCount += 1;
-            string item = $"{planet.Name} - Row {row} tapped";
-            PlanetGroups[2].Add(new SolPlanet(item, planet.Distance));
-            _viewHelper.ScrollToObject(item);
+
+            //Find which group the planet is in
+            (PlanetGroup _, int idx) = groupWithPlanet(planet);
+
+            //Swap the groups
+            PlanetGroups[idx].Remove(planet);
+            PlanetGroups[1 - idx].Add(planet);
+
+            //Update display
+            _viewHelper.ScrollToObject(planet);
         }
 
         //Event handler for selection changed
@@ -133,7 +140,7 @@ namespace SimpleListView
         }
 
         //Menu item event - delete
-        public void DeleteItem(SolPlanet p) => groupWithPlanet(p)?.Remove(p);
+        public void DeleteItem(SolPlanet p) => groupWithPlanet(p).Item1?.Remove(p);
 
         // ***************************  CONSTRUCTOR ****************************
         public MainPageViewModel(IMainPageHelper viewHelper) : base(viewHelper.NavigationProxy)
@@ -143,18 +150,17 @@ namespace SimpleListView
             //Collection of collections
             PlanetGroups = new ObservableCollection<PlanetGroup>()
             {
-                new PlanetGroup("Explored", "Exp") {
+                new PlanetGroup("Explored", "E") {
                     new SolPlanet("Earth", 147.1),
                     new SolPlanet("Mars", 238.92)
                 },
-                new PlanetGroup("Unexplored","Uex") {
+                new PlanetGroup("Unexplored","U") {
                     new SolPlanet("Mercury", 69.543),
                     new SolPlanet("Venus", 108.62),
                     new SolPlanet("Jupiter", 782.32),
                     new SolPlanet("Saturn", 1498.3),
                     new SolPlanet("Pluto", 5906.4)
-                },
-                new PlanetGroup("Clicked","Clk")
+                }
             };
 
             DeleteCommand = new Command<SolPlanet>(execute: (p) =>
@@ -163,13 +169,15 @@ namespace SimpleListView
             });
         }
 
-        private PlanetGroup groupWithPlanet(SolPlanet p)
+        private (PlanetGroup, int) groupWithPlanet(SolPlanet p)
         {
+            int grpIndex = 0;
             foreach (PlanetGroup grp in PlanetGroups)
             {
-                if (grp.Contains(p)) return grp;
+                if (grp.Contains(p)) return (grp, grpIndex);
+                grpIndex++;
             }
-            return null;
+            return (null, grpIndex);
         }
 
         public MainPageViewModel() : base(null)

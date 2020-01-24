@@ -2,7 +2,7 @@
 
 ---
 
-# Custom cell layout with `ViewCell`
+# ListView - Custom cell layout with `ViewCell`
 
 The example for this section is found in the [/code/Chapter4/ListView/H_SimpleListView_Datatemplate_ViewCell](/code/Chapter4/ListView/H_SimpleListView_Datatemplate_ViewCell) folder.
 
@@ -81,4 +81,4 @@ I refer you to the section on "Custom Cells" in [Petzold C., Creating Mobile App
 
 ---
 
-[Next - Organizing data in Groups](listview-groups.md)
+[Next - Organizing Data in Groups](listview-groups.md)

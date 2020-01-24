@@ -43,6 +43,7 @@
                   VerticalOptions="FillAndExpand"
                   SeparatorVisibility="Default"
                   HasUnevenRows="False"
+                  RowHeight="60"
                   IsGroupingEnabled="True"
                   GroupDisplayBinding="{Binding GroupTitle}"
                   GroupShortNameBinding="{Binding GroupShortName}"
@@ -54,7 +55,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.View>
-                            <Grid RowSpacing="0">
+                            <Grid RowSpacing="0" Padding="10">
                                 <Grid.Resources>
                                     <ResourceDictionary>
                                         <!-- Implicit style : applies to all Labels in the grid -->

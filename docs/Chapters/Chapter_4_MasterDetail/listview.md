@@ -18,12 +18,12 @@ To cover `ListView` in its entirety would take a long time and risks being overw
 * [Simple `ListView` Example](simple-listview.md)
 * [Tapped Event](listview-tapped.md)
 * [Item Selection](listview-selection.md)
-* [Adding data](listview-add.md)
+* [Adding Data](listview-add.md)
 * [Cells and Data Templates](listview-templates.md)
 * [Deleting Data and Menu Items](listview-delete.md)
-* [Data templates and Menu Items in XAML](listview-datatemplate-xaml.md)
-* [Custom cell layout with `ViewCell`](viewcell.md) 
-* [Organizing data in Groups](listview-groups.md)
+* [Data Templates and Menu Items in XAML](listview-datatemplate-xaml.md)
+* [Custom Cell Layout with `ViewCell`](listview-viewcell.md) 
+* [Organizing Data in Groups](listview-groups.md)
 
 ## Example Code
 All the topics above have their own section and example solution. The solution files are found in sub-folders off the [/code/Chapter4/listview](/code/Chapter4/listview) folder.

@@ -2,7 +2,7 @@
 
 ---
 
-# ListView Selection Event
+# ListView - Item Selection
 
 The example for this section is found in the [/code/Chapter4/ListView/C_SimpleListView_Selection](/code/Chapter4/ListView/C_SimpleListView_Selection) folder.
 
