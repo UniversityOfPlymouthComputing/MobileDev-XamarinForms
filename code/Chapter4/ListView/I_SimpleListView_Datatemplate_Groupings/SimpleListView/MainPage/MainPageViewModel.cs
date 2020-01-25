@@ -140,7 +140,8 @@ namespace SimpleListView
         }
 
         //Menu item event - delete
-        public void DeleteItem(SolPlanet p) => groupWithPlanet(p).Item1?.Remove(p);
+        public void DeleteItem(SolPlanet p) => groupWithPlanet(p).group?.Remove(p);
+
 
         // ***************************  CONSTRUCTOR ****************************
         public MainPageViewModel(IMainPageHelper viewHelper) : base(viewHelper.NavigationProxy)
@@ -163,13 +164,12 @@ namespace SimpleListView
                 }
             };
 
-            DeleteCommand = new Command<SolPlanet>(execute: (p) =>
-            {
-                DeleteItem(p);
-            });
+            //Delete command
+            DeleteCommand = new Command<SolPlanet>(execute: (p) => DeleteItem(p) );
         }
 
-        private (PlanetGroup, int) groupWithPlanet(SolPlanet p)
+        //Find which collection contains a specific data item 
+        private (PlanetGroup group, int index) groupWithPlanet(SolPlanet p)
         {
             int grpIndex = 0;
             foreach (PlanetGroup grp in PlanetGroups)

@@ -10,7 +10,7 @@ The example for this section is found in the [/code/Chapter4/ListView/I_SimpleLi
 > * Click on a planet to move it to the other group
 > * Familiarize yourself with the code, noting the changes in XAML, the ViewModel and the new class PlanetGroup
 
-In the section, the `ListView`displays the data in grouped mode, as shown in the figure below: 
+In the section, the `ListView` displays the data in grouped mode, as shown in the figure below: 
 
 <img src="img/listview-groups.png" width="200">
 
@@ -30,16 +30,7 @@ The procedure for grouping data requires a few changes:
 The last point can be quite confusing, but hopefully an example will clarify.
 
 ## MainPage.xaml
-The XAML has been updated to enable groups. Note also the binding is to a new property, `PlanetGroups`. This is a collection of collections, which will be looked at in detail below.
-
-Note also the following properties:
-
-* `IsGroupingEnabled` is set to true to use groups
-* `GroupDisplayBinding` is bound to a string property (one per group) and displayed in the header of each group. 
-    * The binding context will be one of the N individuals _collections_
-    * You might be wondering "do collections have string properties?".... not by default, but read on..
-* `GroupShortNameBinding` is similar to  `GroupDisplayBinding`, except it is a short version used to jump quickly to a section.
-* `Selected Item` has not changed from previous sections. The binding context will be a single data item.
+The XAML has been updated to enable groups. Note also the `ItemSource` is bound to a new property, `PlanetGroups`. This is a collection of collections, which will be looked at in detail below.
 
 ```XML
         <ListView ItemsSource="{Binding PlanetGroups}"
@@ -55,20 +46,28 @@ Note also the following properties:
                   SelectionMode="{Binding SelectionModeOn, Converter={StaticResource bool2mode}, Mode=TwoWay }"
                   SelectedItem="{Binding SelectedPlanet}">
 ```                  
+Note also the following properties:
+
+* `IsGroupingEnabled` is set to true to use groups
+* `GroupDisplayBinding` is bound to a string property (one per group) and displayed in the header of each group. 
+    * The binding context will be one of the N individual _collections_
+    * You might be wondering "do collections have string properties?".... not by default, but read on....
+* `GroupShortNameBinding` is similar to  `GroupDisplayBinding`, except it is a short version used to jump quickly to a section.
+* `Selected Item` has not changed from previous sections. The binding context will be a single data item.
 
 With the XAML in mind, let's now look at how the data is restructured.
 
 ## The PlanetGroup Collection
 For each group of data, you need a separate collection (`List<>` or `ObservableCollection<>`). However, as you may have noticed from the XAML, this collection also needs a title (and optionally, a short name title).
 
-The approach often shown is to create a new collection type by subclassing `List<>` or `ObservableCollection<>` and adding some string properties, as shown below:
+The approach often shown is to create a new collection type by sub-classing `List<>` or `ObservableCollection<>` and adding some string properties, as shown below:
 
 ```C#
     public class PlanetGroup : ObservableCollection<SolPlanet>
     {
-        public string GroupTitle { get; set; }
-        public string GroupShortName { get; set; }
-        public PlanetGroup(string title, string shortname) : base() 
+        public string GroupTitle { get; private set; }
+        public string GroupShortName { get; private set; }
+        public PlanetGroup(string title, string shortname)
         {
             GroupTitle = title;
             GroupShortName = shortname;
@@ -76,16 +75,15 @@ The approach often shown is to create a new collection type by subclassing `List
     }
 ``` 
 
-Just to clarify, `PlanetGroup` is simply an `ObservableCollection<SolPlanet>` only with two additional string properties, `GroupTitle` and `GroupShortName`.
+Just to clarify, `PlanetGroup` is simply an `ObservableCollection<SolPlanet>` with two additional string properties, `GroupTitle` and `GroupShortName`.
 
-A constructor has also been added for convenience. Note the base-class constructor is still called.
-
+A constructor has also been added for convenience.
 Now let's look at the ViewModel to see how the data is built up.
 
 ## View Model and Model Data
 The model data (instantiated in the ViewModel) is now slightly different.
 
-We have an outer collection, `PlanetGroups` (note the plural) is a list to items of type ObservableCollection<PlanetGroup>
+We have an outer collection, `PlanetGroups` (note the plural) is a list of items of type ObservableCollection<PlanetGroup>
 
 > `ObservableCollection` is a collection of `PlanetGroup` items, which are also collection types
 >
@@ -120,7 +118,65 @@ We have an outer collection, `PlanetGroups` (note the plural) is a list to items
     };
 ```            
 
+## Adding,removing and moving grouped data
+Grouping can make lists of data much easier to navigate, bit it does require a bit more management under the hood.
 
+Consider the row-tap event:
+
+```C#
+    public void UserTappedList(int row, SolPlanet planet)
+    {
+        SelectedRow = row;
+        TapCount += 1;
+
+        //Find which group the planet is in
+        (PlanetGroup _, int idx) = groupWithPlanet(planet);
+
+        //Swap the groups
+        PlanetGroups[idx].Remove(planet);
+        PlanetGroups[1 - idx].Add(planet);
+
+        //Update display
+        _viewHelper.ScrollToObject(planet);
+    }
+```        
+
+The specific data item (`planet`) and the row are passed by parameter, but which group is this held in?
+
+The following additional method was added to find a particular data item and return the group it was found in.
+
+```C#
+    private (PlanetGroup group, int index) groupWithPlanet(SolPlanet p)
+    {
+        int grpIndex = 0;
+        foreach (PlanetGroup grp in PlanetGroups)
+        {
+            if (grp.Contains(p)) return (grp, grpIndex);
+            grpIndex++;
+        }
+        return (null, grpIndex);
+    }
+```        
+
+Note how this method conveniently returns a labelled tuple containing both a reference to the group as well as the group index (which element in the outer array it is located in).
+
+As there are only two groups, it is then very simple to use the index `idx` to move the data item from one group to the other:
+
+```C#
+    ...
+    (PlanetGroup _, int idx) = groupWithPlanet(planet);    
+    PlanetGroups[idx].Remove(planet);
+    PlanetGroups[1 - idx].Add(planet);
+    ...
+```
+
+Unlike the previous example, the delete operation uses the direct reference to the group:
+
+```C#
+    public void DeleteItem(SolPlanet p) => groupWithPlanet(p).group?.Remove(p);
+```
+
+Given the `groupWithPlanet` method can theoretically return a `null`, it is prudent to use the null conditional operator `.?` to prevent an exception.
 
 ---
 
