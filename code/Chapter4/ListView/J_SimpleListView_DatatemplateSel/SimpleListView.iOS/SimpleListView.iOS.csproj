@@ -130,4 +130,9 @@
       <Name>SimpleListView</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\earth%403x.png" />
+    <BundleResource Include="Resources\earth%402x.png" />
+    <BundleResource Include="Resources\earth.png" />
+  </ItemGroup>
 </Project>
