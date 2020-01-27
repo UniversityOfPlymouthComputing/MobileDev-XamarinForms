@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SimpleListView.PlanetViewCell">
+    <ViewCell.View>
+        <Grid RowSpacing="0" Padding="10">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <!-- Implicit style : applies to all Labels in the grid -->
+                    <Style TargetType="Label">
+                        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                        <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                        <Setter Property="HorizontalTextAlignment" Value="Start"/>
+                        <Setter Property="VerticalTextAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="0,0,0,0"/>
+                    </Style>
+                </ResourceDictionary>            
+            </Grid.Resources>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Text="Planet:" />
+            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Name}" />
+            <Label Grid.Row="1" Grid.Column="0" Text="Distance from the Sun:" />
+            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Distance}" />
+        </Grid>
+    </ViewCell.View>
+</ViewCell>

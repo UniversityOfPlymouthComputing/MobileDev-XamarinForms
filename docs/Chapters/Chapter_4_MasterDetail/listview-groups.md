@@ -1,10 +1,10 @@
-[back](listview-viewcell.md)
+[back](listview-viewcell-sub.md)
 
 ---
 
 # ListView - Organizing Data in Groups
 
-The example for this section is found in the [/code/Chapter4/ListView/I_SimpleListView_Datatemplate_Groupings](/code/Chapter4/ListView/I_SimpleListView_Datatemplate_Groupings) folder.
+The example for this section is found in the [/code/Chapter4/ListView/J_SimpleListView_Groupings](/code/Chapter4/ListView/J_SimpleListView_Groupings) folder.
 
 > * Build and run the code
 > * Click on a planet to move it to the other group
@@ -180,4 +180,5 @@ Given the `groupWithPlanet` method can theoretically return a `null`, it is prud
 
 ---
 
-[Back to top of ListView](listview.md)
+[Next - Using Different Cell Types with Template Selectors](listview-template-sel.md)
+

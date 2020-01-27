@@ -22,8 +22,10 @@ To cover `ListView` in its entirety would take a long time and risks being overw
 * [Cells and Data Templates](listview-templates.md)
 * [Deleting Data and Menu Items](listview-delete.md)
 * [Data Templates and Menu Items in XAML](listview-datatemplate-xaml.md)
-* [Custom Cell Layout with `ViewCell`](listview-viewcell.md) 
-* [Organizing Data in Groups](listview-groups.md)
+* [TOBEREVIEWED - Custom Cell Layout with `ViewCell`](listview-viewcell.md) 
+* [TBD - Sub-classing `ViewCell`](listview-viewcell-sub.md)
+* [TOBEUPDATED - Organizing Data in Groups](listview-groups.md)
+* [TBD - Using Different Cell Types with Template Selectors](listview-template-sel.md)
 
 ## Example Code
 All the topics above have their own section and example solution. The solution files are found in sub-folders off the [/code/Chapter4/listview](/code/Chapter4/listview) folder.

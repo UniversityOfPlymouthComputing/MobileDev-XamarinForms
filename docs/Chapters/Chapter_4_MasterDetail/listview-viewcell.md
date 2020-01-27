@@ -4,7 +4,7 @@
 
 # ListView - Custom cell layout with `ViewCell`
 
-The example for this section is found in the [/code/Chapter4/ListView/H_SimpleListView_Datatemplate_ViewCell](/code/Chapter4/ListView/H_SimpleListView_Datatemplate_ViewCell) folder.
+The example for this section is found in the [/code/Chapter4/ListView/H_SimpleListView_ViewCell](/code/Chapter4/ListView/H_SimpleListView_ViewCell) folder.
 
 > * Build and run the code
 > * Familiarize yourself with the code, noting the changes in the XAML
@@ -13,7 +13,7 @@ This section is relatively short as the only changes are in the XAML.
 
 If one of the pre-defined cell types does not meet your requirements, then you can create your own custom cell. One way to achieve this is with the `ViewCell`. Although not as performant, this provides freedom to specify which visual elements to include and the layout.
 
-An example is given here, where a grid is used to layout four labels (not expecting any design awards for this).
+An example is given here, where a grid is used to layout four labels (note that I am not expecting any design awards for this).
 
 Note that two properties if `ViewCell` are being set:
 
@@ -79,6 +79,8 @@ Getting the layout right can be 'challenging'. Some tips:
 
 I refer you to the section on "Custom Cells" in [Petzold C., Creating Mobile Apps with Xamarin.Forms, Microsoft Press](https://docs.microsoft.com/xamarin/xamarin-forms/creating-mobile-apps-xamarin-forms/) (p561)
 
+You might find the `MainPage.xaml` is getting quite long. IN the next section we will create a new subclass ov `ViewCell` which helps us split the XAML into more than one objet. 
+
 ---
 
-[Next - Organizing Data in Groups](listview-groups.md)
+[Next - Sub-classing `ViewCell`](listview-viewcell-sub.md)
