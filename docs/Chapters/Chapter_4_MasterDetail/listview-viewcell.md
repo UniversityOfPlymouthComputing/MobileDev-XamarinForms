@@ -79,7 +79,7 @@ Getting the layout right can be 'challenging'. Some tips:
 
 I refer you to the section on "Custom Cells" in [Petzold C., Creating Mobile Apps with Xamarin.Forms, Microsoft Press](https://docs.microsoft.com/xamarin/xamarin-forms/creating-mobile-apps-xamarin-forms/) (p561)
 
-You might find the `MainPage.xaml` is getting quite long. IN the next section we will create a new subclass ov `ViewCell` which helps us split the XAML into more than one objet. 
+You might find the `MainPage.xaml` is getting quite long. In the next section we will create a new subclass ov `ViewCell` which helps us split the XAML into more than one objet. 
 
 ---
 
