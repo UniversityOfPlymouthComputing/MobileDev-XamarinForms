@@ -12,7 +12,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:BoolToSelectionModeConverter x:Key="bool2mode"/>
-            <local:PlanetTemplateSelector x:Key="TemplateSelector" Page="{x:Reference MainContentPage}" />
+            <local:PlanetTemplateSelector x:Key="TemplateSelector" PageRef="{x:Reference MainContentPage}" />
         </ResourceDictionary>
         <Style TargetType="Label">
             <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>

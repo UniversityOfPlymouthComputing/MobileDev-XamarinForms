@@ -5,7 +5,8 @@ namespace SimpleListView
 {
     public class PlanetTemplateSelector : DataTemplateSelector
     {
-        public ContentPage Page { get; set; }
+        public ContentPage PageRef { get; set; }
+
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
             DataTemplate template;
@@ -18,17 +19,21 @@ namespace SimpleListView
                     Text = "Delete",
                     IsDestructive = true,
                 };
-                m1.SetBinding(MenuItem.CommandProperty, new Binding("DeleteCommand", source: Page.BindingContext));
+                m1.SetBinding(MenuItem.CommandProperty, new Binding("DeleteCommand", source: PageRef.BindingContext));
                 m1.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
+
+                MenuItem m2 = new MenuItem
+                {
+                    Text = "Swap",
+                    IsDestructive = false,
+                };
+                m2.SetBinding(MenuItem.CommandProperty, new Binding("SwapCommand", source: PageRef.BindingContext));
+                m2.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
 
                 if (p.Name == "Earth")
                 {
-                    template = new DataTemplate(() =>
-                    {
-                        HomePlanetViewCell cell = new HomePlanetViewCell();
-                        cell.IsEnabled = false;
-                        return cell;
-                    });
+                    //No item template for Earth - cannot delete or move
+                    template = new DataTemplate(typeof(HomePlanetViewCell));
                 }
                 else
                 {
@@ -36,6 +41,7 @@ namespace SimpleListView
                     {
                         PlanetViewCell cell = new PlanetViewCell();
                         cell.ContextActions.Add(m1);
+                        cell.ContextActions.Add(m2);
                         return cell;
                     });
                 }

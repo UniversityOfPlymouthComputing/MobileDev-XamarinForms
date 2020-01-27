@@ -110,8 +110,8 @@ namespace SimpleListView
         public string CounterString => $"Taps: {TapCount}, Selections: {SelectionCount}";
 
         public ICommand DeleteCommand { get; private set; }
+        public ICommand SwapCommand { get; private set; }
 
-        
 
         // **************************  EVENT HANDLERS **************************
 
@@ -120,7 +120,23 @@ namespace SimpleListView
         {
             SelectedRow = row;
             TapCount += 1;
+        }
 
+        //Event handler for selection changed
+        public void ItemSelectionChanged(int row, SolPlanet planet)
+        {
+            SelectedRow = row;
+            SelectionCount += 1;
+        }
+
+        // ************************  DATA OPERATIONS ***************************
+
+        //Menu item event - delete
+        public void DeleteItem(SolPlanet p) => groupWithPlanet(p).group?.Remove(p);
+
+        //Menu item - swap
+        public void SwapItem(SolPlanet planet)
+        {
             //Find which group the planet is in
             (PlanetGroup _, int idx) = groupWithPlanet(planet);
 
@@ -132,16 +148,17 @@ namespace SimpleListView
             _viewHelper.ScrollToObject(planet);
         }
 
-        //Event handler for selection changed
-        public void ItemSelectionChanged(int row, SolPlanet planet)
+        //Find which collection contains a specific data item 
+        private (PlanetGroup group, int index) groupWithPlanet(SolPlanet p)
         {
-            SelectedRow = row;
-            SelectionCount += 1;
+            int grpIndex = 0;
+            foreach (PlanetGroup grp in PlanetGroups)
+            {
+                if (grp.Contains(p)) return (grp, grpIndex);
+                grpIndex++;
+            }
+            return (null, grpIndex);
         }
-
-        //Menu item event - delete
-        public void DeleteItem(SolPlanet p) => groupWithPlanet(p).group?.Remove(p);
-
 
         // ***************************  CONSTRUCTOR ****************************
         public MainPageViewModel(IMainPageHelper viewHelper) : base(viewHelper.NavigationProxy)
@@ -164,20 +181,9 @@ namespace SimpleListView
                 }
             };
 
-            //Delete command
-            DeleteCommand = new Command<SolPlanet>(execute: (p) => DeleteItem(p) );
-        }
-
-        //Find which collection contains a specific data item 
-        private (PlanetGroup group, int index) groupWithPlanet(SolPlanet p)
-        {
-            int grpIndex = 0;
-            foreach (PlanetGroup grp in PlanetGroups)
-            {
-                if (grp.Contains(p)) return (grp, grpIndex);
-                grpIndex++;
-            }
-            return (null, grpIndex);
+            // ******************** COMMANDS ********************
+            DeleteCommand = new Command<SolPlanet>(execute: (p) => DeleteItem(p));
+            SwapCommand   = new Command<SolPlanet>(execute: (p) => SwapItem(p));
         }
 
         public MainPageViewModel() : base(null)
