@@ -22,9 +22,10 @@ To cover `ListView` in its entirety would take a long time and risks being overw
 * [Cells and Data Templates](listview-templates.md)
 * [Deleting Data and Menu Items](listview-delete.md)
 * [Data Templates and Menu Items in XAML](listview-datatemplate-xaml.md)
-* [TOBEREVIEWED - Custom Cell Layout with `ViewCell`](listview-viewcell.md) 
-* [TBD - Sub-classing `ViewCell`](listview-viewcell-sub.md)
-* [TOBEUPDATED - Organizing Data in Groups](listview-groups.md)
+* [Custom Cell Layout with `ViewCell`](listview-viewcell.md) 
+* [Sub-classing `ViewCell`](listview-viewcell-sub.md)
+* [Adding Bindable Properties to Custom Cells](listview-bindableprops.md)
+* [Organizing and Listing Data in Groups](listview-groups.md)
 * [TBD - Using Different Cell Types with Template Selectors](listview-template-sel.md)
 
 ## Example Code

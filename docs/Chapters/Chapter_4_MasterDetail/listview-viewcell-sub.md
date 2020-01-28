@@ -1,3 +1,5 @@
+[..](listview.md)
+
 [back](listview-viewcell.md) 
 
 ---
@@ -108,10 +110,15 @@ Build and run, and it just works!
 * The label bindings are currently hard-coded to literal strings (`Name` and `Distance`) in this cell. 
     * For this custom cell to be reusable and allow other property names to be bound to the visual elements, we would need to do more work in the code-behind to allow this to happen.
 * Remember that the _data template is responsible for instantiating a cell and setting the binding context_.
-    * The cell has no knowledge or reference to the `DataTemplate`, `ListView`, `Page` or ViewModel. 
+    * The cell has no knowledge or reference to the `DataTemplate`, `ListView`, `Page` or ViewModel.
+    * The binding context is usually a data item
     * The `MenuItem` is not included as it needs a reference to the ViewModel to support commanding.
 
 I refer you to the section p610 in [Petzold C., Creating Mobile Apps with Xamarin.Forms, Microsoft Press](https://docs.microsoft.com/xamarin/xamarin-forms/creating-mobile-apps-xamarin-forms/) for more.
+
+If we wish to reuse this cell, maybe with a different data set, then we can add bindable properties to the cell.
+
 ---
 
-[Next - Organizing Data in Groups](listview-groups.md)
+[Next - Adding Bindable Properties to Custom Cells](listview-bindableprops.md)
+

@@ -1,10 +1,12 @@
-[back](listview-viewcell-sub.md)
+[..](listview.md)
+
+[back](listview-bindableprops.md)
 
 ---
 
-# ListView - Organizing Data in Groups
+# ListView - Organizing and Listing Data in Groups
 
-The example for this section is found in the [/code/Chapter4/ListView/J_SimpleListView_Groupings](/code/Chapter4/ListView/J_SimpleListView_Groupings) folder.
+The example for this section is found in the [/code/Chapter4/ListView/K_SimpleListView_Groupings](/code/Chapter4/ListView/K_SimpleListView_Groupings) folder.
 
 > * Build and run the code
 > * Click on a planet to move it to the other group

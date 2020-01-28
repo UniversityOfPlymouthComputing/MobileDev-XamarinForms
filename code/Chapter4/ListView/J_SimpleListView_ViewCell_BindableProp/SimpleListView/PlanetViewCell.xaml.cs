@@ -13,14 +13,16 @@ namespace SimpleListView
     public partial class PlanetViewCell : ViewCell
     {
         public static readonly BindableProperty PlanetNameProperty =
-            BindableProperty.Create("PlanetName", typeof(string), typeof(PlanetViewCell), "Uncharted");
+            BindableProperty.Create(propertyName:"PlanetName",
+                                    returnType:typeof(string),
+                                    declaringType:typeof(PlanetViewCell),
+                                    defaultValue: "Uncharted");
 
         public string PlanetName
         {
             get => (string)GetValue(PlanetNameProperty);
             set => SetValue(PlanetNameProperty, value);
         }
-
 
         public static readonly BindableProperty DistanceFromSunProperty =
             BindableProperty.Create("DistanceFromSun", typeof(string), typeof(PlanetViewCell), "?");
