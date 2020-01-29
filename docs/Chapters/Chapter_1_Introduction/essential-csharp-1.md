@@ -518,8 +518,8 @@ There is some terminology around this.
 - In this example, `RoadVehicle` might be referred to as the _parent_ class or _base class_.
 - The `Car` class is referred to as and the _child_ or _subclass_.
 
-<p>
-<img src="img/inheritance.png">
+<p style="margin-left: 40px">
+<img src="img/inheritance-1.png">
 </p>
 
 Note the following key points:
@@ -551,7 +551,7 @@ This property was made public, so it can be changed from outside. We can do this
     PrimaryCar.HasTowBar = true;
 ```
 
-It should be stresses that the `HasTowBar` property is only present in `Car`, and not `RoadVehicle`. Extending behavior in this way is probably the most common thing to do when sub-classing. 
+It should be stressed that the `HasTowBar` property is only present in `Car`, and not `RoadVehicle`. Extending behavior in this way is probably the most common thing to do when sub-classing. 
 
 What is often more intriguing is when we wish to modify (either by replacing or  extending) the behavior of a parent class using a process known as _overriding_.
 
@@ -578,6 +578,10 @@ In `Car.cs`
 ```
 
 Note how we've _extended_ the functionality here. `base.Description` will return the description string from the parent. Appended to this is an addition string relating to the car (in C# you can append strings with the `+` operator).
+
+<p style="margin-left: 40px">
+<img src="img/inheritance-2.png">
+</p>
 
 > Aside: The code that reads `(HasTowBar ? " with tow-bar attached" : "."` is an inline conditional statement of the form `<condition> ? <value if true> : <value if false>`. 
 > `HasTowBar` is tested. If true, then `" with tow-bar attached"` is used otherwise its a full stop `"."`
