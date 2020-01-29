@@ -518,6 +518,10 @@ There is some terminology around this.
 - In this example, `RoadVehicle` might be referred to as the _parent_ class or _base class_.
 - The `Car` class is referred to as and the _child_ or _subclass_.
 
+<p>
+<img src="img/inheritance.png">
+</p>
+
 Note the following key points:
 
 - All properties and methods of the parent will be inherited by the child
