@@ -22,3 +22,6 @@ I am informed that	you can build Xamarin Forms on Linux using GTK# for the UI co
 If you are installing VisualStudio on your own machine, [Please follow the guide on this page](https://docs.microsoft.com/xamarin/get-started/installation/index?pivots=windows)
 
 
+---
+
+[NEXT - Some essential concepts in C#](essential-csharp-1.md)

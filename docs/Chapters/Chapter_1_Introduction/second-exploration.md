@@ -1,5 +1,7 @@
 [Table of Contents](README.md)
 
+---
+
 # A second exploration into Xamarin.Forms
 In this section, we build another single paged application, only this time we will add a little more complexity. For this, there are some suggested prerequisites including:
 
@@ -425,4 +427,4 @@ Next, we will discuss some more layout options.
 
 ----
 
-[Back to Table of Contents](./README.md)
+[NEXT - Grid Layout](grid-layout.md)

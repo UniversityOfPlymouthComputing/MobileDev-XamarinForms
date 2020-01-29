@@ -1,6 +1,8 @@
 [Table of Contents](README.md)
 
-# Pre-requisit knowledge / reading
+---
+
+# Pre-requisite knowledge / reading
 It is assumed the reader is familiar with XML elements, attributes and namespaces. If not, don't feel bad - there are some very well written and concise tutorials here. Do yourself a big favour and read these before embarking on Xamarin Forms! It won't take long.
 
 - [XML Elements](https://www.w3schools.com/xml/xml_elements.asp)
@@ -8,7 +10,7 @@ It is assumed the reader is familiar with XML elements, attributes and namespace
 - [XML Namespaces](https://www.w3schools.com/xml/xml_namespaces.asp)
 
 # First Exploration in Xamarin Forms
-This section is intended to familiarise you with the tools and to demonstrate some of the key concepts in a Xamarin.Forms application. The first task is to create a blank forms app.
+This section is intended to familiarize you with the tools and to demonstrate some of the key concepts in a Xamarin.Forms application. The first task is to create a blank forms app.
 
 - For the Mac, [follow this link](create-project-mac.md)
 - For Windows, [follow this link](create-project-pc.md)
@@ -723,3 +725,6 @@ Also useful from Microsoft.com
 - [C# Attributes](https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/attributes/)
 
 
+---
+
+[NEXT - More essential concepts in C#](essential-csharp-2.md)

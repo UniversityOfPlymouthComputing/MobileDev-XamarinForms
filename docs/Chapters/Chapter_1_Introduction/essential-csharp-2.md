@@ -723,4 +723,4 @@ See [Extension Methods](https://docs.microsoft.com/dotnet/csharp/programming-gui
 
 ----
 
-[Back to Table of Contents](./README.md)
+[NEXT - A second exploration into Xamarin.Forms](second-exploration.md)
