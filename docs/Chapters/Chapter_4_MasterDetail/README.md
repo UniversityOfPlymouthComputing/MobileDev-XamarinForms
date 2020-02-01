@@ -12,7 +12,7 @@ By the end of this chapter you should be able to:
 ### Xamarin.Forms and XAML
 
 # Contents
-1. [C# Collections - TO BE DONE]
+1. [C# Collections - TO BE DONE](collections.md)
 1. [ListView](listview.md)
 1. [Tables - TO BE DONE](tables.md)
 1. [CollectionView - TO BE DONE](collectionview.md)
