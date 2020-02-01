@@ -6,9 +6,9 @@ namespace SimpleTableView
 {
     public class SolPlanet
     {
-        public string Name { get; set; }
-        public double Distance { get; set; }
-        public bool Explored { get; set; }
+        public string Name { get; set; } = "Earth";
+        public double Distance { get; set; } = 147.0;
+        public bool Explored { get; set; } = true;
         public SolPlanet(string name, double dist, bool explored = false) => (Name, Distance, Explored) = (name, dist, explored);
         public SolPlanet(SolPlanet p) => Copy(p);
 

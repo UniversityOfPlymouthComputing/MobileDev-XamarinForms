@@ -36,7 +36,11 @@
                     <TextCell Text="{Binding DistanceFromSun, StringFormat='{0:F0}'}"/>
                     <ViewCell>
                         <ViewCell.View>
-                            <Slider Minimum="0.0" Maximum="1000.0" Value="{Binding DistanceFromSun, Mode=TwoWay}" />
+                            <Slider Minimum="0.0"
+                                    Maximum="1000.0"
+                                    MinimumTrackColor="Blue"
+                                    MaximumTrackColor="Red"
+                                    Value="{Binding DistanceFromSun, Mode=TwoWay}" />
                         </ViewCell.View>
                     </ViewCell>
                 </TableSection>
