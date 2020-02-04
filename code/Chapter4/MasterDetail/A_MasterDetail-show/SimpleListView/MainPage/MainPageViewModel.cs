@@ -20,7 +20,6 @@ namespace SimpleListView
         private ObservableCollection<PlanetGroup> _planetGroups;
         private string _titleString = "Nothing Selected";
         private SolPlanet _selectedPlanet;
-        private int _selectedRow = 0;
 
         // ***********************  BINDABLE PROPERTIES ************************
 
@@ -61,34 +60,8 @@ namespace SimpleListView
             }
         }
 
-        public int SelectedRow
-        {
-            get => _selectedRow;
-            set
-            {
-                if (_selectedRow == value) return;
-                _selectedRow = value;
-                OnPropertyChanged();
-            }
-        }
-
         public ICommand DeleteCommand { get; private set; }
         public ICommand SwapCommand { get; private set; }
-
-
-        // **************************  EVENT HANDLERS **************************
-
-        //Event handler for user tap
-        public void UserTappedList(int row, SolPlanet planet)
-        {
-            SelectedRow = row;
-        }
-
-        //Event handler for selection changed
-        public void ItemSelectionChanged(int row, SolPlanet planet)
-        {
-            SelectedRow = row;
-        }
 
         // ************************  DATA OPERATIONS ***************************
 
@@ -103,6 +76,7 @@ namespace SimpleListView
 
             //Swap the groups
             PlanetGroups[idx].Remove(planet);
+            planet.ToggleExplored();
             PlanetGroups[1 - idx].Add(planet);
 
             //Update display
@@ -130,8 +104,8 @@ namespace SimpleListView
             PlanetGroups = new ObservableCollection<PlanetGroup>()
             {
                 new PlanetGroup("Explored", "E") {
-                    new SolPlanet("Earth", 147.1),
-                    new SolPlanet("Mars", 238.92)
+                    new SolPlanet("Earth", 147.1, explored:true),
+                    new SolPlanet("Mars", 238.92, explored:true)
                 },
                 new PlanetGroup("Unexplored","U") {
                     new SolPlanet("Mercury", 69.543),

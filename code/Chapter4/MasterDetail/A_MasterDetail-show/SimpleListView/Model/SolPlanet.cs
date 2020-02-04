@@ -6,8 +6,22 @@ namespace SimpleListView
 {
     public class SolPlanet
     {
-        public string Name { get; set; }
-        public double Distance { get; set; }
-        public SolPlanet(string name, double dist) => (Name, Distance) = (name, dist);
+        public string Name { get; set; } = "Earth";
+        public double Distance { get; set; } = 147.0;
+        public bool Explored { get; set; } = true;
+        public SolPlanet(string name, double dist, bool explored = false) => (Name, Distance, Explored) = (name, dist, explored);
+        public SolPlanet(SolPlanet p) => Copy(p);
+
+        //Copy element by element
+        public void Copy(SolPlanet p)
+        {
+            Name = p.Name;
+            Distance = p.Distance;
+            Explored = p.Explored;
+        }
+
+        //Change explored category
+        public void ToggleExplored() => Explored = !Explored;
+
     }
 } //END OF NAMESPACE
