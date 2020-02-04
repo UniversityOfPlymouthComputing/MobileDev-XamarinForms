@@ -5,14 +5,23 @@
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991537" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MainPage\" />
-    <Folder Include="Cells\" />
-    <Folder Include="Model\" />
+    <Folder Include="img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="img\planet_header.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="img\planet_header.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\lib\uoplib\uoplib.csproj" />

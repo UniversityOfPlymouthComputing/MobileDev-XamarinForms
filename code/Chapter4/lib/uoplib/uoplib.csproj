@@ -7,14 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991537" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MainPage\" />
-    <Folder Include="Cells\" />
-    <Folder Include="Model\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\lib\uoplib\uoplib.csproj" />
+    <Folder Include="Converters\" />
   </ItemGroup>
 </Project>

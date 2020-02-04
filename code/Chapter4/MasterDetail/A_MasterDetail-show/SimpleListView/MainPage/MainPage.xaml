@@ -4,14 +4,14 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:SimpleListView"
+             xmlns:conv="clr-namespace:uoplib.converters;assembly=uoplib"
              mc:Ignorable="d"
              x:Name="MainContentPage"
              x:Class="SimpleListView.MainPage">
 
-    <!-- Converter -->
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local:BoolToSelectionModeConverter x:Key="bool2mode"/>
+            <!--<conv:BoolToSelectionModeConverter x:Key="bool2mode"/>-->
             <local:PlanetTemplateSelector x:Key="TemplateSelector" PageRef="{x:Reference MainContentPage}" />
         </ResourceDictionary>
         <Style TargetType="Label">
@@ -27,10 +27,9 @@
     <!-- Layout -->
     <StackLayout>
         
-        <Grid HeightRequest="120" BackgroundColor="#F0F0F0">
+        <Grid HeightRequest="120" Margin="10" Padding="10" BackgroundColor="#F3F3FF">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -40,17 +39,15 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Image Source="earth.png" WidthRequest="60" HeightRequest="60" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
+            <Image Source="earth.png" WidthRequest="60" HeightRequest="60"
+                   HorizontalOptions="End"
+                   Grid.Row="0" Grid.Column="0"/>
             <Label Text="{Binding TitleString}"
+                   FontSize="Large"
                    HorizontalOptions="CenterAndExpand" VerticalOptions="Center"
                    Margin="0" Grid.Row="0" Grid.Column="1" />
-            <Label Text="{Binding CounterString}" Margin="0" Grid.Row="1" Grid.Column="1"/>
+            
         </Grid>
-
-        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand">
-            <Label Text="Selection Mode:" HorizontalOptions="End" VerticalOptions="Center"/>
-            <Switch x:Name="SelectSwitch" IsToggled="{Binding SelectionModeOn, Mode=TwoWay}" HorizontalOptions="Start" VerticalOptions="Center"/>
-        </StackLayout>
 
         <!-- SelectionMode="{Binding Source={x:Reference SelectSwitch}, Path=IsToggled, Converter={StaticResource bool2mode}, Mode=TwoWay }" -->
         <!-- Consider setting RowHeight-->
@@ -65,7 +62,7 @@
                   IsGroupingEnabled="True"
                   GroupDisplayBinding="{Binding GroupTitle}"
                   GroupShortNameBinding="{Binding GroupShortName}"
-                  SelectionMode="{Binding SelectionModeOn, Converter={StaticResource bool2mode}, Mode=TwoWay }"
+                  SelectionMode="Single"
                   SelectedItem="{Binding SelectedPlanet}"
                   ItemTemplate="{d:StaticResource TemplateSelector}" >            
         </ListView>

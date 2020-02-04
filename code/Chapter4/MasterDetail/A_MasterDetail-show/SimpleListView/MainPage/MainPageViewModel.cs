@@ -2,9 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MVVMBase;
+using uoplib.mvvm;
 using Xamarin.Forms;
-using System.Linq;
 
 
 // https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/listview/
@@ -19,12 +18,9 @@ namespace SimpleListView
 
         private IMainPageHelper _viewHelper;
         private ObservableCollection<PlanetGroup> _planetGroups;
-        private bool _selectionModeOn = true;
         private string _titleString = "Nothing Selected";
         private SolPlanet _selectedPlanet;
         private int _selectedRow = 0;
-        private int _selectionCount = 0;
-        private int _tapCount = 0;
 
         // ***********************  BINDABLE PROPERTIES ************************
 
@@ -36,17 +32,6 @@ namespace SimpleListView
             {
                 if (_planetGroups == value) return;
                 _planetGroups = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool SelectionModeOn {
-            get => _selectionModeOn;
-            set
-            {
-                if (_selectionModeOn == value) return;
-
-                _selectionModeOn = value;
                 OnPropertyChanged();
             }
         }
@@ -87,28 +72,6 @@ namespace SimpleListView
             }
         }
 
-        public int SelectionCount {
-            get => _selectionCount;
-            set
-            {
-                if (_selectionCount == value) return;
-                _selectionCount = value;
-                OnPropertyChanged(nameof(CounterString));
-            }
-        }
-
-        public int TapCount {
-            get => _tapCount;
-            set
-            {
-                if (_tapCount == value) return;
-                _tapCount = value;
-                OnPropertyChanged(nameof(CounterString));
-            }
-        }
-
-        public string CounterString => $"Taps: {TapCount}, Selections: {SelectionCount}";
-
         public ICommand DeleteCommand { get; private set; }
         public ICommand SwapCommand { get; private set; }
 
@@ -119,14 +82,12 @@ namespace SimpleListView
         public void UserTappedList(int row, SolPlanet planet)
         {
             SelectedRow = row;
-            TapCount += 1;
         }
 
         //Event handler for selection changed
         public void ItemSelectionChanged(int row, SolPlanet planet)
         {
             SelectedRow = row;
-            SelectionCount += 1;
         }
 
         // ************************  DATA OPERATIONS ***************************

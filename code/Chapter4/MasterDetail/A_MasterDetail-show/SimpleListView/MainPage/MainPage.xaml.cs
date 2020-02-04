@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MVVMBase;
+using uoplib.mvvm;
 using Xamarin.Forms;
 
 namespace SimpleListView

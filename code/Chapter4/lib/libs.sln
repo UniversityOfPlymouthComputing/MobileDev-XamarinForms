@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uoplib", "uoplib\uoplib.csproj", "{967A42C2-262D-4D88-8F20-8C42A7828D80}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{967A42C2-262D-4D88-8F20-8C42A7828D80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{967A42C2-262D-4D88-8F20-8C42A7828D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{967A42C2-262D-4D88-8F20-8C42A7828D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{967A42C2-262D-4D88-8F20-8C42A7828D80}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

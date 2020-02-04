@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using MVVMBase;
+using uoplib.mvvm;
 
 namespace SimpleListView
 {
