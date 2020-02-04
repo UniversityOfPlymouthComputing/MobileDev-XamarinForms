@@ -27,7 +27,8 @@ By the end of this chapter you should be able to:
 - Compare and contrast an XML element and attribute
 - Explain the meaning and purpose of an XML namespace
 - Create a reference to a view object
-- Use a simple stack view to lay out controls
+- Use a simple stack view to layout controls
+- Use a simple grid view to layout controls
 
 # Contents
 
@@ -45,6 +46,7 @@ By the end of this chapter you should be able to:
    1. Hello World
    1. Unpicking what just happened
    1. Summary and reflection
+   1. [Self Study Task](first-exploration.md#Self-Study-Task)
 1. [More essential concepts in C#](essential-csharp-2.md)
    1. Optional Properties
    1. Computed Properties
@@ -55,8 +57,10 @@ By the end of this chapter you should be able to:
    1. The BMI Estimator
    1. Unit Testing - begin as we mean to carry on!
    1. Summary and Reflection  
+   1. [Self Study Task](second-exploration.md#Self-Study-Task)
+
 1. [Grid Layout](grid-layout.md)
-1. Self-Study Tasks
+    1. [Self Study Task](grid-layout.md#Self-Study-Task)
 1. References
 
 [BEGIN](Introduction_to_the_Course.md)

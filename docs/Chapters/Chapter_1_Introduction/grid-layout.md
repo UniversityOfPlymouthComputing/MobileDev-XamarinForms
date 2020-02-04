@@ -224,11 +224,12 @@ A few points to consider:
 </Grid.Resources>
 ```
 
-# Tasks
+# Self Study Task
 The UI of the BMI application needs improving. Entering values into text boxes is cumbersome and in this case, unnecessary. Furthermore, the layout could be cleaner. 
 
 Try the following:
 
+- Copy the complete solution (so you don't overwrite the original)
 - Remove the text boxes and replace with two sliders for entering the weight and height
 
 - The current design is fundamentally a grid, only it used `StackLayout`. Redesign the BMI example to use a grid layout. 

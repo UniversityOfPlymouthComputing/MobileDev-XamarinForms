@@ -405,7 +405,11 @@ All the time this is going on, the UI remains responsive. Had these tasks not be
 ## Final Code
 [All the code for this project is found in the final folder here](https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/tree/master/code/Chapter1/bmi_estimate/final)
 
-## Summary and Reflection
+# Self Study Task
+Try and build a BMI application for yourself. Use the notes above as a reference if you get stuck.
+
+
+# Summary and Reflection
 This section was based around a simple single page application, the BMI estimate. The architecture was based on a variant of "Model View Controller" (MVC).
 
 - Model Code contained data, methods to perform calculations on the data and type conversions. It contained no UI code, and had to knowledge of either the controller or view

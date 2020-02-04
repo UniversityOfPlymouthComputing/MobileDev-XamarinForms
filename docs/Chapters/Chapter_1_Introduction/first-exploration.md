@@ -724,6 +724,17 @@ Also useful from Microsoft.com
 - [C# Partial Classes and Methods](https://docs.microsoft.com/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)
 - [C# Attributes](https://docs.microsoft.com/dotnet/csharp/programming-guide/concepts/attributes/)
 
+# Self Study Task
+Try and build a Hello World application for yourself. Use the notes above as a refrence if you get stuck.
+
+**Key features are:**
+
+* Uses a `StackLayout` as the root view object to layout components vertically
+* Label which displays a text message
+    * If you set the `BackGroundColor`, this can be used to aid understanding of layout
+* Button with an event handler
+    * When the button is tapped, the label `Text` property updates to "Hello World"
+
 
 ---
 
