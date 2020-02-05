@@ -13,7 +13,7 @@ namespace PartialClass
             Name = name;
         }
 
-        public virtual void Hello() {
+        public void Hello() {
             Console.WriteLine("Hello BaseClass");
         }
     }

@@ -136,13 +136,13 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991537" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\bmi_estimate\bmi_estimate.csproj">
-      <Project>{C2054F6F-06D4-4105-83D5-CD8FD5392FA8}</Project>
+      <Project>{3171B4BD-73A7-4118-AB63-81ED0AD74A6F}</Project>
       <Name>bmi_estimate</Name>
     </ProjectReference>
   </ItemGroup>
