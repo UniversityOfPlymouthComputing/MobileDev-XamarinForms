@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="White"
+             x:Class="GridLayout.MainPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid BackgroundColor="Aqua" ColumnSpacing="10" RowSpacing="20" Margin="10" Padding="40">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Label Text="Welcome" BackgroundColor="Green"
+                Grid.Row="0" Grid.Column="0" />
+        <Label Text="To" BackgroundColor="Yellow"
+                Grid.Row="0" Grid.Column="1" />
+        <Label Text="Xamarin" BackgroundColor="Yellow"
+                Grid.Row="1" Grid.Column="0" />
+        <Label Text="Forms" BackgroundColor="Green"
+                Grid.Row="1" Grid.Column="1" />
+        <Label Text="Uni. of Plymouth" BackgroundColor="Gray"
+                Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
+    </Grid>
+
+</ContentPage>

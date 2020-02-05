@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Name="ThisPage"
+             x:Class="EventsAndBindings.MainPage">
+
+    <!--
+    <Label Text="{Binding Source={x:Reference MySlider}, Path=Value, StringFormat='{0:F0}'}}" 
+    -->
+    <StackLayout>
+        <Label Text="{Binding Source={x:Reference MySlider}, Path=Value, StringFormat='{0:F0}'}}"
+           HorizontalOptions="Center"
+           x:Name="TextLabel"
+           VerticalOptions="CenterAndExpand" />
+
+        <Slider Maximum="10" x:Name="MySlider" 
+                MinimumTrackColor="Blue"
+                MaximumTrackColor="Red"
+                Value="{Binding Source={x:Reference ThisPage}, Path=SliderValue, Mode=TwoWay}"
+                VerticalOptions="CenterAndExpand"/>
+        <Button Text="Random" Clicked="Button_Clicked" VerticalOptions="End" />
+
+    </StackLayout>
+
+</ContentPage>

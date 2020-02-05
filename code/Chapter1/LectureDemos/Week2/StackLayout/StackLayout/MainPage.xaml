@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             BackgroundColor="#F7F7A7"
+             x:Class="StackLayout.MainPage">
+
+    <StackLayout Orientation="Vertical" 
+                    BackgroundColor="#A0F0F0" 
+                    Padding="40" Margin="10">
+        <Label Text="Welcome to Xamarin.Forms!" 
+                FontSize="Large"
+                BackgroundColor="Blue"
+                TextColor="White"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
+
+        <StackLayout Orientation="Horizontal">
+            <Label Text="SOFT262" 
+                FontSize="Large"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                BackgroundColor="Chartreuse"/>
+            <Button Text="Click This" HorizontalOptions="EndAndExpand"/>
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>
