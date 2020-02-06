@@ -63,9 +63,15 @@ namespace SimpleListView
         // ************************    NAVIGATION    ***************************
         private void EditPlanet(SolPlanet p)
         {
-            PlanetDetailViewModel vm    = new PlanetDetailViewModel(p, this.Navigation);
+            PlanetDetailViewModel vm = new PlanetDetailViewModel(p, this.Navigation);
             PlanetDetailPage detailPage = new PlanetDetailPage(vm);
             _ = Navigation.PushAsync(detailPage);
+            MessagingCenter.Subscribe<PlanetDetailViewModel>(
+                this, "PlanetUpdated",
+                callback: (sender)=>
+                {
+                    SortIntoGroup(p);
+                });
         }
 
         // ************************  DATA OPERATIONS ***************************
@@ -99,6 +105,31 @@ namespace SimpleListView
             }
             return (null, grpIndex);
         }
+
+        //Sort into the correct group
+        private void SortIntoGroup(SolPlanet p)
+        {
+            PlanetGroup explored   = PlanetGroups[0];
+            PlanetGroup unexplored = PlanetGroups[1];
+            if (p.Explored)
+            {
+                RemovePlanetFromGroup(p, unexplored);
+                AddPlanetToGroup(p, explored);
+            } else
+            {
+                RemovePlanetFromGroup(p, explored);
+                AddPlanetToGroup(p, unexplored);
+
+            }
+        }
+
+        private void AddPlanetToGroup(SolPlanet p, PlanetGroup grp) {
+            if (!grp.Contains(p))
+            {
+                grp.Add(p);
+            }
+        }
+        private void RemovePlanetFromGroup(SolPlanet p, PlanetGroup grp) => grp.Remove(p);
 
         // ***************************  CONSTRUCTOR ****************************
         public MainPageViewModel(IMainPageHelper viewHelper) : base(viewHelper.NavigationProxy)

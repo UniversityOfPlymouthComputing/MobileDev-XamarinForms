@@ -33,7 +33,19 @@ namespace SimpleListView
             //Commands
             SaveCommand = new Command(execute: () =>
             {
+                //Note if the group needs changing
+                bool hasMovedGroup = (_original.Explored != Model.Explored);
+
+                //Update the original planet data (it's a reference type, so we can do this)
                 Save();
+
+                //Message back if the group has changed
+                if (hasMovedGroup)
+                {
+                    MessagingCenter.Send(this, "PlanetUpdated");
+                }
+
+                //Navigate back
                 _ = Navigation.PopAsync();
             });
         }
