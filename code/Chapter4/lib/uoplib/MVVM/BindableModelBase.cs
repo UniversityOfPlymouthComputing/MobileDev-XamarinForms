@@ -6,17 +6,10 @@ using System.Xml.Serialization;
 
 namespace uoplib.mvvm
 {
-    public class BindableModelBase : INotifyPropertyChanged
+    public class BindableModelBase : MVVMBase, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         protected string filename;
         public string Filename { get => filename; set => filename = value; }
-
-        //Create events when properties change
-        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         //Serialise this instance to an XML file
         public void Save()

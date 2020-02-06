@@ -4,18 +4,11 @@ using Xamarin.Forms;
 
 namespace uoplib.mvvm
 {
-    public abstract class ViewModelBase : INotifyPropertyChanged
+
+    public abstract class ViewModelBase : MVVMBase, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         //Useful property to reference the navigation page
-        protected INavigation Navigation { get; private set; }
-
-        //Create events when properties change
-        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        public INavigation Navigation { get; private set; }
 
         public ViewModelBase(INavigation navigation) => Navigation = navigation;
     }

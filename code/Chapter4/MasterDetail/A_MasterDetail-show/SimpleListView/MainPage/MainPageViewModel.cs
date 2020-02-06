@@ -57,6 +57,11 @@ namespace SimpleListView
 
                 //Update UI
                 TitleString = _selectedPlanet?.Name ?? "Nothing Selected";
+
+                //Navigate
+                var vm = new PlanetDetailViewModel(_selectedPlanet);
+                var detailPage = new PlanetDetailPage(vm);
+                _ = Navigation.PushAsync(detailPage);
             }
         }
 
