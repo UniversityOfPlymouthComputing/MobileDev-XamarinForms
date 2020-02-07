@@ -6,52 +6,72 @@ namespace SimpleListView
     public class PlanetTemplateSelector : DataTemplateSelector
     {
         public ContentPage PageRef { get; set; }
-
-        protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+        private DataTemplate _earth = null;
+        public DataTemplate Earth
         {
-            DataTemplate template;
-            ListView list = (ListView)container;
-
-            if (item is SolPlanet p)
+            get
             {
-                MenuItem m1 = new MenuItem
+                if (_earth == null)
                 {
-                    Text = "Delete",
-                    IsDestructive = true,
-                };
-                m1.SetBinding(MenuItem.CommandProperty, new Binding("DeleteCommand", source: PageRef.BindingContext));
-                m1.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
-
-                MenuItem m2 = new MenuItem
-                {
-                    Text = "Swap",
-                    IsDestructive = false,
-                };
-                m2.SetBinding(MenuItem.CommandProperty, new Binding("SwapCommand", source: PageRef.BindingContext));
-                m2.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
-
-                if (p.Name == "Earth")
-                {
-                    //No item template for Earth - cannot delete or move
-                    template = new DataTemplate(typeof(HomePlanetViewCell));
+                    _earth = new DataTemplate(typeof(HomePlanetViewCell));
                 }
-                else
+                return _earth;
+            }
+        }
+        private DataTemplate _other = null;
+        public DataTemplate Other
+        {
+            get
+            {
+                if (_other == null)
                 {
-                    template = new DataTemplate(() =>
+                    _other = new DataTemplate(() =>
                     {
+                        MenuItem m1 = new MenuItem
+                        {
+                            Text = "Delete",
+                            IsDestructive = true,
+                        };
+                        m1.SetBinding(MenuItem.CommandProperty, new Binding("DeleteCommand", source: PageRef.BindingContext));
+                        m1.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
+
+                        MenuItem m2 = new MenuItem
+                        {
+                            Text = "Swap",
+                            IsDestructive = false,
+                        };
+                        m2.SetBinding(MenuItem.CommandProperty, new Binding("SwapCommand", source: PageRef.BindingContext));
+                        m2.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
+
                         PlanetViewCell cell = new PlanetViewCell();
                         cell.ContextActions.Add(m1);
                         cell.ContextActions.Add(m2);
                         return cell;
                     });
                 }
+                return _other;
+            }
+        }
+
+        protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+        {
+            ListView list = (ListView)container;
+
+            if (item is SolPlanet p)
+            {
+                if (p.Name == "Earth")
+                {
+                    return Earth;
+                }
+                else
+                {
+                    return Other;
+                }
             }
             else
             {
-                template = new DataTemplate(typeof(TextCell));
+                return new DataTemplate(typeof(TextCell));
             }
-
-            return template;
         }
     }
 }

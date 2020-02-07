@@ -58,15 +58,12 @@ namespace SimpleListView
                 //Update UI
                 TitleString = _selectedPlanet?.Name ?? "Nothing Selected";
 
-                //Navigate
-                var vm = new PlanetDetailViewModel(_selectedPlanet);
-                var detailPage = new PlanetDetailPage(vm);
-                _ = Navigation.PushAsync(detailPage);
             }
         }
 
         public ICommand DeleteCommand { get; private set; }
         public ICommand SwapCommand { get; private set; }
+        public ICommand EditCommand { get; private set; }
 
         // ************************  DATA OPERATIONS ***************************
 
@@ -124,6 +121,11 @@ namespace SimpleListView
             // ******************** COMMANDS ********************
             DeleteCommand = new Command<SolPlanet>(execute: (p) => DeleteItem(p));
             SwapCommand   = new Command<SolPlanet>(execute: (p) => SwapItem(p));
+            EditCommand = new Command<SolPlanet>(execute: (p) => {
+              var vm = new PlanetDetailViewModel(p);
+              var detailPage = new PlanetDetailPage(vm);
+              _ = Navigation.PushAsync(detailPage);
+            });
         }
 
         public MainPageViewModel() : base(null)
