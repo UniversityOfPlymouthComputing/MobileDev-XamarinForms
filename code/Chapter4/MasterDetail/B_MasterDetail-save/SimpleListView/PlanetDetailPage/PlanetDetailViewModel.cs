@@ -17,9 +17,6 @@ namespace SimpleListView
             get; set;
         }
 
-        //Overwrite the original
-        private void Save() => _original.Copy(Model);
-
         public PlanetDetailViewModel() : base(null) => throw new Exception("Parameterless constructor not supported");
 
         public PlanetDetailViewModel(SolPlanet p, INavigation nav) : base(nav)
@@ -36,13 +33,12 @@ namespace SimpleListView
                 //Note if the group needs changing
                 bool hasMovedGroup = (_original.Explored != Model.Explored);
 
-                //Update the original planet data (it's a reference type, so we can do this)
-                Save();
+                //Update the original planet data (mutable reference type)
+                _original.Copy(Model);
 
                 //Message back if the group has changed
-                if (hasMovedGroup)
-                {
-                    MessagingCenter.Send(this, "PlanetUpdated");
+                if (hasMovedGroup) {
+                    MessagingCenter.Send(this, "PlanetUpdated", _original);
                 }
 
                 //Navigate back

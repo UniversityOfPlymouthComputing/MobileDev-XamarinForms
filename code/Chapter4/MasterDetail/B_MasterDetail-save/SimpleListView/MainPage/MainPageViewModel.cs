@@ -35,12 +35,13 @@ namespace SimpleListView
             }
         }
 
+        // Title string - displaying currently selected planet
         public string TitleString {
             get => _titleString ?? "Nothing Selected";
             set => Update<string>(ref _titleString, value);
         }
 
-        //This property is updated if the ListView selection changes by any means but ONLY if the selection changes
+        // This property is updated if the ListView selection changes by any means but ONLY if the selection changes
         public SolPlanet SelectedPlanet
         {
             get => _selectedPlanet;
@@ -56,9 +57,13 @@ namespace SimpleListView
             }
         }
 
+        // Back Button Title
+        public string BackButtonTitle { get; private set; } = "Cancel";
+
+        // Menu Item Commands
         public ICommand DeleteCommand { get; private set; }
-        public ICommand SwapCommand { get; private set; }
-        public ICommand EditCommand { get; private set; }
+        public ICommand SwapCommand   { get; private set; }
+        public ICommand EditCommand   { get; private set; }
 
         // ************************    NAVIGATION    ***************************
         private void EditPlanet(SolPlanet p)
@@ -66,35 +71,24 @@ namespace SimpleListView
             PlanetDetailViewModel vm = new PlanetDetailViewModel(p, this.Navigation);
             PlanetDetailPage detailPage = new PlanetDetailPage(vm);
             _ = Navigation.PushAsync(detailPage);
-            MessagingCenter.Subscribe<PlanetDetailViewModel>(
-                this, "PlanetUpdated",
-                callback: (sender)=>
-                {
-                    SortIntoGroup(p);
-                });
         }
 
         // ************************  DATA OPERATIONS ***************************
 
-        //Menu item event - delete
+        // Menu item event - delete
         public void DeleteItem(SolPlanet p) => groupWithPlanet(p).group?.Remove(p);
 
-        //Menu item - swap
+        // Menu item - swap
         public void SwapItem(SolPlanet planet)
         {
-            //Find which group the planet is in
-            (PlanetGroup _, int idx) = groupWithPlanet(planet);
-
-            //Swap the groups
-            PlanetGroups[idx].Remove(planet);
             planet.ToggleExplored();
-            PlanetGroups[1 - idx].Add(planet);
+            SortIntoGroup(planet);
 
             //Update display
             _viewHelper.ScrollToObject(planet);
         }
 
-        //Find which collection contains a specific data item 
+        // Find which collection contains a specific data item 
         private (PlanetGroup group, int index) groupWithPlanet(SolPlanet p)
         {
             int grpIndex = 0;
@@ -106,7 +100,7 @@ namespace SimpleListView
             return (null, grpIndex);
         }
 
-        //Sort into the correct group
+        // Sort into the correct group
         private void SortIntoGroup(SolPlanet p)
         {
             PlanetGroup explored   = PlanetGroups[0];
@@ -119,7 +113,6 @@ namespace SimpleListView
             {
                 RemovePlanetFromGroup(p, explored);
                 AddPlanetToGroup(p, unexplored);
-
             }
         }
 
@@ -154,14 +147,16 @@ namespace SimpleListView
 
             // ******************** COMMANDS ********************
             DeleteCommand = new Command<SolPlanet>(execute: (p) => DeleteItem(p));
-            SwapCommand   = new Command<SolPlanet>(execute: (p) => SwapItem(p));
-            EditCommand   = new Command<SolPlanet>(execute: (p) => EditPlanet(p));
+            SwapCommand = new Command<SolPlanet>(execute: (p) => SwapItem(p));
+            EditCommand = new Command<SolPlanet>(execute: (p) => EditPlanet(p));
+
+            // ******************* CALL BACKS *******************
+            MessagingCenter.Subscribe<PlanetDetailViewModel, SolPlanet>(
+                this, "PlanetUpdated",
+                callback: (sender, p) => SortIntoGroup(p));
         }
 
-        public MainPageViewModel() : base(null)
-        {
-            throw new System.Exception("You cannot call the parameterless constructor");
-        }
+        public MainPageViewModel() : base(null) => throw new System.Exception("You cannot call the parameterless constructor");
 
     } //END OF CLASS
 } //END OF NAMESPACE

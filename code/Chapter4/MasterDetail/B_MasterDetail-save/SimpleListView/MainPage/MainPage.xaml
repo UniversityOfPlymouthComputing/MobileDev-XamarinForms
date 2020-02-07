@@ -7,14 +7,15 @@
              xmlns:conv="clr-namespace:uoplib.converters;assembly=uoplib"
              mc:Ignorable="d"
              Title="Planets"
+             NavigationPage.BackButtonTitle="{Binding BackButtonTitle}"
              x:Name="MainContentPage"
              x:Class="SimpleListView.MainPage">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <!--<conv:BoolToSelectionModeConverter x:Key="bool2mode"/>-->
             <local:PlanetTemplateSelector x:Key="TemplateSelector" PageRef="{x:Reference MainContentPage}" />
         </ResourceDictionary>
+
         <Style TargetType="Label">
             <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
             <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
@@ -25,7 +26,6 @@
     <!-- Platform Specific Padding -->
     <ContentPage.Padding>        <OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 0" Android="10, 0" />    </ContentPage.Padding>
 
-    <!-- Layout -->
     <StackLayout>
         
         <Grid HeightRequest="120" Margin="10" Padding="10" BackgroundColor="#F3F3FF">
@@ -50,9 +50,6 @@
             
         </Grid>
 
-        <!-- SelectionMode="{Binding Source={x:Reference SelectSwitch}, Path=IsToggled, Converter={StaticResource bool2mode}, Mode=TwoWay }" -->
-        <!-- Consider setting RowHeight-->
-        <!-- Set HasUnevenRows="True" to autosize row height, although there is a performance hit for this -->
         <ListView ItemsSource="{Binding PlanetGroups}"
                   x:Name="PlanetListView"
                   HorizontalOptions="Center"
