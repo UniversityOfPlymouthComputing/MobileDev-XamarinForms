@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:SimpleListView"
+             mc:Ignorable="d"
+             x:Name="MainContentPage"
+             x:Class="SimpleListView.MainPage">
+
+    <ContentPage.Resources>
+
+        <ResourceDictionary>
+
+            <!-- DATA TEMPLATES -->
+            <DataTemplate x:Key="EarthDataTemplate">
+                <local:HomePlanetViewCell/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="OtherDataTemplate">
+                <local:PlanetViewCell>
+                    <local:PlanetViewCell.ContextActions>
+                        <MenuItem Text="Delete"
+                                  IsDestructive="True"
+                                  CommandParameter="{Binding .}"
+                                  Command="{Binding Source={x:Reference MainContentPage}, Path='BindingContext.DeleteCommand'}"/>
+                        <MenuItem Text="Swap"
+                                  IsDestructive="False"
+                                  CommandParameter="{Binding .}"
+                                  Command="{Binding Source={x:Reference MainContentPage}, Path='BindingContext.SwapCommand'}"/>
+                    </local:PlanetViewCell.ContextActions>
+                </local:PlanetViewCell>
+            </DataTemplate>
+
+            <!-- CONVERTERS -->
+            <local:BoolToSelectionModeConverter x:Key="bool2mode"/>
+
+            <!-- TEMPLATE SELECTOR -->
+            <local:PlanetTemplateSelector x:Key="TemplateSelector"
+                                          EarthTemplate="{x:StaticResource EarthDataTemplate}"
+                                          OtherplanetTemplate="{x:StaticResource OtherDataTemplate}"
+                                          />
+        </ResourceDictionary>
+
+        <Style TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            <Setter Property="Margin" Value="0,40,0,40"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <!-- Platform Specific Padding -->
+    <ContentPage.Padding>        <OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 0" Android="10, 0" />    </ContentPage.Padding>
+
+    <!-- Layout -->
+    <StackLayout>
+        
+        <Grid HeightRequest="120" BackgroundColor="#F0F0F0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Source="earth.png" WidthRequest="60" HeightRequest="60" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
+            <Label Text="{Binding TitleString}"
+                   HorizontalOptions="CenterAndExpand" VerticalOptions="Center"
+                   Margin="0" Grid.Row="0" Grid.Column="1" />
+            <Label Text="{Binding CounterString}" Margin="0" Grid.Row="1" Grid.Column="1"/>
+        </Grid>
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand">
+            <Label Text="Selection Mode:" HorizontalOptions="End" VerticalOptions="Center"/>
+            <Switch x:Name="SelectSwitch" IsToggled="{Binding SelectionModeOn, Mode=TwoWay}" HorizontalOptions="Start" VerticalOptions="Center"/>
+        </StackLayout>
+
+        <!-- SelectionMode="{Binding Source={x:Reference SelectSwitch}, Path=IsToggled, Converter={StaticResource bool2mode}, Mode=TwoWay }" -->
+        <!-- Consider setting RowHeight-->
+        <!-- Set HasUnevenRows="True" to autosize row height, although there is a performance hit for this -->
+        <ListView ItemsSource="{Binding PlanetGroups}"
+                  x:Name="PlanetListView"
+                  HorizontalOptions="Center"
+                  VerticalOptions="FillAndExpand"
+                  SeparatorVisibility="Default"
+                  HasUnevenRows="False"
+                  RowHeight="60"
+                  IsGroupingEnabled="True"
+                  GroupDisplayBinding="{Binding GroupTitle}"
+                  GroupShortNameBinding="{Binding GroupShortName}"
+                  SelectionMode="{Binding SelectionModeOn, Converter={StaticResource bool2mode}, Mode=TwoWay }"
+                  SelectedItem="{Binding SelectedPlanet}"
+                  ItemTemplate="{d:StaticResource TemplateSelector}" >            
+        </ListView>
+
+    </StackLayout>
+</ContentPage>
+
