@@ -16,7 +16,7 @@
         <ToolbarItem Text="SAVE" Command="{Binding SaveCommand}" />
     </ContentPage.ToolbarItems>
 
-    <StackLayout>
+    <StackLayout Margin="0,10,0,0">
         <Image x:Name="Banner"
                Source="{uoplib_resext:ImageResource SimpleListView.PlanetDetailPage.img.planet_header.png}"
                HorizontalOptions="FillAndExpand"
