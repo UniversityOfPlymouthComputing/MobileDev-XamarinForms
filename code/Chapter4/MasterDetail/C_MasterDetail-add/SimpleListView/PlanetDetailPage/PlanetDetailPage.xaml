@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:uoplib_resext="clr-namespace:uoplib.ResourceExtension;assembly=uoplib"
+             xmlns:local="clr-namespace:SimpleListView"
+             Title="Edit"
+             x:Class="SimpleListView.PlanetDetailPage">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"  
+                    iOS="0,40,0,0"  
+                    Android="0">  
+        </OnPlatform> 
+    </ContentPage.Padding>
+
+    <ContentPage.ToolbarItems> 
+        <ToolbarItem Text="SAVE" Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Margin="0,10,0,0">
+        <Image x:Name="Banner"
+               Source="{uoplib_resext:ImageResource SimpleListView.PlanetDetailPage.img.planet_header.png}"
+               HorizontalOptions="FillAndExpand"
+               Aspect="AspectFit"
+               HeightRequest="60" />
+
+        <Label Text="Welcome to Planets!"
+               HorizontalOptions="Center"
+               x:Name="MessageLabel"
+               Margin="0,20,0,0"
+               VerticalOptions="CenterAndExpand" />
+
+        <TableView Margin="0,20,0,0">
+            <TableRoot Title="Planets">
+                <TableSection Title="Planet Info">
+                    <EntryCell Label="Name:" Placeholder="Planet Name" Keyboard="Text" Text="{Binding Model.Name}"/>
+                    <SwitchCell Text="Explored:" On="{Binding Model.Explored}"/>
+                </TableSection>
+                <TableSection Title="Distance from Sun (million km)">
+                    <TextCell Text="{Binding Model.Distance, StringFormat='{0:F0}'}"/>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <Slider Minimum="0.0"
+                                    Maximum="1000.0"
+                                    MinimumTrackColor="Blue"
+                                    MaximumTrackColor="Red"
+                                    Value="{Binding Model.Distance, Mode=TwoWay}" />
+                        </ViewCell.View>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+    </StackLayout>
+</ContentPage>

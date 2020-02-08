@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:SimpleListView"
+             xmlns:conv="clr-namespace:uoplib.converters;assembly=uoplib"
+             mc:Ignorable="d"
+             Title="Planets"
+             NavigationPage.BackButtonTitle="{Binding BackButtonTitle}"
+             x:Name="MainContentPage"
+             x:Class="SimpleListView.MainPage">
+
+    <ContentPage.ToolbarItems> 
+        <ToolbarItem Text="Add" Command="{Binding AddCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:PlanetTemplateSelector x:Key="TemplateSelector" PageRef="{x:Reference MainContentPage}" />
+        </ResourceDictionary>
+
+        <Style TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            <Setter Property="Margin" Value="0,40,0,40"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <!-- Platform Specific Padding -->
+    <ContentPage.Padding>        <OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 0" Android="10, 0" />    </ContentPage.Padding>
+
+    <StackLayout>
+        
+        <Grid HeightRequest="120" Margin="10" Padding="10" BackgroundColor="#F3F3FF">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Source="earth.png" WidthRequest="60" HeightRequest="60"
+                   HorizontalOptions="End"
+                   Grid.Row="0" Grid.Column="0"/>
+            <Label Text="{Binding TitleString}"
+                   FontSize="Large"
+                   HorizontalOptions="CenterAndExpand" VerticalOptions="Center"
+                   Margin="0" Grid.Row="0" Grid.Column="1" />
+            
+        </Grid>
+
+        <ListView ItemsSource="{Binding PlanetGroups}"
+                  x:Name="PlanetListView"
+                  HorizontalOptions="Center"
+                  VerticalOptions="FillAndExpand"
+                  SeparatorVisibility="Default"
+                  HasUnevenRows="False"
+                  RowHeight="60"
+                  IsGroupingEnabled="True"
+                  GroupDisplayBinding="{Binding GroupTitle}"
+                  GroupShortNameBinding="{Binding GroupShortName}"
+                  SelectionMode="Single"
+                  SelectedItem="{Binding SelectedPlanet}"
+                  ItemTemplate="{d:StaticResource TemplateSelector}" >            
+        </ListView>
+
+    </StackLayout>
+</ContentPage>
+
