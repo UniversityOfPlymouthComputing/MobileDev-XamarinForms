@@ -14,7 +14,8 @@ The example for this section is found in the [/code/Chapter4/ListView/L_SimpleLi
 > * Try to swipe and move planet Earth
 > * Familiarize yourself with the code, noting the changes in XAML, the ViewModel and the new class PlanetGroup
 
-You will notice that the cell type for planet Earth is different both in terms of visuals and behavior. To achieve this, we have a new custom cell `HomePlanetViewCell`, and we introduce another object, the `DataTemplateSelector` which chooses a data template at run time. This is simple in concept and in implementation. If there is any complexity, it's the  "plumbing-and-wiring".
+You will notice that the cell type for planet Earth is different both in terms of visuals and behavior. To achieve this, we have a new custom cell `HomePlanetViewCell`, and we introduce another object, the `DataTemplateSelector` which chooses a data template at run time. This is simple in concept and in implementation.
+
 
 ## MainPage.xaml
 Starting at the top level, there have been some small changes to the main page. First, in the resource dictionary, there is an instance of a new object type `PlanetTemplateSelector`:
@@ -55,78 +56,86 @@ Which approach you use is your decision of course. With both, we are setting the
 Let's now look at this template selector:
 
 ## `PlanetTemplateSelector.cs`
-This class has the task of interrogating each data item and deciding which data template should be used. Read through the following code it see how it works:
+This class has the task of interrogating each data item and deciding which data template should be used. First, two properties of type `DataTemplate` are instantiated. Note that you only need to create one instance of each (they are reused).
 
 ```C#
-    public class PlanetTemplateSelector : DataTemplateSelector
+public class PlanetTemplateSelector : DataTemplateSelector
+{
+    public ContentPage PageRef { get; set; }
+    private DataTemplate _earth = null;
+    public DataTemplate Earth
     {
-        public ContentPage PageRef { get; set; }
-
-        protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+        get
         {
-            DataTemplate template;
-            ListView list = (ListView)container;
-
-            if (item is SolPlanet p)
+            if (_earth == null)
             {
-                MenuItem m1 = new MenuItem
+                _earth = new DataTemplate(typeof(HomePlanetViewCell));
+            }
+            return _earth;
+        }
+    }
+    private DataTemplate _other = null;
+    public DataTemplate Other
+    {
+        get
+        {
+            if (_other == null)
+            {
+                _other = new DataTemplate(() =>
                 {
-                    Text = "Delete",
-                    IsDestructive = true,
-                };
-                m1.SetBinding(MenuItem.CommandProperty, new Binding("DeleteCommand", source: PageRef.BindingContext));
-                m1.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
-
-                MenuItem m2 = new MenuItem
-                {
-                    Text = "Swap",
-                    IsDestructive = false,
-                };
-                m2.SetBinding(MenuItem.CommandProperty, new Binding("SwapCommand", source: PageRef.BindingContext));
-                m2.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
-
-                if (p.Name == "Earth")
-                {
-                    //No item template for Earth - cannot delete or move
-                    template = new DataTemplate(typeof(HomePlanetViewCell));
-                }
-                else
-                {
-                    template = new DataTemplate(() =>
+                    MenuItem m1 = new MenuItem
                     {
-                        PlanetViewCell cell = new PlanetViewCell();
-                        cell.ContextActions.Add(m1);
-                        cell.ContextActions.Add(m2);
-                        return cell;
-                    });
-                }
+                        Text = "Delete",
+                        IsDestructive = true,
+                    };
+                    m1.SetBinding(MenuItem.CommandProperty, new Binding("DeleteCommand", source: PageRef.BindingContext));
+                    m1.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
+
+                    MenuItem m2 = new MenuItem
+                    {
+                        Text = "Swap",
+                        IsDestructive = false,
+                    };
+                    m2.SetBinding(MenuItem.CommandProperty, new Binding("SwapCommand", source: PageRef.BindingContext));
+                    m2.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
+
+                    PlanetViewCell cell = new PlanetViewCell();
+                    cell.ContextActions.Add(m1);
+                    cell.ContextActions.Add(m2);
+                    return cell;
+                });
+            }
+            return _other;
+        }
+    }
+
+    ...
+}
+```    
+
+The focus is mostly the following extract, which interrogates the data and decides which `DataTemplate` to use:
+
+```C#
+    ...
+    protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+    {
+        ListView list = (ListView)container;
+
+        if (item is SolPlanet p)
+        {
+            if (p.Name == "Earth")
+            {
+                return Earth;
             }
             else
             {
-                template = new DataTemplate(typeof(TextCell));
+                return Other;
             }
-
-            return template;
         }
-    }
-```    
-
-The focus is the following extract, which interrogates the data and decides which cell type to us:
-
-```C#
-    if (p.Name == "Earth")
-    {
-        template = new DataTemplate(typeof(HomePlanetViewCell));
-    }
-    else
-    {
-        template = new DataTemplate(() =>
+        else
         {
-            PlanetViewCell cell = new PlanetViewCell();
-            cell.ContextActions.Add(m1);
-            cell.ContextActions.Add(m2);
-            return cell;
-        });
+            return new DataTemplate(typeof(TextCell));
+        }
     }
 ```               
 
