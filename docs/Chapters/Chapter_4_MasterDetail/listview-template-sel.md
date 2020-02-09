@@ -150,13 +150,10 @@ Notes:
 * The parameter `container` is a reference to the `ListView`
 * The menu items still use commanding. The reference to the ViewModel is accessed via `PageRef.BindingContext`
 
-# Summary
-That was a lot. Dynamic tables of data are central to so many applications that it was felt necessary to give them a fairly comprehensive treatment. I hope this provided sufficient coverage to enable you to begin developing your own applications. There is almost always more to know, but hopefully, you should be able to use the documentation to discover how to use most features of `ListView`. Some of the things not covered included search, pull to refresh and customizing headers and footers.
+## What about XAML?
+For clarity, I've created both `DataTemplate` objects in code. As is often the case, you can also specify and instantiate these data templates in XAML. The next section demonstrates this.
 
-Some of the difficulty with `ListView` enters when behaviour is hidden, and in particular, the setting of the binding context. For me personally, this is more confusing when using XAML. However, we should probably be grateful that we've been able to create functionally equivalent behaviour on two platforms _with no platform specific code_ whilst seemingly maintaining good performance. That is something of an achievement for all involved.
+---
 
-----
+[Next - ListView DataTemplate Selection with XAML](listview-template-xaml.md)
 
-[Back to top of ListView](listview.md)
-
-[Back to the main menu](readme.md)
