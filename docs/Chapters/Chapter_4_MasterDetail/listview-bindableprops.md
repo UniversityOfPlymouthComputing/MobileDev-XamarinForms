@@ -16,7 +16,7 @@ In this section, we add bindable properties to the `ViewCell` sub-class, `Planet
 On this occasion, we will work top-down.
 
 ## MainPage.xaml
-The purpose of this section is capture in `MainPage.xaml`
+The purpose of this section is captured in `MainPage.xaml`
 
 ```XML
     ...
@@ -35,7 +35,7 @@ The purpose of this section is capture in `MainPage.xaml`
     ...
 ```
 
-When specifying the cell type, two custom properties `PlanetName` and `DistanceFromSun` are explicitly bound to the data item:
+Note how when specifying the cell type, two custom properties `PlanetName` and `DistanceFromSun` are now explicitly bound to the data item:
 
 ```XML
     ...
@@ -51,7 +51,7 @@ whereas previously it simply read:
     ...
 ```
 
-whereby the property names of the data item had to be specifically "Name" and "Distance". If this does not match the properry names of the data items, it will not work. Furthermore, this information is buried and hard-coded inside `PlanetViewCell`.
+Previously the property names of the data item _had_ to be specifically "Name" and "Distance". If this does not match the property names of the data items, it will not work. Furthermore, this information is buried and hard-coded inside `PlanetViewCell`.
 
 These new properties are set up in the code behind.
 

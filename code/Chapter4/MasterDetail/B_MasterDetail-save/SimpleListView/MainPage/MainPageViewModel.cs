@@ -141,6 +141,7 @@ namespace SimpleListView
                     new SolPlanet("Venus", 108.62),
                     new SolPlanet("Jupiter", 782.32),
                     new SolPlanet("Saturn", 1498.3),
+                    new SolPlanet("Uranus", 2964.2),
                     new SolPlanet("Pluto", 5906.4)
                 }
             };
