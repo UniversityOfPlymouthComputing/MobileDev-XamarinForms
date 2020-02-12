@@ -19,18 +19,52 @@
                     <x:Double>255</x:Double>
                     <x:Double>0</x:Double>
                 </x:Arguments>
-            </Color> 
+            </Color>
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <StackLayout BackgroundColor="{x:Static local:MyXamarinConstants.BackgroundCol}">
-        <Label Text="Welcome to Xamarin.Forms!"
+        <Label Text="TitleLabel"
+               x:Name="TitleLabel"
                TextColor="{x:StaticResource Key=TextCol}"
                BackgroundColor="{x:StaticResource Key=BkCol}"
                Padding="20"
                HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand" />
+               VerticalOptions="EndAndExpand" />
+        <Button Text="Button 1" Clicked="Button_Clicked" VerticalOptions="StartAndExpand"/>
 
+        <Label Text="Label 2" x:Name="Label2"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="EndAndExpand"/>
+        <Button Text="Button 2" x:Name="Button2"
+                Clicked="Button2_Clicked"
+                VerticalOptions="StartAndExpand" HorizontalOptions="Center"/>
+
+        <Label Text="{Binding Source={x:Reference Label3Switch}, Path=IsToggled, StringFormat='Status: {0}'}" 
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="EndAndExpand"/>
+        <Switch x:Name="Label3Switch" IsToggled="True"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="Center"/>
+
+        <Label Text="{Binding Greeting}" 
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="EndAndExpand"/>
+        <Button Text="Button 3" x:Name="Button3"
+                Clicked="Button3_Clicked"
+                VerticalOptions="Start" HorizontalOptions="Center"/>
+        <Button Text="Button 4"
+                Command="{Binding Button4Command}"
+                VerticalOptions="StartAndExpand" HorizontalOptions="Center"/>
+
+
+        <Label Text="Label 4" x:Name="Label4"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="EndAndExpand"/>
+        <Slider Maximum="100" x:Name="MySlider" Value="1" 
+                VerticalOptions="StartAndExpand" HorizontalOptions="Center"
+                />
 
     </StackLayout>
 </ContentPage>
