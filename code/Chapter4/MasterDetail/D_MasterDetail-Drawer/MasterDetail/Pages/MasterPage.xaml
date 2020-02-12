@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Menu"
+             Padding="0,40,0,0"
+             x:Class="MasterDetail.MasterPage">
+    <ContentPage.Content >
+        <StackLayout>
+            <Label Text="Menu" FontSize="Large" HorizontalOptions="Center"/>
+            <TableView Margin="20" HasUnevenRows="True">
+                <TableRoot Title="Menu">
+                    <TableSection Title="Section 1">
+                        <TextCell Text="Page 1-1" x:Name="Page_1_Cell"/>
+                        <TextCell Text="Page 1-2" x:Name="Page_2_Cell"/>
+                    </TableSection>
+                    <TableSection Title="Section 2">
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Button Text="Reset Data"
+                                        x:Name="ResetButton"
+                                        HorizontalOptions="Start"
+                                        Margin="20,0,0,0" />
+                            </ViewCell.View>
+                        </ViewCell>
+                    </TableSection>
+                </TableRoot>
+            </TableView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
