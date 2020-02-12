@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:BindingsLecture"
+             x:Name="ThisPage"
+             mc:Ignorable="d"
+             x:Class="BindingsLecture.MainPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="TextCol">
+                Blue
+            </Color>
+            <Color x:Key="BkCol">
+                <x:Arguments>
+                    <x:Double>255</x:Double>
+                    <x:Double>255</x:Double>
+                    <x:Double>0</x:Double>
+                </x:Arguments>
+            </Color> 
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout BackgroundColor="{x:Static local:MyXamarinConstants.BackgroundCol}">
+        <Label Text="Welcome to Xamarin.Forms!"
+               TextColor="{x:StaticResource Key=TextCol}"
+               BackgroundColor="{x:StaticResource Key=BkCol}"
+               Padding="20"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand" />
+
+
+    </StackLayout>
+</ContentPage>
