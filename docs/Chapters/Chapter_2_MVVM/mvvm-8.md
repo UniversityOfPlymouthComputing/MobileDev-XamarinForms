@@ -27,7 +27,7 @@ Let's start with what we want the application to look like:
 
 The XAML for this interface is slightly modified:
 
-```XAML
+```XML
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -96,7 +96,7 @@ The XAML for this interface is slightly modified:
 
 ```
 
-- The ViewModel is no longer instantiated via XAML. Instead this is performed in the code-behind.
+- The ViewModel is no longer instantiated via XAML. Instead this is performed in the code-behind (for simplicity).
 - A label saying "Tap the button to fetch a saying" is displayed. 
     - It's `IsVisible` property is bound to the (new) ViewModel property `HasNoData`
     - `HasNoData` is a property on the view model which is derived from the `HasData` property on the Model
@@ -205,7 +205,7 @@ The last two are less obvious, but both relate to the concrete class `Command`
   void ChangeCanExecute(ICommand obj);   
 ```
 
-Recall that the button command property is bound to a ViewModel property of type `ICommand`. Now, `ICommand` is an _interface_, so this needs to be assigned to an instance of a concrete derivative. In our case, this the concrete _class_ is type `Command` which is part of Xamarin Forms, and is strictly a view object. 
+Recall that the button command property is bound to a ViewModel property of type `ICommand`. Now, `ICommand` is an _interface_, so this needs to be assigned to an instance of a concrete derivative. In our case, this the concrete _class_ is type `Command` which is part of Xamarin Forms, and could be argues to be a view object (I am being very pedantic here).
 
 - The View is given the responsibility of instantiating Xamarin.Forms concrete objects.
 - As `ChangeCanExecute` is not part of `ICommand` but `Command`, then this is handled in the View as well
@@ -222,6 +222,8 @@ Remember the following stated right back at the start:
 Well, here you have it!
 
 ViewModels can of course instantiate and call methods on View objects, and the world will continue to revolve, but that does make them harder to test if we pursue the idea of unit testing the ViewModel (maybe using CIT?). If the code can be kept to pure C#.NET, then in one sense we can expect less problems with testing. Actually Commands prove to be quick tricky to test however you access them, but that's for another time.
+
+> In practice, `Command` objects are usually instantiated within the ViewModel. Mocking commands is difficult, so if you want to make testing easier, move any logic to a method (that is easy to call from a unit test) and invoke it from the command execute block.
 
 As we also saw, some tasks (such as navigation) can only be performed by the view layer. Therefore, we need a way to invoke such behaviors from the ViewModel.
 
@@ -381,15 +383,15 @@ Therefore, there is not specific role for the ViewModel to play! Therefore, all 
 
 The `ShowModalAboutPageAsync()` is part of the `IMainPageViewHelper` public interface, and therefore accessible from the ViewModel. This might prove important should the logic change. For now, it's unused.
 
-### Reflection
+### Reflecting on where we are
 We started with a very simple application "HelloBindings" modelled on something that resembled a "Model View Controller" architecture. Through the addition of a bindings, this migrated to an architecture known as "Model View ViewModel" (MVVM). For such a simple example, this would seem like over-engineering until you begin to scale the application.
 
 The data model was switched to one that leveraged a [Azure Function](https://azure.microsoft.com/services/functions/). This was a static method in the cloud which could be invoked through HTTP (known as an HTTP trigger). This addded a new level of complexity to the application as the model interface became asynchronous.
 
 A principle adhered to was [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns). 
-- The View both instantiated view objects, but also (in this case) instantiated the view model. All view related tasks, including any that required access to concrete objects in Xamarin.Forms, were implemented within the view objects. The view presented an interface to the ViewModel and bound to it's properties using a bindings layer (which itself uses reflection to avoid the need for tight-binding).
+- The View both instantiated view objects, but also (in this case) instantiated the view model. All view related tasks, including (pedantically) any that required access to concrete objects in Xamarin.Forms, were implemented within the view objects. The view presented an interface to the ViewModel and bound to it's properties using a bindings layer (which itself uses reflection to avoid the need for tight-binding).
 - The view model is the glue between the View and the Model. It exposes bindable properties to form a loose coupling with the view. It observes events from the Model. An abstract class was used to allow easy switching between different concrete models. Further abstraction with interfaces could have been used. However, the trade would be additional code and complexity. It is also very unlikely any of the code would be reused except in unit tests.
-- The Model was developed to focus on it's specific task, that of encapsulating data, fetching data from the cloud and methods that operate on the data. Exposes bindable properties that communicated status changes that any other object might choose to observe. This is done without knowledge of the objects themselves. This makes it very easy to write unit tests.
+- The Model was developed to focus on it's specific task, that of encapsulating data, fetching data from the cloud and methods that operate on the data. It exposes bindable properties that communicated status changes that **any** other object might choose to observe. This is done without prior knowledge of the objects themselves. This makes it very easy to write unit tests.
 
 MMVM seems like a lot of extra work? - a simple application was used here to an educational vehicle, and to hopefully help explain MVVM and the different roles played by each layer. As applications scale, so architecture becomes more important. Now, if this _was_ the final application, one might question if MVVM was worth all the extra effort. I'm not going to dare even try to answer this for fear of starting a heated debate or even a [flame-war](https://en.wikipedia.org/wiki/Flaming_(Internet)). This application is simply not worth debating.
 

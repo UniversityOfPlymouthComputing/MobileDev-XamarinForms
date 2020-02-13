@@ -604,7 +604,7 @@ For each property in the Model, there is another in the ViewModel of the same na
         //Command to fetch next message - made public to support unit testing
         public async Task DoFetchNextMessageCommand() => await DataModel.NextSaying();
 
-        //Exent handler for all changes on the model
+        //Event handler for all changes on the model
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals(nameof(DataModel.SayingNumber)))
@@ -744,7 +744,7 @@ There is very little change to the View except to pass a parameter to the ViewMo
 BindingContext = new MainPageViewModel(new RemoteModel());
 ```
 
-If you prefer not to use Azure fFunctions and use a Mocked version, change this to:
+If you prefer not to use Azure Functions and use a Mocked version, change this to:
 
 ```C#
 BindingContext = new MainPageViewModel(new MockedRemoteModel());

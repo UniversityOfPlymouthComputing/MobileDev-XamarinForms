@@ -34,7 +34,6 @@ By the end of this chapter you should be able to:
 1. [Part 6 - Bindings in XAML](mvvm-6.md)
 1. [Part 7 - Hooking up to the Cloud](mvvm-7.md)
 1. [Part 8 - Handling Errors Gracefully](mvvm-8.md)
-1. Self-Study Tasks
 1. References
 
 [BEGIN](Introduction.md)
