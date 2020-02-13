@@ -17,7 +17,11 @@ What is most different are two new bindings in the code-behind the XAML. The fir
    MessageButton.SetBinding(Button.TextProperty, "SayingNumber", BindingMode.OneWay, null, "Saying {0:d}");
 ```
 
-What is not shown are a number of hidden parameters with default values. If we were to write the complete method, it would read:
+What is not shown are a number of hidden parameters with default values. 
+
+> **TASK** - retype the line above and note all the parameters revealed by intellisense. The parameter labels will help you explore the full API.
+
+If we were to write the complete method, it would read:
 
 ```C#
    MessageButton.SetBinding(targetProperty: Button.TextColorProperty, path: "SayingNumber", mode: BindingMode.OneTime, converter: null, stringFormat: "Saying {0:d}");              )
@@ -76,6 +80,20 @@ We only need the `Convert` method, which converts the source data (`int`) to the
 
 You can read more about value converters in the [Microsoft Documentation](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/converters)
 
+
+## Self-Study Task - Binding in Code
+Create yourself a new project. Add a Slider and a label to the page. Set the maximum value of the slider to 100. Can you use bindings to display the slider value using the label?
+
+Although you can setup direct bindings between UI elements, it is suggested you create an integer property as a go-between.
+
+Remember:
+
+* Create a Model class that has a public integer property and implements the interface `INotifyPropertyChanged`
+* Instantiate the model class and hook up the bindings from the code behind.
+* You don't strictly need a value converter as the binding layer will invoke ToString() automatically
+* Try using the `stringFormat` property to only display to one decimal place (you will need to research how to create format strings)
+
+Make reference to the notes up to this point to assist. I would not expect you to memorize everything!
 
  [Next](mvvm-5.md)
 

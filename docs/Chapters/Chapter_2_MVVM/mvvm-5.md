@@ -96,13 +96,13 @@ Now we introduce the middle layer - the ViewModel.  First, let's examine the com
 For MVVM, note the following
 
 - **The View is going to bind to the ViewModel and NOT the model**, so once again we implement `INotifyPropertyChanged`.
-- The ViewModel will expose bindable properties to align with the bound view properties (albeit with converters in between where necessary) 
+- The ViewModel will expose **public** properties to align with the bound view properties (albeit with converters in between where necessary) 
 - The ViewModel will look after UI state, but not domain data state
 - The ViewModel instantiates the `Model` (in this case) 
-- The ViewModel coordinate data flow between Model and View.
+- The ViewModel coordinates data flow between Model and View.
 - We want to ViewModel to ultimately be unit testable, so we would like to remove event handlers (which have references to UI objects)
 
-In terms of exposing bindable properties to the view, let's do the easy stuff first and perform a simple data pass-through. 
+In terms of exposing properties to the view, let's do the easy stuff first and perform a simple data pass-through. 
 
 ```C#
   public int SayingNumber => DataModel.SayingNumber;
@@ -124,7 +124,7 @@ Let's take a sneaky look at the binding in the code-behind:
    MessageButton.SetBinding(Button.CommandProperty, "ButtonCommand"); 
 ```
 
-This is rather nice, as it keeps with the MVVM architecture:
+This has replaced the event handler. This is rather nice, as it keeps with the MVVM architecture:
 
 > In short, we have replaced an event handler with a bindable property `ButtonCommand`
 
@@ -142,7 +142,7 @@ I have chosen in instantiate the `Command` in the constructor as follows:
      }
 ```        
 
-This is where all the action takes place! The `Command` class constructor as two important properties: `execute` (type `System.Action`) and `canExecute` (type `System.Func<bool>`). Both of these are types of anonymous function.
+This is where all the action takes place! The `Command` class constructor has two important properties: `execute` (type `System.Action`) and `canExecute` (type `System.Func<bool>`). Both of these are types of anonymous function.
 
 When the Command is instantiated, the `canExecute:` property is executed. This simply executes the code `() => this.UIVisible` which returns a bool.
 - If a true is returned, the button is enabled
@@ -180,6 +180,8 @@ This property is bound to the switch in the UI. If the switch is changed, the se
 
 _What a tangled web we weave!_
 
+This can seem complex at first, but with practice, it becomes a familiar pattern / recipe.
+
 ### The Code Behind
 Before we finish, let's look at the Code Behind, which now represents only the View in MVVM
 
@@ -210,7 +212,7 @@ Before we finish, let's look at the Code Behind, which now represents only the V
     }
 ```
 
-Note how all the view objects shared the same `BindingContext`. In this case, we can simplify matters by simply setting the binding context on the containing view as follows: 
+Note how all the view objects share the same `BindingContext`. In this case, we can simplify matters by simply setting the binding context on the containing view as follows: 
 ```C#
          //ToggleSwitch.BindingContext = ViewModel;
          //MessageButton.BindingContext = ViewModel;
@@ -218,12 +220,23 @@ Note how all the view objects shared the same `BindingContext`. In this case, we
          BindingContext = ViewModel;
 ```            
 
+> This works because Xamarin.Forms ensures the `BindingContext` is inherited by all child view elements. You can override this for individual view elements if needed
+
 Some points to note:
 - In this example, the ViewModel is instantiated by the View
 - The ViewModel is the Binding Context (source) for all targets, so the containing view is used instead
 - We added a new binding - the button `Command` property.
 
-In the next section, still keeping these APIs in mind, we remove ALL this code!
+In the next section, still keeping these APIs in mind, we remove ALL this code and use XAML instead.
+
+
+## Self-Study Task - Commanding
+Create your own project, and repeat the Hello World application without any event handlers.
+
+* Add a Label and a Button to the Page
+* When the button is clicked, the label should display "Hello World"
+* Bind the `Command` property of the button to achieve this
+* Use the notes up to this point to assist.
 
  [Next](mvvm-6.md)
 

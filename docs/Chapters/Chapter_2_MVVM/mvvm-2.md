@@ -13,9 +13,9 @@ To begin with, a three way binding will be set up between the `MessageLabel`, th
 
 We will bind `ToggleSwitch.IsToggled` to both the `MessageLabel.IsVisible` and `MessageButton.IsEnabled`. We will also set this up initially as a two-way binding. _A change in one will result in an automatic change in the others_. 
 
-1. A change to `TooglSwitch.IsToggled` will _automatically_ change both `MesageLabel.IsVisible` and `MessageButton.IsEnabled`
-1. A change to `MesageLabel.IsVisible` will _automatically_ change both `ToogleSwitch.IsToggled`. This in turn will activate (1)
-1. A change to `MesageButton.IsEnabled` will _automatically_ change both `ToogleSwitch.IsToggled`. This in turn will activate (1)
+1. A change to `TogleSwitch.IsToggled` will _automatically_ change both `MessageLabel.IsVisible` and `MessageButton.IsEnabled`
+1. A change to `MessageLabel.IsVisible` will _automatically_ change both `ToggleSwitch.IsToggled`. This in turn will activate (1)
+1. A change to `MessageButton.IsEnabled` will _automatically_ change both `ToggleSwitch.IsToggled`. This in turn will activate (1)
 
 ### Bindings and Relationship Types
 The figure below captures the necessary relationships to establish a binding between two properties
@@ -72,7 +72,7 @@ Note that _a target object can only have one source_, so this topology makes sen
    ...
 ```
 
-Here the _targets_ are `MessageLabel` and `MessageButton`. These meet all requirements: both are UI objects, so inherit from `BindableObject` and have properties of type `BinableProperty` (discussed below). The source object (instance of `Switch`) is a reference type, so derived from object, so that's fine. 
+Here the _targets_ are `MessageLabel` and `MessageButton`. These meet all requirements: both are UI objects, so inherit from `BindableObject` and have properties of type `BindableProperty` (discussed below). The source object (instance of `Switch`) is a reference type, so derived from object, so that's fine. 
 
 Now for the interesting bit, the [SetBinding](https://docs.microsoft.com/dotnet/api/xamarin.forms.bindableobjectextensions.setbinding?view=xamarin-forms) API.
 ```C#
@@ -96,7 +96,7 @@ Consider each parameter in turn:
 - The first parameter is the **target property** of type `BindableProperty`. On inspection, the code might seem confusing (because it is!). For a start, _static properties_ on the target type. 
     - For any (bindable) property, there will be a static class property of the same name + suffix `Property`.
     - You always pass the static property (never an instance property)
-    - Why? Err... I'll get back to you on that ok?
+    - Why? We will return to this when we create our own bindable properties later.
 - The second property is the _name_ of the **source property**, specified as a `string`.    
 - Finally, there is the direction. This enumerable type is can set to:
     - Default
@@ -125,8 +125,13 @@ Run the application and click the button until it recycles back to the first mes
 The line of interest is this `MessageLabel.IsVisible = false;` Note that `MessageLabel` is a binding _target_. However, the binding between the switch and label was set to `BindingMode.TwoWay`. 
 
 - By changing `MessageLabel.IsVisible`, the two-way binding automatically changes `ToggleSwitch.IsToggled`, which in turn changes `MessageButton.IsEnabled`.
-- You might be worried that this could get into a ever-lasting loop. You would be right to be concerned and later we will have to be mindful to avoid such a trap. However, when binding between UI elements, checks are put in place to only update a bound property if it's value is actually going to change.
+- You might be worried that this could get into a ever-lasting loop. You would be right to be concerned and later we will have to be careful to avoid such a trap. However, when binding between UI elements, checks are put in place to only update a bound property if it's value is actually going to change.
 
+## Self-Study Task - Showing and Hiding a Label
+
+Create a new project, and add a Label and a Switch to the page.
+* In the code behind, set up a binding to that the switch controls the `IsVisible` property of the label
+* Use the notes up to this point to aid you
 
 [Next](mvvm-3.md)
 

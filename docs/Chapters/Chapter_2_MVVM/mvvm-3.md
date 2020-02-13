@@ -46,7 +46,7 @@ The UI properties are now bound to properties on the model:
 
 Note the following:
 - The source is now the data model and the targets are all UI components (as is often the case).
-- The target (UI) properties `ToggleSwitch.IsToggled`, `MessageButton.IsEnabled` and `MessageLabel.IsVisible` are all bound to a single  property data model property `DataModel.IsTrue` (type `bool`).
+- The target (UI) properties `ToggleSwitch.IsToggled`, `MessageButton.IsEnabled` and `MessageLabel.IsVisible` are all bound to a single property data model property `DataModel.IsTrue` (type `bool`).
 - The binding directions have been set to one-way
     - By default, changes in the source will invoke changes in the targets 
     - The exception is the switch (`OneWayToSource`), where changes in the UI component invoke changes in the model
@@ -66,7 +66,7 @@ What this means is that any change to the model `CurrentSaying` property will re
   }
 ```        
 
-The view behind code is now looking a little thinner. The data model now contains most of the application logic. Let's look at that next.
+The view code (code-behind) is now looking a little thinner. The data model now contains most of the application logic. Let's look at that next.
 
 ### Creating Bindable Properties
 Recall that the model is now the binding source for all UI components. It exposes two properties used in the bindings,`IsTrue` and `CurrentSaying`. How does this work? Well, you may be pleased to know that it takes very little code to make the binding magic work!
@@ -80,13 +80,13 @@ First, look at the class declaration:
    ...
 ```
 
-Critcally, it implements the interface `INotifyPropertyChanged`. This means there will be a compiler error unless the interface requirements are met. There is only one:
+Critically, it implements the interface `INotifyPropertyChanged`. This means there will be a compiler error unless the interface requirements are met. There is only one:
 
 ```C#
    public event PropertyChangedEventHandler PropertyChanged;
 ```  
    
-This event is what the binding mechanism uses to listen for changes. It is the developers responsibility to signal an event when a change occues, as shown in the following extract:
+This **event** is what the binding mechanism uses to listen for changes. It is the developers responsibility to signal an event when a change occurs, as shown in the following extract:
 
 ```C#
      string _currentSaying = "Welcome to Xamarin Forms!";
@@ -143,8 +143,27 @@ Again, key is the line in the setter that reads:
 
 There is nothing in the model that either sets or reads `IsTrue` (which strongly suggests this is not it's natural home - back to MVVM again!). Everything is performed using bindings. The toggle switch sets it, while the the message label and button observe it. The `IsTrue` property is simply there as a go-between for some UI state.
 
-** TASK ** Set a break point in the setter for `IsTrue`, debug the code, and click the toggle switch.
+## TASK
+Set a break point in the setter for `IsTrue`, debug the code, and click the toggle switch.
 
+## Self-Study Task - Binding to a Property
+Create a new project and add a Label and a Button to the Page. The label should display '1'
+
+* Create a new class that implements `INotifyPropertyChanged`
+* Add a string property `NumberAsString` and the relevant get / set code to support bindings (as above)
+* Create an event handler for the button. 
+
+As the user taps the button, the number in the label should increment by 1. Do not modify the label `Text` property diretly. Only update the `NumberAsString` property and allow the bindings to update the UI.
+
+**Tip** - construct strings using $"". For example:
+
+```C#
+   int count = 0;
+   ...
+   count += 1;
+   var str = $"{count};
+   ...
+```
 
  [Next](mvvm-4.md)
 
