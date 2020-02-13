@@ -6,7 +6,7 @@
 [Prev](mvvm-5.md)
 
 ## Part 6 - Bindings in XAML
-[Part 6 is here](/code/Chapter2/Bindings/HelloBindings-06). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding. 
+[Part 6 is here](/code/Chapter2/Bindings/HelloBindings-06). Build and run this to see what it does. Inspect and familiarize yourself with the code fully before proceeding. 
 
 First look at the Code-Behind. Rather than remove code, I have commented out code so you can still see the APIs. This is helpful for following the changes in the XAML.
 
@@ -129,13 +129,13 @@ The text colour is a little more involved:
 ```XAML
 TextColor="{Binding Path=SayingNumber, Converter={StaticResource ColorConv}}"
 ```
-The `Converter` property (from the `SetBinding` API) must refer to an instance of ColorConverter. We use the special syntax {StaticResource ..} and a key name to refer to objects in the resource dictionary. 
+The `Converter` property (from the `SetBinding` API) must refer to an instance of `ColorConverter`. We use the special syntax {StaticResource ..} and a key name to refer to objects in the resource dictionary. 
 
 _Do not forget the comma when providing multiple parameters_ (this one had be going for some time!)
 
-> **Note** - do not confuse {Static ...} and {StaticResource ...}. They look similar, but they are distinctly different.
+> **Note** - do not confuse `{Static ...}` and `{StaticResource ...}`. They look similar, but they are distinctly different.
 
-Next the Button. Again, constrating with the code API, this has few surprises. Note again how for the `Text` property, two parameters are passed. To accomodate the double-quotes, the outer string uses single-quotes
+Next the Button. Again, beginning with the code API, note again how for the `Text` property, two parameters are passed. To accommodate the double-quotes, the outer string uses single-quotes:
 
 ```XAML
      <Button x:Name="MessageButton"
@@ -157,7 +157,7 @@ Finally, the Switch
              />             
 ```            
 
-I've specified two-way so the switch is initialised in the correct position. 
+I've specified two-way so the switch is initialized in the correct position. 
 
 **TASK**
 Take some time to study the XAML in this project, and compare it to the code equivalent from the previous version. Trying experimenting to see how intellisense helps you complete XAML bindings.

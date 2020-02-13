@@ -5,7 +5,7 @@
 [Prev](mvvm-6.md)
 
 ## Part 7 - Hooking up to the Cloud
-[Part 7 is here](/code/Chapter2/Bindings/HelloBindings-07). Inspect and familiarise yourself with the code fully before proceeding. There is some preliminary work you need to do before you can run it.
+[Part 7 is here](/code/Chapter2/Bindings/HelloBindings-07). Inspect and familiarize yourself with the code fully before proceeding. There is some preliminary work you need to do before you can run it.
 
 In this section, I've done something that might seem a bit ambitious: I've stored the list of sayings in the cloud (jargon for someone elses computer), and I'm going to use Azure Functions to retrieve them. This would allow me to add more sayings without app updates. 
 
@@ -22,14 +22,14 @@ To run the functions locally, for both Mac and PC, the following apply:
 
 1. If you don't already have it, [install the Node Package Manager (npm)](https://nodejs.org/en/download/)
 You can test if you already have it by opening a command shell / terminal and typing `npm`
-1. Install the Azure Functions Core Tools by typeing `npm install -g azure-functions-core-tools`
+1. Install the Azure Functions Core Tools by typing `npm install -g azure-functions-core-tools`
 
 For this section, _you don't need an Azure account_. However, if you still want to use the actual Azure cloud services, you will need a Microsoft Account and you'll need to sign up for Azure. There are free services (with terms), but it is your responsibility to manage your Azure account.
 
 Students and Faculty - https://azure.microsoft.com/free/students
 Others - https://azure.microsoft.com/free
 
-If you wish to do this, be aware you are entirely responsible for any costs you might incurr.
+If you wish to do this, be aware you are entirely responsible for any costs you might incur.
 
 ### Setting up an Azure Function
 Starting with [Part 6](/code/Chapter2/Bindings/HelloBindings-06), we're going to add an Azure Function to the project.
@@ -54,7 +54,7 @@ You can now run and test your cloud function on your local machine
 
 1. Set up your function app to be the startup project
 1. Run
-1. A commmand window / terminal should appear - once it's ready, it should display the URL to connect to the 
+1. A command window / terminal should appear - once it's ready, it should display the URL to connect to the 
 
 ![Local Function Container](img/LocalFunctionContainer.png)
 
@@ -130,7 +130,7 @@ Study this code and note the following:
 - You can convert an instance of this class to XML using the `ToXML()` method. This uses a process known as _serialization_
 - You can also `de-serialize` the XML back into an instance of `PayLoad` using the `FromXML(string)` method
 
-XML serialization and deserialization is baked right into .NET, and as the data is small, it is an entirely suitable format to represent data as it moves across the network. An alterantive would be to use JSON.
+XML serialization and de-serialization is baked right into .NET, and as the data is small, it is an entirely suitable format to represent data as it moves across the network. An alternative would be to use JSON.
 
 #### Adding Dependencies
 The idea of using the library created above is it allows the same code base to be used in the cloud and in the client. To access this library, you simply make the library a dependency of each project.
@@ -211,7 +211,7 @@ Note how this function is _stateless_, i.e. it has no memory of previous calls. 
 
 The advantage of having this in the cloud is that more sayings could be added without the need to update the mobile application. Hosting on Azure itself is only a few clicks away. For now however, we will stick with the local server.
 
-If we wanted the server to retain state of some sort, then we would need some form of persistant storage on the server (e.g. database) and probably the some form of user authentication (unless data is shared among all users). 
+If we wanted the server to retain state of some sort, then we would need some form of persistent storage on the server (e.g. database) and probably the some form of user authentication (unless data is shared among all users). 
 
 ### Giving it a try - Running two targets at once
 From this point on, now you've seen how to create a function (and a library), you are advised to open Part 7 and study the code. This already has the library, function project and also has updated model classes to download data from the cloud.
@@ -224,7 +224,7 @@ To test the code with the local function, you need both server and mobile client
 
 1. Right-click the solution and click Properties
 1. Under Common Properties, choose Start Up Project.
-1. In the detail pane, choose "Multiple startiup projects"
+1. In the detail pane, choose "Multiple startup projects"
 1. Set `FunctionApp` and `HelloBindings.Android` to Start, then click OK
 1. Start the application
 
@@ -283,7 +283,7 @@ The biggest change to this project is in the client model class. The single clas
 - An abstract base class `SayingsAbstractModel` containing most of the code
 - Two thin child classes: `RemoteModel` and `MockedRemoteModel` 
 
-The mocked model provides an alternative to using an acutal network. Is simulates the delay and some of the network failings that might occur (handled in the next section). This is useful for testing.
+The mocked model provides an alternative to using an actual network. Is simulates the delay and some of the network failings that might occur (handled in the next section). This is useful for testing.
 
 Once networking is introduced, the following need to be taken into account:
 
@@ -293,11 +293,11 @@ Once networking is introduced, the following need to be taken into account:
 - The model also needs to convert the retrieved payload of data (XML) into a data structure
 - Initial values of data also need to be considered - it might not be good etiquette to pull data without involvement from the user  
 
-> The very asynchronous nature of network communication almost always adds a significiant degree of complexity to any application. 
+> The very asynchronous nature of network communication almost always adds a significant degree of complexity to any application. 
 
 We will also see why `await`, `async`, `try` and `catch` are so important.
 
-Let's examing the base-class first
+Let's examining the base-class first
 
 ```C#
     public abstract class SayingsAbstractModel
@@ -437,16 +437,16 @@ To trigger a network connection there is _one_ simple public API
 	}
 ```        
 
-The centrepiece of this is `(bool success, string ErrStr) = await FetchSayingAsync(n);` 
+The centerpiece of this is `(bool success, string ErrStr) = await FetchSayingAsync(n);` 
 
-- `await` does **not** block the main thread. Instead it yelds to the main thread event queue. Once `FetchSayingAsync` returns a result, a call-back to the point where it yeided will be added to the event queue of the main thread.
+- `await` does **not** block the main thread. Instead it yields to the main thread event queue. Once `FetchSayingAsync` returns a result, a call-back to the point where it yielded will be added to the event queue of the main thread.
 - Around this the property `IsRequestingFromNetwork` is set. Remember that `IsRequestingFromNetwork` is bindable.
 - The return result is a tuple containing a boolean (indicating success or failure) and a string (indicating the status)
 
 Let's drill down into `FetchSayingAsync` (which is NOT public)
 
 ```C#
-        //Wrapper around the specific implmentation for fetching a saying
+        //Wrapper around the specific implementation for fetching a saying
         protected async Task<(bool success, string status)> FetchSayingAsync(int WithIndex = 0)
         {
             try
@@ -522,7 +522,7 @@ This is the actual model class that will interact with Azure Functions.
 
 - The security key (yours will be different) is stored in the HTTP header. This is only needed if you connect to an Azure hosted function
 - Note how we only create one instance of HTTP client (it is a `static` property)
-- This code can focus on one task, to fetch the payload. It does not need to concern itself with bound properties. It can be easily substitured with something to mimick it.
+- This code can focus on one task, to fetch the payload. It does not need to concern itself with bound properties. It can be easily substituted with something to mimic it.
 
 #### MockedRemoteModel
 This class mocks a real network interface. This takes more work that using the real thing!
@@ -570,13 +570,13 @@ This class mocks a real network interface. This takes more work that using the r
 
 - The network delay is simulated with `await Task.Delay(1000);`
 - On the last saying, one of two error types are created:
-    - A `null`, which simulates the inability to deserialise the data
+    - A `null`, which simulates the inability to de-serialize the data
     - A network exception (same as that thrown by the real code)
 
 So we know what output to expect, what errors will occur and _the order in which they occur_. This makes deterministic testing much simpler.
 
 ### Updating the ViewModel
-Now the network layer is built (and tested of course!), we can adapt the viewmodel to handle all the bindable properties. 
+Now the network layer is built (and tested of course!), we can adapt the ViewModel to handle all the bindable properties. 
 
 > By binding to model properties, we now get _events_ from the model AND the view to manage.
 
@@ -626,7 +626,7 @@ For each property in the Model, there is another in the ViewModel of the same na
             }
         }
 
-        //Map through read only acccess to Model properties
+        //Map through read only access to Model properties
         public int SayingNumber => DataModel.SayingNumber;
         public string CurrentSaying => DataModel.CurrentSaying;
         public bool IsRequestingFromNetwork => DataModel.IsRequestingFromNetwork;
@@ -661,7 +661,7 @@ First note there is a read-only property for the Model
 ```        
 Note the data type is the abstract base-class. This allows us to use polymorphism to perform a run-time switch between different concrete classes (a real and a mocked in this case).
 
-The only place this can be modifed is in the constructor, shown below:
+The only place this can be modified is in the constructor, shown below:
 
 ```C#
      public MainPageViewModel(SayingsAbstractModel WithModel)
@@ -709,7 +709,7 @@ Note the last case: `((Command)FetchNextSayingCommand).ChangeCanExecute();` When
 You may be wondering why we don't update the ViewModel properties in the code above? The next four lines should explain it.
 
 ```C#
-     //Map through read only acccess to Model properties
+     //Map through read only access to Model properties
      public int SayingNumber => DataModel.SayingNumber;
      public string CurrentSaying => DataModel.CurrentSaying;
      public bool IsRequestingFromNetwork => DataModel.IsRequestingFromNetwork;
@@ -751,7 +751,7 @@ BindingContext = new MainPageViewModel(new MockedRemoteModel());
 ```
 
 ### What is missing?
-So far, we've focused mainly on _expected behaviour_ whereby the network is fully connected and the data is rapidly returned and perfectly formed. What we have not (yet) fully considered are the following:
+So far, we've focused mainly on _expected behavior_ whereby the network is fully connected and the data is rapidly returned and perfectly formed. What we have not (yet) fully considered are the following:
 
 - The network is unreachable
 - The access key has changed
@@ -763,7 +763,7 @@ For this, we need to look at the values returned from the button command
    public async Task DoFetchNextMessageCommand() => await DataModel.NextSaying();
 ```
 
-We are currently ingoring the tuple data `(bool success, string ErrorString)` returned by `NextSaying()` or any exceptions that happen to be thrown.
+We are currently ignoring the tuple data `(bool success, string ErrorString)` returned by `NextSaying()` or any exceptions that happen to be thrown.
 
 It is tempting to try and ignore such things, but you can't (or at least should not).
 

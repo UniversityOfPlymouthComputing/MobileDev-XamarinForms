@@ -154,7 +154,7 @@ Now the exception is re-thrown using the `throw` command. This is useful where e
 ## Custom Exceptions
 So far we have seen some of the C#.NET exceptions thrown and caught. More often than not, this is sufficient. However, what if your application detected an error that is specific only to your code. For example, readying an unrecognized string or detecting when numerical results might be unreliable (such as a loss of precision). These are not exceptions that will be otherwise thrown.
 
-> Open, build and run the `CustomExcepton` project.
+> Open, build and run the `CustomException` project.
 
 In this example, I've made it an error condition to divide by any value less than 2 (ok, I admit this is completely contrived to keep the example simple). A bespoke divide method is written to throw a custom exception when such a condition is detected:
 

@@ -5,7 +5,7 @@
 [Prev](mvvm-2.md)
 
 ## Part 3 - Creating Bindable Properties
-[Part 3 is here](/code/Chapter2/Bindings/HelloBindings-03). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding.
+[Part 3 is here](/code/Chapter2/Bindings/HelloBindings-03). Build and run this to see what it does. Inspect and familiarize yourself with the code fully before proceeding.
 
 Confirm the following:
 
@@ -127,7 +127,7 @@ What have we achieved?
 
 > By simply setting `CurrentSaying`, the UI automatically updates, but without reference to the UI anywhere in the model code.
 
-The `IsTrue` property is even more impressive. Three separate UI properies are bound to this property (here they are again)
+The `IsTrue` property is even more impressive. Three separate UI properties are bound to this property (here they are again)
 
 ```C#
    ToggleSwitch.SetBinding(Switch.IsToggledProperty,  "IsTrue", BindingMode.OneWayToSource);

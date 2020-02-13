@@ -60,7 +60,7 @@ Note the event handler `Toggled` is set to the `ToggleSwitch_Toggled` method in 
 Note the role is simply to enable / disable the Switch and the Message label. This is UI state. 
 
 ### The Model Data
-The model data can be considered to be the instance variables `Sayings` and `next`. These are not yet properties, and yes, it would be better practise to make them properties..but all in good time.
+The model data can be considered to be the instance variables `Sayings` and `next`. These are not yet properties, and yes, it would be better practice to make them properties..but all in good time.
 
 
 

@@ -24,7 +24,7 @@ The key point here is the connection between the View Model (which probably soun
 - The View knows something of the ViewModel, but the ViewModel does not know any specifics about the View
 - The View Model knows something of the Model, but the Model knows nothing about the ViewModel
 
-This is summarised in the following figure.
+This is summarized in the following figure.
 
 ![MVVM Layers](img/mvvm-visibility.png)
 
@@ -42,7 +42,7 @@ Consider two possible scenarios:
 > The ViewModel is therefore the arbitrator between events in the View and events in the Model, marshalling data between them.
 
 **Application State**
-The Models define the _application state_ - Within the Model objects are the actual data, plus any methods that operate on the data. The ViewModel should not contan any domain specific data. A good Model should be self contained and highly testable.
+The Models define the _application state_ - Within the Model objects are the actual data, plus any methods that operate on the data. The ViewModel should not contain any domain specific data. A good Model should be self contained and highly testable.
 
 **UI State**
 The ViewModel also has state, but it is nothing to do with the domain Model data. These are typically properties relating to UI State, such as whether a Label is visible (`bool`), the selected row of a table (`int`) etc. A good view model will also be highly testable. In fact one of the objectives is to be able to simulate UI logic (clicks, text input etc.) through calling methods on the ViewModel, via a unit testing framework and without the need to link in UI libraries.
@@ -52,7 +52,7 @@ _You need to see it to fully appreciate this_
 So how does this work? Starting with the interface between the ViewModel and View, some key conceptual points to note are as follows:
 
 - Through "bindings", _properties_ of user interface objects will be bound to properties in the view model. This means when one is changed, the other may be automatically updated without having to write any code.
-   - Often there is a one-to-one mapping, such as the `Text` propery of a `Label` (type `string`) to a `string` property in the view model.
+   - Often there is a one-to-one mapping, such as the `Text` property of a `Label` (type `string`) to a `string` property in the view model.
    - Where there is no one-to-one type mapping, a _Value Converter_ can be inserted between them so that the ViewModel can avoid using UI types. 
 - Bindings can be uni-directional or bi-directional. 
     - For uni-directional bindings, you also have control in which direction changes are propagated.
@@ -65,10 +65,10 @@ For the interface between the ViewModel and Model, some key conceptual points to
 
 - It is often the case that the ViewModel instantiates the Model
 - The link between them may be limited to the ViewModel calling synchronous (public) APIs on the Model and handling any returned values.
-    - If the returned values result in changea to any bounded properties in the ViewModel, then the UI may be automatically updated.
+    - If the returned values result in changes being applied to any bounded properties in the ViewModel, then the UI may be automatically updated.
 - The ViewModel can also invoke Asynchronous methods on the Model - the call-back is typically performed using .NET events
 
-Ok, that's a lot of stuff and I suspect it does not yet hold much meaning until you see it in practise. For this, we need a simple example to illustrate all the key points.
+Ok, that's a lot of stuff and I suspect it does not yet hold much meaning until you see it in practice. For this, we need a simple example to illustrate all the key points.
 
 # The "Wise Sayings" Application
 
@@ -76,7 +76,7 @@ Like the examples before it, the example that is developed in this section is al
 
 > Anticipate the difficult by managing the easy. Lao Tzu
 
-It starts with the familiar MVC architecture, and is evolved incrementally to a testable MVVM archirecture with Model data being pulled from the cloud (Azure Function). Although the resulting MVVM mode is longer and possibly overkill for such a simple application, it is hopefully illustrative. You can then apply it yourself to more real-world applications that scale beyond the trivial.
+It starts with the more familiar MVC architecture, and is evolved incrementally to a testable MVVM architecture with Model data being pulled from the cloud (an Azure Function). Although the resulting MVVM model is longer and possibly overkill for such a simple application, it is hopefully illustrative. You can then apply it yourself to more real-world applications that scale beyond the trivial.
 
 [Next - Some essential concepts in C# - TO BE DONE](essential-c-sharp.md)
  

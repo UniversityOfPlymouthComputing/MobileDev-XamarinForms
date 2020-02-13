@@ -7,7 +7,7 @@
 
 
 ## Part 4 - Type Conversion
-[Part 4 is here](/code/Chapter2/Bindings/HelloBindings-04). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding.
+[Part 4 is here](/code/Chapter2/Bindings/HelloBindings-04). Build and run this to see what it does. Inspect and familiarize yourself with the code fully before proceeding.
 
 Firstly, a new bindable property `SayingNumber` of type `int` has been addded to the model. Take a look at the model class to see the code (it's very much like the other properties).
 

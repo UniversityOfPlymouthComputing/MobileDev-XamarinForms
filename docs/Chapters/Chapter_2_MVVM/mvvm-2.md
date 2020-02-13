@@ -5,7 +5,7 @@
 [Prev](mvvm-1.md)
 
 ## Part 2 - Binding Between UI Elements using Code
-[Part 2 is here](/code/Chapter2/Bindings/HelloBindings-02). Build and run this to see what it does. Note the strange behaviour once you get back to the first saying. This was added to illustrate a point and will be removed later.
+[Part 2 is here](/code/Chapter2/Bindings/HelloBindings-02). Build and run this to see what it does. Note the strange behavior once you get back to the first saying. This was added to illustrate a point and will be removed later.
 
 This step is simply to illustrate the mechanism of two-way _binding_. I have purposely used code to set up the bindings as it exposes the APIs that are leveraged by XAML in subsequent sections. This can be very helpful for demystifying what is going on.
 
@@ -24,7 +24,7 @@ The figure below captures the necessary relationships to establish a binding bet
 
 Becoming familiar with the notation is important here as it can otherwise get confusing. Some points to observe:
 
-- The _Target_ is typically a UI object, and must interit from `BindableObject` (which provides the property `BindingContext`)
+- The _Target_ is typically a UI object, and must inherit from `BindableObject` (which provides the property `BindingContext`)
 - The `BindingContext` is a reference to the source - the source can be any type of object (hence is more loosely coupled)
 - A binding is setup between specified properties of the source and target objects
     - The target property is of type BindableProperty
@@ -58,7 +58,7 @@ Next, look at the code-behind where the bindings are set up in code.
   }
 ```        
 
-The `Switch` will be the source object. The `MessageLabel` and `MessageButton` will be targets. This creates a one-to-many realationship
+The `Switch` will be the source object. The `MessageLabel` and `MessageButton` will be targets. This creates a one-to-many relationship
 
 ![OneToMany](img/one-to-many.png)
 
@@ -83,7 +83,7 @@ Now for the interesting bit, the [SetBinding](https://docs.microsoft.com/dotnet/
    ...
 ```
 
-You always start with the target, or put another way, you always _set the binding on the target_ (to rememer this, I like to visualise a cross-hair on each of the UI components I want to bind to). 
+You always start with the target, or put another way, you always _set the binding on the target_ (to remember this, I like to visualize a cross-hair on each of the UI components I want to bind to). 
 
 ![BindingTheMessageLabel](img/binding-label-to-switch.png)
 _Binding `ToggleSwitch.IsToggled` to `MessageLabel.IsVisible`. Green is related to the source and blue is related to the target_
@@ -93,7 +93,7 @@ _Binding `ToggleSwitch.IsToggled` to `MessageButton.IsEnabled`_
 
 Consider each parameter in turn:
 
-- The first parameter is the **target property** of type `BindableProperty`. On inspecton, the code might seem confusing (because it is!). For a start, _static properties_ on the target type. 
+- The first parameter is the **target property** of type `BindableProperty`. On inspection, the code might seem confusing (because it is!). For a start, _static properties_ on the target type. 
     - For any (bindable) property, there will be a static class property of the same name + suffix `Property`.
     - You always pass the static property (never an instance property)
     - Why? Err... I'll get back to you on that ok?
@@ -101,7 +101,7 @@ Consider each parameter in turn:
 - Finally, there is the direction. This enumerable type is can set to:
     - Default
     - TwoWay (changes are communicated in both direction)
-    - OneWay (changes are only communicated from source to taget)
+    - OneWay (changes are only communicated from source to target)
     - OneWayToSource (changes are only communicated from target to source)
     - OneTime (changes only communicated when the `BindingContext` changes)
 

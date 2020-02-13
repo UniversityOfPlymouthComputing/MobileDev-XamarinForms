@@ -5,7 +5,7 @@
 [Prev](mvvm-4.md)
 
 ## Part 5 - Commanding and the ViewModel
-[Part 5 is here](/code/Chapter2/Bindings/HelloBindings-05). Build and run this to see what it does. Inspect and familiarise yourself with the code fully before proceeding.
+[Part 5 is here](/code/Chapter2/Bindings/HelloBindings-05). Build and run this to see what it does. Inspect and familiarize yourself with the code fully before proceeding.
 
 The time has finally to adopt MVVM
 
@@ -48,7 +48,7 @@ Here is the new Model class, with all the
     }
 ```
 
-All the binding related code has been removed. I've kept in `INotifyPropertyChanged` but it's not needed at this stage (you should see a sqiggle in the editor suggesting that `PropertyChanged` is unused).
+All the binding related code has been removed. I've kept in `INotifyPropertyChanged` but it's not needed at this stage (you should see a squiggle in the editor suggesting that `PropertyChanged` is unused).
 
 Reflecting on this code, it's now very simple - it simply stores data and has one method (`NextMessage()`). This is simple to unit test!
 
@@ -99,10 +99,10 @@ For MVVM, note the following
 - The ViewModel will expose bindable properties to align with the bound view properties (albeit with converters in between where necessary) 
 - The ViewModel will look after UI state, but not domain data state
 - The ViewModel instantiates the `Model` (in this case) 
-- The ViewModel coordaintes data flow between Model and View.
+- The ViewModel coordinate data flow between Model and View.
 - We want to ViewModel to ultimately be unit testable, so we would like to remove event handlers (which have references to UI objects)
 
-In terms of exposing bindable properties to the view, let's do the easy stuff first and peform a simple data pass-through. 
+In terms of exposing bindable properties to the view, let's do the easy stuff first and perform a simple data pass-through. 
 
 ```C#
   public int SayingNumber => DataModel.SayingNumber;
@@ -146,7 +146,7 @@ This is where all the action takes place! The `Command` class constructor as two
 
 When the Command is instantiated, the `canExecute:` property is executed. This simply executes the code `() => this.UIVisible` which returns a bool.
 - If a true is returned, the button is enabled
-- If a false is returned, the buttis is disabled
+- If a false is returned, the button is is disabled
 
 When the button is clicked (assuming it is enabled) the bindings will invoke the execute: property.  
 
@@ -176,7 +176,7 @@ Note how the UI state is managed here. The `IsEnabled` property is also bound vi
      }
 ```        
 
-This property is bound to the switch in the UI. If the switch is changed, the setter will execute. Observe the invokation of `((Command)ButtonCommand).ChangeCanExecute()`. This forces the `ButtonCommand` to reevaluate the canExecute: function and update the `IsEnabled` property on the bounded button.
+This property is bound to the switch in the UI. If the switch is changed, the setter will execute. Observe the invocation of `((Command)ButtonCommand).ChangeCanExecute()`. This forces the `ButtonCommand` to reevaluate the canExecute: function and update the `IsEnabled` property on the bounded button.
 
 _What a tangled web we weave!_
 

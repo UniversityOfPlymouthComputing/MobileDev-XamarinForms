@@ -6,7 +6,7 @@
 
 ## Part 8 - Handling Errors Gracefully
 
-[Part 8 is here](/code/Chapter2/Bindings/HelloBindings-08). Inspect and familiarise yourself with the code fully before proceeding. 
+[Part 8 is here](/code/Chapter2/Bindings/HelloBindings-08). Inspect and familiarize yourself with the code fully before proceeding. 
 
 In this last section, we look at how to better communicate with the user. This include:
 
@@ -102,7 +102,7 @@ The XAML for this interface is slightly modified:
     - `HasNoData` is a property on the view model which is derived from the `HasData` property on the Model
 - An activity indicator (hidden by default) is added. It appears when it's `IsRunning` property is set to true.
     - `IsRunning` is bound to the ViewModel property `IsRequestingFromNetwork`
-    - You may recall from the previous section this is set true before a network trasnaction, and false once completed or failed. 
+    - You may recall from the previous section this is set true before a network transaction, and false once completed or failed. 
     - This property is simply _passed through_ via the ViewModel as it needs no modification or conversion.
 - New Button has been added
     - The Clicked event handler is set to `DoAboutButtonClicked`. Shock and horror I hear you cry...this is not using a binding!
@@ -223,7 +223,7 @@ Well, here you have it!
 
 ViewModels can of course instantiate and call methods on View objects, and the world will continue to revolve, but that does make them harder to test if we pursue the idea of unit testing the ViewModel (maybe using CIT?). If the code can be kept to pure C#.NET, then in one sense we can expect less problems with testing. Actually Commands prove to be quick tricky to test however you access them, but that's for another time.
 
-As we also saw, some tasks (such as navigation) can only be performed by the view layer. Therefore, we need a way to invoke such behaviours from the ViewModel.
+As we also saw, some tasks (such as navigation) can only be performed by the view layer. Therefore, we need a way to invoke such behaviors from the ViewModel.
 
 ### Reverse Reference to the View
 In the view code, we see the ViewModel being instantiated:
@@ -249,7 +249,7 @@ Take a look at the ViewModel constructor:
         private SayingsAbstractModel DataModel {get; }                  //Model object 
         public event PropertyChangedEventHandler PropertyChanged;       //Used to generate events to enable binding to this layer
         public IMainPageViewHelper MainPageViewHelper { get; private set; }
-        public ICommand FetchNextSayingCommand { get; private set; }    //Binable command to fetch a saying
+        public ICommand FetchNextSayingCommand { get; private set; }    //Bindable command to fetch a saying
 
         public MainPageViewModel(SayingsAbstractModel WithModel, IMainPageViewHelper pvh)
         {
@@ -270,19 +270,19 @@ Take a look at the ViewModel constructor:
 ```
 The second parameter is has an _interface_ type `IMainPageViewHelper`. The ViewModel has no idea that it is also of (concrete) type `ContentPage`, and neither does it need to know. 
 
-> Using an interface type in this way means that **any** conrete type can be passed as a parameter, as long as it implements the interface. This is sometimes referred to as loose coupling. The ViewModel only knows about the methods declared in the interface(s). These methods are pure C#.NET that happen to perform View related tasks on behalf of the ViewModel (and have access to View related objects and methods). The specifics of implementation are hidden from the ViewModel.
+> Using an interface type in this way means that **any** concrete type can be passed as a parameter, as long as it implements the interface. This is sometimes referred to as loose coupling. The ViewModel only knows about the methods declared in the interface(s). These methods are pure C#.NET that happen to perform View related tasks on behalf of the ViewModel (and have access to View related objects and methods). The specifics of implementation are hidden from the ViewModel.
 
 For test purposes, we could easily pass a fake user interface object, presenting the same interface, but mimicking the View logic. Similarly, we can more easily change the View code without needing to change the ViewModel.
  
 Note how the property `MainPageViewHelper` is set to maintain a reference back to the view.
  
-The main _takeaway_ (sic) here is separation of concerns. If we compartentalise code, it helps us maintain and test. From a more humanistic perspective, it may even help others navigate your code.
+The main _takeaway_ (sic) here is separation of concerns. If we compartmentalize code, it helps us maintain and test. From a more humanistic perspective, it may even help others navigate your code.
 
 ### Handling Network Errors
 Coming back to graceful handling of network errors, the discussion begins back in the model base class with the following method:
 
 ```C#
-  //Wrapper around the specific implmentation for fetching a saying
+  //Wrapper around the specific implementation for fetching a saying
   protected async Task<(bool success, string status)> FetchSayingAsync(int WithIndex = 0)
   {
       try
@@ -382,12 +382,12 @@ Therefore, there is not specific role for the ViewModel to play! Therefore, all 
 The `ShowModalAboutPageAsync()` is part of the `IMainPageViewHelper` public interface, and therefore accessible from the ViewModel. This might prove important should the logic change. For now, it's unused.
 
 ### Reflection
-We started with a very simple application "HelloBindings" modelled on something that resembled a "Model View Controller" architecture. Through the addition of a bindings, this migrated to an architecture known as "Model View ViewModel" (MVVM). For such a simple example, this would seem like overengineering until you begin to scale the application.
+We started with a very simple application "HelloBindings" modelled on something that resembled a "Model View Controller" architecture. Through the addition of a bindings, this migrated to an architecture known as "Model View ViewModel" (MVVM). For such a simple example, this would seem like over-engineering until you begin to scale the application.
 
 The data model was switched to one that leveraged a [Azure Function](https://azure.microsoft.com/services/functions/). This was a static method in the cloud which could be invoked through HTTP (known as an HTTP trigger). This addded a new level of complexity to the application as the model interface became asynchronous.
 
 A principle adhered to was [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns). 
-- The View both instanatiated view objects, but also (in this case) instantiated the view model. All view related tasks, including any that required access to concrete objects in Xamarin.Forms, were implemented within the view objects. The view presented an interface to the ViewModel and bound to it's properties using a bindings layer (which itself uses reflection to avoid the need for tight-binding).
+- The View both instantiated view objects, but also (in this case) instantiated the view model. All view related tasks, including any that required access to concrete objects in Xamarin.Forms, were implemented within the view objects. The view presented an interface to the ViewModel and bound to it's properties using a bindings layer (which itself uses reflection to avoid the need for tight-binding).
 - The view model is the glue between the View and the Model. It exposes bindable properties to form a loose coupling with the view. It observes events from the Model. An abstract class was used to allow easy switching between different concrete models. Further abstraction with interfaces could have been used. However, the trade would be additional code and complexity. It is also very unlikely any of the code would be reused except in unit tests.
 - The Model was developed to focus on it's specific task, that of encapsulating data, fetching data from the cloud and methods that operate on the data. Exposes bindable properties that communicated status changes that any other object might choose to observe. This is done without knowledge of the objects themselves. This makes it very easy to write unit tests.
 

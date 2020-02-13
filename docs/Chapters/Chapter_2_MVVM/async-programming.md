@@ -7,26 +7,26 @@
 # Asynchronous Programming
 I will try and keep this section shorter than the previous one. Again, this section discusses an important part of the C#.NET language, especially if you wish to work with the Xamarin.Forms APIs.
 
-Let's begin with what this seciton is not about, and that is multithreaded programming, and for two reasons:
+Let's begin with what this section is not about, and that is multi-threaded programming, and for two reasons:
 
-1. Multithreaded programming is a whole topic in it's own right and beyond the scope of this course (shame as it's a personal favourite ;)
+1. Multi-threaded programming is a whole topic in it's own right and beyond the scope of this course (shame as it's a personal favorite ;)
 
-1. For practical purposes, the approch we are about to meet is in many ways an alternative approach to multi-threaded programming.
+1. For practical purposes, the approach we are about to meet is in many ways an alternative approach to multi-threaded programming.
 
 For those with a background in multi-threaded programming, this might raise some eyebrows. What about blocking hardware? Well, my own reaction was the same, but C# (like some others) shows us that there is another way, and that way (when it can be applied) is much easier and safer to program.
 
-> The underlying principle of asynchronous programming is that the slow devices (storage, network interfaces, timers) we often wait for are indepednent electronic devices, and so by their very nature, run in parallel to the CPU. The CPU does not need to stop and wait for such devices, it only needs to know when a device is ready.
+> The underlying principle of asynchronous programming is that the slow devices (storage, network interfaces, timers) we often wait for are independent electronic devices, and so by their very nature, run in parallel to the CPU. The CPU does not need to stop and wait for such devices, it only needs to know when a device is ready.
 
-The issue we are addressing is the asynchronous nature of the comuter systems and human interaction. 
+The issue we are addressing is the asynchronous nature of the computer systems and human interaction. 
 
-Consider the user interface of a mobile device and it's touch screen. It responds to taps or other gestures _whenever the human operator feels inclined_. The comuter does not know when a user is going to tap the screen (human input is the epitomy of asynchronous input!). So modern devices are reactive, or _event driven_.
+Consider the user interface of a mobile device and it's touch screen. It responds to taps or other gestures _whenever the human operator feels inclined_. The computer does not know when a user is going to tap the screen (human input is the epitome of asynchronous input!). So modern devices are reactive, or _event driven_.
 
 - When a user touches a screen, this is detected by the operating system (via hardware mechanisms we don't concern ourselves with), and this in turn it generates an _event_. 
     - An event is a record of something that happened together with some registered consequence (such as a method call, also known as an _event handler_)
-- Upon receipt, the event is added to a queue (the event queue) by the operting system
-- Events are pulled off the queue in turn and their respecitve methods (event handlers) are called.
-- Events are perform sequentially and allowed to complete, _they should be short lived_ and usualy performed in the order they are recieved.
-    - Event handlers that are not short lived need to be broken down in to additinal events 
+- Upon receipt, the event is added to a queue (the event queue) by the operating system
+- Events are pulled off the queue in turn and their respective methods (event handlers) are called.
+- Events are perform sequentially and allowed to complete, _they should be short lived_ and usually performed in the order they are received.
+    - Event handlers that are not short lived need to be broken down in to additional events 
     - As we shall see, this is super easy in C#
 - When there are no events in the event queue, the operating system can put the application into a waiting state (saving CPU cycles and hence battery). 
     - Another touch event will "wake" the application again (again, handled by the operating system, so not your problem!)
@@ -36,15 +36,15 @@ Almost all of the above turns out to be automatic. Our task is to register and w
 
  > Ah ha! (I hear some of you cry!). What if I'm uploading data to a server? That can take seconds! (Don't you just love catching out tutors?)
 
- Yes indeed, thre are many things that can take seconds, some more obvious than others, including:
+ Yes indeed, there are many things that can take seconds, some more obvious than others, including:
 
- - network transactions (Wifi or Bluetooth)
+ - network transactions (Wi-Fi or Bluetooth)
  - Saving data to internal storage 
  - Animations
  - Waiting on a timer
  - ...More
 
-So how do we perfom any of the above in an event handler? The answer lies in turning a single event handler into a multiple event handler, and for that, we use `await` and `async`
+So how do we perform any of the above in an event handler? The answer lies in turning a single event handler into a multiple event handler, and for that, we use `await` and `async`
 
 ## `await` and `async` in action
 I'm going to work through an example broken into 4 parts. 
@@ -59,7 +59,7 @@ The following video shows the final product in v4.
 
 Note the following:
 
-- When the Fetch button is tapped, the image is downloaded from the Internet. I have throttled the download speed in the Android Emulator to emphasise this point.
+- When the Fetch button is tapped, the image is downloaded from the Internet. I have throttled the download speed in the Android Emulator to emphasize this point.
 - Throughout the operation of the application, the UI always remains responsive. Clicking the toggle button reveals and hides the label even during a download or while the image is animating.
 - Nowhere in the code will we create any threads (for those with experience of multi-threaded programming)
 
@@ -131,7 +131,7 @@ The XAML is shown below:
 
 ### Version 01 - Using a Synchronous API
 The first version is intended to illustrate the problem we are solving. In this example, we download 
-Open the task in the folder v1 and examing the code-behind `MainPage,xaml.cs`
+Open the task in the folder v1 and examine the code-behind `MainPage,xaml.cs`
 
 ```C#
 public partial class MainPage : ContentPage
@@ -175,7 +175,7 @@ When the `Fetch` button is tapped, a single event handler `FetchButton_Clicked` 
 var img = DownloadImageSync("https://github.com/UniversityOfPlymouthComputing/MobileDev-XamarinForms/raw/master/code/Chapter2/ImageFetch/xam.png");
 ```
 
-The method `DownloadImageSync` performs the download and once compelete, returns an `Image`. This image is then  added to the UI.
+The method `DownloadImageSync` performs the download and once complete, returns an `Image`. This image is then  added to the UI.
 
 > We say this method is _synchronous_ because it does not return until all the tasks have been completed.
 
@@ -202,7 +202,7 @@ What is _good_ about this code is that everything is performed in sequence. It i
 var bytes = webClient.DownloadData(url);
 ```
 
-The `DownloadData` method of `WebClient` is _synchronous_. Execution will not progress past this method call until all the data has downloaded. We say such behaviour is **blocking**. A problem with blocking is that the UI event queue will not be processed, rendering the user interface as unresponsive.
+The `DownloadData` method of `WebClient` is _synchronous_. Execution will not progress past this method call until all the data has downloaded. We say such behavior is **blocking**. A problem with blocking is that the UI event queue will not be processed, rendering the user interface as unresponsive.
 
 
 **TASK**
@@ -214,7 +214,7 @@ The `DownloadData` method of `WebClient` is _synchronous_. Execution will not pr
 
 If you drop the network speed to very low rates, you might even get a warning about an _unresponsive application_.
 
-> The traditional solution to managing blocking code is to put it in a separate _thread_ (code that runs in paralle). However, this adds significant complexity and real risk of introducing bugs that are notoriously difficult to find.
+> The traditional solution to managing blocking code is to put it in a separate _thread_ (code that runs in parallel). However, this adds significant complexity and real risk of introducing bugs that are notoriously difficult to find.
 
 A safer and more elegant solution is to provide an _asynchronous_ alternative.
 
@@ -273,7 +273,7 @@ This method is `asynchronous` as it's name suggests. When you invoke it, **execu
 
 So how do we get the result? 
 
-The `WebClient` class has an event handler for when data has been downloaded. This behaves much like the `Clicked` event handler of a button, and uses the same fundamental mechansim (the event queue).
+The `WebClient` class has an event handler for when data has been downloaded. This behaves much like the `Clicked` event handler of a button, and uses the same fundamental mechanism (the event queue).
 
 ```C#
         webClient.DownloadDataCompleted += (object sender, DownloadDataCompletedEventArgs e)=>
@@ -317,9 +317,9 @@ Note the second parameter, Yes, it's lambda code (yipee!). The `DownloadImageAsy
 
 > Don't be put off if this seems confusing, because it is. 
 
-I really want you to see the contrast with the previous example. In some ways, it is actually important to note any confusion this alternative style introduces. Afterall, clarity of code is important too.
+I really want you to see the contrast with the previous example. In some ways, it is actually important to note any confusion this alternative style introduces. After all, clarity of code is important too.
 
-- `v1` was strightforward, and everything happened in sequence, which works well with human reasoning. However it was flawed because the UI was blocked during the download
+- `v1` was straightforward, and everything happened in sequence, which works well with human reasoning. However it was flawed because the UI was blocked during the download
 - `v2` solves the blocking phenomena, but at the expense of code that is much harder to write or follow. Although not impossible to write or understand, it is less intuitive.
 
 Before me move to `v3`, give the following some thought:
@@ -421,7 +421,7 @@ Under the hood, the workings of `await` and `async` are far beyond the scope of 
 
 Here are a few guidelines for using `await` and `async`
 
-- Any method that invokves an _awaitable_ method itself becomes _awaitable_. Such methods must be prefixed with `async`
+- Any method that invokes an _awaitable_ method itself becomes _awaitable_. Such methods must be prefixed with `async`
 - If an _awaitable_ method returns data of type `T`, it must instead return a value of type `Task<T>`. However, you treat the return type as type `T`
 - Asynchronous event handlers can have a return type `void` (see below)
 
@@ -429,7 +429,7 @@ Here are a few guidelines for using `await` and `async`
 private async void FetchButton_Clicked(object sender, EventArgs e)
 ```
 
-In the next example, we really see the benefit from `await` and `async` as we sequence up a number of asynchronsous operations, this time, animations.
+In the next example, we really see the benefit from `await` and `async` as we sequence up a number of asynchronous operations, this time, animations.
 
 ### Version 04 - Adding Animation
 Build and run the code in `v4`. 
@@ -492,9 +492,9 @@ _ = img.RotateTo(360, 4000);        //Run concurrently with the next
 _ = await img.ScaleTo(2, 2000);     
 ```
 
-Note the first line is not _awaited_. It is allowed to start and then execution moves to the next line which is _awaited_. This results in *both* animations occuring simultaneously (impressive huh!)
+Note the first line is not _awaited_. It is allowed to start and then execution moves to the next line which is _awaited_. This results in *both* animations occurring simultaneously (impressive huh!)
 
-Once the image has reached double size, is is anaimated back to it's original size over 2 seconds
+Once the image has reached double size, is is animated back to it's original size over 2 seconds
 
 ```C#
  _ = await img.ScaleTo(1, 2000);
