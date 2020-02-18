@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnonymousFunctions", "AnonymousFunctions\AnonymousFunctions.csproj", "{DF314F73-9419-4C1B-83C2-E09B66176A2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capturing", "Capturing\Capturing.csproj", "{7CE5CE8F-3277-4A9D-8CAD-714613FB8DF0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF314F73-9419-4C1B-83C2-E09B66176A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF314F73-9419-4C1B-83C2-E09B66176A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF314F73-9419-4C1B-83C2-E09B66176A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF314F73-9419-4C1B-83C2-E09B66176A2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CE5CE8F-3277-4A9D-8CAD-714613FB8DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CE5CE8F-3277-4A9D-8CAD-714613FB8DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CE5CE8F-3277-4A9D-8CAD-714613FB8DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CE5CE8F-3277-4A9D-8CAD-714613FB8DF0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
