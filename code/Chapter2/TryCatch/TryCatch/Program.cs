@@ -8,8 +8,7 @@ namespace TryCatch
         public Program()
         {
             Dictionary<string, uint> lookup = new Dictionary<string, uint>();
-            try
-            {
+            try {
                 //Add is used for new items that do not already exist
                 lookup.Add("Life", 42);
                 lookup.Add("Loudest", 10);
@@ -26,13 +25,11 @@ namespace TryCatch
                 lookup.Add("Life", 21); 
                 
             }
-            catch (ArgumentNullException anex)
-            {
+            catch (ArgumentNullException anex) {
                 Console.WriteLine("*** key cannot be null ***");
                 Console.WriteLine(anex.StackTrace);
             }
-            catch (ArgumentException aex)
-            {
+            catch (ArgumentException aex) {
                 Console.WriteLine("{0}: {1}", aex.GetType().Name, aex.Message);
                 Console.WriteLine("***********PROGRAM STACK TRACE***********");
                 Console.WriteLine(aex.StackTrace);

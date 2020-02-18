@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassTemplatesA-unbounded",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassTemplatesB-constrained", "ClassTemplatesB-constrained\ClassTemplatesB-constrained.csproj", "{52A4B015-EFD5-4BEE-988E-D2110120256C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassTemplatesC-MVVM", "ClassTemplatesC-MVVM\ClassTemplatesC-MVVM.csproj", "{5F1716EE-FA52-456F-B476-C6A2C43080F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +21,9 @@ Global
 		{52A4B015-EFD5-4BEE-988E-D2110120256C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52A4B015-EFD5-4BEE-988E-D2110120256C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52A4B015-EFD5-4BEE-988E-D2110120256C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F1716EE-FA52-456F-B476-C6A2C43080F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F1716EE-FA52-456F-B476-C6A2C43080F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F1716EE-FA52-456F-B476-C6A2C43080F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F1716EE-FA52-456F-B476-C6A2C43080F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
