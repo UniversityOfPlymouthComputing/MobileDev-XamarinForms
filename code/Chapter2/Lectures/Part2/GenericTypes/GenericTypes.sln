@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericTypes", "GenericTypes\GenericTypes.csproj", "{7B72203B-725E-4593-9D41-6F6AC883F956}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGenerics", "SimpleGenerics\SimpleGenerics.csproj", "{3B69D70A-D4F6-4474-A758-625E5C9D5641}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B72203B-725E-4593-9D41-6F6AC883F956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B72203B-725E-4593-9D41-6F6AC883F956}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B72203B-725E-4593-9D41-6F6AC883F956}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B72203B-725E-4593-9D41-6F6AC883F956}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B69D70A-D4F6-4474-A758-625E5C9D5641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B69D70A-D4F6-4474-A758-625E5C9D5641}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B69D70A-D4F6-4474-A758-625E5C9D5641}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B69D70A-D4F6-4474-A758-625E5C9D5641}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
