@@ -4,13 +4,12 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:Commanding"
-             BindingContext="{x:StaticResource Key=ViewModel}"
              mc:Ignorable="d"
              x:Class="Commanding.MainPage">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local:ViewModel x:Key="ViewModel"/>
+
         </ResourceDictionary>
     </ContentPage.Resources>
 

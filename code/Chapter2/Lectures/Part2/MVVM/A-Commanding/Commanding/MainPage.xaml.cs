@@ -16,6 +16,8 @@ namespace Commanding
         public MainPage()
         {
             InitializeComponent();
+            BindingContext = new ViewModel();
+
         }
     }
 }
