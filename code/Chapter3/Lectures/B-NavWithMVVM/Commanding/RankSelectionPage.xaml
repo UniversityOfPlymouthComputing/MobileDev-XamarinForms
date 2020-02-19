@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Starfleet Rank"
+             x:Class="Commanding.RankSelectionPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Picker Title="Select a Role" TitleColor="Black">
+              <Picker.Items>
+                <x:String>Engineering</x:String>
+                <x:String>Science, Comms and Nav</x:String>
+                <x:String>Security</x:String>
+                <x:String>Medical</x:String>
+                <x:String>Operations</x:String>
+                <x:String>Special Services</x:String>
+                <x:String>Early Career Officer (doomed)</x:String>
+              </Picker.Items>                
+            </Picker>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
