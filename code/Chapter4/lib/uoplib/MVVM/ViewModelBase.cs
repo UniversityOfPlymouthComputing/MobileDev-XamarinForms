@@ -8,9 +8,9 @@ namespace uoplib.mvvm
     public abstract class ViewModelBase : MVVMBase, INotifyPropertyChanged
     {
         //Useful property to reference the navigation page
-        public INavigation Navigation { get; private set; }
+        public INavigation Navigation { get; private set; } = null;
 
-        public ViewModelBase(INavigation navigation) => Navigation = navigation;
+        public ViewModelBase(INavigation navigation = null) => Navigation = navigation;
     }
 
     public abstract class ViewModelBase<DataModelType> : ViewModelBase where DataModelType : BindableModelBase
@@ -51,7 +51,7 @@ namespace uoplib.mvvm
                 }
          */
 
-        public ViewModelBase(INavigation nav) : base(nav) { }
+        public ViewModelBase(INavigation nav = null) : base(nav) { }
 
     }
 }

@@ -27,6 +27,7 @@ To cover `ListView` in its entirety would take a long time and risks being overw
 * [Adding Bindable Properties to Custom Cells](listview-bindableprops.md)
 * [Organizing and Listing Data in Groups](listview-groups.md)
 * [Using Different Cell Types with Template Selectors](listview-template-sel.md)
+* [ListView DataTemplate Selection with XAML](listview-template-xaml.md)
 
 ## Example Code
 All the topics above have their own section and example solution. The solution files are found in sub-folders off the [/code/Chapter4/listview](/code/Chapter4/listview) folder.

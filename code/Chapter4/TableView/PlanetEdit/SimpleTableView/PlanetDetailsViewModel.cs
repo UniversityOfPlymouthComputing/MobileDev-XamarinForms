@@ -44,9 +44,9 @@ namespace SimpleTableView
         //Overwrite the original
         private void Save() => _original.Copy(_model);
 
-        public PlanetDetailsViewModel() : base(null) => throw new Exception("Parameterless constructor not supported");
+        public PlanetDetailsViewModel() => throw new Exception("Parameterless constructor not supported");
 
-        public PlanetDetailsViewModel(SolPlanet p) : base(null)
+        public PlanetDetailsViewModel(SolPlanet p)
         {
             //Keep a reference to the original
             _original = p;
