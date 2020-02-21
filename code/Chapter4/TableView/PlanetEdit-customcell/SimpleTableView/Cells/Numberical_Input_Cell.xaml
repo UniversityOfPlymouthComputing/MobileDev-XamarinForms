@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          x:Name="ThisCell"
+          x:Class="SimpleTableView.Numberical_Input_Cell">
+    <ViewCell.View>
+        <StackLayout Padding="4">
+            <StackLayout Orientation="Horizontal" Padding="8">
+                <Button Text="-" Clicked="Button_Reduce_Clicked" HorizontalOptions="Center"/>            
+                <Slider Minimum="{Binding Source={x:Reference ThisCell}, Path=MinValue}"
+                        Maximum="{Binding Source={x:Reference ThisCell}, Path=MaxValue}"
+                        MinimumTrackColor="Blue"
+                        MaximumTrackColor="Red"
+                        HorizontalOptions="FillAndExpand"
+                        Value="{Binding Value, Source={x:Reference ThisCell}, Mode=TwoWay}" />
+                <Button Text="+" Clicked="Button_Increase_Clicked"  HorizontalOptions="Center"/>            
+            </StackLayout>
+
+            <Entry Text="{Binding EntryString, Source={x:Reference ThisCell}, Mode=TwoWay}"
+                   Keyboard="Numeric"
+                   HorizontalTextAlignment="Center"
+                   HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+    </ViewCell.View>
+</ViewCell>

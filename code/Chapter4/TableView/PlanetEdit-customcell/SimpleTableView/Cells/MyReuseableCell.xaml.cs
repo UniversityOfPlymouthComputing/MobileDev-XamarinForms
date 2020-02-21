@@ -38,34 +38,23 @@ namespace SimpleTableView
         public MyReuseableCell()
         {
             InitializeComponent();
+
+            //Create Gesture Recogniser
             var tapGestureRecognizer = new TapGestureRecognizer()
             {
-                NumberOfTapsRequired = 2
+                NumberOfTapsRequired = 2,
             };
-            tapGestureRecognizer.Tapped += (s, e) => {
-                // handle the tap
+            tapGestureRecognizer.Tapped += (s,e) => {
                 if ((DoubleTapCommand != null) && DoubleTapCommand.CanExecute(null))
                 {
                     DoubleTapCommand.Execute(null);
                 }
             };
-            this.View.GestureRecognizers.Add(tapGestureRecognizer);
+            //Attach gesture recogniser to the view
+            View.GestureRecognizers.Add(tapGestureRecognizer);
         }
 
-        void Button_Reduce_Clicked(System.Object sender, System.EventArgs e)
-        {
-            if (DistanceFromSun >= 100.0)
-            {
-                DistanceFromSun -= 100.0;
-            }
-        }
-
-        void Button_Increase_Clicked(System.Object sender, System.EventArgs e)
-        {
-            if (DistanceFromSun <= 900.0)
-            {
-                DistanceFromSun += 100.0;
-            }
-        }
+        void Button_Reduce_Clicked(System.Object sender, System.EventArgs e) => DistanceFromSun -= (DistanceFromSun >= 100.0) ? 100.0 : 0.0;
+        void Button_Increase_Clicked(System.Object sender, System.EventArgs e) => DistanceFromSun += (DistanceFromSun <= 900.0) ? 100.0 : 0.0;
     }
 }
