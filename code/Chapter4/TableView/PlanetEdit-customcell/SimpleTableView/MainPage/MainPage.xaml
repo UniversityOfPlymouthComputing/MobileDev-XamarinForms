@@ -34,10 +34,9 @@
                     <SwitchCell Text="Explored:" On="{Binding HasBeenExplored}"/>
                 </TableSection>
                 <TableSection Title="Distance from Sun (million km)">
-                    <TextCell Text="{Binding DistanceFromSun, StringFormat='{0:F0}'}"/>
-                    <local:Numberical_Input_Cell
+                    <local:Numerical_Input_Cell
                         MaxValue="1000"
-                        Value="{Binding DistanceFromSun, Mode=TwoWay}"
+                        Value="{Binding DistanceFromSun, Mode=TwoWay}"    
                         DoubleTapCommand="{Binding DoubleTapCommand}"
                         />
                 </TableSection>

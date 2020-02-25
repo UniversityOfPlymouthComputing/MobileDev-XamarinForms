@@ -2,7 +2,7 @@
 <ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
           x:Name="ThisCell"
-          x:Class="SimpleTableView.Numberical_Input_Cell">
+          x:Class="SimpleTableView.Numerical_Input_Cell">
     <ViewCell.View>
         <StackLayout Padding="4">
             <StackLayout Orientation="Horizontal" Padding="8">
@@ -12,14 +12,16 @@
                         MinimumTrackColor="Blue"
                         MaximumTrackColor="Red"
                         HorizontalOptions="FillAndExpand"
+                        x:Name="Slider"
                         Value="{Binding Value, Source={x:Reference ThisCell}, Mode=TwoWay}" />
                 <Button Text="+" Clicked="Button_Increase_Clicked"  HorizontalOptions="Center"/>            
             </StackLayout>
-
-            <Entry Text="{Binding EntryString, Source={x:Reference ThisCell}, Mode=TwoWay}"
-                   Keyboard="Numeric"
+            <Entry Text="{Binding Source={x:Reference Slider}, Path=Value, StringFormat='{0:F1}', Mode=OneWay}"
+                   HorizontalOptions="FillAndExpand"
                    HorizontalTextAlignment="Center"
-                   HorizontalOptions="FillAndExpand"/>
+                   Completed="Entry_Completed"
+                   x:Name="ValueEntry"
+                   />
         </StackLayout>
     </ViewCell.View>
 </ViewCell>
