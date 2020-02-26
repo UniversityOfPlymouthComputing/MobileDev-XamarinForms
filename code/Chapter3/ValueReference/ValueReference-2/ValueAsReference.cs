@@ -42,6 +42,12 @@ namespace ValueReference
             updateInplace(ref a, 10);
             Console.WriteLine($"Updating a to {a}");
             Console.WriteLine($"a={a}, b={b}");
+
+            //Change the reference
+            int xx = 100;
+            b = ref xx;
+            Console.WriteLine($"a={a}, b={b}");
+
         }
 
         public void updateInplace(ref int u, int delta)
