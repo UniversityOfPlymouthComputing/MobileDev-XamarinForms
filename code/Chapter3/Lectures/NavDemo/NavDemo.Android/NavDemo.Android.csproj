@@ -15,7 +15,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -89,7 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NavDemo\NavDemo.csproj">
-      <Project>{CCC3620D-B0D3-4162-B71B-CDE38EB747AE}</Project>
+      <Project>{2F9E6DFE-E9F8-4B88-9A04-BD865989B4BD}</Project>
       <Name>NavDemo</Name>
     </ProjectReference>
   </ItemGroup>

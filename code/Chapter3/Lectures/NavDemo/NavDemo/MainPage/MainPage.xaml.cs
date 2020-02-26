@@ -30,11 +30,9 @@ namespace NavDemo
             InitializeComponent();
         }
 
-        
-
         private void Button_Clicked(object sender, EventArgs e)
         {
-            var nextPage = new SecondPage(ref _stringData);
+            SecondPage nextPage = new SecondPage(_stringData);
             _ = Navigation.PushAsync(nextPage);
         }
     }

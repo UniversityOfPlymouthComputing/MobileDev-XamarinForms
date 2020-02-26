@@ -12,7 +12,6 @@ namespace NavDemo
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SecondPage : ContentPage
     {
-        private string _originalString;
         private string _stringData = "Second Page Data";
         public string StringData
         {
@@ -25,17 +24,16 @@ namespace NavDemo
             }
         }
 
-        public SecondPage(ref string TitleString) 
+        public SecondPage(string TitleString) 
         {
             InitializeComponent();
             StringData = TitleString;
-            _originalString = TitleString;
         }
 
         private void Button_Clicked(object sender, EventArgs e)
         {
             StringData = "May the force me with you";
-            _originalString = _stringData;
+            //This has NO effect on the property in the previous page
         }
     }
 }
