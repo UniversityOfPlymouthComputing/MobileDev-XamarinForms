@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="Hello World"
+             x:Name="ThisPage"
+             x:Class="NavDemo.MainPage">
+
+    <StackLayout>
+        <!-- Place new controls here -->
+        <Label Text="{Binding Source={x:Reference ThisPage}, Path=StringData}" 
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand" />
+        <Button Text="Let's-a-go" Clicked="Button_Clicked" VerticalOptions="CenterAndExpand"/>
+    </StackLayout>
+
+</ContentPage>
