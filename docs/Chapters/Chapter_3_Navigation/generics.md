@@ -88,7 +88,7 @@ public class ClassB : ClassA
 }
 ```
 
-Now let's look at how these classes are instantiated and how their behaviour differs.
+Now let's look at how these classes are instantiated and how their behavior differs.
 
 ### The Unconstrained Generic Class `MyClass<T>`
 Consider the class below. The first thing that should be apparent is the inclusion of `<T>`. You can think of `T` as an additional parameter, only instead of a value, it's a _Type_.
