@@ -7,7 +7,12 @@
 ## Intended Learning Outcomes
 By the end of this chapter you should be able to:
 
-TO BE REVISED
+Write a class more reusable using generic types
+Constrast reference and value type semantics
+Navigate between multiple pages using a standard nagivation controller 
+Perform both view based and mvvm based navigation
+Present a page modally and dismiss
+Display pop-up alerts with and without MVVM architecture
 
 ----
 
