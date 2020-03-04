@@ -8,10 +8,14 @@ using Xamarin.Forms;
 
 namespace NavDemo
 {
+    public interface ICallBackWithString
+    {
+        void UpdateString(string str);
+    }
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class MainPage : ContentPage
+    public partial class MainPage : ContentPage, ICallBackWithString
     {
         private string _stringData = "Default Data";
         public string StringData
@@ -32,8 +36,29 @@ namespace NavDemo
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            SecondPage nextPage = new SecondPage(_stringData);
+            // Method 1 - pass reference to self
+            SecondPage nextPage = new SecondPage(_stringData, this);
+            
+            // Method 2 - pass in a closure
+            //SecondPage nextPage = new SecondPage(_stringData, (string s) =>
+            //{
+            //    StringData = s;
+            //});
+
+            // Method 3 - MessageCenter
+            //MessagingCenter.Subscribe<SecondPage, string>(this, "StringUpdate", UpdateString);
+            //SecondPage nextPage = new SecondPage(_stringData);
+
             _ = Navigation.PushAsync(nextPage);
+        }
+
+        public void UpdateString(string str)
+        {
+            StringData = str;
+        }
+        public void UpdateString(object sender, string str)
+        {
+            StringData = str;
         }
     }
 }
