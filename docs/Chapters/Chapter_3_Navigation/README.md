@@ -8,8 +8,8 @@
 By the end of this chapter you should be able to:
 
 * Write a more reusable class using generic types
-* Constrast reference and value type semantics
-* Navigate between multiple pages using a standard nagivation controller 
+* Contrast reference and value type semantics
+* Navigate between multiple pages using a standard navigation controller 
 * Perform both view based and mvvm based navigation
 * Present a page modally and dismiss
 * Display pop-up alerts with and without MVVM architecture
@@ -27,7 +27,7 @@ By the end of this chapter you should be able to:
    1. [Hierarchial Navigation within Tabbed Pages](nav-tab.md)
 1. [Modal Sheets](modal-nav.md)
 1. [Alerts and Popups](alerts.md)
-1. [Self-Study Tasks - TO BE DONE](self-study.md)
+1. [Self-Study Tasks](self-study.md)
 1. [References](references.md)
 
 
