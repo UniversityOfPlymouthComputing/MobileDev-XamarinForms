@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavDemo.Android", "NavDemo.Android\NavDemo.Android.csproj", "{92790E10-8154-4F82-B1FF-B58E21085F99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavDemo", "NavDemo\NavDemo.csproj", "{2F9E6DFE-E9F8-4B88-9A04-BD865989B4BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92790E10-8154-4F82-B1FF-B58E21085F99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92790E10-8154-4F82-B1FF-B58E21085F99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92790E10-8154-4F82-B1FF-B58E21085F99}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{92790E10-8154-4F82-B1FF-B58E21085F99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92790E10-8154-4F82-B1FF-B58E21085F99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92790E10-8154-4F82-B1FF-B58E21085F99}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{2F9E6DFE-E9F8-4B88-9A04-BD865989B4BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F9E6DFE-E9F8-4B88-9A04-BD865989B4BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F9E6DFE-E9F8-4B88-9A04-BD865989B4BD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2F9E6DFE-E9F8-4B88-9A04-BD865989B4BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F9E6DFE-E9F8-4B88-9A04-BD865989B4BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F9E6DFE-E9F8-4B88-9A04-BD865989B4BD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B0BE905E-10F8-4D07-977B-8CEA11DE75CF}
+	EndGlobalSection
+EndGlobal

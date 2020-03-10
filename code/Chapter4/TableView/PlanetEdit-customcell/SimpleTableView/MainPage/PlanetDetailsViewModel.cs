@@ -26,7 +26,8 @@ namespace SimpleTableView
             get => _model.Distance;
             set
             {
-                if (value == _model.Distance) return;
+                if ((Math.Abs(_model.Distance - value)) < 0.05) return;
+                //if (value == _model.Distance) return;
                 _model.Distance = value;
                 OnPropertyChanged();
             }

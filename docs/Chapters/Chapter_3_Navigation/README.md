@@ -7,7 +7,12 @@
 ## Intended Learning Outcomes
 By the end of this chapter you should be able to:
 
-TO BE REVISED
+* Write a more reusable class using generic types
+* Contrast reference and value type semantics
+* Navigate between multiple pages using a standard navigation controller 
+* Perform both view based and mvvm based navigation
+* Present a page modally and dismiss
+* Display pop-up alerts with and without MVVM architecture
 
 ----
 
@@ -22,7 +27,7 @@ TO BE REVISED
    1. [Hierarchial Navigation within Tabbed Pages](nav-tab.md)
 1. [Modal Sheets](modal-nav.md)
 1. [Alerts and Popups](alerts.md)
-1. [Self-Study Tasks - TO BE DONE](self-study.md)
+1. [Self-Study Tasks](self-study.md)
 1. [References](references.md)
 
 

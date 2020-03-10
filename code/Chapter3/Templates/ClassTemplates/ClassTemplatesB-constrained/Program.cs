@@ -37,8 +37,8 @@ namespace ClassTemplatesB_constrained
             container?.ListAll();
 
             //TASK 1 - Uncomment the following to use a different type T
-            /* 
-            MyClass<Binary32> container1 = new MyClass<Binary32>();
+            /*
+            SortedCollectionClass<Binary32> container1 = new SortedCollectionClass<Binary32>();
             container1?.AddObject(new Binary32(16));   // 16  is 00010000b
             container1?.AddObject(new Binary32(255)); // 255 is 11111111b 
             container1?.AddObject(new Binary32(3));   // 3   is 00000011b

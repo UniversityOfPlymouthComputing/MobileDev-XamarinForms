@@ -88,7 +88,7 @@ public class ClassB : ClassA
 }
 ```
 
-Now let's look at how these classes are instantiated and how their behaviour differs.
+Now let's look at how these classes are instantiated and how their behavior differs.
 
 ### The Unconstrained Generic Class `MyClass<T>`
 Consider the class below. The first thing that should be apparent is the inclusion of `<T>`. You can think of `T` as an additional parameter, only instead of a value, it's a _Type_.
@@ -328,6 +328,42 @@ It works something along the following lines:
    * If false, the local `other` is not created.
 
 This is a safe and concise alternative to a simple type-cast.
+
+### Another aside - inline conditionals
+In some of these examples, you might encounter a syntax you are not familiar. For example, in the following method there is an *inline conditional*
+
+```C#
+public int DecimalValue {
+    get => decimalValue;
+    set
+    {
+        decimalValue = value;
+        NumberOfOnes = 0;
+        for (int b = 0; b < 32; b++)
+        {
+            int bitMask = 1 << b;
+            NumberOfOnes += ((decimalValue & bitMask) == 0) ? 0 : 1;
+        }
+    }
+}
+```    
+and specifically the following line:
+
+`NumberOfOnes += ((decimalValue & bitMask) == 0) ? 0 : 1;`
+
+The specifics of this function are of no great significance (it counts how many 1’s there are in the binary equivalent of an integer). However the conditional statement turns up a lot, so I will explain.
+
+You will meet this syntax in any of the languages from the C lineage. The equivalent would be:
+```C#
+If  ((decimalValue & bitMask) == 0) {
+            NumberOfOnes += 0;
+} else {
+            NumberOfOnes += 1;
+}
+```
+
+The more general syntax is `<conditional test> ? <value if true> : <value if false>`
+It’s not my favorite syntax as students find it confusing, but it can be useful to keep code concise.
 
 > **TASKS** - Read the comments in the constructor of `Program.cs`. There are two tasks.
 >
