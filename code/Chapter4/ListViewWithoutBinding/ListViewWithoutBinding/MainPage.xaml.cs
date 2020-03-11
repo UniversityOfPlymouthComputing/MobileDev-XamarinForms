@@ -8,20 +8,15 @@ using Xamarin.Forms;
 
 namespace ListViewWithoutBinding
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(true)]
     public partial class MainPage : ContentPage
     {
         public MainPage()
         {
             InitializeComponent();
-
-            MyList.ItemsSource = new string[]
-            {
-                "Hello",
-                "World"
-            };
+            string sentence = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum ullamcorper turpis, vel semper magna pretium cursus. Vestibulum in tempor dolor. Quisque lacinia fringilla dui vel viverra. Curabitur accumsan pretium.";
+            var src = sentence.Split(" ").ToArray<string>();
+            MyList.ItemsSource = src;
         }
     }
 }

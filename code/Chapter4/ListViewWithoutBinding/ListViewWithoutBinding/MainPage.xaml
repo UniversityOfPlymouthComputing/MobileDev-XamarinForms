@@ -3,5 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ListViewWithoutBinding" 
              x:Class="ListViewWithoutBinding.MainPage">
-    <ListView x:Name="MyList"/>
+    <ListView x:Name="MyList">
+        
+        <ListView.Header>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Header" TextColor="Blue" BackgroundColor="#E0E0F0" 
+                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                        HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                        Padding="40"
+                        />
+            </StackLayout>
+        </ListView.Header>
+        
+        <ListView.Footer>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Footer" TextColor="Blue" BackgroundColor="#E0FFE0" 
+                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                        Padding="40"
+                        />
+            </StackLayout>
+        </ListView.Footer>
+        
+    </ListView>
 </ContentPage>
