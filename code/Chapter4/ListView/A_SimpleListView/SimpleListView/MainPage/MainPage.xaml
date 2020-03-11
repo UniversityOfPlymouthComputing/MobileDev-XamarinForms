@@ -18,9 +18,9 @@
         <Label Text="{Binding TitleString}" />
 
         <ListView ItemsSource="{Binding Planets}"
-                  x:Name="PlanetListView"
-                  HorizontalOptions="Center"
-                  VerticalOptions="CenterAndExpand"/>
+                    x:Name="PlanetListView"
+                    HorizontalOptions="Center"
+                    VerticalOptions="CenterAndExpand"/>
     </StackLayout>
 </ContentPage>
 

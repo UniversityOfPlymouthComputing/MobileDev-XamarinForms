@@ -69,6 +69,7 @@ namespace SimpleListView
 
                 //Update UI
                 TitleString = _selectedString ?? "Nothing Selected";
+                //OnPropertyChanged();
             }
         }
 

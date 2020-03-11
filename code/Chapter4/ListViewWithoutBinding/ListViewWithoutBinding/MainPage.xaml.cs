@@ -15,7 +15,7 @@ namespace ListViewWithoutBinding
         {
             InitializeComponent();
             string sentence = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum ullamcorper turpis, vel semper magna pretium cursus. Vestibulum in tempor dolor. Quisque lacinia fringilla dui vel viverra. Curabitur accumsan pretium.";
-            var src = sentence.Split(" ").ToArray<string>();
+            string[] src = sentence.Split(" ").ToArray<string>();
             MyList.ItemsSource = src;
         }
     }

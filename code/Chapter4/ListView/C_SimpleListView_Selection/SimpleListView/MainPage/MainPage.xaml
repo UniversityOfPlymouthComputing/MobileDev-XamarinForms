@@ -30,11 +30,11 @@
 
         <!-- SelectionMode="{Binding Source={x:Reference SelectSwitch}, Path=IsToggled, Converter={StaticResource bool2mode}, Mode=TwoWay }" -->
         <ListView ItemsSource="{Binding Planets}"
-                  x:Name="PlanetListView"
-                  SelectedItem="{Binding SelectedString}"
-                  SelectionMode="{Binding SelectionModeOn, Converter={StaticResource bool2mode}, Mode=TwoWay }"
-                  HorizontalOptions="Center"
-                  VerticalOptions="CenterAndExpand"/>
+                    x:Name="PlanetListView"
+                    SelectedItem="{Binding SelectedString}"
+                    SelectionMode="{Binding SelectionModeOn, Converter={StaticResource bool2mode}, Mode=TwoWay }"
+                    HorizontalOptions="Center"
+                    VerticalOptions="CenterAndExpand"/>
     </StackLayout>
 </ContentPage>
 

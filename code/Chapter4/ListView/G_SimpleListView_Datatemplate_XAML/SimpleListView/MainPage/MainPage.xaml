@@ -54,7 +54,7 @@
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" Detail="{Binding Distance}">
                         <TextCell.ContextActions>
-                            <!-- https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/menuitem#define-menuitem-behavior-with-mvvm -->
+                            <!-- https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/menuitem#define-menuitem-behavior-with-mvvm -->
                             <MenuItem   Command="{Binding Source={x:Reference MainContentPage}, Path=BindingContext.DeleteCommand}"
                                         CommandParameter="{Binding .}"
                                         Text="Delete"

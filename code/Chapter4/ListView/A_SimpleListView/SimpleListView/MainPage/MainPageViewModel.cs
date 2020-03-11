@@ -69,11 +69,13 @@ namespace SimpleListView
             _tickCount++;
 
             //VER1 - update content of the List
+            /*
             Planets.Add($"Timer Fired {_tickCount} times");
             Planets[0] = "First Item Updated";
+            */
 
             //VER2 - replace the entire list (expensive)
-            /*
+            
             //Make a copy
             List<string> newList = new List<string>(Planets);
 
@@ -82,7 +84,7 @@ namespace SimpleListView
 
             //Update the complete List with a new one
             Planets = newList;
-            */
+            
 
             TitleString = $"Timer fired {_tickCount} times";
         }
