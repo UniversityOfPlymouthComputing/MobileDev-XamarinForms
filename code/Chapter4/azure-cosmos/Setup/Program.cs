@@ -65,6 +65,8 @@ namespace Setup
             var mars = new SolPlanet("Mars", 228, true);
             await ToggleExplored("Mars");
 
+            //Delete record
+            await DeleteItemAsync("Uranus");
         }
 
         async Task AddPlanetIfDoesNotExist(SolPlanet p)
@@ -112,10 +114,28 @@ namespace Setup
             SolPlanet itemBody = resp.Resource;
             itemBody.IsExplored = !itemBody.IsExplored;
             resp = await container.ReplaceItemAsync<SolPlanet>(itemBody, itemBody.Name, new PartitionKey("Sol"));
-
-            
+            Console.WriteLine($"Updated {name} - explored set up {itemBody.IsExplored} - response {resp}");
         }
 
+        //Delete
+        private async Task DeleteItemAsync(string name)
+        {
+            // Delete an item. Note we must provide the partition key value and id of the item to delete
+            ItemResponse<SolPlanet> resp = await this.container.DeleteItemAsync<SolPlanet>(name, new PartitionKey("Sol"));
+            Console.WriteLine($"Deleted {name} - response {resp}");
+        }
+
+        //Delete Everything
+        private async Task DeleteDatabaseAndCleanupAsync()
+        {
+            DatabaseResponse databaseResourceResponse = await this.database.DeleteAsync();
+            // Also valid: await this.cosmosClient.Databases["FamilyDatabase"].DeleteAsync();
+
+            Console.WriteLine("Deleted Database: {0}\n", this.databaseId);
+
+            //Dispose of CosmosClient
+            this.cosmosClient.Dispose();
+        }
 
     }
 }
