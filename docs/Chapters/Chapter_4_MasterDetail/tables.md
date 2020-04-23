@@ -1,4 +1,4 @@
-[Back](README.md)
+[Contents](README.md)
 
 ---
 
@@ -294,7 +294,5 @@ Using the documentation on bindable properties, perform a validation check to en
 
 ---
 
-[Back](README.md)
-
-
+[Contents](README.md)
 
