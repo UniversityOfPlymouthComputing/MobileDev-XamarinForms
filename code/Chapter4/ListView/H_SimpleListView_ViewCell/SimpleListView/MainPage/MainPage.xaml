@@ -21,7 +21,9 @@
     </ContentPage.Resources>
 
     <!-- Platform Specific Padding -->
-    <ContentPage.Padding>        <OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 0" Android="10, 0" />    </ContentPage.Padding>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness" iOS="10, 20, 10, 0" Android="10, 0" />
+    </ContentPage.Padding>
 
     <!-- Layout -->
     <StackLayout>

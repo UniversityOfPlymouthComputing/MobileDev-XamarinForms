@@ -153,11 +153,11 @@ namespace SimpleListView
             //Collection of collections
             PlanetGroups = new ObservableCollection<PlanetGroup>()
             {
-                new PlanetGroup("Explored", "E") {
+                new PlanetGroup( groupTitle: "Explored", shortName:"E") {
                     new SolPlanet("Earth", 147.1),
                     new SolPlanet("Mars", 238.92)
                 },
-                new PlanetGroup("Unexplored","U") {
+                new PlanetGroup(groupTitle: "Unexplored", shortName: "U") {
                     new SolPlanet("Mercury", 69.543),
                     new SolPlanet("Venus", 108.62),
                     new SolPlanet("Jupiter", 782.32),

@@ -12,10 +12,10 @@ namespace SimpleListView
     {
         public string GroupTitle { get; private set; }
         public string GroupShortName { get; private set; }
-        public PlanetGroup(string title, string shortname)
+        public PlanetGroup(string groupTitle, string shortName)
         {
-            GroupTitle = title;
-            GroupShortName = shortname;
+            GroupTitle = groupTitle;
+            GroupShortName = shortName;
         }
     }
 } //END OF NAMESPACE
