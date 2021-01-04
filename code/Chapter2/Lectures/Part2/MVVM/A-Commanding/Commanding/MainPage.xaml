@@ -12,7 +12,7 @@
 
         </ResourceDictionary>
     </ContentPage.Resources>
-
+    
     <StackLayout>
         <!-- Place new controls here -->
         <Label Text="{Binding TitleText}"
